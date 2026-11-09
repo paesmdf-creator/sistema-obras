@@ -5,422 +5,405 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CP Construções e Reformas</title>
   
-  <!-- Configuração PWA e Meta Tags -->
-  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22CP%20Constru%C3%A7%C3%B5es%20e%20Reformas%22,%22short_name%22:%22CP%20Obras%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22#1c1917%22,%22theme_color%22:%22#d97706%22}">
-  <meta name="theme-color" content="#d97706">
+  <!-- Configuração PWA -->
+  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22CP%20Constru%C3%A7%C3%B5es%20e%20Reformas%22,%22short_name%22:%22CP%20Obras%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22#fbf8f3%22,%22theme_color%22:%22#4a2e18%22}">
+  <meta name="theme-color" content="#4a2e18">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <!-- Tailwind CSS & Feather Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/feather-icons"></script>
 
   <style>
-    body { background-color: #121214; color: #e1e1e6; font-family: system-ui, -apple-system, sans-serif; }
-    .wood-card { background-color: #1a1a1e; border: 1px solid #2a2a30; }
-    .wood-header { background: linear-gradient(135deg, #291b11 0%, #1a1a1e 100%); border-bottom: 1px solid #3d2817; }
-    .btn-amber { background-color: #d97706; color: #ffffff; }
-    .btn-amber:hover { background-color: #b45309; }
-    canvas { touch-action: none; background-color: #111115; border: 1px dashed #3a3a45; }
+    body { background-color: #fbf8f3; color: #2d231d; font-family: system-ui, -apple-system, sans-serif; }
+    .wood-header { background: linear-gradient(135deg, #3d2614 0%, #24150a 100%); border-bottom: 3px solid #b8860b; }
+    .wood-card { background-color: #ffffff; border: 1px solid #e6dcd0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .btn-wood { background-color: #3d2614; color: #ffffff; }
+    .btn-wood:hover { background-color: #24150a; }
+    .tab-active { background-color: #b8860b; color: #ffffff; }
+    .tab-inactive { background-color: rgba(255,255,255,0.1); color: #e6dcd0; }
+    .tab-inactive:hover { background-color: rgba(255,255,255,0.2); }
   </style>
 </head>
 <body class="min-h-screen pb-12">
 
-  <!-- Cabeçalho com Estética Artesanal / Madeira -->
-  <header class="wood-header sticky top-0 z-50 px-4 py-3 shadow-lg">
-    <div class="max-w-5xl mx-auto flex items-center justify-between">
+  <!-- Cabeçalho Principal com Identidade Visual -->
+  <header class="wood-header text-white px-4 py-4 shadow-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- Logotipo e Dados da Empresa -->
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 bg-amber-600 rounded-xl flex items-center justify-center font-black text-xl text-white shadow-md border border-amber-500">
+        <div class="w-12 h-12 bg-amber-600 rounded-xl flex items-center justify-center font-black text-xl text-white shadow-inner border-2 border-amber-400">
           CP
         </div>
         <div>
-          <h1 class="font-bold text-base md:text-lg text-white tracking-wide">CP CONSTRUÇÕES E REFORMAS</h1>
-          <p class="text-xs text-amber-500 font-medium">Gestão Civil, Orçamentos & Acabamentos</p>
+          <h1 class="font-extrabold text-base md:text-lg tracking-wide text-amber-100">CP CONSTRUÇÕES E REFORMAS</h1>
+          <p class="text-xs text-amber-300 font-medium">CNPJ MEI: 35.000.000/0001-00 | TEL: (13) 99999-9999</p>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <button onclick="exportarDados()" class="bg-stone-800 hover:bg-stone-700 text-gray-300 text-xs px-3 py-2 rounded-lg font-semibold flex items-center gap-1.5 border border-stone-700">
-          <i data-feather="download" class="w-3.5 h-3.5"></i> Backup
+
+      <!-- Barra de Navegação Superior (Abas) -->
+      <nav class="flex flex-wrap items-center justify-center gap-1.5 text-xs font-semibold">
+        <button onclick="mudarAba('painel')" id="btn-painel" class="px-3 py-2 rounded-lg transition tab-active flex items-center gap-1">
+          <i data-feather="grid" class="w-3.5 h-3.5"></i> Painel
         </button>
-        <button onclick="salvarTudo()" class="btn-amber text-xs px-3 py-2 rounded-lg font-bold flex items-center gap-1.5 shadow">
-          <i data-feather="save" class="w-3.5 h-3.5"></i> Salvar
+        <button onclick="mudarAba('clientes')" id="btn-clientes" class="px-3 py-2 rounded-lg transition tab-inactive flex items-center gap-1">
+          <i data-feather="users" class="w-3.5 h-3.5"></i> Clientes
         </button>
-      </div>
+        <button onclick="mudarAba('equipe')" id="btn-equipe" class="px-3 py-2 rounded-lg transition tab-inactive flex items-center gap-1">
+          <i data-feather="user-check" class="w-3.5 h-3.5"></i> Equipe & Diárias
+        </button>
+        <button onclick="mudarAba('tabelas')" id="btn-tabelas" class="px-3 py-2 rounded-lg transition tab-inactive flex items-center gap-1">
+          <i data-feather="list" class="w-3.5 h-3.5"></i> Tabelas
+        </button>
+        <button onclick="mudarAba('orcamentos')" id="btn-orcamentos" class="px-3 py-2 rounded-lg transition tab-inactive flex items-center gap-1">
+          <i data-feather="file-text" class="w-3.5 h-3.5"></i> Orçamentos
+        </button>
+        <button onclick="mudarAba('caixa')" id="btn-caixa" class="px-3 py-2 rounded-lg transition tab-inactive flex items-center gap-1">
+          <i data-feather="dollar-sign" class="w-3.5 h-3.5"></i> Caixa
+        </button>
+        <button onclick="mudarAba('empresa')" id="btn-empresa" class="px-3 py-2 rounded-lg transition tab-inactive flex items-center gap-1">
+          <i data-feather="settings" class="w-3.5 h-3.5"></i> Empresa
+        </button>
+      </nav>
+
     </div>
   </header>
 
-  <!-- Container Principal -->
-  <main class="max-w-5xl mx-auto px-4 pt-6 space-y-6">
+  <!-- Conteúdo Principal -->
+  <main class="max-w-6xl mx-auto px-4 pt-6 space-y-6">
 
-    <!-- Barra de Status Offline / Data -->
-    <div class="wood-card rounded-xl p-3 flex items-center justify-between text-xs text-gray-400 shadow-inner">
-      <div class="flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span class="font-medium text-gray-300">Sistema PWA Ativo (Armazenamento Local)</span>
-      </div>
-      <span id="data-sistema" class="text-gray-500"></span>
-    </div>
-
-    <!-- Navegação de Abas -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-      <button onclick="mudarAba('dashboard')" id="tab-btn-dashboard" class="py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-amber-600 text-white shadow">
-        Dashboard
-      </button>
-      <button onclick="mudarAba('orcamentos')" id="tab-btn-orcamentos" class="py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-stone-900 text-gray-400 border border-stone-800">
-        Orçamentos & Obras
-      </button>
-      <button onclick="mudarAba('equipe')" id="tab-btn-equipe" class="py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-stone-900 text-gray-400 border border-stone-800">
-        Equipe & Ledger
-      </button>
-      <button onclick="mudarAba('tabelas')" id="tab-btn-tabelas" class="py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-stone-900 text-gray-400 border border-stone-800">
-        Tabela & Métricas
-      </button>
-    </div>
-
-    <!-- 1. ABA DASHBOARD -->
-    <section id="aba-dashboard" class="space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="wood-card p-5 rounded-xl border border-stone-800 shadow-sm">
-          <span class="text-xs text-gray-400 block font-medium">Total em Orçamentos</span>
-          <span id="dash-val-orcamentos" class="text-2xl font-black text-amber-500">R$ 0,00</span>
+    <!-- SEÇÃO 1: PAINEL DE CONTROLE -->
+    <section id="sec-painel" class="space-y-6">
+      
+      <!-- Cabeçalho de Boas-Vindas -->
+      <div class="wood-card rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-l-8 border-amber-800">
+        <div>
+          <h2 class="text-xl md:text-2xl font-black text-stone-800 tracking-tight">Painel de Controle de Obras</h2>
+          <p class="text-xs md:text-sm text-stone-600 mt-1">Bem-vindo, <strong>Cristiano dos Santos Paes</strong> | CP Construções e Reformas (Itanhaém - SP).</p>
         </div>
-        <div class="wood-card p-5 rounded-xl border border-stone-800 shadow-sm">
-          <span class="text-xs text-gray-400 block font-medium">Obras em Andamento</span>
-          <span id="dash-qtd-obras" class="text-2xl font-black text-emerald-400">0</span>
-        </div>
-        <div class="wood-card p-5 rounded-xl border border-stone-800 shadow-sm">
-          <span class="text-xs text-gray-400 block font-medium">Colaboradores / Equipe</span>
-          <span id="dash-qtd-equipe" class="text-2xl font-black text-blue-400">0</span>
-        </div>
-      </div>
-
-      <div class="wood-card p-5 rounded-xl space-y-4">
-        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-          <i data-feather="activity" class="w-4 h-4 text-amber-500"></i> Atividade Recente e Gestão de Campo
-        </h3>
-        <div id="dash-lista-recente" class="space-y-2 text-sm text-gray-400 italic">
-          Nenhum projeto registrado no sistema.
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. ABA ORÇAMENTOS -->
-    <section id="aba-orcamentos" class="space-y-6 hidden">
-      <div class="wood-card p-5 rounded-xl space-y-4">
-        <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
-          <i data-feather="file-text" class="w-5 h-5"></i> Gerador de Orçamento Profissional
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div>
-            <label class="block text-gray-400 mb-1 text-xs">Nome do Cliente</label>
-            <input type="text" id="orc-cliente" placeholder="Ex: Roberto da Silva" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-gray-400 mb-1 text-xs">Tipo de Intervenção Civil</label>
-            <select id="orc-tipo" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
-              <option value="Construção Bruta / Alvenaria Estrutural">Construção Bruta / Alvenaria Estrutural</option>
-              <option value="Assentamento de Porcelanato & Mosaico">Assentamento de Porcelanato & Mosaico</option>
-              <option value="Rede Elétrica Residencial & Disjuntores">Rede Elétrica Residencial & Disjuntores</option>
-              <option value="Instalação Hidráulica & Esgoto">Instalação Hidráulica & Esgoto</option>
-              <option value="Reforma Geral e Acabamento Fino">Reforma Geral e Acabamento Fino</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-gray-400 mb-1 text-xs">Valor Orçado (R$)</label>
-            <input type="number" id="orc-valor" placeholder="0.00" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-gray-400 mb-1 text-xs">Prazo Estimado (Dias Úteis)</label>
-            <input type="number" id="orc-prazo" placeholder="Ex: 15" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
-          </div>
-        </div>
-
-        <!-- Seção de Assinaturas Digitais Duplas -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-stone-800">
-          <div>
-            <span class="block text-xs text-gray-400 mb-1">Assinatura do Responsável (CP Construções)</span>
-            <canvas id="canvas-resp" width="340" height="120" class="w-full rounded-lg cursor-crosshair"></canvas>
-            <button onclick="limparCanvas('resp')" class="text-xs text-amber-500 mt-1 hover:underline">Limpar Assinatura</button>
-          </div>
-          <div>
-            <span class="block text-xs text-gray-400 mb-1">Assinatura do Cliente / Contratante</span>
-            <canvas id="canvas-cli" width="340" height="120" class="w-full rounded-lg cursor-crosshair"></canvas>
-            <button onclick="limparCanvas('cli')" class="text-xs text-amber-500 mt-1 hover:underline">Limpar Assinatura</button>
-          </div>
-        </div>
-
-        <button onclick="adicionarOrcamento()" class="w-full btn-amber py-3 rounded-lg font-bold flex items-center justify-center gap-2 text-sm shadow">
-          <i data-feather="check-circle" class="w-4 h-4"></i> Registrar Orçamento & Assinaturas
+        <button onclick="mudarAba('orcamentos')" class="btn-wood px-5 py-3 rounded-xl font-bold text-xs md:text-sm flex items-center gap-2 shadow-md">
+          <i data-feather="plus-circle" class="w-4 h-4"></i> Criar Novo Orçamento
         </button>
       </div>
 
-      <div class="wood-card p-5 rounded-xl space-y-3">
-        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Histórico de Orçamentos Emitidos</h3>
-        <div id="lista-orcamentos" class="space-y-2 text-sm"></div>
+      <!-- Cards de Métricas e Indicadores -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        
+        <!-- Obras Ativas -->
+        <div class="wood-card rounded-2xl p-6 border-l-4 border-amber-600 space-y-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-stone-500">Obras Ativas</span>
+          <div id="stat-obras" class="text-3xl font-black text-stone-800">0</div>
+          <p class="text-xs text-stone-500">Em andamento / Aprovadas</p>
+        </div>
+
+        <!-- Recebimentos -->
+        <div class="wood-card rounded-2xl p-6 border-l-4 border-emerald-600 space-y-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Recebimentos</span>
+          <div id="stat-recebimentos" class="text-3xl font-black text-emerald-600">R$ 0,00</div>
+          <p class="text-xs text-stone-500">Total recebido de clientes</p>
+        </div>
+
+        <!-- Pagamento Colaboradores -->
+        <div class="wood-card rounded-2xl p-6 border-l-4 border-rose-700 space-y-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-rose-800">Pagamento Colaboradores</span>
+          <div id="stat-pagamentos" class="text-3xl font-black text-rose-700">R$ 0,00</div>
+          <p class="text-xs text-stone-500">Diárias e folha de ajudantes</p>
+        </div>
+
+        <!-- Saldo Consolidado -->
+        <div class="wood-card rounded-2xl p-6 border-l-4 border-stone-700 space-y-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-stone-600">Saldo Consolidado</span>
+          <div id="stat-saldo" class="text-3xl font-black text-stone-800">R$ 0,00</div>
+          <p class="text-xs text-stone-500">Balanço líquido acumulado</p>
+        </div>
+
       </div>
+
+      <!-- Orçamentos e Contratos Recentes -->
+      <div class="wood-card rounded-2xl p-6 space-y-4">
+        <h3 class="text-sm font-bold text-stone-700 uppercase tracking-wider flex items-center gap-2">
+          <i data-feather="clock" class="w-4 h-4 text-amber-800"></i> Orçamentos e Contratos Recentes
+        </h3>
+        <div id="painel-lista-recente" class="space-y-2 text-sm text-stone-500 italic">
+          Nenhum registro recente encontrado.
+        </div>
+      </div>
+
     </section>
 
-    <!-- 3. ABA EQUIPE E LEDGER -->
-    <section id="aba-equipe" class="space-y-6 hidden">
-      <div class="wood-card p-5 rounded-xl space-y-4">
-        <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
-          <i data-feather="users" class="w-5 h-5"></i> Gestão de Colaboradores & Ledger de Diárias
+    <!-- SEÇÃO 2: CLIENTES -->
+    <section id="sec-clientes" class="space-y-6 hidden">
+      <div class="wood-card rounded-2xl p-6 space-y-4">
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
+          <i data-feather="users" class="w-5 h-5 text-amber-800"></i> Gestão de Clientes
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <label class="block text-gray-400 mb-1 text-xs">Nome do Colaborador</label>
-            <input type="text" id="eq-nome" placeholder="Ex: Carlos Mestre" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white">
-          </div>
-          <div>
-            <label class="block text-gray-400 mb-1 text-xs">Especialidade / Função</label>
-            <input type="text" id="eq-funcao" placeholder="Ex: Pedreiro / Azulejista" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white">
-          </div>
-          <div>
-            <label class="block text-gray-400 mb-1 text-xs">Valor Diária (R$)</label>
-            <input type="number" id="eq-diaria" placeholder="0.00" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white">
-          </div>
+          <input type="text" id="cli-nome" placeholder="Nome do Cliente" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          <input type="text" id="cli-tel" placeholder="Telefone / Contato" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          <input type="text" id="cli-end" placeholder="Endereço da Obra" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
         </div>
-        <button onclick="adicionarEquipe()" class="w-full btn-amber py-3 rounded-lg font-bold flex items-center justify-center gap-2 text-sm shadow">
-          <i data-feather="user-plus" class="w-4 h-4"></i> Cadastrar na Equipe
-        </button>
+        <button onclick="adicionarCliente()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Cadastrar Cliente</button>
       </div>
-
-      <div class="wood-card p-5 rounded-xl space-y-3">
-        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Equipe Ativa e Remuneração</h3>
-        <div id="lista-equipe" class="space-y-2 text-sm"></div>
+      <div class="wood-card rounded-2xl p-6 space-y-3">
+        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Clientes Cadastrados</h3>
+        <div id="lista-clientes-cadastrados" class="space-y-2 text-sm"></div>
       </div>
     </section>
 
-    <!-- 4. ABA TABELA DE VALORES E MÉTRICAS -->
-    <section id="aba-tabelas" class="space-y-6 hidden">
-      <div class="wood-card p-5 rounded-xl space-y-4">
-        <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
-          <i data-feather="list" class="w-5 h-5"></i> Tabela Base de Custos e Métricas de Execução
+    <!-- SEÇÃO 3: EQUIPE E DIÁRIAS -->
+    <section id="sec-equipe" class="space-y-6 hidden">
+      <div class="wood-card rounded-2xl p-6 space-y-4">
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
+          <i data-feather="user-check" class="w-5 h-5 text-amber-800"></i> Cadastro de Equipe & Diárias
         </h2>
-        <p class="text-xs text-gray-400">Parâmetros estruturais e valores de referência para orçamentos rápidos em obras residenciais e comerciais:</p>
-        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <input type="text" id="eq-nome" placeholder="Nome do Colaborador" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          <input type="text" id="eq-funcao" placeholder="Função (Pedreiro, Ajudante...)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          <input type="number" id="eq-diaria" placeholder="Valor da Diária (R$)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+        </div>
+        <button onclick="adicionarEquipe()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Adicionar Colaborador</button>
+      </div>
+      <div class="wood-card rounded-2xl p-6 space-y-3">
+        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Colaboradores Ativos</h3>
+        <div id="lista-equipe-cadastrada" class="space-y-2 text-sm"></div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 4: TABELAS DE VALORES -->
+    <section id="sec-tabelas" class="space-y-6 hidden">
+      <div class="wood-card rounded-2xl p-6 space-y-4">
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
+          <i data-feather="list" class="w-5 h-5 text-amber-800"></i> Tabela de Referência de Serviços (Itanhaém & Região)
+        </h2>
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm text-gray-300">
-            <thead class="bg-stone-900 text-amber-500 text-xs uppercase">
+          <table class="w-full text-left text-sm text-stone-700">
+            <thead class="bg-stone-100 text-stone-800 text-xs uppercase">
               <tr>
-                <th class="p-3">Serviço / Especialidade Civil</th>
+                <th class="p-3">Serviço / Especialidade</th>
                 <th class="p-3">Unidade</th>
-                <th class="p-3">Valor Base Estimado</th>
+                <th class="p-3">Valor Estimado Base</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-stone-800">
-              <tr>
-                <td class="p-3">Alvenaria Estrutural / Vedação de Blocos</td>
-                <td class="p-3">m²</td>
-                <td class="p-3 font-bold text-emerald-400">R$ 55,00 - R$ 85,00</td>
-              </tr>
-              <tr>
-                <td class="p-3">Assentamento de Porcelanato & Mosaicos 3D</td>
-                <td class="p-3">m²</td>
-                <td class="p-3 font-bold text-emerald-400">R$ 70,00 - R$ 130,00</td>
-              </tr>
-              <tr>
-                <td class="p-3">Instalação de Quadro Elétrico & Disjuntores</td>
-                <td class="p-3">Unidade</td>
-                <td class="p-3 font-bold text-emerald-400">R$ 350,00 - R$ 600,00</td>
-              </tr>
-              <tr>
-                <td class="p-3">Pontos Hidráulicos / Esgoto / Registros</td>
-                <td class="p-3">Ponto</td>
-                <td class="p-3 font-bold text-emerald-400">R$ 150,00 - R$ 250,00</td>
-              </tr>
-              <tr>
-                <td class="p-3">Acabamento Fino / Revestimento Geral</td>
-                <td class="p-3">m²</td>
-                <td class="p-3 font-bold text-emerald-400">R$ 90,00 - R$ 150,00</td>
-              </tr>
+            <tbody class="divide-y divide-stone-200">
+              <tr><td class="p-3">Alvenaria Estrutural / Vedação</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 65,00</td></tr>
+              <tr><td class="p-3">Assentamento de Porcelanato</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 85,00</td></tr>
+              <tr><td class="p-3">Instalação Elétrica (Ponto)</td><td class="p-3">Unidade</td><td class="p-3 font-bold text-emerald-700">R$ 75,00</td></tr>
+              <tr><td class="p-3">Instalação Hidráulica Completa</td><td class="p-3">Ponto</td><td class="p-3 font-bold text-emerald-700">R$ 180,00</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </section>
 
+    <!-- SEÇÃO 5: ORÇAMENTOS -->
+    <section id="sec-orcamentos" class="space-y-6 hidden">
+      <div class="wood-card rounded-2xl p-6 space-y-4">
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
+          <i data-feather="file-text" class="w-5 h-5 text-amber-800"></i> Gerador de Orçamento
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <input type="text" id="orc-cliente" placeholder="Nome do Cliente" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          <select id="orc-servico" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+            <option value="Construção / Alvenaria">Construção / Alvenaria</option>
+            <option value="Porcelanato / Acabamento">Porcelanato / Acabamento</option>
+            <option value="Elétrica Residencial">Elétrica Residencial</option>
+            <option value="Hidráulica">Hidráulica</option>
+          </select>
+          <input type="number" id="orc-valor" placeholder="Valor Total (R$)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          <input type="number" id="orc-prazo" placeholder="Prazo (Dias Úteis)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+        </div>
+        <button onclick="adicionarOrcamento()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Salvar Orçamento</button>
+      </div>
+      <div class="wood-card rounded-2xl p-6 space-y-3">
+        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Orçamentos Emitidos</h3>
+        <div id="lista-orcamentos-emitidos" class="space-y-2 text-sm"></div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 6: CAIXA -->
+    <section id="sec-caixa" class="space-y-6 hidden">
+      <div class="wood-card rounded-2xl p-6 space-y-4">
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
+          <i data-feather="dollar-sign" class="w-5 h-5 text-amber-800"></i> Controle de Caixa & Lançamentos
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <input type="text" id="cx-desc" placeholder="Descrição (Ex: Compra de cimento)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          <input type="number" id="cx-valor" placeholder="Valor (R$)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          <select id="cx-tipo" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+            <option value="entrada">Entrada (Recebimento)</option>
+            <option value="saida">Saída (Despesa / Diária)</option>
+          </select>
+        </div>
+        <button onclick="adicionarCaixa()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Lançar no Caixa</button>
+      </div>
+      <div class="wood-card rounded-2xl p-6 space-y-3">
+        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Histórico de Caixa</h3>
+        <div id="lista-caixa-historico" class="space-y-2 text-sm"></div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 7: EMPRESA -->
+    <section id="sec-empresa" class="space-y-6 hidden">
+      <div class="wood-card rounded-2xl p-6 space-y-4">
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
+          <i data-feather="settings" class="w-5 h-5 text-amber-800"></i> Configurações da Empresa
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <label class="block text-xs font-semibold text-stone-600 mb-1">Nome da Empresa</label>
+            <input type="text" value="CP Construções e Reformas" class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-600 mb-1">CNPJ / MEI</label>
+            <input type="text" value="35.000.000/0001-00" class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          </div>
+        </div>
+        <button onclick="alert('Configurações salvas com sucesso!')" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Salvar Configurações</button>
+      </div>
+    </section>
+
   </main>
 
   <script>
-    // Inicialização de Ícones e Data
     feather.replace();
-    document.getElementById('data-sistema').innerText = new Date().toLocaleDateString('pt-BR');
 
-    // Banco de Dados Local
-    let db = JSON.parse(localStorage.getItem('cp_construcoes_db_v2')) || {
+    let sistemaDb = JSON.parse(localStorage.getItem('cp_sistema_completo_db')) || {
+      clientes: [],
+      equipe: [],
       orcamentos: [],
-      equipe: []
+      caixa: []
     };
 
-    function salvarTudo() {
-      localStorage.setItem('cp_construcoes_db_v2', JSON.stringify(db));
+    function mudarAba(abaDestino) {
+      ['painel', 'clientes', 'equipe', 'tabelas', 'orcamentos', 'caixa', 'empresa'].forEach(aba => {
+        document.getElementById(`sec-${aba}`).classList.add('hidden');
+        document.getElementById(`btn-${aba}`).className = "px-3 py-2 rounded-lg transition tab-inactive flex items-center gap-1";
+      });
+      document.getElementById(`sec-${abaDestino}`).classList.remove('hidden');
+      document.getElementById(`btn-${abaDestino}`).className = "px-3 py-2 rounded-lg transition tab-active flex items-center gap-1";
       renderizarTudo();
-      alert('Dados gravados com segurança no dispositivo!');
     }
 
-    function exportarDados() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "cp_construcoes_backup.json");
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
+    function salvarDados() {
+      localStorage.setItem('cp_sistema_completo_db', JSON.stringify(sistemaDb));
+      renderizarTudo();
     }
 
-    function mudarAba(aba) {
-      ['dashboard', 'orcamentos', 'equipe', 'tabelas'].forEach(item => {
-        document.getElementById(`aba-${item}`).classList.add('hidden');
-        document.getElementById(`tab-btn-${item}`).className = "py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-stone-900 text-gray-400 border border-stone-800";
-      });
-
-      document.getElementById(`aba-${aba}`).classList.remove('hidden');
-      document.getElementById(`tab-btn-${aba}`).className = "py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-amber-600 text-white shadow";
-    }
-
-    // Configuração dos Canvases de Assinatura
-    const canvases = { resp: null, cli: null };
-    function setupCanvas(id) {
-      const canvas = document.getElementById(`canvas-${id}`);
-      const ctx = canvas.getContext('2d');
-      ctx.strokeStyle = '#f3f4f6';
-      ctx.lineWidth = 2;
-      let drawing = false;
-
-      canvas.addEventListener('mousedown', (e) => { drawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
-      canvas.addEventListener('mousemove', (e) => { if(drawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } });
-      canvas.addEventListener('mouseup', () => drawing = false);
-      canvas.addEventListener('mouseleave', () => drawing = false);
-
-      // Suporte a Toque (Celular / PWA)
-      canvas.addEventListener('touchstart', (e) => {
-        drawing = true;
-        const rect = canvas.getBoundingClientRect();
-        const touch = e.touches[0];
-        ctx.beginPath();
-        ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
-        e.preventDefault();
-      });
-      canvas.addEventListener('touchmove', (e) => {
-        if(!drawing) return;
-        const rect = canvas.getBoundingClientRect();
-        const touch = e.touches[0];
-        ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
-        ctx.stroke();
-        e.preventDefault();
-      });
-      canvas.addEventListener('touchend', () => drawing = false);
-
-      canvases[id] = { canvas, ctx };
-    }
-
-    setupCanvas('resp');
-    setupCanvas('cli');
-
-    function limparCanvas(id) {
-      const { canvas, ctx } = canvases[id];
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    function adicionarOrcamento() {
-      const cliente = document.getElementById('orc-cliente').value;
-      const tipo = document.getElementById('orc-tipo').value;
-      const valor = parseFloat(document.getElementById('orc-valor').value) || 0;
-      const prazo = document.getElementById('orc-prazo').value;
-
-      if(!cliente) return alert('Por favor, informe o nome do cliente.');
-
-      db.orcamentos.push({ id: Date.now(), cliente, tipo, valor, prazo });
-
-      document.getElementById('orc-cliente').value = '';
-      document.getElementById('orc-valor').value = '';
-      document.getElementById('orc-prazo').value = '';
-      limparCanvas('resp');
-      limparCanvas('cli');
-
-      salvarTudo();
+    function adicionarCliente() {
+      const nome = document.getElementById('cli-nome').value;
+      const tel = document.getElementById('cli-tel').value;
+      const end = document.getElementById('cli-end').value;
+      if(!nome) return alert('Informe o nome do cliente');
+      sistemaDb.clientes.push({ id: Date.now(), nome, tel, end });
+      document.getElementById('cli-nome').value = '';
+      document.getElementById('cli-tel').value = '';
+      document.getElementById('cli-end').value = '';
+      salvarDados();
     }
 
     function adicionarEquipe() {
       const nome = document.getElementById('eq-nome').value;
       const funcao = document.getElementById('eq-funcao').value;
       const diaria = parseFloat(document.getElementById('eq-diaria').value) || 0;
-
-      if(!nome) return alert('Por favor, informe o nome do colaborador.');
-
-      db.equipe.push({ id: Date.now(), nome, funcao, diaria });
-
+      if(!nome) return alert('Informe o nome do colaborador');
+      sistemaDb.equipe.push({ id: Date.now(), nome, funcao, diaria });
       document.getElementById('eq-nome').value = '';
       document.getElementById('eq-funcao').value = '';
       document.getElementById('eq-diaria').value = '';
+      salvarDados();
+    }
 
-      salvarTudo();
+    function adicionarOrcamento() {
+      const cliente = document.getElementById('orc-cliente').value;
+      const servico = document.getElementById('orc-servico').value;
+      const valor = parseFloat(document.getElementById('orc-valor').value) || 0;
+      const prazo = document.getElementById('orc-prazo').value;
+      if(!cliente) return alert('Informe o cliente');
+      sistemaDb.orcamentos.push({ id: Date.now(), cliente, servico, valor, prazo });
+      sistemaDb.caixa.push({ id: Date.now(), desc: `Orçamento / Obra - ${cliente}`, valor, tipo: 'entrada' });
+      document.getElementById('orc-cliente').value = '';
+      document.getElementById('orc-valor').value = '';
+      document.getElementById('orc-prazo').value = '';
+      salvarDados();
+    }
+
+    function adicionarCaixa() {
+      const desc = document.getElementById('cx-desc').value;
+      const valor = parseFloat(document.getElementById('cx-valor').value) || 0;
+      const tipo = document.getElementById('cx-tipo').value;
+      if(!desc) return alert('Informe a descrição');
+      sistemaDb.caixa.push({ id: Date.now(), desc, valor, tipo });
+      document.getElementById('cx-desc').value = '';
+      document.getElementById('cx-valor').value = '';
+      salvarDados();
     }
 
     function removerItem(tipo, id) {
-      if(tipo === 'orcamento') {
-        db.orcamentos = db.orcamentos.filter(i => i.id !== id);
-      } else {
-        db.equipe = db.equipe.filter(i => i.id !== id);
-      }
-      salvarTudo();
+      if(tipo === 'cliente') sistemaDb.clientes = sistemaDb.clientes.filter(i => i.id !== id);
+      if(tipo === 'equipe') sistemaDb.equipe = sistemaDb.equipe.filter(i => i.id !== id);
+      if(tipo === 'orcamento') sistemaDb.orcamentos = sistemaDb.orcamentos.filter(i => i.id !== id);
+      if(tipo === 'caixa') sistemaDb.caixa = sistemaDb.caixa.filter(i => i.id !== id);
+      salvarDados();
     }
 
     function renderizarTudo() {
-      // Dashboard Métricas
-      const totalOrc = db.orcamentos.reduce((acc, curr) => acc + curr.valor, 0);
-      document.getElementById('dash-val-orcamentos').innerText = `R$ ${totalOrc.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-      document.getElementById('dash-qtd-obras').innerText = db.orcamentos.length;
-      document.getElementById('dash-qtd-equipe').innerText = db.equipe.length;
+      // Métricas Dashboard
+      const totalObras = sistemaDb.orcamentos.length;
+      const totalEntradas = sistemaDb.caixa.filter(i => i.tipo === 'entrada').reduce((acc, curr) => acc + curr.valor, 0);
+      const totalSaidas = sistemaDb.caixa.filter(i => i.tipo === 'saida').reduce((acc, curr) => acc + curr.valor, 0);
+      const saldoConsolidado = totalEntradas - totalSaidas;
 
-      const dashRecente = document.getElementById('dash-lista-recente');
-      if(db.orcamentos.length === 0) {
-        dashRecente.innerHTML = 'Nenhum projeto registrado no sistema.';
+      document.getElementById('stat-obras').innerText = totalObras;
+      document.getElementById('stat-recebimentos').innerText = `R$ ${totalEntradas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+      document.getElementById('stat-pagamentos').innerText = `R$ ${totalSaidas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+      document.getElementById('stat-saldo').innerText = `R$ ${saldoConsolidado.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+
+      // Recentes Painel
+      const painelRecente = document.getElementById('painel-lista-recente');
+      if(sistemaDb.orcamentos.length === 0) {
+        painelRecente.innerHTML = 'Nenhum registro recente encontrado.';
       } else {
-        dashRecente.innerHTML = db.orcamentos.slice(-3).reverse().map(o => `
-          <div class="bg-stone-900 p-3 rounded-lg border border-stone-800 flex justify-between items-center text-xs text-white">
-            <span><strong>${o.cliente}</strong> — ${o.tipo}</span>
-            <span class="text-emerald-400 font-bold">R$ ${o.valor.toFixed(2)} (${o.prazo} dias)</span>
+        painelRecente.innerHTML = sistemaDb.orcamentos.slice(-3).reverse().map(o => `
+          <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 flex justify-between items-center text-xs text-stone-800">
+            <span><strong>${o.cliente}</strong> — ${o.servico} (${o.prazo} dias)</span>
+            <span class="text-emerald-700 font-bold">R$ ${o.valor.toFixed(2)}</span>
           </div>
         `).join('');
       }
 
-      // Lista Orçamentos
-      const containerOrc = document.getElementById('lista-orcamentos');
-      if(db.orcamentos.length === 0) {
-        containerOrc.innerHTML = '<p class="text-gray-500 text-xs italic">Nenhum orçamento cadastrado.</p>';
-      } else {
-        containerOrc.innerHTML = db.orcamentos.map(o => `
-          <div class="bg-stone-900 p-3 rounded-lg flex items-center justify-between border border-stone-800">
-            <div>
-              <p class="font-bold text-white">${o.cliente} <span class="text-xs text-amber-500 font-normal">(${o.tipo})</span></p>
-              <p class="text-xs text-gray-400">Valor: <strong class="text-emerald-400">R$ ${o.valor.toFixed(2)}</strong> | Prazo: ${o.prazo} dias úteis</p>
-            </div>
-            <button onclick="removerItem('orcamento', ${o.id})" class="text-red-400 hover:text-red-300 p-1">
-              <i data-feather="trash-2" class="w-4 h-4"></i>
-            </button>
-          </div>
-        `).join('');
-      }
+      // Clientes
+      document.getElementById('lista-clientes-cadastrados').innerHTML = sistemaDb.clientes.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum cliente cadastrado.</p>' : sistemaDb.clientes.map(c => `
+        <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
+          <div><p class="font-bold text-stone-800">${c.nome}</p><p class="text-xs text-stone-500">Tel: ${c.tel} | End: ${c.end}</p></div>
+          <button onclick="removerItem('cliente', ${c.id})" class="text-rose-600 hover:text-rose-800 text-xs font-bold">Excluir</button>
+        </div>
+      `).join('');
 
-      // Lista Equipe
-      const containerEq = document.getElementById('lista-equipe');
-      if(db.equipe.length === 0) {
-        containerEq.innerHTML = '<p class="text-gray-500 text-xs italic">Nenhum colaborador registrado.</p>';
-      } else {
-        containerEq.innerHTML = db.equipe.map(e => `
-          <div class="bg-stone-900 p-3 rounded-lg flex items-center justify-between border border-stone-800">
-            <div>
-              <p class="font-bold text-white">${e.nome} <span class="text-xs text-amber-500 font-normal">(${e.funcao})</span></p>
-              <p class="text-xs text-gray-400">Diária base: <strong class="text-emerald-400">R$ ${e.diaria.toFixed(2)}</strong></p>
-            </div>
-            <button onclick="removerItem('equipe', ${e.id})" class="text-red-400 hover:text-red-300 p-1">
-              <i data-feather="trash-2" class="w-4 h-4"></i>
-            </button>
-          </div>
-        `).join('');
-      }
+      // Equipe
+      document.getElementById('lista-equipe-cadastrada').innerHTML = sistemaDb.equipe.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum colaborador cadastrado.</p>' : sistemaDb.equipe.map(e => `
+        <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
+          <div><p class="font-bold text-stone-800">${e.nome} <span class="text-xs text-amber-800 font-normal">(${e.funcao})</span></p><p class="text-xs text-stone-500">Diária: R$ ${e.diaria.toFixed(2)}</p></div>
+          <button onclick="removerItem('equipe', ${e.id})" class="text-rose-600 hover:text-rose-800 text-xs font-bold">Excluir</button>
+        </div>
+      `).join('');
+
+      // Orçamentos
+      document.getElementById('lista-orcamentos-emitidos').innerHTML = sistemaDb.orcamentos.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum orçamento emitido.</p>' : sistemaDb.orcamentos.map(o => `
+        <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
+          <div><p class="font-bold text-stone-800">${o.cliente} <span class="text-xs text-amber-800 font-normal">(${o.servico})</span></p><p class="text-xs text-stone-500">Valor: R$ ${o.valor.toFixed(2)} | Prazo: ${o.prazo} dias</p></div>
+          <button onclick="removerItem('orcamento', ${o.id})" class="text-rose-600 hover:text-rose-800 text-xs font-bold">Excluir</button>
+        </div>
+      `).join('');
+
+      // Caixa
+      document.getElementById('lista-caixa-historico').innerHTML = sistemaDb.caixa.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum lançamento no caixa.</p>' : sistemaDb.caixa.map(cx => `
+        <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
+          <div><p class="font-bold text-stone-800">${cx.desc}</p><p class="text-xs ${cx.tipo === 'entrada' ? 'text-emerald-700' : 'text-rose-700'} font-bold">${cx.tipo === 'entrada' ? '+' : '-'} R$ ${cx.valor.toFixed(2)}</p></div>
+          <button onclick="removerItem('caixa', ${cx.id})" class="text-rose-600 hover:text-rose-800 text-xs font-bold">Excluir</button>
+        </div>
+      `).join('');
 
       feather.replace();
     }
