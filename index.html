@@ -81,7 +81,7 @@
       <div class="wood-card rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-l-8 border-amber-800">
         <div>
           <h2 class="text-xl md:text-2xl font-black text-stone-800 tracking-tight">Painel de Controle de Obras</h2>
-          <p class="text-xs md:text-sm text-stone-600 mt-1">Bem-vindo, <strong>Cristiano dos Santos Paes</strong> | CP Construções e Reformas (Itanhaém - SP).</p>
+          <p class="text-xs md:text-sm text-stone-600 mt-1">Bem-vindo, <strong>Cristiano dos Santos Paes</strong> | CP Construções e Reformas (Itanhaém - SP)[cite: 5].</p>
         </div>
         <button onclick="mudarAba('orcamentos')" class="btn-wood px-5 py-3 rounded-xl font-bold text-xs md:text-sm flex items-center gap-2 shadow-md">
           <i data-feather="plus-circle" class="w-4 h-4"></i> Criar Novo Orçamento
@@ -171,29 +171,64 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 4: TABELAS DE VALORES -->
+    <!-- SEÇÃO 4: TABELAS DE VALORES (SINAPI / SINDUSCON - REFORMA & CONSTRUÇÃO) -->
     <section id="sec-tabelas" class="space-y-6 hidden">
-      <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
-          <i data-feather="list" class="w-5 h-5 text-amber-800"></i> Tabela de Referência de Serviços (Itanhaém & Região)
-        </h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm text-stone-700">
-            <thead class="bg-stone-100 text-stone-800 text-xs uppercase">
-              <tr>
-                <th class="p-3">Serviço / Especialidade</th>
-                <th class="p-3">Unidade</th>
-                <th class="p-3">Valor Estimado Base</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-stone-200">
-              <tr><td class="p-3">Alvenaria Estrutural / Vedação</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 65,00</td></tr>
-              <tr><td class="p-3">Assentamento de Porcelanato</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 85,00</td></tr>
-              <tr><td class="p-3">Instalação Elétrica (Ponto)</td><td class="p-3">Unidade</td><td class="p-3 font-bold text-emerald-700">R$ 75,00</td></tr>
-              <tr><td class="p-3">Instalação Hidráulica Completa</td><td class="p-3">Ponto</td><td class="p-3 font-bold text-emerald-700">R$ 180,00</td></tr>
-            </tbody>
-          </table>
+      <div class="wood-card rounded-2xl p-6 space-y-5">
+        <div class="flex items-center justify-between border-b border-stone-200 pb-4">
+          <div>
+            <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
+              <i data-feather="list" class="w-5 h-5 text-amber-800"></i> Tabela de Custos Unitários de Mão de Obra
+            </h2>
+            <p class="text-xs text-stone-500 mt-0.5">Parâmetros técnicos calculados com base em índices SINAPI / Sinduscon adaptados para Construção Nova e Reformas.</p>
+          </div>
+          <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full">Base Regional: Litoral SP</span>
         </div>
+
+        <!-- Sub-tabela 1: Construção Nova / Estrutural -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-black uppercase tracking-wider text-amber-900 bg-amber-50 p-2 rounded-lg border border-amber-200">1. Alvenaria, Estrutura e Fundação (Construção Nova)</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-stone-700">
+              <thead class="bg-stone-100 text-stone-800 text-xs uppercase">
+                <tr>
+                  <th class="p-3">Serviço / Etapa</th>
+                  <th class="p-3">Unidade</th>
+                  <th class="p-3">Mão de Obra (Média)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-stone-200 text-xs">
+                <tr><td class="p-3 font-medium">Escavação de Viga Baldrame / Sapatas</td><td class="p-3">m³</td><td class="p-3 font-bold text-emerald-700">R$ 95,00 - R$ 130,00</td></tr>
+                <tr><td class="p-3 font-medium">Concretagem de Lajes e Pilares</td><td class="p-3">m³</td><td class="p-3 font-bold text-emerald-700">R$ 220,00 - R$ 300,00</td></tr>
+                <tr><td class="p-3 font-medium">Alvenaria de Vedação / Blocos Estruturais</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 60,00 - R$ 85,00</td></tr>
+                <tr><td class="p-3 font-medium">Chapisco e Reboco Interno/Externo</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 45,00 - R$ 70,00</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Sub-tabela 2: Reformas e Acabamentos -->
+        <div class="space-y-3 pt-2">
+          <h3 class="text-xs font-black uppercase tracking-wider text-amber-900 bg-amber-50 p-2 rounded-lg border border-amber-200">2. Reformas, Pisos, Revestimentos & Instalações (Acabamento Fino)</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-stone-700">
+              <thead class="bg-stone-100 text-stone-800 text-xs uppercase">
+                <tr>
+                  <th class="p-3">Serviço / Especialidade</th>
+                  <th class="p-3">Unidade</th>
+                  <th class="p-3">Mão de Obra (Média)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-stone-200 text-xs">
+                <tr><td class="p-3 font-medium">Assentamento de Porcelanato / Mosaicos 3D</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 75,00 - R$ 130,00</td></tr>
+                <tr><td class="p-3 font-medium">Instalação de Ponto Elétrico (Tomada/Interruptor)</td><td class="p-3">Ponto</td><td class="p-3 font-bold text-emerald-700">R$ 65,00 - R$ 90,00</td></tr>
+                <tr><td class="p-3 font-medium">Montagem de Quadro de Distribuição Disjuntores</td><td class="p-3">Unidade</td><td class="p-3 font-bold text-emerald-700">R$ 350,00 - R$ 600,00</td></tr>
+                <tr><td class="p-3 font-medium">Instalação Hidráulica Completa / Esgoto</td><td class="p-3">Ponto</td><td class="p-3 font-bold text-emerald-700">R$ 150,00 - R$ 250,00</td></tr>
+                <tr><td class="p-3 font-medium">Pintura Geral (Selador + 2 Demãos)</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 25,00 - R$ 45,00</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -206,10 +241,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <input type="text" id="orc-cliente" placeholder="Nome do Cliente" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
           <select id="orc-servico" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
-            <option value="Construção / Alvenaria">Construção / Alvenaria</option>
-            <option value="Porcelanato / Acabamento">Porcelanato / Acabamento</option>
-            <option value="Elétrica Residencial">Elétrica Residencial</option>
-            <option value="Hidráulica">Hidráulica</option>
+            <option value="Construção Nova / Estrutural">Construção Nova / Estrutural</option>
+            <option value="Reforma Geral / Alvenaria">Reforma Geral / Alvenaria</option>
+            <option value="Porcelanato / Acabamento Fino">Porcelanato / Acabamento Fino</option>
+            <option value="Instalação Elétrica Residencial">Instalação Elétrica Residencial</option>
+            <option value="Rede Hidráulica">Rede Hidráulica</option>
           </select>
           <input type="number" id="orc-valor" placeholder="Valor Total (R$)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
           <input type="number" id="orc-prazo" placeholder="Prazo (Dias Úteis)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
@@ -349,7 +385,6 @@
     }
 
     function renderizarTudo() {
-      // Métricas Dashboard
       const totalObras = sistemaDb.orcamentos.length;
       const totalEntradas = sistemaDb.caixa.filter(i => i.tipo === 'entrada').reduce((acc, curr) => acc + curr.valor, 0);
       const totalSaidas = sistemaDb.caixa.filter(i => i.tipo === 'saida').reduce((acc, curr) => acc + curr.valor, 0);
@@ -360,7 +395,6 @@
       document.getElementById('stat-pagamentos').innerText = `R$ ${totalSaidas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
       document.getElementById('stat-saldo').innerText = `R$ ${saldoConsolidado.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
 
-      // Recentes Painel
       const painelRecente = document.getElementById('painel-lista-recente');
       if(sistemaDb.orcamentos.length === 0) {
         painelRecente.innerHTML = 'Nenhum registro recente encontrado.';
@@ -373,7 +407,6 @@
         `).join('');
       }
 
-      // Clientes
       document.getElementById('lista-clientes-cadastrados').innerHTML = sistemaDb.clientes.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum cliente cadastrado.</p>' : sistemaDb.clientes.map(c => `
         <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
           <div><p class="font-bold text-stone-800">${c.nome}</p><p class="text-xs text-stone-500">Tel: ${c.tel} | End: ${c.end}</p></div>
@@ -381,7 +414,6 @@
         </div>
       `).join('');
 
-      // Equipe
       document.getElementById('lista-equipe-cadastrada').innerHTML = sistemaDb.equipe.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum colaborador cadastrado.</p>' : sistemaDb.equipe.map(e => `
         <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
           <div><p class="font-bold text-stone-800">${e.nome} <span class="text-xs text-amber-800 font-normal">(${e.funcao})</span></p><p class="text-xs text-stone-500">Diária: R$ ${e.diaria.toFixed(2)}</p></div>
@@ -389,7 +421,6 @@
         </div>
       `).join('');
 
-      // Orçamentos
       document.getElementById('lista-orcamentos-emitidos').innerHTML = sistemaDb.orcamentos.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum orçamento emitido.</p>' : sistemaDb.orcamentos.map(o => `
         <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
           <div><p class="font-bold text-stone-800">${o.cliente} <span class="text-xs text-amber-800 font-normal">(${o.servico})</span></p><p class="text-xs text-stone-500">Valor: R$ ${o.valor.toFixed(2)} | Prazo: ${o.prazo} dias</p></div>
@@ -397,7 +428,6 @@
         </div>
       `).join('');
 
-      // Caixa
       document.getElementById('lista-caixa-historico').innerHTML = sistemaDb.caixa.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum lançamento no caixa.</p>' : sistemaDb.caixa.map(cx => `
         <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
           <div><p class="font-bold text-stone-800">${cx.desc}</p><p class="text-xs ${cx.tipo === 'entrada' ? 'text-emerald-700' : 'text-rose-700'} font-bold">${cx.tipo === 'entrada' ? '+' : '-'} R$ ${cx.valor.toFixed(2)}</p></div>
