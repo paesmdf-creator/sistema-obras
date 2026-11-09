@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CP Construções e Reformas</title>
   
-  <!-- Configuração PWA -->
   <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22CP%20Constru%C3%A7%C3%B5es%20e%20Reformas%22,%22short_name%22:%22CP%20Obras%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22#fbf8f3%22,%22theme_color%22:%22#4a2e18%22}">
   <meta name="theme-color" content="#4a2e18">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-  <!-- Tailwind CSS & Feather Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/feather-icons"></script>
 
@@ -24,15 +22,18 @@
     .tab-active { background-color: #b8860b; color: #ffffff; }
     .tab-inactive { background-color: rgba(255,255,255,0.1); color: #e6dcd0; }
     .tab-inactive:hover { background-color: rgba(255,255,255,0.2); }
+    
+    /* Estilo igual à imagem da Planilha SINAPI */
+    .sinapi-header { background-color: #1e1b4b; color: #ffffff; }
+    .sinapi-card { background-color: #f5f3ff; border: 1px solid #ddd6fe; color: #4c1d95; }
+    .sinapi-section-header { background-color: #312e81; color: #ffffff; }
   </style>
 </head>
 <body class="min-h-screen pb-12">
 
-  <!-- Cabeçalho Principal com Identidade Visual -->
+  <!-- Cabeçalho Principal -->
   <header class="wood-header text-white px-4 py-4 shadow-md sticky top-0 z-50">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      
-      <!-- Logotipo e Dados da Empresa -->
       <div class="flex items-center gap-3">
         <div class="w-12 h-12 bg-amber-600 rounded-xl flex items-center justify-center font-black text-xl text-white shadow-inner border-2 border-amber-400">
           CP
@@ -43,7 +44,6 @@
         </div>
       </div>
 
-      <!-- Barra de Navegação Superior (Abas) -->
       <nav class="flex flex-wrap items-center justify-center gap-1.5 text-xs font-semibold">
         <button onclick="mudarAba('painel')" id="btn-painel" class="px-3 py-2 rounded-lg transition tab-active flex items-center gap-1">
           <i data-feather="grid" class="w-3.5 h-3.5"></i> Painel
@@ -55,7 +55,7 @@
           <i data-feather="user-check" class="w-3.5 h-3.5"></i> Equipe & Diárias
         </button>
         <button onclick="mudarAba('tabelas')" id="btn-tabelas" class="px-3 py-2 rounded-lg transition tab-inactive flex items-center gap-1">
-          <i data-feather="list" class="w-3.5 h-3.5"></i> Tabelas
+          <i data-feather="list" class="w-3.5 h-3.5"></i> Tabelas SINAPI
         </button>
         <button onclick="mudarAba('orcamentos')" id="btn-orcamentos" class="px-3 py-2 rounded-lg transition tab-inactive flex items-center gap-1">
           <i data-feather="file-text" class="w-3.5 h-3.5"></i> Orçamentos
@@ -67,17 +67,13 @@
           <i data-feather="settings" class="w-3.5 h-3.5"></i> Empresa
         </button>
       </nav>
-
     </div>
   </header>
 
-  <!-- Conteúdo Principal -->
   <main class="max-w-6xl mx-auto px-4 pt-6 space-y-6">
 
-    <!-- SEÇÃO 1: PAINEL DE CONTROLE -->
+    <!-- SEÇÃO 1: PAINEL -->
     <section id="sec-painel" class="space-y-6">
-      
-      <!-- Cabeçalho de Boas-Vindas -->
       <div class="wood-card rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-l-8 border-amber-800">
         <div>
           <h2 class="text-xl md:text-2xl font-black text-stone-800 tracking-tight">Painel de Controle de Obras</h2>
@@ -88,40 +84,29 @@
         </button>
       </div>
 
-      <!-- Cards de Métricas e Indicadores -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        
-        <!-- Obras Ativas -->
         <div class="wood-card rounded-2xl p-6 border-l-4 border-amber-600 space-y-2">
           <span class="text-xs font-bold uppercase tracking-wider text-stone-500">Obras Ativas</span>
           <div id="stat-obras" class="text-3xl font-black text-stone-800">0</div>
           <p class="text-xs text-stone-500">Em andamento / Aprovadas</p>
         </div>
-
-        <!-- Recebimentos -->
         <div class="wood-card rounded-2xl p-6 border-l-4 border-emerald-600 space-y-2">
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Recebimentos</span>
           <div id="stat-recebimentos" class="text-3xl font-black text-emerald-600">R$ 0,00</div>
           <p class="text-xs text-stone-500">Total recebido de clientes</p>
         </div>
-
-        <!-- Pagamento Colaboradores -->
         <div class="wood-card rounded-2xl p-6 border-l-4 border-rose-700 space-y-2">
           <span class="text-xs font-bold uppercase tracking-wider text-rose-800">Pagamento Colaboradores</span>
           <div id="stat-pagamentos" class="text-3xl font-black text-rose-700">R$ 0,00</div>
           <p class="text-xs text-stone-500">Diárias e folha de ajudantes</p>
         </div>
-
-        <!-- Saldo Consolidado -->
         <div class="wood-card rounded-2xl p-6 border-l-4 border-stone-700 space-y-2">
           <span class="text-xs font-bold uppercase tracking-wider text-stone-600">Saldo Consolidado</span>
           <div id="stat-saldo" class="text-3xl font-black text-stone-800">R$ 0,00</div>
           <p class="text-xs text-stone-500">Balanço líquido acumulado</p>
         </div>
-
       </div>
 
-      <!-- Orçamentos e Contratos Recentes -->
       <div class="wood-card rounded-2xl p-6 space-y-4">
         <h3 class="text-sm font-bold text-stone-700 uppercase tracking-wider flex items-center gap-2">
           <i data-feather="clock" class="w-4 h-4 text-amber-800"></i> Orçamentos e Contratos Recentes
@@ -130,15 +115,12 @@
           Nenhum registro recente encontrado.
         </div>
       </div>
-
     </section>
 
     <!-- SEÇÃO 2: CLIENTES -->
     <section id="sec-clientes" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
-          <i data-feather="users" class="w-5 h-5 text-amber-800"></i> Gestão de Clientes
-        </h2>
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2"><i data-feather="users" class="w-5 h-5 text-amber-800"></i> Gestão de Clientes</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <input type="text" id="cli-nome" placeholder="Nome do Cliente" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
           <input type="text" id="cli-tel" placeholder="Telefone / Contato" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
@@ -152,12 +134,10 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 3: EQUIPE E DIÁRIAS -->
+    <!-- SEÇÃO 3: EQUIPE -->
     <section id="sec-equipe" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
-          <i data-feather="user-check" class="w-5 h-5 text-amber-800"></i> Cadastro de Equipe & Diárias
-        </h2>
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2"><i data-feather="user-check" class="w-5 h-5 text-amber-800"></i> Cadastro de Equipe & Diárias</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <input type="text" id="eq-nome" placeholder="Nome do Colaborador" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
           <input type="text" id="eq-funcao" placeholder="Função (Pedreiro, Ajudante...)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
@@ -171,73 +151,138 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 4: TABELAS DE VALORES (SINAPI / SINDUSCON - REFORMA & CONSTRUÇÃO) -->
-    <section id="sec-tabelas" class="space-y-6 hidden">
-      <div class="wood-card rounded-2xl p-6 space-y-5">
-        <div class="flex items-center justify-between border-b border-stone-200 pb-4">
+    <!-- SEÇÃO 4: TABELAS SINAPI COMPLETA (EXACTLY AS THE IMAGE) -->
+    <section id="sec-tabelas" class="space-y-8 hidden">
+      
+      <!-- TABELA 1: PLANILHA DE REFORMA SINAPI SP -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-indigo-200 space-y-6 p-6">
+        
+        <!-- Header Roxo SINAPI -->
+        <div class="sinapi-header rounded-xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
-              <i data-feather="list" class="w-5 h-5 text-amber-800"></i> Tabela de Custos Unitários de Mão de Obra
-            </h2>
-            <p class="text-xs text-stone-500 mt-0.5">Parâmetros técnicos calculados com base em índices SINAPI / Sinduscon adaptados para Construção Nova e Reformas.</p>
+            <h2 class="text-xl font-bold tracking-tight text-white">Tabela de Reforma e Serviços Gerais (SINAPI)</h2>
+            <p class="text-xs text-indigo-200 mt-1">Composições de Custo de Mão de Obra para Reformas | Estado de São Paulo</p>
           </div>
-          <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full">Base Regional: Litoral SP</span>
+          <div class="text-xs text-right text-indigo-200 space-y-0.5">
+            <p><strong>Base Técnica:</strong> SINAPI / Caixa / IBGE</p>
+            <p><strong>Abrangência:</strong> Estado de São Paulo</p>
+            <p><strong>Aplicação:</strong> Reformas e Adequações</p>
+          </div>
         </div>
 
-        <!-- Sub-tabela 1: Construção Nova / Estrutural -->
-        <div class="space-y-3">
-          <h3 class="text-xs font-black uppercase tracking-wider text-amber-900 bg-amber-50 p-2 rounded-lg border border-amber-200">1. Alvenaria, Estrutura e Fundação (Construção Nova)</h3>
+        <!-- 4 Cards Superiores -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="sinapi-card p-4 rounded-xl text-center">
+            <span class="text-[10px] font-bold uppercase tracking-wider block text-indigo-900">Média Reforma Geral / m²</span>
+            <strong class="text-lg md:text-xl font-black text-indigo-950">R$ 380,00 - 520,00</strong>
+          </div>
+          <div class="sinapi-card p-4 rounded-xl text-center">
+            <span class="text-[10px] font-bold uppercase tracking-wider block text-indigo-900">Diária Pedreiro SINAPI</span>
+            <strong class="text-lg md:text-xl font-black text-indigo-950">R$ 275,00 - 320,00</strong>
+          </div>
+          <div class="sinapi-card p-4 rounded-xl text-center">
+            <span class="text-[10px] font-bold uppercase tracking-wider block text-indigo-900">Diária Servente SINAPI</span>
+            <strong class="text-lg md:text-xl font-black text-indigo-950">R$ 170,00 - 200,00</strong>
+          </div>
+          <div class="sinapi-card p-4 rounded-xl text-center">
+            <span class="text-[10px] font-bold uppercase tracking-wider block text-indigo-900">Remoção / Bota-Fora</span>
+            <strong class="text-lg md:text-xl font-black text-indigo-950">R$ 380,00 / caçamba</strong>
+          </div>
+        </div>
+
+        <!-- Etapa 1: Demolições -->
+        <div class="space-y-2">
+          <div class="sinapi-section-header px-4 py-2.5 rounded-lg flex justify-between items-center text-xs font-bold uppercase tracking-wider">
+            <span>Etapa 1: Demolições, Retiradas e Preparação do Canteiro</span>
+            <span class="bg-indigo-500 text-white px-2 py-0.5 rounded text-[10px]">Desconstrução</span>
+          </div>
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-stone-700">
-              <thead class="bg-stone-100 text-stone-800 text-xs uppercase">
+            <table class="w-full text-left text-xs text-stone-700">
+              <thead class="bg-indigo-50 text-indigo-900 font-bold uppercase">
                 <tr>
-                  <th class="p-3">Serviço / Etapa</th>
-                  <th class="p-3">Unidade</th>
-                  <th class="p-3">Mão de Obra (Média)</th>
+                  <th class="p-2.5">Item</th>
+                  <th class="p-2.5">Descrição do Serviço / Composição SINAPI</th>
+                  <th class="p-2.5">Unid.</th>
+                  <th class="p-2.5">Preço Un. (R$)</th>
+                  <th class="p-2.5">Faixa SP (R$)</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-stone-200 text-xs">
-                <tr><td class="p-3 font-medium">Escavação de Viga Baldrame / Sapatas</td><td class="p-3">m³</td><td class="p-3 font-bold text-emerald-700">R$ 95,00 - R$ 130,00</td></tr>
-                <tr><td class="p-3 font-medium">Concretagem de Lajes e Pilares</td><td class="p-3">m³</td><td class="p-3 font-bold text-emerald-700">R$ 220,00 - R$ 300,00</td></tr>
-                <tr><td class="p-3 font-medium">Alvenaria de Vedação / Blocos Estruturais</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 60,00 - R$ 85,00</td></tr>
-                <tr><td class="p-3 font-medium">Chapisco e Reboco Interno/Externo</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 45,00 - R$ 70,00</td></tr>
+              <tbody class="divide-y divide-indigo-100">
+                <tr><td class="p-2.5 font-bold">1.1</td><td class="p-2.5">Demolição manual de alvenaria de tijolo/bloco (sem reaproveitamento)</td><td class="p-2.5">m³</td><td class="p-2.5 font-bold">92,00</td><td class="p-2.5 font-bold text-indigo-900">80,00 - 110,00</td></tr>
+                <tr><td class="p-2.5 font-bold">1.2</td><td class="p-2.5">Demolição manual de piso cerâmico ou porcelanato com camada de regularização</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">22,00</td><td class="p-2.5 font-bold text-indigo-900">18,00 - 28,00</td></tr>
+                <tr><td class="p-2.5 font-bold">1.3</td><td class="p-2.5">Retirada de revestimento cerâmico de azulejos em paredes (com argamassa)</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">24,00</td><td class="p-2.5 font-bold text-indigo-900">20,00 - 30,00</td></tr>
+                <tr><td class="p-2.5 font-bold">1.4</td><td class="p-2.5">Retirada de portas e janelas de madeira/alumínio com aduela e guarnições</td><td class="p-2.5">unidade</td><td class="p-2.5 font-bold">65,00</td><td class="p-2.5 font-bold text-indigo-900">50,00 - 80,00</td></tr>
+                <tr><td class="p-2.5 font-bold">1.5</td><td class="p-2.5">Retirada de louças sanitárias, metais e tubulações expostas</td><td class="p-2.5">ponto</td><td class="p-2.5 font-bold">45,00</td><td class="p-2.5 font-bold text-indigo-900">35,00 - 60,00</td></tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- Sub-tabela 2: Reformas e Acabamentos -->
-        <div class="space-y-3 pt-2">
-          <h3 class="text-xs font-black uppercase tracking-wider text-amber-900 bg-amber-50 p-2 rounded-lg border border-amber-200">2. Reformas, Pisos, Revestimentos & Instalações (Acabamento Fino)</h3>
+        <!-- Etapa 2: Acabamento e Revestimentos -->
+        <div class="space-y-2">
+          <div class="sinapi-section-header px-4 py-2.5 rounded-lg flex justify-between items-center text-xs font-bold uppercase tracking-wider">
+            <span>Etapa 2: Revestimentos Cerâmicos, Porcelanatos & Mosaicos</span>
+            <span class="bg-indigo-500 text-white px-2 py-0.5 rounded text-[10px]">Acabamento Fino</span>
+          </div>
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-stone-700">
-              <thead class="bg-stone-100 text-stone-800 text-xs uppercase">
+            <table class="w-full text-left text-xs text-stone-700">
+              <thead class="bg-indigo-50 text-indigo-900 font-bold uppercase">
                 <tr>
-                  <th class="p-3">Serviço / Especialidade</th>
-                  <th class="p-3">Unidade</th>
-                  <th class="p-3">Mão de Obra (Média)</th>
+                  <th class="p-2.5">Item</th>
+                  <th class="p-2.5">Descrição do Serviço</th>
+                  <th class="p-2.5">Unid.</th>
+                  <th class="p-2.5">Preço Un. (R$)</th>
+                  <th class="p-2.5">Faixa SP (R$)</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-stone-200 text-xs">
-                <tr><td class="p-3 font-medium">Assentamento de Porcelanato / Mosaicos 3D</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 75,00 - R$ 130,00</td></tr>
-                <tr><td class="p-3 font-medium">Instalação de Ponto Elétrico (Tomada/Interruptor)</td><td class="p-3">Ponto</td><td class="p-3 font-bold text-emerald-700">R$ 65,00 - R$ 90,00</td></tr>
-                <tr><td class="p-3 font-medium">Montagem de Quadro de Distribuição Disjuntores</td><td class="p-3">Unidade</td><td class="p-3 font-bold text-emerald-700">R$ 350,00 - R$ 600,00</td></tr>
-                <tr><td class="p-3 font-medium">Instalação Hidráulica Completa / Esgoto</td><td class="p-3">Ponto</td><td class="p-3 font-bold text-emerald-700">R$ 150,00 - R$ 250,00</td></tr>
-                <tr><td class="p-3 font-medium">Pintura Geral (Selador + 2 Demãos)</td><td class="p-3">m²</td><td class="p-3 font-bold text-emerald-700">R$ 25,00 - R$ 45,00</td></tr>
+              <tbody class="divide-y divide-indigo-100">
+                <tr><td class="p-2.5 font-bold">2.1</td><td class="p-2.5">Assentamento de porcelanato em piso até 80x80cm (com rejuntamento)</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">85,00</td><td class="p-2.5 font-bold text-indigo-900">70,00 - 110,00</td></tr>
+                <tr><td class="p-2.5 font-bold">2.2</td><td class="p-2.5">Assentamento de revestimento 3D / Mosaico especial em parede</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">120,00</td><td class="p-2.5 font-bold text-indigo-900">95,00 - 150,00</td></tr>
               </tbody>
             </table>
           </div>
         </div>
 
       </div>
+
+      <!-- TABELA 2: CONSTRUÇÃO DO ZERO (FUNDAÇÃO À ENTREGA) -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-amber-200 space-y-6 p-6">
+        <div class="wood-header rounded-xl p-5 text-white flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold tracking-tight text-amber-100">Tabela de Construção Nova do Zero (SINAPI / Sinduscon)</h2>
+            <p class="text-xs text-amber-300 mt-1">Custo de Mão de Obra por Etapas Estruturais | Residencial & Comercial</p>
+          </div>
+          <span class="bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full">Obra Bruta ao Chave na Mão</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-stone-700">
+            <thead class="bg-amber-50 text-amber-900 font-bold uppercase">
+              <tr>
+                <th class="p-3">Etapa da Obra</th>
+                <th class="p-3">Descrição dos Serviços Incluídos</th>
+                <th class="p-3">Unid.</th>
+                <th class="p-3">Mão de Obra Média (R$)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-amber-100">
+              <tr><td class="p-3 font-bold text-amber-950">1. Infraestrutura / Fundação</td><td class="p-3">Gabarito, escavação de baldrames, sapatas, armação de ferragens e concretagem</td><td class="p-3 font-bold">m² construído</td><td class="p-3 font-bold text-amber-900">R$ 180,00 - 240,00</td></tr>
+              <tr><td class="p-3 font-bold text-amber-950">2. Superestrutura / Elevação</td><td class="p-3">Alvenaria estrutural/vedação, colunas, vigas de amarra e concretagem de laje</td><td class="p-3 font-bold">m² construído</td><td class="p-3 font-bold text-amber-900">R$ 220,00 - 290,00</td></tr>
+              <tr><td class="p-3 font-bold text-amber-950">3. Cobertura / Telhado</td><td class="p-3">Estrutura de madeira/aço, colocação de telhas, impermeabilização e calhas</td><td class="p-3 font-bold">m² cobertor</td><td class="p-3 font-bold text-amber-900">R$ 90,00 - 140,00</td></tr>
+              <tr><td class="p-3 font-bold text-amber-950">4. Instalações Brutas (Elétrica/Hidráulica)</td><td class="p-3">Rasgos, tubulações de esgoto, água quente/fria, caixas de passagem e enfiação</td><td class="p-3 font-bold">m² construído</td><td class="p-3 font-bold text-amber-900">R$ 110,00 - 160,00</td></tr>
+              <tr><td class="p-3 font-bold text-amber-950">5. Emboço / Reboco / Regularização</td><td class="p-3">Chapisco, reboco interno/externo com prumo e contra-piso nivelado</td><td class="p-3 font-bold">m² parede/piso</td><td class="p-3 font-bold text-amber-900">R$ 55,00 - 85,00</td></tr>
+              <tr><td class="p-3 font-bold text-amber-950">6. Mão de Obra Global (Empreitada Do Zero)</td><td class="p-3">Execução completa da fundação até a entrega limpa das chaves</td><td class="p-3 font-bold">m² total</td><td class="p-3 font-bold text-amber-900">R$ 750,00 - 1.100,00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </section>
 
     <!-- SEÇÃO 5: ORÇAMENTOS -->
     <section id="sec-orcamentos" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
-          <i data-feather="file-text" class="w-5 h-5 text-amber-800"></i> Gerador de Orçamento
-        </h2>
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2"><i data-feather="file-text" class="w-5 h-5 text-amber-800"></i> Gerador de Orçamento</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <input type="text" id="orc-cliente" placeholder="Nome do Cliente" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
           <select id="orc-servico" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
@@ -261,9 +306,7 @@
     <!-- SEÇÃO 6: CAIXA -->
     <section id="sec-caixa" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
-          <i data-feather="dollar-sign" class="w-5 h-5 text-amber-800"></i> Controle de Caixa & Lançamentos
-        </h2>
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2"><i data-feather="dollar-sign" class="w-5 h-5 text-amber-800"></i> Controle de Caixa & Lançamentos</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <input type="text" id="cx-desc" placeholder="Descrição (Ex: Compra de cimento)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
           <input type="number" id="cx-valor" placeholder="Valor (R$)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
@@ -283,9 +326,7 @@
     <!-- SEÇÃO 7: EMPRESA -->
     <section id="sec-empresa" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2">
-          <i data-feather="settings" class="w-5 h-5 text-amber-800"></i> Configurações da Empresa
-        </h2>
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2"><i data-feather="settings" class="w-5 h-5 text-amber-800"></i> Configurações da Empresa</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div>
             <label class="block text-xs font-semibold text-stone-600 mb-1">Nome da Empresa</label>
