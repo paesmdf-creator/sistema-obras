@@ -6,7 +6,7 @@
   <title>CP Construções e Reformas - Gestão Completa</title>
   
   <!-- Manifest PWA Embutido -->
-  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22CP%20Constru%C3%A7%C3%B5es%20e%20Reformas%22,%22short_name%22:%22CP%20Obras%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22#1c1917%22,%22theme_color%22:%22#d97706%22}">
+  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22CP%20Constru%C3%A7%C3%B5es%20e%20Reformas%22,%22short_name%22:%22CP%20Obras%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22#121214%22,%22theme_color%22:%22#d97706%22}">
   <meta name="theme-color" content="#d97706">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -74,7 +74,7 @@
     <section id="aba-dashboard" class="space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="wood-card p-5 rounded-xl border border-stone-700">
-          <span class="text-xs text-gray-400 block font-medium">Total de Orçamentos</span>
+          <span class="text-xs text-gray-400 block font-medium">Total em Orçamentos</span>
           <span id="dash-total-orcado" class="text-2xl font-black text-amber-500">R$ 0,00</span>
         </div>
         <div class="wood-card p-5 rounded-xl border border-stone-700">
@@ -84,6 +84,12 @@
         <div class="wood-card p-5 rounded-xl border border-stone-700">
           <span class="text-xs text-gray-400 block font-medium">Equipe Ativa</span>
           <span id="dash-total-equipe" class="text-2xl font-black text-blue-400">0</span>
+        </div>
+      </div>
+      <div class="wood-card p-5 rounded-xl space-y-3">
+        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Resumo Rápido de Obras em Andamento</h3>
+        <div id="dash-lista-recente" class="space-y-2 text-sm text-gray-400 italic">
+          Nenhum registro recente no dashboard.
         </div>
       </div>
     </section>
@@ -165,8 +171,10 @@
     <section id="aba-tabela" class="space-y-6 hidden">
       <div class="wood-card p-5 rounded-xl space-y-4">
         <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
-          <i data-feather="list" class="w-5 h-5"></i> Tabela de Referência de Serviços
+          <i data-feather="list" class="w-5 h-5"></i> Tabela de Referência de Serviços & Custos
         </h2>
+        <p class="text-xs text-gray-400">Parâmetros de cálculo estrutural, acabamentos e instalações aplicados nos orçamentos:</p>
+        
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm text-gray-300">
             <thead class="bg-stone-900 text-amber-500 text-xs uppercase">
@@ -178,24 +186,29 @@
             </thead>
             <tbody class="divide-y divide-stone-800">
               <tr>
-                <td class="p-3">Alvenaria de Vedação / Bloco</td>
+                <td class="p-3">Alvenaria de Vedação / Estrutural</td>
                 <td class="p-3">m²</td>
                 <td class="p-3 font-bold text-emerald-400">R$ 55,00 - R$ 85,00</td>
               </tr>
               <tr>
-                <td class="p-3">Assentamento de Porcelanato</td>
+                <td class="p-3">Assentamento de Porcelanato / Mosaico</td>
                 <td class="p-3">m²</td>
                 <td class="p-3 font-bold text-emerald-400">R$ 70,00 - R$ 120,00</td>
               </tr>
               <tr>
-                <td class="p-3">Ponto de Elétrica Residencial</td>
+                <td class="p-3">Ponto de Elétrica Residencial (Alta/Baixa)</td>
                 <td class="p-3">Unidade</td>
                 <td class="p-3 font-bold text-emerald-400">R$ 60,00 - R$ 90,00</td>
               </tr>
               <tr>
-                <td class="p-3">Instalação Hidráulica Completa</td>
+                <td class="p-3">Instalação Hidráulica Completa / Esgoto</td>
                 <td class="p-3">Ponto</td>
                 <td class="p-3 font-bold text-emerald-400">R$ 150,00 - R$ 250,00</td>
+              </tr>
+              <tr>
+                <td class="p-3">Reforma Geral / Acabamento Fino</td>
+                <td class="p-3">m²</td>
+                <td class="p-3 font-bold text-emerald-400">R$ 90,00 - R$ 140,00</td>
               </tr>
             </tbody>
           </table>
@@ -219,7 +232,7 @@
     function salvarTudo() {
       localStorage.setItem('cp_construcoes_db', JSON.stringify(appData));
       renderizarTelas();
-      alert('Dados salvos no dispositivo!');
+      alert('Dados salvos no dispositivo com sucesso!');
     }
 
     function abrirAba(nomeAba) {
@@ -280,6 +293,19 @@
       document.getElementById('dash-total-orcado').innerText = `R$ ${totalOrcado.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
       document.getElementById('dash-total-obras').innerText = appData.orcamentos.length;
       document.getElementById('dash-total-equipe').innerText = appData.equipe.length;
+
+      // Resumo recente no dashboard
+      const dashRecente = document.getElementById('dash-lista-recente');
+      if(appData.orcamentos.length === 0) {
+        dashRecente.innerHTML = 'Nenhum registro recente no dashboard.';
+      } else {
+        dashRecente.innerHTML = appData.orcamentos.slice(-3).reverse().map(o => `
+          <div class="bg-stone-900 p-2.5 rounded border border-stone-800 text-xs flex justify-between text-white">
+            <span>${o.cliente} (${o.servico})</span>
+            <strong class="text-emerald-400">R$ ${o.valor.toFixed(2)}</strong>
+          </div>
+        `).join('');
+      }
 
       // Renderizar Orçamentos
       const containerOrc = document.getElementById('lista-orcamentos');
