@@ -3,151 +3,202 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CP Construções e Reformas</title>
+  <title>CP Construções e Reformas - Gestão Completa</title>
   
-  <!-- Configurações PWA -->
-  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22CP%20Constru%C3%A7%C3%B5es%20e%20Reformas%22,%22short_name%22:%22CP%20Obras%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22#1f2937%22,%22theme_color%22:%22#d97706%22}">
+  <!-- Manifest PWA Embutido -->
+  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22CP%20Constru%C3%A7%C3%B5es%20e%20Reformas%22,%22short_name%22:%22CP%20Obras%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22#1c1917%22,%22theme_color%22:%22#d97706%22}">
   <meta name="theme-color" content="#d97706">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="CP Obras">
 
-  <!-- Tailwind CSS -->
+  <!-- Frameworks e Ícones -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Feather Icons -->
   <script src="https://unpkg.com/feather-icons"></script>
 
   <style>
-    body { background-color: #111827; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
-    .card { background-color: #1f2937; border: 1px solid #374151; }
-    .btn-primary { background-color: #d97706; color: #ffffff; }
-    .btn-primary:hover { background-color: #b45309; }
+    body { background-color: #121214; color: #e1e1e6; font-family: system-ui, -apple-system, sans-serif; }
+    .wood-card { background-color: #202024; border: 1px solid #323238; }
+    .btn-amber { background-color: #d97706; color: #ffffff; }
+    .btn-amber:hover { background-color: #b45309; }
   </style>
 </head>
 <body class="min-h-screen pb-12">
 
-  <!-- Cabeçalho / App Bar -->
-  <header class="bg-gray-800 border-b border-gray-700 sticky top-0 z-50 px-4 py-3 flex items-center justify-between shadow-md">
-    <div class="flex items-center gap-2">
-      <div class="bg-amber-600 text-white p-2 rounded-lg font-bold">CP</div>
-      <div>
-        <h1 class="font-bold text-lg leading-tight text-white">CP Construções e Reformas</h1>
-        <p class="text-xs text-amber-500 font-medium">Gestão de Obras & Orçamentos</p>
+  <!-- Header / Logotipo -->
+  <header class="bg-stone-900 border-b border-stone-800 sticky top-0 z-50 px-4 py-3 shadow-lg">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center font-bold text-lg text-white shadow-md border border-amber-500">
+          CP
+        </div>
+        <div>
+          <h1 class="font-bold text-lg text-white tracking-wide">CP CONSTRUÇÕES E REFORMAS</h1>
+          <p class="text-xs text-amber-500 font-medium">Engenharia Civil, Alvenaria e Acabamentos</p>
+        </div>
       </div>
+      <button onclick="salvarTudo()" class="btn-amber text-xs px-3 py-2 rounded-lg flex items-center gap-2 font-bold shadow">
+        <i data-feather="save" class="w-4 h-4"></i> Salvar Dados
+      </button>
     </div>
-    <button onclick="salvarDados()" class="btn-primary text-xs px-3 py-2 rounded-lg flex items-center gap-1 font-semibold shadow">
-      <i data-feather="save" class="w-4 h-4"></i> Salvar
-    </button>
   </header>
 
-  <!-- Conteúdo Principal -->
-  <main class="max-w-4xl mx-auto px-4 pt-6 space-y-6">
+  <!-- Container Principal -->
+  <main class="max-w-5xl mx-auto px-4 pt-6 space-y-6">
 
-    <!-- Status de Conexão -->
-    <div id="status-bar" class="card rounded-xl p-3 flex items-center justify-between text-xs text-gray-400">
-      <span class="flex items-center gap-2">
+    <!-- Status do Sistema -->
+    <div class="wood-card rounded-xl p-3 flex items-center justify-between text-xs text-gray-400">
+      <div class="flex items-center gap-2">
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-        Sistema Operacional (PWA Ativo)
-      </span>
-      <span id="data-atual"></span>
+        <span class="font-medium text-gray-300">Modo PWA Offline / Ativo</span>
+      </div>
+      <span id="data-hora-atual" class="text-gray-500"></span>
     </div>
 
-    <!-- Navegação de Abas -->
-    <div class="grid grid-cols-3 gap-2">
-      <button onclick="mudarAba('orcamento')" id="tab-orcamento" class="py-2.5 px-4 rounded-lg font-medium text-sm transition text-center bg-amber-600 text-white">
+    <!-- Navegação de Módulos -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <button onclick="abrirAba('dashboard')" id="btn-dashboard" class="py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-amber-600 text-white shadow">
+        Dashboard
+      </button>
+      <button onclick="abrirAba('orcamentos')" id="btn-orcamentos" class="py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-stone-800 text-gray-400 border border-stone-700">
         Orçamentos
       </button>
-      <button onclick="mudarAba('equipes')" id="tab-equipes" class="py-2.5 px-4 rounded-lg font-medium text-sm transition text-center bg-gray-800 text-gray-400">
-        Equipes
+      <button onclick="abrirAba('equipe')" id="btn-equipe" class="py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-stone-800 text-gray-400 border border-stone-700">
+        Equipe e Diárias
       </button>
-      <button onclick="mudarAba('faturamento')" id="tab-faturamento" class="py-2.5 px-4 rounded-lg font-medium text-sm transition text-center bg-gray-800 text-gray-400">
-        Faturamento
+      <button onclick="abrirAba('tabela')" id="btn-tabela" class="py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-stone-800 text-gray-400 border border-stone-700">
+        Tabela de Valores
       </button>
     </div>
 
-    <!-- Painel 1: Orçamentos -->
-    <section id="sec-orcamento" class="space-y-4">
-      <div class="card rounded-xl p-5 space-y-4">
-        <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
-          <i data-feather="file-text" class="w-5 h-5"></i> Novo Orçamento de Serviço
-        </h2>
+    <!-- ABA 1: DASHBOARD -->
+    <section id="aba-dashboard" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="wood-card p-5 rounded-xl border border-stone-700">
+          <span class="text-xs text-gray-400 block font-medium">Total de Orçamentos</span>
+          <span id="dash-total-orcado" class="text-2xl font-black text-amber-500">R$ 0,00</span>
+        </div>
+        <div class="wood-card p-5 rounded-xl border border-stone-700">
+          <span class="text-xs text-gray-400 block font-medium">Obras Cadastradas</span>
+          <span id="dash-total-obras" class="text-2xl font-black text-emerald-400">0</span>
+        </div>
+        <div class="wood-card p-5 rounded-xl border border-stone-700">
+          <span class="text-xs text-gray-400 block font-medium">Equipe Ativa</span>
+          <span id="dash-total-equipe" class="text-2xl font-black text-blue-400">0</span>
+        </div>
+      </div>
+    </section>
 
+    <!-- ABA 2: ORÇAMENTOS -->
+    <section id="aba-orcamentos" class="space-y-6 hidden">
+      <div class="wood-card p-5 rounded-xl space-y-4">
+        <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
+          <i data-feather="plus-circle" class="w-5 h-5"></i> Gerar Novo Orçamento
+        </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div>
-            <label class="block text-gray-400 mb-1">Nome do Cliente</label>
-            <input type="text" id="cliente-nome" placeholder="Ex: João da Silva" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
+            <label class="block text-gray-400 mb-1 text-xs">Cliente</label>
+            <input type="text" id="orc-cliente" placeholder="Nome do Cliente" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white">
           </div>
           <div>
-            <label class="block text-gray-400 mb-1">Tipo de Serviço</label>
-            <select id="cliente-servico" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
-              <option value="Alvenaria / Estrutural">Alvenaria / Estrutural</option>
-              <option value="Revestimento / Porcelanato">Revestimento / Porcelanato</option>
-              <option value="Rede Elétrica Residencial">Rede Elétrica Residencial</option>
-              <option value="Instalações Hidráulicas">Instalações Hidráulicas</option>
-              <option value="Reformas e Acabamento">Reformas Geral</option>
+            <label class="block text-gray-400 mb-1 text-xs">Tipo de Obra / Serviço</label>
+            <select id="orc-servico" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white">
+              <option value="Construção Bruta / Alvenaria">Construção Bruta / Alvenaria</option>
+              <option value="Colocação de Porcelanato / Mosaico">Colocação de Porcelanato / Mosaico</option>
+              <option value="Instalação Elétrica Residencial">Instalação Elétrica Residencial</option>
+              <option value="Rede Hidráulica">Rede Hidráulica</option>
+              <option value="Reforma Geral e Acabamento">Reforma Geral e Acabamento</option>
             </select>
           </div>
           <div>
-            <label class="block text-gray-400 mb-1">Valor Estimado (R$)</label>
-            <input type="number" id="cliente-valor" placeholder="0,00" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
+            <label class="block text-gray-400 mb-1 text-xs">Valor Total (R$)</label>
+            <input type="number" id="orc-valor" placeholder="0.00" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white">
           </div>
           <div>
-            <label class="block text-gray-400 mb-1">Prazo Estimado (Dias)</label>
-            <input type="number" id="cliente-prazo" placeholder="Ex: 15" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-500">
+            <label class="block text-gray-400 mb-1 text-xs">Prazo Estimado (Dias)</label>
+            <input type="number" id="orc-prazo" placeholder="Ex: 10" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white">
           </div>
         </div>
-
-        <button onclick="adicionarOrcamento()" class="w-full btn-primary py-2.5 rounded-lg font-semibold flex items-center justify-center gap-2">
-          <i data-feather="plus-circle" class="w-4 h-4"></i> Adicionar Orçamento
+        <button onclick="adicionarOrcamento()" class="w-full btn-amber py-3 rounded-lg font-bold flex items-center justify-center gap-2 text-sm shadow">
+          <i data-feather="check-circle" class="w-4 h-4"></i> Salvar Orçamento
         </button>
       </div>
 
       <!-- Lista de Orçamentos -->
-      <div class="card rounded-xl p-5 space-y-3">
-        <h3 class="text-sm font-bold text-gray-300 uppercase tracking-wider">Orçamentos Cadastrados</h3>
-        <div id="lista-orcamentos" class="space-y-2 text-sm">
-          <p class="text-gray-500 text-xs italic">Nenhum orçamento registrado ainda.</p>
-        </div>
+      <div class="wood-card p-5 rounded-xl space-y-3">
+        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Histórico de Orçamentos</h3>
+        <div id="lista-orcamentos" class="space-y-2 text-sm"></div>
       </div>
     </section>
 
-    <!-- Painel 2: Equipes -->
-    <section id="sec-equipes" class="space-y-4 hidden">
-      <div class="card rounded-xl p-5 space-y-4">
+    <!-- ABA 3: EQUIPE E DIÁRIAS -->
+    <section id="aba-equipe" class="space-y-6 hidden">
+      <div class="wood-card p-5 rounded-xl space-y-4">
         <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
-          <i data-feather="users" class="w-5 h-5"></i> Equipes & Colaboradores
+          <i data-feather="users" class="w-5 h-5"></i> Cadastrar Colaborador
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <input type="text" id="eq-nome" placeholder="Nome do colaborador" class="bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-white">
-          <input type="text" id="eq-funcao" placeholder="Função (Pedreiro, Ajudante...)" class="bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-white">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div>
+            <label class="block text-gray-400 mb-1 text-xs">Nome</label>
+            <input type="text" id="eq-nome" placeholder="Nome do profissional" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white">
+          </div>
+          <div>
+            <label class="block text-gray-400 mb-1 text-xs">Função</label>
+            <input type="text" id="eq-funcao" placeholder="Ex: Pedreiro, Ajudante" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white">
+          </div>
+          <div>
+            <label class="block text-gray-400 mb-1 text-xs">Valor Diária (R$)</label>
+            <input type="number" id="eq-diaria" placeholder="0.00" class="w-full bg-stone-900 border border-stone-700 rounded-lg p-2.5 text-white">
+          </div>
         </div>
-        <button onclick="adicionarColaborador()" class="w-full btn-primary py-2.5 rounded-lg font-semibold flex items-center justify-center gap-2">
-          <i data-feather="user-plus" class="w-4 h-4"></i> Cadastrar Colaborador
+        <button onclick="adicionarEquipe()" class="w-full btn-amber py-3 rounded-lg font-bold flex items-center justify-center gap-2 text-sm shadow">
+          <i data-feather="user-plus" class="w-4 h-4"></i> Adicionar à Equipe
         </button>
       </div>
-      <div class="card rounded-xl p-5 space-y-3">
-        <h3 class="text-sm font-bold text-gray-300 uppercase tracking-wider">Equipe Cadastrada</h3>
-        <div id="lista-equipe" class="space-y-2 text-sm">
-          <p class="text-gray-500 text-xs italic">Nenhum colaborador registrado.</p>
-        </div>
+
+      <div class="wood-card p-5 rounded-xl space-y-3">
+        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Membros da Equipe</h3>
+        <div id="lista-equipe" class="space-y-2 text-sm"></div>
       </div>
     </section>
 
-    <!-- Painel 3: Faturamento -->
-    <section id="sec-faturamento" class="space-y-4 hidden">
-      <div class="card rounded-xl p-5 space-y-4">
+    <!-- ABA 4: TABELA DE VALORES BASE -->
+    <section id="aba-tabela" class="space-y-6 hidden">
+      <div class="wood-card p-5 rounded-xl space-y-4">
         <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
-          <i data-feather="dollar-sign" class="w-5 h-5"></i> Resumo Financeiro
+          <i data-feather="list" class="w-5 h-5"></i> Tabela de Referência de Serviços
         </h2>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <span class="text-xs text-gray-400 block">Total em Orçamentos</span>
-            <span id="total-orcado" class="text-xl font-bold text-emerald-400">R$ 0,00</span>
-          </div>
-          <div class="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <span class="text-xs text-gray-400 block">Obras em Andamento</span>
-            <span id="total-obras" class="text-xl font-bold text-amber-400">0</span>
-          </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-gray-300">
+            <thead class="bg-stone-900 text-amber-500 text-xs uppercase">
+              <tr>
+                <th class="p-3">Serviço / Especialidade</th>
+                <th class="p-3">Unidade</th>
+                <th class="p-3">Valor Estimado Base</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-800">
+              <tr>
+                <td class="p-3">Alvenaria de Vedação / Bloco</td>
+                <td class="p-3">m²</td>
+                <td class="p-3 font-bold text-emerald-400">R$ 55,00 - R$ 85,00</td>
+              </tr>
+              <tr>
+                <td class="p-3">Assentamento de Porcelanato</td>
+                <td class="p-3">m²</td>
+                <td class="p-3 font-bold text-emerald-400">R$ 70,00 - R$ 120,00</td>
+              </tr>
+              <tr>
+                <td class="p-3">Ponto de Elétrica Residencial</td>
+                <td class="p-3">Unidade</td>
+                <td class="p-3 font-bold text-emerald-400">R$ 60,00 - R$ 90,00</td>
+              </tr>
+              <tr>
+                <td class="p-3">Instalação Hidráulica Completa</td>
+                <td class="p-3">Ponto</td>
+                <td class="p-3 font-bold text-emerald-400">R$ 150,00 - R$ 250,00</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
@@ -155,115 +206,122 @@
   </main>
 
   <script>
-    // Inicialização
+    // Inicializar ícones e data
     feather.replace();
-    document.getElementById('data-atual').innerText = new Date().toLocaleDateString('pt-BR');
+    document.getElementById('data-hora-atual').innerText = new Date().toLocaleDateString('pt-BR');
 
-    let dadosApp = JSON.parse(localStorage.getItem('cp_obras_dados')) || {
+    // Estrutura de dados local
+    let appData = JSON.parse(localStorage.getItem('cp_construcoes_db')) || {
       orcamentos: [],
       equipe: []
     };
 
-    function salvarDados() {
-      localStorage.setItem('cp_obras_dados', JSON.stringify(dadosApp));
-      alert('Dados salvos com sucesso!');
-      atualizarTelas();
+    function salvarTudo() {
+      localStorage.setItem('cp_construcoes_db', JSON.stringify(appData));
+      renderizarTelas();
+      alert('Dados salvos no dispositivo!');
     }
 
-    function mudarAba(aba) {
-      ['orcamento', 'equipes', 'faturamento'].forEach(a => {
-        document.getElementById(`sec-${a}`).classList.add('hidden');
-        document.getElementById(`tab-${a}`).className = "py-2.5 px-4 rounded-lg font-medium text-sm transition text-center bg-gray-800 text-gray-400";
+    function abrirAba(nomeAba) {
+      ['dashboard', 'orcamentos', 'equipe', 'tabela'].forEach(aba => {
+        document.getElementById(`aba-${aba}`).classList.add('hidden');
+        document.getElementById(`btn-${aba}`).className = "py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-stone-800 text-gray-400 border border-stone-700";
       });
-      document.getElementById(`sec-${aba}`).classList.remove('hidden');
-      document.getElementById(`tab-${aba}`).className = "py-2.5 px-4 rounded-lg font-medium text-sm transition text-center bg-amber-600 text-white";
+
+      document.getElementById(`aba-${nomeAba}`).classList.remove('hidden');
+      document.getElementById(`btn-${nomeAba}`).className = "py-3 px-4 rounded-xl font-bold text-xs md:text-sm transition text-center bg-amber-600 text-white shadow";
     }
 
     function adicionarOrcamento() {
-      const nome = document.getElementById('cliente-nome').value;
-      const servico = document.getElementById('cliente-servico').value;
-      const valor = parseFloat(document.getElementById('cliente-valor').value) || 0;
-      const prazo = document.getElementById('cliente-prazo').value;
+      const cliente = document.getElementById('orc-cliente').value;
+      const servico = document.getElementById('orc-servico').value;
+      const valor = parseFloat(document.getElementById('orc-valor').value) || 0;
+      const prazo = document.getElementById('orc-prazo').value;
 
-      if(!nome) return alert('Informe o nome do cliente');
+      if(!cliente) return alert('Por favor, informe o nome do cliente.');
 
-      dadosApp.orcamentos.push({ id: Date.now(), nome, servico, valor, prazo });
-      document.getElementById('cliente-nome').value = '';
-      document.getElementById('cliente-valor').value = '';
-      document.getElementById('cliente-prazo').value = '';
+      appData.orcamentos.push({ id: Date.now(), cliente, servico, valor, prazo });
       
-      salvarDados();
+      document.getElementById('orc-cliente').value = '';
+      document.getElementById('orc-valor').value = '';
+      document.getElementById('orc-prazo').value = '';
+
+      salvarTudo();
     }
 
-    function adicionarColaborador() {
+    function adicionarEquipe() {
       const nome = document.getElementById('eq-nome').value;
       const funcao = document.getElementById('eq-funcao').value;
+      const diaria = parseFloat(document.getElementById('eq-diaria').value) || 0;
 
-      if(!nome) return alert('Informe o nome do colaborador');
+      if(!nome) return alert('Por favor, informe o nome do colaborador.');
 
-      dadosApp.equipe.push({ id: Date.now(), nome, funcao });
+      appData.equipe.push({ id: Date.now(), nome, funcao, diaria });
+
       document.getElementById('eq-nome').value = '';
       document.getElementById('eq-funcao').value = '';
-      
-      salvarDados();
+      document.getElementById('eq-diaria').value = '';
+
+      salvarTudo();
     }
 
-    function removerItem(tipo, id) {
+    function removerRegistro(tipo, id) {
       if(tipo === 'orcamento') {
-        dadosApp.orcamentos = dadosApp.orcamentos.filter(i => i.id !== id);
+        appData.orcamentos = appData.orcamentos.filter(i => i.id !== id);
       } else {
-        dadosApp.equipe = dadosApp.equipe.filter(i => i.id !== id);
+        appData.equipe = appData.equipe.filter(i => i.id !== id);
       }
-      salvarDados();
+      salvarTudo();
     }
 
-    function atualizarTelas() {
-      // Lista de Orçamentos
+    function renderizarTelas() {
+      // Atualizar Dashboard
+      const totalOrcado = appData.orcamentos.reduce((acc, curr) => acc + curr.valor, 0);
+      document.getElementById('dash-total-orcado').innerText = `R$ ${totalOrcado.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+      document.getElementById('dash-total-obras').innerText = appData.orcamentos.length;
+      document.getElementById('dash-total-equipe').innerText = appData.equipe.length;
+
+      // Renderizar Orçamentos
       const containerOrc = document.getElementById('lista-orcamentos');
-      if(dadosApp.orcamentos.length === 0) {
-        containerOrc.innerHTML = '<p class="text-gray-500 text-xs italic">Nenhum orçamento registrado ainda.</p>';
+      if(appData.orcamentos.length === 0) {
+        containerOrc.innerHTML = '<p class="text-gray-500 text-xs italic">Nenhum orçamento cadastrado.</p>';
       } else {
-        containerOrc.innerHTML = dadosApp.orcamentos.map(o => `
-          <div class="bg-gray-900 p-3 rounded-lg flex items-center justify-between border border-gray-700">
+        containerOrc.innerHTML = appData.orcamentos.map(o => `
+          <div class="bg-stone-900 p-3 rounded-lg flex items-center justify-between border border-stone-800">
             <div>
-              <p class="font-bold text-white">${o.nome} <span class="text-xs text-amber-500 font-normal">(${o.servico})</span></p>
+              <p class="font-bold text-white">${o.cliente} <span class="text-xs text-amber-500 font-normal">(${o.servico})</span></p>
               <p class="text-xs text-gray-400">Valor: <strong class="text-emerald-400">R$ ${o.valor.toFixed(2)}</strong> | Prazo: ${o.prazo} dias</p>
             </div>
-            <button onclick="removerItem('orcamento', ${o.id})" class="text-red-400 hover:text-red-300 p-1">
+            <button onclick="removerRegistro('orcamento', ${o.id})" class="text-red-400 hover:text-red-300 p-1">
               <i data-feather="trash-2" class="w-4 h-4"></i>
             </button>
           </div>
         `).join('');
       }
 
-      // Lista de Equipe
+      // Renderizar Equipe
       const containerEq = document.getElementById('lista-equipe');
-      if(dadosApp.equipe.length === 0) {
-        containerEq.innerHTML = '<p class="text-gray-500 text-xs italic">Nenhum colaborador registrado.</p>';
+      if(appData.equipe.length === 0) {
+        containerEq.innerHTML = '<p class="text-gray-500 text-xs italic">Nenhum colaborador cadastrado.</p>';
       } else {
-        containerEq.innerHTML = dadosApp.equipe.map(e => `
-          <div class="bg-gray-900 p-3 rounded-lg flex items-center justify-between border border-gray-700">
+        containerEq.innerHTML = appData.equipe.map(e => `
+          <div class="bg-stone-900 p-3 rounded-lg flex items-center justify-between border border-stone-800">
             <div>
-              <p class="font-bold text-white">${e.nome}</p>
-              <p class="text-xs text-gray-400">${e.funcao}</p>
+              <p class="font-bold text-white">${e.nome} <span class="text-xs text-amber-500">(${e.funcao})</span></p>
+              <p class="text-xs text-gray-400">Diária: <strong class="text-emerald-400">R$ ${e.diaria.toFixed(2)}</strong></p>
             </div>
-            <button onclick="removerItem('equipe', ${e.id})" class="text-red-400 hover:text-red-300 p-1">
+            <button onclick="removerRegistro('equipe', ${e.id})" class="text-red-400 hover:text-red-300 p-1">
               <i data-feather="trash-2" class="w-4 h-4"></i>
             </button>
           </div>
         `).join('');
       }
-
-      // Faturamento
-      const total = dadosApp.orcamentos.reduce((acc, curr) => acc + curr.valor, 0);
-      document.getElementById('total-orcado').innerText = `R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-      document.getElementById('total-obras').innerText = dadosApp.orcamentos.length;
 
       feather.replace();
     }
 
-    // Carregar telas na primeira execução
-    atualizarTelas();
+    // Inicialização
+    renderizarTelas();
   </script>
 </body>
 </html>
