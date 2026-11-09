@@ -71,7 +71,7 @@
 
   <main class="max-w-6xl mx-auto px-4 pt-6 space-y-6">
 
-    <!-- SEÇÃO 1: PAINEL -->
+    <!-- SEÇÃO 1: PAINEL DE CONTROLE -->
     <section id="sec-painel" class="space-y-6">
       <div class="wood-card rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-l-8 border-amber-800">
         <div>
@@ -133,29 +133,45 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 3: EQUIPE -->
+    <!-- SEÇÃO 3: EQUIPE E DIÁRIAS DETALHADAS -->
     <section id="sec-equipe" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2"><i data-feather="user-check" class="w-5 h-5 text-amber-800"></i> Cadastro de Equipe & Diárias</h2>
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2"><i data-feather="user-check" class="w-5 h-5 text-amber-800"></i> Cadastro de Colaborador</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <input type="text" id="eq-nome" placeholder="Nome do Colaborador" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
           <input type="text" id="eq-funcao" placeholder="Função (Pedreiro, Ajudante...)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
           <input type="number" id="eq-diaria" placeholder="Valor da Diária (R$)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
         </div>
-        <button onclick="adicionarEquipe()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Adicionar Colaborador</button>
+        <button onclick="adicionarEquipe()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Cadastrar Profissional</button>
       </div>
+
+      <!-- Registro de Diárias Trabalhadas -->
+      <div class="wood-card rounded-2xl p-6 space-y-4 border-l-4 border-amber-600">
+        <h3 class="text-sm font-bold text-stone-800 uppercase tracking-wider flex items-center gap-2">
+          <i data-feather="calendar" class="w-4 h-4 text-amber-800"></i> Registrar Dias Trabalhados / Apontamento de Campo
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+          <select id="diaria-colaborador" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800 md:col-span-2">
+            <option value="">Selecione o Colaborador...</option>
+          </select>
+          <input type="date" id="diaria-data" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          <input type="number" id="diaria-qtd" placeholder="Qtd. Dias (Ex: 1 ou 0.5)" step="0.5" value="1" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+        </div>
+        <button onclick="registrarDiaria()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow flex items-center justify-center gap-2">
+          <i data-feather="check" class="w-4 h-4"></i> Salvar Apontamento
+        </button>
+      </div>
+
       <div class="wood-card rounded-2xl p-6 space-y-3">
-        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Colaboradores Ativos</h3>
-        <div id="lista-equipe-cadastrada" class="space-y-2 text-sm"></div>
+        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Folha de Colaboradores & Apontamentos</h3>
+        <div id="lista-equipe-cadastrada" class="space-y-3 text-sm"></div>
       </div>
     </section>
 
-    <!-- SEÇÃO 4: TABELA SINAPI COMPLETA (REFORMA E CONSTRUÇÃO) -->
+    <!-- SEÇÃO 4: TABELA SINAPI / SP COMPLETA -->
     <section id="sec-tabelas" class="space-y-8 hidden">
       
-      <!-- PLANILHA DE REFORMA SINAPI SP COMPLETA -->
       <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-indigo-200 space-y-6 p-6">
-        
         <div class="sinapi-header rounded-xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h2 class="text-xl font-bold tracking-tight text-white">Tabela de Reforma e Serviços Gerais (SINAPI)</h2>
@@ -168,7 +184,6 @@
           </div>
         </div>
 
-        <!-- Cards Superiores -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div class="sinapi-card p-4 rounded-xl text-center">
             <span class="text-[10px] font-bold uppercase tracking-wider block text-indigo-900">Média Reforma Geral / m²</span>
@@ -188,7 +203,7 @@
           </div>
         </div>
 
-        <!-- Etapa 1: Demolições -->
+        <!-- Etapa 1 -->
         <div class="space-y-2">
           <div class="sinapi-section-header px-4 py-2.5 rounded-lg flex justify-between items-center text-xs font-bold uppercase tracking-wider">
             <span>Etapa 1: Demolições, Retiradas e Preparação do Canteiro</span>
@@ -216,7 +231,7 @@
           </div>
         </div>
 
-        <!-- Etapa 2: Alvenaria e Paredes -->
+        <!-- Etapa 2 -->
         <div class="space-y-2">
           <div class="sinapi-section-header px-4 py-2.5 rounded-lg flex justify-between items-center text-xs font-bold uppercase tracking-wider">
             <span>Etapa 2: Alvenaria de Vedação, Divisórias e Estrutura de Apoio</span>
@@ -242,7 +257,7 @@
           </div>
         </div>
 
-        <!-- Etapa 3: Revestimentos e Acabamentos -->
+        <!-- Etapa 3 -->
         <div class="space-y-2">
           <div class="sinapi-section-header px-4 py-2.5 rounded-lg flex justify-between items-center text-xs font-bold uppercase tracking-wider">
             <span>Etapa 3: Revestimentos de Paredes, Pisos, Porcelanatos & Mosaicos</span>
@@ -271,7 +286,7 @@
           </div>
         </div>
 
-        <!-- Etapa 4: Instalações e Pintura -->
+        <!-- Etapa 4 -->
         <div class="space-y-2">
           <div class="sinapi-section-header px-4 py-2.5 rounded-lg flex justify-between items-center text-xs font-bold uppercase tracking-wider">
             <span>Etapa 4: Instalações Elétricas, Hidráulicas, Sanitárias e Pintura</span>
@@ -303,7 +318,7 @@
 
       </div>
 
-      <!-- PLANILHA 2: CONSTRUÇÃO DO ZERO (FUNDAÇÃO À ENTREGA) -->
+      <!-- PLANILHA DE CONSTRUÇÃO DO ZERO -->
       <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-amber-200 space-y-6 p-6">
         <div class="wood-header rounded-xl p-5 text-white flex justify-between items-center">
           <div>
@@ -337,26 +352,45 @@
 
     </section>
 
-    <!-- SEÇÃO 5: ORÇAMENTOS -->
+    <!-- SEÇÃO 5: ORÇAMENTOS DETALHADOS -->
     <section id="sec-orcamentos" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2"><i data-feather="file-text" class="w-5 h-5 text-amber-800"></i> Gerador de Orçamento</h2>
+        <h2 class="text-lg font-bold text-stone-800 flex items-center gap-2"><i data-feather="file-text" class="w-5 h-5 text-amber-800"></i> Criar Orçamento Detalhado por Itens</h2>
+        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <input type="text" id="orc-cliente" placeholder="Nome do Cliente" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
-          <select id="orc-servico" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
-            <option value="Construção Nova / Estrutural">Construção Nova / Estrutural</option>
-            <option value="Reforma Geral / Alvenaria">Reforma Geral / Alvenaria</option>
-            <option value="Porcelanato / Acabamento Fino">Porcelanato / Acabamento Fino</option>
-            <option value="Instalação Elétrica Residencial">Instalação Elétrica Residencial</option>
-            <option value="Rede Hidráulica">Rede Hidráulica</option>
-          </select>
-          <input type="number" id="orc-valor" placeholder="Valor Total (R$)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
-          <input type="number" id="orc-prazo" placeholder="Prazo (Dias Úteis)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
+          <input type="number" id="orc-prazo" placeholder="Prazo Estimado (Dias Úteis)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
         </div>
-        <button onclick="adicionarOrcamento()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Salvar Orçamento</button>
+
+        <!-- Adicionar Item ao Orçamento -->
+        <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-3">
+          <h3 class="text-xs font-bold text-stone-700 uppercase">Adicionar Item de Serviço</h3>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
+            <input type="text" id="item-desc" placeholder="Descrição do Serviço (Ex: Assentamento porcelanato)" class="bg-white border border-stone-300 rounded-lg p-2.5 md:col-span-2">
+            <input type="number" id="item-qtd" placeholder="Qtd / m²" class="bg-white border border-stone-300 rounded-lg p-2.5">
+            <input type="number" id="item-val" placeholder="Valor Unitário (R$)" class="bg-white border border-stone-300 rounded-lg p-2.5">
+          </div>
+          <button onclick="adicionarItemOrcamento()" class="btn-wood text-xs px-4 py-2.5 rounded-lg font-bold flex items-center gap-1.5">
+            <i data-feather="plus" class="w-3.5 h-3.5"></i> Incluir Item
+          </button>
+        </div>
+
+        <!-- Lista de Itens do Orçamento Atual -->
+        <div class="space-y-2">
+          <h4 class="text-xs font-bold text-stone-600 uppercase">Itens Incluídos no Orçamento Atual:</h4>
+          <div id="itens-orcamento-temp" class="space-y-1.5 text-xs text-stone-500 italic">
+            Nenhum item incluído.
+          </div>
+          <div class="text-right text-sm font-bold text-stone-800 pt-2 border-t border-stone-200">
+            Total Orçamento: <span id="total-orcamento-temp" class="text-emerald-700">R$ 0,00</span>
+          </div>
+        </div>
+
+        <button onclick="salvarOrcamentoCompleto()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow w-full">Finalizar & Salvar Orçamento</button>
       </div>
+
       <div class="wood-card rounded-2xl p-6 space-y-3">
-        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Orçamentos Emitidos</h3>
+        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Histórico de Orçamentos Emitidos</h3>
         <div id="lista-orcamentos-emitidos" class="space-y-2 text-sm"></div>
       </div>
     </section>
@@ -395,7 +429,7 @@
             <input type="text" value="35.000.000/0001-00" class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-800">
           </div>
         </div>
-        <button onclick="alert('Configurações salvas com sucesso!')" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Salvar Configurações</button>
+        <button onclick="alert('Configurações salvas!')" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Salvar Configurações</button>
       </div>
     </section>
 
@@ -404,12 +438,15 @@
   <script>
     feather.replace();
 
-    let sistemaDb = JSON.parse(localStorage.getItem('cp_sistema_completo_db')) || {
+    let sistemaDb = JSON.parse(localStorage.getItem('cp_sistema_completo_db_v3')) || {
       clientes: [],
       equipe: [],
+      diarias: [],
       orcamentos: [],
       caixa: []
     };
+
+    let itensTempOrcamento = [];
 
     function mudarAba(abaDestino) {
       ['painel', 'clientes', 'equipe', 'tabelas', 'orcamentos', 'caixa', 'empresa'].forEach(aba => {
@@ -422,7 +459,7 @@
     }
 
     function salvarDados() {
-      localStorage.setItem('cp_sistema_completo_db', JSON.stringify(sistemaDb));
+      localStorage.setItem('cp_sistema_completo_db_v3', JSON.stringify(sistemaDb));
       renderizarTudo();
     }
 
@@ -450,17 +487,90 @@
       salvarDados();
     }
 
-    function adicionarOrcamento() {
+    function registrarDiaria() {
+      const colabId = document.getElementById('diaria-colaborador').value;
+      const data = document.getElementById('diaria-data').value;
+      const qtd = parseFloat(document.getElementById('diaria-qtd').value) || 1;
+
+      if(!colabId || !data) return alert('Selecione o colaborador e a data.');
+
+      const colab = sistemaDb.equipe.find(e => e.id == colabId);
+      if(!colab) return;
+
+      const valorTotal = colab.diaria * qtd;
+      sistemaDb.diarias.push({ id: Date.now(), colabId, colabNome: colab.nome, data, qtd, valorTotal });
+      
+      // Registrar despesa automática no Caixa
+      sistemaDb.caixa.push({ id: Date.now(), desc: `Diária (${qtd}d) - ${colab.nome}`, valor: valorTotal, tipo: 'saida' });
+
+      alert('Apontamento de diária registrado!');
+      salvarDados();
+    }
+
+    function adicionarItemOrcamento() {
+      const desc = document.getElementById('item-desc').value;
+      const qtd = parseFloat(document.getElementById('item-qtd').value) || 0;
+      const val = parseFloat(document.getElementById('item-val').value) || 0;
+
+      if(!desc || qtd <= 0 || val <= 0) return alert('Informe a descrição, quantidade e valor unitário.');
+
+      const totalItem = qtd * val;
+      itensTempOrcamento.push({ desc, qtd, val, totalItem });
+
+      document.getElementById('item-desc').value = '';
+      document.getElementById('item-qtd').value = '';
+      document.getElementById('item-val').value = '';
+
+      renderizarItensTemp();
+    }
+
+    function renderizarItensTemp() {
+      const container = document.getElementById('itens-orcamento-temp');
+      const totalSpan = document.getElementById('total-orcamento-temp');
+
+      if(itensTempOrcamento.length === 0) {
+        container.innerHTML = 'Nenhum item incluído.';
+        totalSpan.innerText = 'R$ 0,00';
+        return;
+      }
+
+      let total = 0;
+      container.innerHTML = itensTempOrcamento.map((item, index) => {
+        total += item.totalItem;
+        return `
+          <div class="bg-white p-2 rounded border border-stone-200 flex justify-between items-center text-stone-700">
+            <span><strong>${item.desc}</strong> (${item.qtd}x R$ ${item.val.toFixed(2)})</span>
+            <span class="font-bold text-stone-900">R$ ${item.totalItem.toFixed(2)}</span>
+          </div>
+        `;
+      }).join('');
+
+      totalSpan.innerText = `R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+    }
+
+    function salvarOrcamentoCompleto() {
       const cliente = document.getElementById('orc-cliente').value;
-      const servico = document.getElementById('orc-servico').value;
-      const valor = parseFloat(document.getElementById('orc-valor').value) || 0;
       const prazo = document.getElementById('orc-prazo').value;
+
       if(!cliente) return alert('Informe o cliente');
-      sistemaDb.orcamentos.push({ id: Date.now(), cliente, servico, valor, prazo });
-      sistemaDb.caixa.push({ id: Date.now(), desc: `Orçamento / Obra - ${cliente}`, valor, tipo: 'entrada' });
+      if(itensTempOrcamento.length === 0) return alert('Adicione pelo menos um item ao orçamento');
+
+      const valorTotal = itensTempOrcamento.reduce((acc, i) => acc + i.totalItem, 0);
+
+      sistemaDb.orcamentos.push({
+        id: Date.now(),
+        cliente,
+        prazo,
+        valorTotal,
+        itens: [...itensTempOrcamento]
+      });
+
+      sistemaDb.caixa.push({ id: Date.now(), desc: `Orçamento Aprovado - ${cliente}`, valor: valorTotal, tipo: 'entrada' });
+
       document.getElementById('orc-cliente').value = '';
-      document.getElementById('orc-valor').value = '';
       document.getElementById('orc-prazo').value = '';
+      itensTempOrcamento = [];
+      renderizarItensTemp();
       salvarDados();
     }
 
@@ -484,6 +594,11 @@
     }
 
     function renderizarTudo() {
+      // Atualizar Select de Colaboradores
+      const selectColab = document.getElementById('diaria-colaborador');
+      selectColab.innerHTML = '<option value="">Selecione o Colaborador...</option>' + sistemaDb.equipe.map(e => `<option value="${e.id}">${e.nome} (${e.funcao}) - R$ ${e.diaria.toFixed(2)}/dia</option>`).join('');
+
+      // Métricas Dashboard
       const totalObras = sistemaDb.orcamentos.length;
       const totalEntradas = sistemaDb.caixa.filter(i => i.tipo === 'entrada').reduce((acc, curr) => acc + curr.valor, 0);
       const totalSaidas = sistemaDb.caixa.filter(i => i.tipo === 'saida').reduce((acc, curr) => acc + curr.valor, 0);
@@ -500,12 +615,13 @@
       } else {
         painelRecente.innerHTML = sistemaDb.orcamentos.slice(-3).reverse().map(o => `
           <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 flex justify-between items-center text-xs text-stone-800">
-            <span><strong>${o.cliente}</strong> — ${o.servico} (${o.prazo} dias)</span>
-            <span class="text-emerald-700 font-bold">R$ ${o.valor.toFixed(2)}</span>
+            <span><strong>${o.cliente}</strong> — ${o.itens.length} itens (${o.prazo} dias)</span>
+            <span class="text-emerald-700 font-bold">R$ ${o.valorTotal.toFixed(2)}</span>
           </div>
         `).join('');
       }
 
+      // Renderizar Clientes
       document.getElementById('lista-clientes-cadastrados').innerHTML = sistemaDb.clientes.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum cliente cadastrado.</p>' : sistemaDb.clientes.map(c => `
         <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
           <div><p class="font-bold text-stone-800">${c.nome}</p><p class="text-xs text-stone-500">Tel: ${c.tel} | End: ${c.end}</p></div>
@@ -513,20 +629,45 @@
         </div>
       `).join('');
 
-      document.getElementById('lista-equipe-cadastrada').innerHTML = sistemaDb.equipe.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum colaborador cadastrado.</p>' : sistemaDb.equipe.map(e => `
-        <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
-          <div><p class="font-bold text-stone-800">${e.nome} <span class="text-xs text-amber-800 font-normal">(${e.funcao})</span></p><p class="text-xs text-stone-500">Diária: R$ ${e.diaria.toFixed(2)}</p></div>
-          <button onclick="removerItem('equipe', ${e.id})" class="text-rose-600 hover:text-rose-800 text-xs font-bold">Excluir</button>
-        </div>
-      `).join('');
+      // Renderizar Equipe com Diárias
+      document.getElementById('lista-equipe-cadastrada').innerHTML = sistemaDb.equipe.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum colaborador cadastrado.</p>' : sistemaDb.equipe.map(e => {
+        const diColab = sistemaDb.diarias.filter(d => d.colabId == e.id);
+        const totalDias = diColab.reduce((acc, curr) => acc + curr.qtd, 0);
+        const totalPago = diColab.reduce((acc, curr) => acc + curr.valorTotal, 0);
 
+        return `
+          <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-2">
+            <div class="flex justify-between items-center">
+              <div>
+                <p class="font-bold text-stone-800">${e.nome} <span class="text-xs text-amber-800 font-normal">(${e.funcao})</span></p>
+                <p class="text-xs text-stone-500">Valor Diária: R$ ${e.diaria.toFixed(2)} | Total Dias Apontados: <strong>${totalDias} dias</strong></p>
+              </div>
+              <div class="text-right">
+                <span class="text-xs font-bold text-rose-700 block">Acumulado: R$ ${totalPago.toFixed(2)}</span>
+                <button onclick="removerItem('equipe', ${e.id})" class="text-rose-600 hover:text-rose-800 text-xs font-bold">Excluir</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Renderizar Orçamentos
       document.getElementById('lista-orcamentos-emitidos').innerHTML = sistemaDb.orcamentos.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum orçamento emitido.</p>' : sistemaDb.orcamentos.map(o => `
-        <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
-          <div><p class="font-bold text-stone-800">${o.cliente} <span class="text-xs text-amber-800 font-normal">(${o.servico})</span></p><p class="text-xs text-stone-500">Valor: R$ ${o.valor.toFixed(2)} | Prazo: ${o.prazo} dias</p></div>
-          <button onclick="removerItem('orcamento', ${o.id})" class="text-rose-600 hover:text-rose-800 text-xs font-bold">Excluir</button>
+        <div class="bg-stone-50 p-4 rounded-xl space-y-2 border border-stone-200">
+          <div class="flex justify-between items-center">
+            <p class="font-bold text-stone-800">${o.cliente} <span class="text-xs text-stone-500">(${o.prazo} dias úteis)</span></p>
+            <span class="font-bold text-emerald-700 text-sm">Total: R$ ${o.valorTotal.toFixed(2)}</span>
+          </div>
+          <div class="space-y-1">
+            ${o.itens.map(i => `<p class="text-xs text-stone-600 border-b border-stone-200 pb-1">• ${i.desc} - ${i.qtd}x R$ ${i.val.toFixed(2)} = <strong>R$ ${i.totalItem.toFixed(2)}</strong></p>`).join('')}
+          </div>
+          <div class="text-right pt-1">
+            <button onclick="removerItem('orcamento', ${o.id})" class="text-rose-600 text-xs font-bold">Excluir Orçamento</button>
+          </div>
         </div>
       `).join('');
 
+      // Renderizar Caixa
       document.getElementById('lista-caixa-historico').innerHTML = sistemaDb.caixa.length === 0 ? '<p class="text-stone-400 text-xs italic">Nenhum lançamento no caixa.</p>' : sistemaDb.caixa.map(cx => `
         <div class="bg-stone-50 p-3 rounded-xl flex justify-between items-center border border-stone-200">
           <div><p class="font-bold text-stone-800">${cx.desc}</p><p class="text-xs ${cx.tipo === 'entrada' ? 'text-emerald-700' : 'text-rose-700'} font-bold">${cx.tipo === 'entrada' ? '+' : '-'} R$ ${cx.valor.toFixed(2)}</p></div>
