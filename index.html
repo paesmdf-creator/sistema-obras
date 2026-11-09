@@ -23,7 +23,6 @@
     .tab-inactive { background-color: rgba(255,255,255,0.1); color: #e6dcd0; }
     .tab-inactive:hover { background-color: rgba(255,255,255,0.2); }
     
-    /* Estilo igual à imagem da Planilha SINAPI */
     .sinapi-header { background-color: #1e1b4b; color: #ffffff; }
     .sinapi-card { background-color: #f5f3ff; border: 1px solid #ddd6fe; color: #4c1d95; }
     .sinapi-section-header { background-color: #312e81; color: #ffffff; }
@@ -151,13 +150,12 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 4: TABELAS SINAPI COMPLETA (EXACTLY AS THE IMAGE) -->
+    <!-- SEÇÃO 4: TABELA SINAPI COMPLETA (REFORMA E CONSTRUÇÃO) -->
     <section id="sec-tabelas" class="space-y-8 hidden">
       
-      <!-- TABELA 1: PLANILHA DE REFORMA SINAPI SP -->
+      <!-- PLANILHA DE REFORMA SINAPI SP COMPLETA -->
       <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-indigo-200 space-y-6 p-6">
         
-        <!-- Header Roxo SINAPI -->
         <div class="sinapi-header rounded-xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h2 class="text-xl font-bold tracking-tight text-white">Tabela de Reforma e Serviços Gerais (SINAPI)</h2>
@@ -170,7 +168,7 @@
           </div>
         </div>
 
-        <!-- 4 Cards Superiores -->
+        <!-- Cards Superiores -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div class="sinapi-card p-4 rounded-xl text-center">
             <span class="text-[10px] font-bold uppercase tracking-wider block text-indigo-900">Média Reforma Geral / m²</span>
@@ -218,10 +216,36 @@
           </div>
         </div>
 
-        <!-- Etapa 2: Acabamento e Revestimentos -->
+        <!-- Etapa 2: Alvenaria e Paredes -->
         <div class="space-y-2">
           <div class="sinapi-section-header px-4 py-2.5 rounded-lg flex justify-between items-center text-xs font-bold uppercase tracking-wider">
-            <span>Etapa 2: Revestimentos Cerâmicos, Porcelanatos & Mosaicos</span>
+            <span>Etapa 2: Alvenaria de Vedação, Divisórias e Estrutura de Apoio</span>
+            <span class="bg-indigo-500 text-white px-2 py-0.5 rounded text-[10px]">Alvenaria</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-stone-700">
+              <thead class="bg-indigo-50 text-indigo-900 font-bold uppercase">
+                <tr>
+                  <th class="p-2.5">Item</th>
+                  <th class="p-2.5">Descrição do Serviço / Composição SINAPI</th>
+                  <th class="p-2.5">Unid.</th>
+                  <th class="p-2.5">Preço Un. (R$)</th>
+                  <th class="p-2.5">Faixa SP (R$)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-indigo-100">
+                <tr><td class="p-2.5 font-bold">2.1</td><td class="p-2.5">Alvenaria de vedação de tijolos cerâmicos furados (espessura 9cm)</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">58,00</td><td class="p-2.5 font-bold text-indigo-900">50,00 - 70,00</td></tr>
+                <tr><td class="p-2.5 font-bold">2.2</td><td class="p-2.5">Alvenaria de vedação com blocos de concreto estrutural/vedação (14x19x39cm)</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">75,00</td><td class="p-2.5 font-bold text-indigo-900">65,00 - 90,00</td></tr>
+                <tr><td class="p-2.5 font-bold">2.3</td><td class="p-2.5">Execução de verga e contraverga em concreto armado moldada in loco</td><td class="p-2.5">metro</td><td class="p-2.5 font-bold">35,00</td><td class="p-2.5 font-bold text-indigo-900">30,00 - 45,00</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Etapa 3: Revestimentos e Acabamentos -->
+        <div class="space-y-2">
+          <div class="sinapi-section-header px-4 py-2.5 rounded-lg flex justify-between items-center text-xs font-bold uppercase tracking-wider">
+            <span>Etapa 3: Revestimentos de Paredes, Pisos, Porcelanatos & Mosaicos</span>
             <span class="bg-indigo-500 text-white px-2 py-0.5 rounded text-[10px]">Acabamento Fino</span>
           </div>
           <div class="overflow-x-auto">
@@ -229,15 +253,49 @@
               <thead class="bg-indigo-50 text-indigo-900 font-bold uppercase">
                 <tr>
                   <th class="p-2.5">Item</th>
-                  <th class="p-2.5">Descrição do Serviço</th>
+                  <th class="p-2.5">Descrição do Serviço / Composição SINAPI</th>
                   <th class="p-2.5">Unid.</th>
                   <th class="p-2.5">Preço Un. (R$)</th>
                   <th class="p-2.5">Faixa SP (R$)</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-indigo-100">
-                <tr><td class="p-2.5 font-bold">2.1</td><td class="p-2.5">Assentamento de porcelanato em piso até 80x80cm (com rejuntamento)</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">85,00</td><td class="p-2.5 font-bold text-indigo-900">70,00 - 110,00</td></tr>
-                <tr><td class="p-2.5 font-bold">2.2</td><td class="p-2.5">Assentamento de revestimento 3D / Mosaico especial em parede</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">120,00</td><td class="p-2.5 font-bold text-indigo-900">95,00 - 150,00</td></tr>
+                <tr><td class="p-2.5 font-bold">3.1</td><td class="p-2.5">Chapisco aplicado em paredes e tetos (traço 1:3 com adesivo PVA)</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">12,00</td><td class="p-2.5 font-bold text-indigo-900">10,00 - 15,00</td></tr>
+                <tr><td class="p-2.5 font-bold">3.2</td><td class="p-2.5">Emboço ou massa única em argamassa mista aplicada em paredes internas/externas</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">42,00</td><td class="p-2.5 font-bold text-indigo-900">35,00 - 55,00</td></tr>
+                <tr><td class="p-2.5 font-bold">3.3</td><td class="p-2.5">Contrapiso em argamassa traço 1:4 (espessura média de 3cm)</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">38,00</td><td class="p-2.5 font-bold text-indigo-900">30,00 - 48,00</td></tr>
+                <tr><td class="p-2.5 font-bold">3.4</td><td class="p-2.5">Assentamento de piso cerâmico ou porcelanato formato até 80x80cm (argamassa AC-II/III)</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">85,00</td><td class="p-2.5 font-bold text-indigo-900">70,00 - 110,00</td></tr>
+                <tr><td class="p-2.5 font-bold">3.5</td><td class="p-2.5">Assentamento de revestimento 3D / Mosaicos artísticas em paredes</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">120,00</td><td class="p-2.5 font-bold text-indigo-900">95,00 - 150,00</td></tr>
+                <tr><td class="p-2.5 font-bold">3.6</td><td class="p-2.5">Assentamento de rodapés embutidos ou sobrepostos (cerâmica/porcelanato/mDF)</td><td class="p-2.5">metro</td><td class="p-2.5 font-bold">22,00</td><td class="p-2.5 font-bold text-indigo-900">18,00 - 28,00</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Etapa 4: Instalações e Pintura -->
+        <div class="space-y-2">
+          <div class="sinapi-section-header px-4 py-2.5 rounded-lg flex justify-between items-center text-xs font-bold uppercase tracking-wider">
+            <span>Etapa 4: Instalações Elétricas, Hidráulicas, Sanitárias e Pintura</span>
+            <span class="bg-indigo-500 text-white px-2 py-0.5 rounded text-[10px]">Instalações & Pintura</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-stone-700">
+              <thead class="bg-indigo-50 text-indigo-900 font-bold uppercase">
+                <tr>
+                  <th class="p-2.5">Item</th>
+                  <th class="p-2.5">Descrição do Serviço / Composição SINAPI</th>
+                  <th class="p-2.5">Unid.</th>
+                  <th class="p-2.5">Preço Un. (R$)</th>
+                  <th class="p-2.5">Faixa SP (R$)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-indigo-100">
+                <tr><td class="p-2.5 font-bold">4.1</td><td class="p-2.5">Ponto elétrico completo (caixa, eletroduto, enfiação e acabamento de tomada/interruptor)</td><td class="p-2.5">ponto</td><td class="p-2.5 font-bold">75,00</td><td class="p-2.5 font-bold text-indigo-900">60,00 - 95,00</td></tr>
+                <tr><td class="p-2.5 font-bold">4.2</td><td class="p-2.5">Montagem e instalação de quadro de distribuição de disjuntores (monofásico/trifásico)</td><td class="p-2.5">unidade</td><td class="p-2.5 font-bold">450,00</td><td class="p-2.5 font-bold text-indigo-900">350,00 - 600,00</td></tr>
+                <tr><td class="p-2.5 font-bold">4.3</td><td class="p-2.5">Ponto hidráulico completo (tubulação de água fria/quente e conexões)</td><td class="p-2.5">ponto</td><td class="p-2.5 font-bold">160,00</td><td class="p-2.5 font-bold text-indigo-900">130,00 - 200,00</td></tr>
+                <tr><td class="p-2.5 font-bold">4.4</td><td class="p-2.5">Ponto de esgoto sanitário ou pluvial (tubos PVC e caixas sifonadas)</td><td class="p-2.5">ponto</td><td class="p-2.5 font-bold">150,00</td><td class="p-2.5 font-bold text-indigo-900">120,00 - 190,00</td></tr>
+                <tr><td class="p-2.5 font-bold">4.5</td><td class="p-2.5">Instalação de louças sanitárias (vaso com caixa acoplada, lavatório, cuba)</td><td class="p-2.5">unidade</td><td class="p-2.5 font-bold">110,00</td><td class="p-2.5 font-bold text-indigo-900">90,00 - 140,00</td></tr>
+                <tr><td class="p-2.5 font-bold">4.6</td><td class="p-2.5">Aplicação de pintura em latex PVA/Acrílica (paredes e tetos - 2 demãos + selador)</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">32,00</td><td class="p-2.5 font-bold text-indigo-900">25,00 - 45,00</td></tr>
+                <tr><td class="p-2.5 font-bold">4.7</td><td class="p-2.5">Pintura em esmalte sintético em esquadrias, portas ou portões de madeira/ferro</td><td class="p-2.5">m²</td><td class="p-2.5 font-bold">55,00</td><td class="p-2.5 font-bold text-indigo-900">45,00 - 70,00</td></tr>
               </tbody>
             </table>
           </div>
@@ -245,7 +303,7 @@
 
       </div>
 
-      <!-- TABELA 2: CONSTRUÇÃO DO ZERO (FUNDAÇÃO À ENTREGA) -->
+      <!-- PLANILHA 2: CONSTRUÇÃO DO ZERO (FUNDAÇÃO À ENTREGA) -->
       <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-amber-200 space-y-6 p-6">
         <div class="wood-header rounded-xl p-5 text-white flex justify-between items-center">
           <div>
@@ -268,7 +326,7 @@
             <tbody class="divide-y divide-amber-100">
               <tr><td class="p-3 font-bold text-amber-950">1. Infraestrutura / Fundação</td><td class="p-3">Gabarito, escavação de baldrames, sapatas, armação de ferragens e concretagem</td><td class="p-3 font-bold">m² construído</td><td class="p-3 font-bold text-amber-900">R$ 180,00 - 240,00</td></tr>
               <tr><td class="p-3 font-bold text-amber-950">2. Superestrutura / Elevação</td><td class="p-3">Alvenaria estrutural/vedação, colunas, vigas de amarra e concretagem de laje</td><td class="p-3 font-bold">m² construído</td><td class="p-3 font-bold text-amber-900">R$ 220,00 - 290,00</td></tr>
-              <tr><td class="p-3 font-bold text-amber-950">3. Cobertura / Telhado</td><td class="p-3">Estrutura de madeira/aço, colocação de telhas, impermeabilização e calhas</td><td class="p-3 font-bold">m² cobertor</td><td class="p-3 font-bold text-amber-900">R$ 90,00 - 140,00</td></tr>
+              <tr><td class="p-3 font-bold text-amber-950">3. Cobertura / Telhado</td><td class="p-3">Estrutura de madeira/aço, colocação de telhas, impermeabilização e calhas</td><td class="p-3 font-bold">m² coberto</td><td class="p-3 font-bold text-amber-900">R$ 90,00 - 140,00</td></tr>
               <tr><td class="p-3 font-bold text-amber-950">4. Instalações Brutas (Elétrica/Hidráulica)</td><td class="p-3">Rasgos, tubulações de esgoto, água quente/fria, caixas de passagem e enfiação</td><td class="p-3 font-bold">m² construído</td><td class="p-3 font-bold text-amber-900">R$ 110,00 - 160,00</td></tr>
               <tr><td class="p-3 font-bold text-amber-950">5. Emboço / Reboco / Regularização</td><td class="p-3">Chapisco, reboco interno/externo com prumo e contra-piso nivelado</td><td class="p-3 font-bold">m² parede/piso</td><td class="p-3 font-bold text-amber-900">R$ 55,00 - 85,00</td></tr>
               <tr><td class="p-3 font-bold text-amber-950">6. Mão de Obra Global (Empreitada Do Zero)</td><td class="p-3">Execução completa da fundação até a entrega limpa das chaves</td><td class="p-3 font-bold">m² total</td><td class="p-3 font-bold text-amber-900">R$ 750,00 - 1.100,00</td></tr>
