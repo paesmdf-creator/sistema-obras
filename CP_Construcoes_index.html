@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CP Construções e Reformas - Gestão de Obras Pro</title>
+
+  <link rel="manifest" href='data:application/manifest+json,{"name":"CP Construcoes e Reformas","short_name":"CP Obras","start_url":"./","display":"standalone","background_color":"#ffffff","theme_color":"#5c3a21","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/1038/1038100.png","sizes":"512x512","type":"image/png"}]}'>
+  <meta name="theme-color" content="#5c3a21">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            wood: {
+              50: '#fdfbf7', 100: '#f7f2e8', 200: '#eee3d0', 300: '#dfcaaa',
+              400: '#cca97d', 500: '#be8c54', 600: '#af7444', 700: '#925a38',
+              800: '#774832', 900: '#613c2c', 950: '#341e16',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
+    .font-serif-artisan { font-family: 'Cinzel', serif; }
+    .carved-card { background: #ffffff; border: 1px solid #dfcaaa; border-top: 3px solid #8b5a2b; box-shadow: 0 4px 12px rgba(97, 60, 44, 0.05); }
+    .wood-texture-header {
+      background: linear-gradient(135deg, #341e16 0%, #5c3a21 50%, #774832 100%);
+      border-bottom: 3px solid #8b5a2b;
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background-color: #ffffff !important; color: #000000 !important; }
+      .print-shadow-none { box-shadow: none !important; border: 1px solid #cccccc !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col antialiased">
+
+  <div class="flex flex-col min-h-screen">
+    <!-- Cabeçalho com Logotipo Vetorial Integrado -->
+    <header class="wood-texture-header text-white shadow-md no-print sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
+            <div class="w-12 h-12 rounded-lg bg-white/10 border border-amber-400/50 flex items-center justify-center shadow-inner p-1">
+              <svg viewBox="0 0 100 100" class="w-9 h-9 text-amber-200 fill-none stroke-current" stroke-width="4.5">
+                <path d="M20 75 V35 L50 15 L80 35 V75 H20 Z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M35 75 V45 H65 V75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <h1 id="top-company-name" class="font-serif-artisan text-base sm:text-lg font-bold tracking-wider text-amber-100">CP CONSTRUÇÕES E REFORMAS</h1>
+              <p id="top-company-sub" class="text-[10px] text-amber-300 font-light tracking-widest uppercase">Sistema Ativo • Sincronizado</p>
+            </div>
+          </div>
+
+          <nav class="hidden md:flex space-x-1">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 bg-wood-800 text-amber-200 border-b-2 border-amber-400"><i class="fa-solid fa-chart-line"></i><span>Painel</span></button>
+            <button onclick="switchTab('clientes')" id="nav-clientes" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-users"></i><span>Clientes</span></button>
+            <button onclick="switchTab('equipe')" id="nav-equipe" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-user-gear"></i><span>Equipe</span></button>
+            <button onclick="switchTab('tabelas')" id="nav-tabelas" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-list-check"></i><span>Tabelas</span></button>
+            <button onclick="switchTab('orcamentos')" id="nav-orcamentos" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-file-contract"></i><span>Orçamentos</span></button>
+            <button onclick="switchTab('financeiro')" id="nav-financeiro" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-calculator"></i><span>Caixa</span></button>
+            <button onclick="switchTab('config')" id="nav-config" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-gear"></i><span>Empresa</span></button>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navegação Mobile -->
+    <div class="md:hidden wood-texture-header border-t border-wood-700 px-2 py-2 flex justify-around no-print text-[10px] text-amber-100">
+      <button onclick="switchTab('dashboard')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-chart-line text-sm"></i><span>Painel</span></button>
+      <button onclick="switchTab('clientes')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-users text-sm"></i><span>Clientes</span></button>
+      <button onclick="switchTab('equipe')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-user-gear text-sm"></i><span>Equipe</span></button>
+      <button onclick="switchTab('tabelas')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-list-check text-sm"></i><span>Tabelas</span></button>
+      <button onclick="switchTab('orcamentos')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-file-contract text-sm"></i><span>Orçamentos</span></button>
+      <button onclick="switchTab('financeiro')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-calculator text-sm"></i><span>Caixa</span></button>
+      <button onclick="switchTab('config')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-gear text-sm"></i><span>Empresa</span></button>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+      <!-- 1. DASHBOARD -->
+      <section id="tab-dashboard" class="tab-content space-y-6">
+        <div class="carved-card p-6 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h2 class="text-xl font-bold font-serif-artisan text-wood-900">Painel de Obras & Gestão</h2>
+            <p class="text-slate-600 text-sm mt-1">Bem-vindo, <strong>Cristiano dos Santos Paes</strong>. Sistema a funcionar perfeitamente.</p>
+          </div>
+          <button onclick="switchTab('orcamentos'); iniciarNovoOrcamento();" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs font-medium shadow">+ Criar Orçamento</button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-lg border-l-4 border-amber-600 carved-card shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Orçamentos</span><p id="dash-obras-ativas" class="text-2xl font-bold text-slate-800 mt-1">0</p></div>
+          <div class="bg-white p-4 rounded-lg border-l-4 border-emerald-600 carved-card shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Recebimentos</span><p id="dash-recebimentos" class="text-2xl font-bold text-emerald-700 mt-1">R$ 0,00</p></div>
+          <div class="bg-white p-4 rounded-lg border-l-4 border-rose-600 carved-card shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Pagamentos</span><p id="dash-pagamentos" class="text-2xl font-bold text-rose-700 mt-1">R$ 0,00</p></div>
+          <div class="bg-white p-4 rounded-lg border-l-4 border-wood-700 carved-card shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Saldo Caixa</span><p id="dash-saldo" class="text-2xl font-bold text-wood-900 mt-1">R$ 0,00</p></div>
+        </div>
+      </section>
+
+      <!-- 2. CLIENTES -->
+      <section id="tab-clientes" class="tab-content hidden space-y-6">
+        <div class="flex justify-between items-center"><h2 class="text-xl font-bold font-serif-artisan text-wood-900">Clientes</h2><button onclick="abrirModalCliente()" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs">+ Novo Cliente</button></div>
+        <div class="carved-card rounded-lg overflow-hidden"><table class="w-full text-left text-sm text-slate-600"><thead class="bg-wood-100 text-wood-900 uppercase text-xs"><tr><th class="p-3">Nome</th><th class="p-3">Telefone</th><th class="p-3">Endereço</th><th class="p-3 text-right">Ação</th></tr></thead><tbody id="lista-clientes" class="divide-y"></tbody></table></div>
+      </section>
+
+      <!-- 3. EQUIPE & DIÁRIAS (COM LOGO NO RECIBO) -->
+      <section id="tab-equipe" class="tab-content hidden space-y-6">
+        <div class="flex justify-between items-center no-print"><h2 class="text-xl font-bold font-serif-artisan text-wood-900">Equipe &amp; Diárias</h2><button onclick="abrirModalColaborador()" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs">+ Novo Colaborador</button></div>
+        <div class="carved-card rounded-lg overflow-hidden no-print"><table class="w-full text-left text-sm text-slate-600"><thead class="bg-wood-100 text-wood-900 uppercase text-xs"><tr><th class="p-3">Nome</th><th class="p-3">Função</th><th class="p-3 text-right">Diária</th><th class="p-3 text-center">Dias</th><th class="p-3 text-right">Ações</th></tr></thead><tbody id="lista-colaboradores" class="divide-y"></tbody></table></div>
+
+        <!-- Recibo com Logotipo Vetorial Real -->
+        <div id="area-recibo-pagamento" class="hidden carved-card p-8 rounded-lg space-y-6 print-shadow-none">
+          <div class="no-print flex justify-between items-center bg-wood-100 p-3 rounded mb-4">
+            <button onclick="fecharReciboPagamento()" class="text-xs font-bold text-slate-600">← Voltar</button>
+            <button onclick="window.print()" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded">Imprimir / Salvar Recibo PDF</button>
+          </div>
+          <div class="border-b-2 border-wood-800 pb-4 text-center space-y-2">
+            <div class="w-14 h-14 mx-auto rounded-lg bg-wood-900 flex items-center justify-center p-1">
+              <svg viewBox="0 0 100 100" class="w-10 h-10 text-amber-200 fill-none stroke-current" stroke-width="4.5">
+                <path d="M20 75 V35 L50 15 L80 35 V75 H20 Z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M35 75 V45 H65 V75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 id="rec-empresa-titulo" class="font-serif-artisan text-xl font-bold text-wood-900">CP CONSTRUÇÕES E REFORMAS</h3>
+            <p id="recibo-cnpj" class="text-xs font-semibold uppercase text-slate-600">CNPJ MEI: ---</p>
+          </div>
+          <div class="text-center py-1"><h4 class="font-serif-artisan text-sm font-bold text-wood-900 uppercase tracking-wider">RECIBO DE PAGAMENTO DE DIÁRIAS</h4></div>
+          <div class="border border-wood-300 p-4 rounded bg-wood-50/30 text-xs space-y-2">
+            <p><strong>COLABORADOR:</strong> <span id="rec-colab-nome">---</span></p>
+            <p><strong>FUNÇÃO:</strong> <span id="rec-colab-funcao">---</span></p>
+            <p><strong>VALOR DA DIÁRIA:</strong> R$ <span id="rec-colab-diaria">0,00</span></p>
+            <p><strong>DIAS TRABALHADOS:</strong> <span id="rec-colab-dias">0</span> dia(s)</p>
+            <p class="text-sm font-bold text-wood-900 pt-2 border-t border-wood-300"><strong>TOTAL PAGO:</strong> R$ <span id="rec-colab-total">0,00</span></p>
+          </div>
+          <div class="pt-10 grid grid-cols-2 gap-8 text-center text-xs">
+            <div class="border-t border-slate-800 pt-2"><p class="font-bold text-wood-900 uppercase">EMPREGADOR / RESPONSÁVEL</p></div>
+            <div class="border-t border-slate-800 pt-2"><p id="rec-assinatura-colab" class="font-bold text-wood-900 uppercase">ASSINATURA DO COLABORADOR</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. TABELAS -->
+      <section id="tab-tabelas" class="tab-content hidden space-y-6">
+        <div class="carved-card p-6 rounded-lg space-y-4">
+          <h2 class="text-xl font-bold font-serif-artisan text-wood-900 border-b pb-2">Tabelas Técnicas de Preços (SP)</h2>
+          <table class="w-full
