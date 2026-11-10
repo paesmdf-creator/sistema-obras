@@ -14,18 +14,30 @@
   <script src="https://unpkg.com/feather-icons"></script>
 
   <style>
-    body { background-color: #fdfbf7; color: #2d231d; font-family: system-ui, -apple-system, sans-serif; overflow-x: hidden; }
+    body { 
+      background-color: #fbf8f3; 
+      color: #2d231d; 
+      font-family: system-ui, -apple-system, sans-serif; 
+      overflow-x: hidden; 
+    }
     
+    /* Cabeçalho com Textura Escura */
     .wood-header { 
-      background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 100%); 
+      background: linear-gradient(135deg, #2c1810 0%, #170d08 100%); 
       border-bottom: 4px solid #b8860b; 
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
     
-    .wood-logo {
-      background: radial-gradient(circle, #7a4a26 0%, #4a2811 100%);
-      border: 3px solid #d4a373;
-      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -3px 6px rgba(0,0,0,0.7), 0 3px 6px rgba(0,0,0,0.5);
+    /* Placa de Madeira Entalhada Realista para o Logo */
+    .placa-madeira-logo {
+      background: linear-gradient(145deg, #5c3a21 0%, #2c1810 70%, #1a0f0a 100%);
+      border: 3px solid #b8860b;
+      border-radius: 14px;
+      box-shadow: 
+        inset 2px 2px 4px rgba(255, 235, 170, 0.4),
+        inset -3px -3px 6px rgba(0, 0, 0, 0.8),
+        0 4px 10px rgba(0, 0, 0, 0.5);
+      position: relative;
     }
 
     .wood-card { 
@@ -47,12 +59,12 @@
     .tab-inactive { background-color: rgba(255,255,255,0.05); color: #d3c5b4; }
     .tab-inactive:hover { background-color: rgba(255,255,255,0.1); }
     
-    /* Marca d'água oficial com o logo da CP no centro da tela */
+    /* Marca d'água Visível no Centro */
     .marca-dagua {
-      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiB2aWV3Qm94PSIwIDAgMzA5IDMwOSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSI5NC4wOSIgeTE9IjkyLjc1IiB4Mj0iMjUxLjkzIiB5Mj0iMjUwLjU5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPbkVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2IyODIwNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM4YTYyMzkiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxnIGlkPSJiIiBvcGFjaXR5PSIwLjA0Ij4KICAgIDxyZWN0IHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiBmaWxsPSJub25lIi8+CiAgICA8ZyBpZD0iYyI+CiAgICAgIDxwYXRoIGQ9Ik0xNTQuNSwwQzY5LjIsMCwwLDY5LjIsMCwxNTQuNVM2OS4yLDMwOSwxNTQuNSwzMDlzMTU0LjUtNjkuMiwxNTQuNS0xNTQuNVMyMzkuOCwwLDE1NC41LDBabTAsMjg1LjdDODIuMiwyODUuNywyMy4zLDIyNi44LDIzLjMsMTU0LjVTODIuMiwyMy4zLDE1NC41LDIzNzNzMTMxLjIsNTguOSwxMzEuMiwxMzEuMiw1OC45LDEzMS4yLTEzMS4yLDEzMS4yWiIgZmlsbD0idXJsKCNhKSIvPgogICAgICA8cGF0aCBkPSJNMjQ5LjMsMTc4LjhsLTEzLjUsNC41Yy0xLjYsNC44LTQsOS40LTcuM2wxMywxMC4xLDEwLTkuNC05LjQtOS40LTEwLjEtMTBjLTQuMSwzLjMtOC43LDUuOS0xMy41LDcuOWwtNC41LDEzLjVIMjE2LjdsLTQuNS0xMy41Yy00LjgtMS42LTkuNC00LTEzLjUtNy4ybC0xMCwxMC4xLTkuNC05LjQsMTAtMTAuMWMtMy4zLTQuMS01LjktOC43LTcuOS0xMy41bC0xMy41LTQuNXYtMTguN2wxMy41LTQuNWMxLjYtNC44LDQtOS40LDcuMi0xMy41bC0xMC4xLTEwLDkuNC05LjQsMTAuMSwxMGM0LjEtMy4zLDguNy01LjksMTMuNS03LjlsNC41LTEzLjVIMjMxbDQuNSwxMy41YzQuOCwxLjYsOS40LDQsMTMuNSw3LjJsMTAtMTAuMSw5LjQsOS40LTEwLDEwLjFjMy4zLDQuMSw1LjksOC43LDcuOSwxMzVsMTMuNSw0LjV2MTguN1paTTE1NC41LDY5LjNDMTA4LjUsNjkuMyw3MS4yLDEwNi42LDcxLjIsMTUyLjdzMzcuMyw4My40LDgzLjQsODMuNCw4My40LTM3LjMsODMuNC04My40UzIwMC41LDY5LjMsMTU0LjUsNjkuM1ptMCwxNSYuNWMtNDAsMC03NC0zMy4yLTc0LTc0UzExMy43LDc5LDE1NC41LDc5czc0LDMzLjIsNzQsNzQtMzMuMiw3NC03NCw3NFoiIGZpbGw9InVybCojYSkvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+');
-      background-position: center;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiB2aWV3Qm94PSIwIDAgMzA5IDMwOSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSI5NC4wOSIgeTE9IjkyLjc1IiB4Mj0iMjUxLjkzIiB5Mj0iMjUwLjU5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPbkVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2I4ODYwYiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM1YzNhMjEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxnIGlkPSJiIiBvcGFjaXR5PSIwLjEzIj4KICAgIDxyZWN0IHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiBmaWxsPSJub25lIi8+CiAgICA8ZyBpZD0iYyI+CiAgICAgIDxwYXRoIGQ9Ik0xNTQuNSwwQzY5LjIsMCwwLDY5LjIsMCwxNTQuNVM2OS4yLDMwOSwxNTQuNSwzMDlzMTU0LjUtNjkuMiwxNTQuNS0xNTQuNVMyMzkuOCwwLDE1NC41LDBabTAsMjg1LjdDODIuMiwyODUuNywyMy4zLDIyNi44LDIzLjMsMTU0LjVTODIuMiwyMy4zLDE1NC41LDIzNzNzMTMxLjIsNTguOSwxMzEuMiwxMzEuMiw1OC55LDEzMS4yLTEzMS4yLDEzMS4yWiIgZmlsbD0idXJsKCNhKSIvPgogICAgICA8cGF0aCBkPSJNMjQ5LjMsMTc4LjhsLTEzLjUsNC41Yy0xLjYsNC44LTQsOS40LTcuM2wxMywxMC4xLDEwLTkuNC05LjQtOS40LTEwLjEtMTBjLTQuMSwzLjMtOC43LDUuOS0xMy41LDcuOWwtNC41LDEzLjVIMjE2LjdsLTQuNS0xMy41Yy00LjgtMS42LTkuNC00LTEzLjUtNy4ybC0xMCwxMC4xLTkuNC05LjQsMTAtMTAuMWMtMy4zLTQuMS01LjktOC43LTcuOS0xMy41bC0xMy41LTQuNXYtMTguN2wxMy41LTQuNWMxLjYtNC44LDQtOS40LDcuMi0xMy41bC0xMC4xLTEwLDkuNC05LjQsMTAuMSwxMGM0LjEtMy4zLDguNy01LjksMTMuNS03LjlsNC41LTEzLjVIMjMxbDQuNSwxMy41YzQuOCwxLjYsOS40LDQsMTMuNSw3LjJsMTAtMTAuMSw5LjQsOS40LTEwLDEwLjFjMy4zLDQuMSw1LjksOC43LDcuOSwxMzVsMTMuNSw0LjV2MTguN1paTTE1NC41LDY5LjNDMTA4LjUsNjkuMyw3MS4yLDEwNi42LDcxLjIsMTUyLjdzMzcuMyw4My40LDgzLjQsODMuNCw4My40LTM3LjMsODMuNC04My40UzIwMC41LDY5LjMsMTU0LjUsNi4zWm0wLDE1JS5jLTQwLDAtNzQtMzMuMi03NC03NFMxMTMuNyw3OSwxNTQuNSw3OXM3NCwzMy4yLDc0LDc0LTMzLjIsNzQtNzQsNzRaIiBmaWxsPSJ1cmwoI2EpIi8+CiAgICAgIDxwYXRoIGQ9Ik0xOTEuMiwxODAuNmMtMyw1LjUtNy4zLDkuOC0xMi43LDEyLjhzLTExLjcsNC41LTE4LjgsNC41VjY1LjJ2LTE4LjNoMjEuNnYtNDEuMmgtMjEuNnYtMTguM0g5MS43YzkuNywwLDE4LDIuMywyNC45LDYuOHMxMS42LDEwLjksMTQsMjBjMS45LDguOCwxLjUsMTYuOC0xLjMsMjMuN3M1LjMsMTEuNSwxMi40LDEzLjlDMTc0LDE1NS44LDE3My41LDE1OS42LDE3Mi42LDE2Ny41UzE5MS4yLDE4MC41LDE5MS4yLDE4MC41Wk0xNDAuOCwxNjguMmM1LjcsNC44LDEyLjgsNy4yLDIxLjMsNy4yYTQ2LjV2LTEyLjZIMTYwYy01LjEsMC05LjEtMS4yLTEyLjEtMy43cy00LjQtNS45LTQuNC0xMC4xYzAtNCwxLjUtNy4xLDQuNC05LjRzNy00LjYsMTIuMS00LjZoNDZ2LTEyLjZIMTYwYy01LDAtOS0xLjItMTIuMS0zLjdjLTMtMi40LTQuNC01LjktNC40LTEwLjFzMC03LDQuNC05LjRzNy00LjYsMTIuMS00LjZoNDZ2LTEyLjZIMTMwYy00LDAtNy4yLDEuMS05LjYsMy4zYy0yLjMtMi4yLTMuNS01LjUtMy41LDkuOHYxMTZoLTIyLjJ2LTEyLjZIMTQwLjhaIiBmaWxsPSJ1cmwoI2EpIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=');
+      background-position: center 30%;
       background-repeat: no-repeat;
-      background-size: 45%;
+      background-size: 500px;
       background-attachment: fixed;
     }
   </style>
@@ -60,12 +72,13 @@
 <body class="min-h-screen pb-12 overflow-x-hidden marca-dagua">
 
   <!-- Cabeçalho Principal -->
-  <header class="wood-header text-white px-4 py-4 sticky top-0 z-50">
+  <header class="wood-header text-white px-4 py-3.5 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
       
+      <!-- Placa Entalhada de Madeira do Logo CP -->
       <div class="flex items-center gap-3">
-        <div class="w-13 h-13 wood-logo rounded-2xl flex items-center justify-center font-black text-xl text-amber-200 tracking-wider shadow-inner">
-          CP
+        <div class="placa-madeira-logo w-14 h-14 flex items-center justify-center">
+          <span class="font-black text-2xl text-amber-300 drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] tracking-wider">CP</span>
         </div>
         <div>
           <h1 id="lbl-empresa-nome" class="font-extrabold text-base md:text-lg tracking-wide text-amber-100">CP CONSTRUÇÕES E REFORMAS</h1>
@@ -73,6 +86,7 @@
         </div>
       </div>
 
+      <!-- Menu Superior -->
       <nav class="flex flex-wrap items-center justify-center gap-1.5 text-xs font-semibold">
         <button onclick="mudarAba('painel')" id="btn-painel" class="px-3.5 py-2.5 rounded-xl transition tab-active flex items-center gap-1.5">
           <i data-feather="grid" class="w-4 h-4"></i> Painel
@@ -102,7 +116,7 @@
 
   <main class="max-w-7xl mx-auto px-4 pt-6 space-y-6">
 
-    <!-- SEÇÃO 1: PAINEL / DASHBOARD (EXATAMENTE COMO NA SUA IMAGEM ILUSTRATIVA) -->
+    <!-- SEÇÃO 1: PAINEL / DASHBOARD -->
     <section id="sec-painel" class="space-y-6">
       
       <div class="wood-card rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-l-8 border-amber-800 shadow-md">
@@ -120,13 +134,10 @@
         </div>
       </div>
 
-      <!-- Grid Principal do Dashboard (Espelhando a Imagem da Tablet) -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         <!-- Coluna Esquerda do Dashboard -->
         <div class="space-y-6">
-          
-          <!-- Visão Geral do Projeto -->
           <div class="wood-card rounded-2xl p-6 space-y-4 shadow-sm border-l-4 border-amber-700">
             <h4 class="text-xs font-bold uppercase text-stone-600 tracking-widest flex items-center justify-between">
               <span>VISÃO GERAL DO PROJETO</span>
@@ -146,7 +157,6 @@
             </div>
           </div>
 
-          <!-- Mão de Obra e Diárias -->
           <div class="wood-card rounded-2xl p-6 space-y-3 shadow-sm border-l-4 border-stone-800">
             <h4 class="text-xs font-bold uppercase text-stone-700 tracking-widest flex items-center gap-2">
               <i data-feather="user" class="w-4 h-4 text-amber-800"></i> MÃO DE OBRA E DIÁRIAS
@@ -163,7 +173,6 @@
             </div>
           </div>
 
-          <!-- Progresso de Etapas (SINAPI / SINDUSCON) -->
           <div class="wood-card rounded-2xl p-6 space-y-4 shadow-sm border-l-4 border-amber-900">
             <h4 class="text-xs font-bold uppercase text-stone-700 tracking-widest flex items-center justify-between">
               <span>PROGRESSO DE ETAPAS (SINAPI/SINDUSCON)</span>
@@ -184,13 +193,10 @@
               </div>
             </div>
           </div>
-
         </div>
 
         <!-- Coluna Direita do Dashboard -->
         <div class="space-y-6">
-          
-          <!-- Resumo Financeiro -->
           <div class="wood-card rounded-2xl p-6 space-y-4 shadow-sm border-l-4 border-emerald-600">
             <h4 class="text-xs font-bold uppercase text-emerald-800 tracking-widest">RESUMO FINANCEIRO</h4>
             <div class="grid grid-cols-2 gap-4">
@@ -205,7 +211,6 @@
             </div>
           </div>
 
-          <!-- Resumo Diário do Mês -->
           <div class="wood-card rounded-2xl p-6 space-y-3 shadow-sm border-l-4 border-indigo-700">
             <h4 class="text-xs font-bold uppercase text-stone-700 tracking-widest flex items-center gap-2">
               <i data-feather="calendar" class="w-4 h-4 text-indigo-700"></i> RESUMO DIÁRIO DO MÊS
@@ -215,7 +220,6 @@
             </div>
           </div>
 
-          <!-- Gestão de Caixa -->
           <div class="wood-card rounded-2xl p-6 space-y-3 shadow-sm border-l-4 border-amber-800">
             <h4 class="text-xs font-bold uppercase text-stone-700 tracking-widest flex items-center justify-between">
               <span>GESTÃO DE CAIXA & LANÇAMENTOS</span>
@@ -225,12 +229,11 @@
               <p class="italic">Nenhum lançamento recente no caixa.</p>
             </div>
           </div>
-
         </div>
 
       </div>
 
-      <!-- Rodapé do Dashboard: Confirmação Digital e Assinatura -->
+      <!-- Rodapé do Dashboard -->
       <div class="wood-card rounded-2xl p-6 space-y-4 shadow-md border-t-4 border-amber-800">
         <h4 class="text-xs font-bold uppercase text-stone-700 tracking-widest">CONFIRMAR RECEBIMENTO DIGITAL & ASSINATURA</h4>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 text-xs">
@@ -302,57 +305,73 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 4: TABELAS SINAPI E SINDUSCON DETALHADAS POR FASES -->
+    <!-- SEÇÃO 4: TABELAS SINAPI E SINDUSCON COMPLETAS POR ETAPAS DA OBRA -->
     <section id="sec-tabelas" class="space-y-8 hidden">
       
-      <!-- Tabela SINAPI (Reformas) -->
+      <!-- TABELA SINAPI (REFORMAS) DETALHADA -->
       <div class="wood-card rounded-2xl p-6 space-y-6">
         <div class="bg-[#2c1810] text-white p-5 rounded-xl flex justify-between items-center shadow">
           <div>
-            <h2 class="text-lg font-bold">Tabela SINAPI - Reformas e Serviços Gerais</h2>
-            <p class="text-xs text-amber-200">Composições de Custo Detalhadas por Fases da Obra | Estado de São Paulo</p>
+            <h2 class="text-lg font-bold">Tabela SINAPI - Reformas & Composições de Custo</h2>
+            <p class="text-xs text-amber-200">Composições de Custo Completas Por Fases de Reforma | Estado de São Paulo</p>
           </div>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs text-stone-700">
             <thead class="bg-stone-100 text-stone-900 font-bold uppercase">
-              <tr><th class="p-3">Fase / Item</th><th class="p-3">Descrição do Serviço de Reforma</th><th class="p-3">Unid.</th><th class="p-3">Faixa Média SP (R$)</th></tr>
+              <tr><th class="p-3">Item</th><th class="p-3">Descrição Completa do Serviço</th><th class="p-3">Unid.</th><th class="p-3">Faixa Média SP (R$)</th></tr>
             </thead>
             <tbody class="divide-y divide-stone-200">
-              <tr class="bg-amber-50/50 font-bold text-amber-950"><td colspan="4" class="p-2.5">Fase 1: Demolições e Retiradas</td></tr>
-              <tr><td class="p-3">1.1</td><td class="p-3">Demolição manual de alvenaria de bloco/tijolo</td><td class="p-3">m³</td><td class="p-3 font-bold text-amber-900">85,00 - 115,00</td></tr>
-              <tr><td class="p-3">1.2</td><td class="p-3">Remoção de revestimento cerâmico de paredes e pisos</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">28,00 - 45,00</td></tr>
+              <tr class="bg-amber-100/60 font-black text-amber-950"><td colspan="4" class="p-2.5 uppercase">Fase 1: Demolições, Retiradas e Preparação</td></tr>
+              <tr><td class="p-3 font-bold">1.1</td><td class="p-3">Demolição manual de alvenaria de bloco/tijolo sem reaproveitamento</td><td class="p-3">m³</td><td class="p-3 font-bold text-amber-900">85,00 - 115,00</td></tr>
+              <tr><td class="p-3 font-bold">1.2</td><td class="p-3">Remoção de revestimento cerâmico de paredes e pisos com raspagem</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">28,00 - 45,00</td></tr>
+              <tr><td class="p-3 font-bold">1.3</td><td class="p-3">Demolição de piso/contrapiso de concreto espessura até 10cm</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">35,00 - 55,00</td></tr>
               
-              <tr class="bg-amber-50/50 font-bold text-amber-950"><td colspan="4" class="p-2.5">Fase 2: Revestimentos e Acabamentos</td></tr>
-              <tr><td class="p-3">2.1</td><td class="p-3">Assentamento de porcelanato até 80x80cm (Piso/Parede)</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">75,00 - 115,00</td></tr>
-              <tr><td class="p-3">2.2</td><td class="p-3">Aplicação de argamassa autonivelante para contrapiso</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">42,00 - 68,00</td></tr>
-              <tr><td class="p-3">2.3</td><td class="p-3">Reboco interno e acabamento em massa única</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">55,00 - 82,00</td></tr>
+              <tr class="bg-amber-100/60 font-black text-amber-950"><td colspan="4" class="p-2.5 uppercase">Fase 2: Revestimentos Cerâmicos, Pisos e Paredes</td></tr>
+              <tr><td class="p-3 font-bold">2.1</td><td class="p-3">Assentamento de porcelanato até 80x80cm (Piso/Parede) com argamassa ACIII</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">75,00 - 115,00</td></tr>
+              <tr><td class="p-3 font-bold">2.2</td><td class="p-3">Assentamento de porcelanato grandes formatos (acima de 90x90cm)</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">110,00 - 160,00</td></tr>
+              <tr><td class="p-3 font-bold">2.3</td><td class="p-3">Aplicação de argamassa autonivelante para regularização de contrapiso</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">42,00 - 68,00</td></tr>
+              <tr><td class="p-3 font-bold">2.4</td><td class="p-3">Reboco interno e acabamento em massa única para pintura</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">55,00 - 82,00</td></tr>
+
+              <tr class="bg-amber-100/60 font-black text-amber-950"><td colspan="4" class="p-2.5 uppercase">Fase 3: Instalações Hidráulicas e Elétricas de Reforma</td></tr>
+              <tr><td class="p-3 font-bold">3.1</td><td class="p-3">Substituição de tubulação de água fria/quente em PVC/PEX por ponto</td><td class="p-3">Ponto</td><td class="p-3 font-bold text-amber-900">180,00 - 260,00</td></tr>
+              <tr><td class="p-3 font-bold">3.2</td><td class="p-3">Troca de fiação elétrica e reinstalação de tomadas/interruptores</td><td class="p-3">Ponto</td><td class="p-3 font-bold text-amber-900">65,00 - 95,00</td></tr>
+
+              <tr class="bg-amber-100/60 font-black text-amber-950"><td colspan="4" class="p-2.5 uppercase">Fase 4: Pintura e Acabamentos Finais</td></tr>
+              <tr><td class="p-3 font-bold">4.1</td><td class="p-3">Pintura acrílica 3 demãos sobre massa corrida em paredes internas</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">25,00 - 42,00</td></tr>
+              <tr><td class="p-3 font-bold">4.2</td><td class="p-3">Aplicação de textura grafiato ou projetada em fachada externa</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">38,00 - 65,00</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Tabela SINDUSCON (Novos Serviços) -->
+      <!-- TABELA SINDUSCON (NOVOS SERVIÇOS E ESTRUTURA) DETALHADA -->
       <div class="wood-card rounded-2xl p-6 space-y-6">
         <div class="bg-[#1a0f0a] text-white p-5 rounded-xl flex justify-between items-center shadow">
           <div>
-            <h2 class="text-lg font-bold">Tabela SINDUSCON - Construção e Novos Serviços</h2>
+            <h2 class="text-lg font-bold">Tabela SINDUSCON - Construção & Estrutura do Zero</h2>
             <p class="text-xs text-amber-200">Custos Unitários Básicos e Estruturais por Etapa Construtiva</p>
           </div>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs text-stone-700">
             <thead class="bg-stone-100 text-stone-900 font-bold uppercase">
-              <tr><th class="p-3">Fase / Item</th><th class="p-3">Descrição do Serviço Estrutural</th><th class="p-3">Unid.</th><th class="p-3">Referência Custo SP (R$)</th></tr>
+              <tr><th class="p-3">Item</th><th class="p-3">Descrição Completa do Serviço Estrutural</th><th class="p-3">Unid.</th><th class="p-3">Referência Custo SP (R$)</th></tr>
             </thead>
             <tbody class="divide-y divide-stone-200">
-              <tr class="bg-amber-50/50 font-bold text-amber-950"><td colspan="4" class="p-2.5">Fase 1: Estrutura e Fundação</td></tr>
-              <tr><td class="p-3">S1.1</td><td class="p-3">Escavação manual de valas para baldrames</td><td class="p-3">m³</td><td class="p-3 font-bold text-amber-900">95,00 - 130,00</td></tr>
-              <tr><td class="p-3">S1.2</td><td class="p-3">Concretagem de vigas baldrame fck 25MPa</td><td class="p-3">m³</td><td class="p-3 font-bold text-amber-900">450,00 - 580,00</td></tr>
-              
-              <tr class="bg-amber-50/50 font-bold text-amber-950"><td colspan="4" class="p-2.5">Fase 2: Alvenaria e Lajes</td></tr>
-              <tr><td class="p-3">S2.1</td><td class="p-3">Alvenaria estrutural de vedação e blocos cerâmicos</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">110,00 - 150,00</td></tr>
-              <tr><td class="p-3">S2.2</td><td class="p-3">Montagem e concretagem de laje pré-moldada</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">125,00 - 170,00</td></tr>
+              <tr class="bg-amber-100/60 font-black text-amber-950"><td colspan="4" class="p-2.5 uppercase">Fase 1: Infraestrutura e Fundações</td></tr>
+              <tr><td class="p-3 font-bold">S1.1</td><td class="p-3">Escavação manual de valas para sapatas e baldrames</td><td class="p-3">m³</td><td class="p-3 font-bold text-amber-900">95,00 - 130,00</td></tr>
+              <tr><td class="p-3 font-bold">S1.2</td><td class="p-3">Armação e concretagem de vigas baldrame fck 25MPa</td><td class="p-3">m³</td><td class="p-3 font-bold text-amber-900">450,00 - 580,00</td></tr>
+              <tr><td class="p-3 font-bold">S1.3</td><td class="p-3">Impermeabilização de baldrames com tinta asfáltica 3 demãos</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">32,00 - 50,00</td></tr>
+
+              <tr class="bg-amber-100/60 font-black text-amber-950"><td colspan="4" class="p-2.5 uppercase">Fase 2: Superestrutura e Alvenaria de Vedação</td></tr>
+              <tr><td class="p-3 font-bold">S2.1</td><td class="p-3">Alvenaria de vedação com bloco cerâmico 9x19x19cm assente com argamassa</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">110,00 - 150,00</td></tr>
+              <tr><td class="p-3 font-bold">S2.2</td><td class="p-3">Concretagem de pilares e colunas de sustentação em concreto armado</td><td class="p-3">m³</td><td class="p-3 font-bold text-amber-900">680,00 - 920,00</td></tr>
+              <tr><td class="p-3 font-bold">S2.3</td><td class="p-3">Montagem e concretagem de laje pré-moldada treliçada H12 com lajotas</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">125,00 - 170,00</td></tr>
+
+              <tr class="bg-amber-100/60 font-black text-amber-950"><td colspan="4" class="p-2.5 uppercase">Fase 3: Cobertura, Telhado e Esquadrias</td></tr>
+              <tr><td class="p-3 font-bold">S3.1</td><td class="p-3">Estrutura de madeira para telhado com telhas cerâmicas tipo romana/portuguesa</td><td class="p-3">m²</td><td class="p-3 font-bold text-amber-900">140,00 - 210,00</td></tr>
+              <tr><td class="p-3 font-bold">S3.2</td><td class="p-3">Instalação de rufos e calhas em chapa galvanizada</td><td class="p-3">m linear</td><td class="p-3 font-bold text-amber-900">55,00 - 85,00</td></tr>
             </tbody>
           </table>
         </div>
@@ -441,7 +460,7 @@
   <script>
     feather.replace();
 
-    let sistemaDb = JSON.parse(localStorage.getItem('cp_sistema_completo_db_v9')) || {
+    let sistemaDb = JSON.parse(localStorage.getItem('cp_sistema_completo_db_v10')) || {
       empresa: { nome: "CP CONSTRUÇÕES E REFORMAS", cnpj: "35.000.000/0001-00", tel: "(13) 99999-9999", cidade: "Itanhaém - SP" },
       clientes: [], equipe: [], diarias: [], orcamentos: [], caixa: []
     };
@@ -459,7 +478,7 @@
     }
 
     function salvarDados() {
-      localStorage.setItem('cp_sistema_completo_db_v9', JSON.stringify(sistemaDb));
+      localStorage.setItem('cp_sistema_completo_db_v10', JSON.stringify(sistemaDb));
       renderizarTudo();
     }
 
