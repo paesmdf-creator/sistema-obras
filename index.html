@@ -21,50 +21,48 @@
       overflow-x: hidden; 
     }
     
-    /* Cabeçalho com Textura Escura */
     .wood-header { 
       background: linear-gradient(135deg, #2c1810 0%, #170d08 100%); 
       border-bottom: 4px solid #b8860b; 
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
     
-    /* Placa de Madeira Entalhada Realista para o Logo */
-    .placa-madeira-logo {
-      background: linear-gradient(145deg, #5c3a21 0%, #2c1810 70%, #1a0f0a 100%);
-      border: 3px solid #b8860b;
-      border-radius: 14px;
+    /* Placa de Madeira Esculpida Realista (Idêntica à sua marca física) */
+    .placa-madeira-entalhada {
+      background: linear-gradient(135deg, #4a2811 0%, #2c1810 50%, #170d08 100%);
+      border: 3px solid #d4a373;
+      border-radius: 12px;
       box-shadow: 
-        inset 2px 2px 4px rgba(255, 235, 170, 0.4),
-        inset -3px -3px 6px rgba(0, 0, 0, 0.8),
-        0 4px 10px rgba(0, 0, 0, 0.5);
-      position: relative;
+        inset 0 3px 6px rgba(255, 235, 170, 0.35),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.85),
+        0 4px 8px rgba(0, 0, 0, 0.4);
     }
 
     .wood-card { 
       background-color: #ffffff; 
-      border: 1px solid #d3c5b4; 
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
+      border: 2px solid #b8860b; 
+      box-shadow: 0 4px 10px -2px rgba(44, 24, 16, 0.1); 
     }
     
     .btn-wood { 
-      background-color: #2c1810; 
+      background: linear-gradient(135deg, #4a2811 0%, #2c1810 100%); 
       color: #fdfbf7; 
       border: 1px solid #b8860b;
     }
     .btn-wood:hover { 
-      background-color: #1a0f0a; 
+      background: linear-gradient(135deg, #2c1810 0%, #170d08 100%); 
     }
     
     .tab-active { background-color: #b8860b; color: #ffffff; font-weight: bold; }
-    .tab-inactive { background-color: rgba(255,255,255,0.05); color: #d3c5b4; }
-    .tab-inactive:hover { background-color: rgba(255,255,255,0.1); }
+    .tab-inactive { background-color: rgba(255,255,255,0.06); color: #d3c5b4; }
+    .tab-inactive:hover { background-color: rgba(255,255,255,0.12); }
     
-    /* Marca d'água Visível no Centro */
+    /* Marca d'Água Central Bem Visível e Nítida */
     .marca-dagua {
-      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiB2aWV3Qm94PSIwIDAgMzA5IDMwOSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSI5NC4wOSIgeTE9IjkyLjc1IiB4Mj0iMjUxLjkzIiB5Mj0iMjUwLjU5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPbkVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2I4ODYwYiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM1YzNhMjEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxnIGlkPSJiIiBvcGFjaXR5PSIwLjEzIj4KICAgIDxyZWN0IHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiBmaWxsPSJub25lIi8+CiAgICA8ZyBpZD0iYyI+CiAgICAgIDxwYXRoIGQ9Ik0xNTQuNSwwQzY5LjIsMCwwLDY5LjIsMCwxNTQuNVM2OS4yLDMwOSwxNTQuNSwzMDlzMTU0LjUtNjkuMiwxNTQuNS0xNTQuNVMyMzkuOCwwLDE1NC41LDBabTAsMjg1LjdDODIuMiwyODUuNywyMy4zLDIyNi44LDIzLjMsMTU0LjVTODIuMiwyMy4zLDE1NC41LDIzNzNzMTMxLjIsNTguOSwxMzEuMiwxMzEuMiw1OC55LDEzMS4yLTEzMS4yLDEzMS4yWiIgZmlsbD0idXJsKCNhKSIvPgogICAgICA8cGF0aCBkPSJNMjQ5LjMsMTc4LjhsLTEzLjUsNC41Yy0xLjYsNC44LTQsOS40LTcuM2wxMywxMC4xLDEwLTkuNC05LjQtOS40LTEwLjEtMTBjLTQuMSwzLjMtOC43LDUuOS0xMy41LDcuOWwtNC41LDEzLjVIMjE2LjdsLTQuNS0xMy41Yy00LjgtMS42LTkuNC00LTEzLjUtNy4ybC0xMCwxMC4xLTkuNC05LjQsMTAtMTAuMWMtMy4zLTQuMS01LjktOC43LTcuOS0xMy41bC0xMy41LTQuNXYtMTguN2wxMy41LTQuNWMxLjYtNC44LDQtOS40LDcuMi0xMy41bC0xMC4xLTEwLDkuNC05LjQsMTAuMSwxMGM0LjEtMy4zLDguNy01LjksMTMuNS03LjlsNC41LTEzLjVIMjMxbDQuNSwxMy41YzQuOCwxLjYsOS40LDQsMTMuNSw3LjJsMTAtMTAuMSw5LjQsOS40LTEwLDEwLjFjMy4zLDQuMSw1LjksOC43LDcuOSwxMzVsMTMuNSw0LjV2MTguN1paTTE1NC41LDY5LjNDMTA4LjUsNjkuMyw3MS4yLDEwNi42LDcxLjIsMTUyLjdzMzcuMyw4My40LDgzLjQsODMuNCw4My40LTM3LjMsODMuNC04My40UzIwMC41LDY5LjMsMTU0LjUsNi4zWm0wLDE1JS5jLTQwLDAtNzQtMzMuMi03NC03NFMxMTMuNyw3OSwxNTQuNSw3OXM3NCwzMy4yLDc0LDc0LTMzLjIsNzQtNzQsNzRaIiBmaWxsPSJ1cmwoI2EpIi8+CiAgICAgIDxwYXRoIGQ9Ik0xOTEuMiwxODAuNmMtMyw1LjUtNy4zLDkuOC0xMi43LDEyLjhzLTExLjcsNC41LTE4LjgsNC41VjY1LjJ2LTE4LjNoMjEuNnYtNDEuMmgtMjEuNnYtMTguM0g5MS43YzkuNywwLDE4LDIuMywyNC45LDYuOHMxMS42LDEwLjksMTQsMjBjMS45LDguOCwxLjUsMTYuOC0xLjMsMjMuN3M1LjMsMTEuNSwxMi40LDEzLjlDMTc0LDE1NS44LDE3My41LDE1OS42LDE3Mi42LDE2Ny41UzE5MS4yLDE4MC41LDE5MS4yLDE4MC41Wk0xNDAuOCwxNjguMmM1LjcsNC44LDEyLjgsNy4yLDIxLjMsNy4yYTQ2LjV2LTEyLjZIMTYwYy01LjEsMC05LjEtMS4yLTEyLjEtMy43cy00LjQtNS45LTQuNC0xMC4xYzAtNCwxLjUtNy4xLDQuNC05LjRzNy00LjYsMTIuMS00LjZoNDZ2LTEyLjZIMTYwYy01LDAtOS0xLjItMTIuMS0zLjdjLTMtMi40LTQuNC01LjktNC40LTEwLjFzMC03LDQuNC05LjRzNy00LjYsMTIuMS00LjZoNDZ2LTEyLjZIMTMwYy00LDAtNy4yLDEuMS05LjYsMy4zYy0yLjMtMi4yLTMuNS01LjUtMy41LDkuOHYxMTZoLTIyLjJ2LTEyLjZIMTQwLjhaIiBmaWxsPSJ1cmwoI2EpIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=');
-      background-position: center 30%;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiB2aWV3Qm94PSIwIDAgMzA5IDMwOSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSI5NC4wOSIgeTE9IjkyLjc1IiB4Mj0iMjUxLjkzIiB5Mj0iMjUwLjU5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPbkVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2I4ODYwYiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM0YTI4MTEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxnIGlkPSJiIiBvcGFjaXR5PSIwLjE4Ij4KICAgIDxyZWN0IHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiBmaWxsPSJub25lIi8+CiAgICA8ZyBpZD0iYyI+CiAgICAgIDxwYXRoIGQ9Ik0xNTQuNSwwQzY5LjIsMCwwLDY5LjIsMCwxNTQuNVM2OS4yLDMwOSwxNTQuNSwzMDlzMTU0LjUtNjkuMiwxNTQuNS0xNTQuNVMyMzkuOCwwLDE1NC41LDBabTAsMjg1LjdDODIuMiwyODUuNywyMy4zLDIyNi44LDIzLjMsMTU0LjVTODIuMiwyMy4zLDE1NC41LDIzNzNzMTMxLjIsNTguOSwxMzEuMiwxMzEuMiw1OC45LDEzMS4yLTEzMS4yLDEzMS4yWiIgZmlsbD0idXJsKCNhKSIvPgogICAgICA8cGF0aCBkPSJNMjQ5LjMsMTc4LjhsLTEzLjUsNC41Yy0xLjYsNC44LTQsOS40LTcuM2wxMywxMC4xLDEwLTkuNC05LjQtOS40LTEwLjEtMTBjLTQuMSwzLjMtOC43LDUuOS0xMy41LDcuOWwtNC41LDEzLjVIMjE2LjdsLTQuNS0xMy41Yy00LjgtMS42LTkuNC00LTEzLjUtNy4ybC0xMCwxMC4xLTkuNC05LjQsMTAtMTAuMWMtMy4zLTQuMS01LjktOC43LTcuOS0xMy41bC0xMy41LTQuNXYtMTguN2wxMy41LTQuNWMxLjYtNC44LDQtOS40LDcuMi0xMy41bC0xMC4xLTEwLDkuNC05LjQsMTAuMSwxMGM0LjEtMy4zLDguNy01LjksMTMuNS03LjlsNC41LTEzLjVIMjMxbDQuNSwxMy41YzQuOCwxLjYsOS40LDQsMTMuNSw3LjJsMTAtMTAuMSw5LjQsOS40LTEwLDEwLjFjMy4zLDQuMSw1LjksOC43LDcuOSwxMzVsMTMuNSw0LjV2MTguN1paTTE1NC41LDY5LjNDMTA4LjUsNjkuMyw3MS4yLDEwNi42LDcxLjIsMTUyLjdzMzcuMyw4My40LDgzLjQsODMuNCw4My40LTM3LjMsODMuNC04My40UzIwMC41LDY5LjMsMTU0LjUsNjkuM1ptMCwxNSYuNWMtNDAsMC03NC0zMy4yLTc0LTc0UzExMy43LDc5LDE1NC41LDc5czc0LDMzLjIsNzQsNzQtMzMuMiw3NC03NCw3NFoiIGZpbGw9InVybCojYSkvPgogICAgICA8cGF0aCBkPSJNMTkxLjIsMTgwLjVjLTMsNS41LTcuMyw5LjgtMTIuNywxMjQuOHMtMTEuNyw0LjUtMTguOCw0LjVWMjUuMnYtMTguM2gyMS42di00MS4yaC0yMS42di0xOC4zSDkxLjdjOS43LDAsMTgsMi4zLDI0LjksNi44czExLjYsMTAuOSwxNCwyMGMxLjksOC44LDEuNSwxNi44LTEuMywyMy43czUuMywxMS41LDEyLjQsMTMuOUMxNzQsMTU1LjgsMTczLjUsMTU5LjYsMTcyLjYsMTY3LjVTMTkxLjIsMTgwLjUsMTkxLjIsMTgwLjVaTTE0MC44LDE2OC4yYzUuNyw0LjgsMTIuOCw3LjIsMjEuMyw3LjJhNDYuNSYtdDEyLjZIMTYwYy01LjEsMC05LjEtMS4yLTEyLjEtMy43cy00LjQtNS45LTQuNC0xMC4xYz0tNCwxLjUtNy4xLDQuNC05LjRzNy00LjYsMTIuMS00LjZoNDZ2LTEyLjZIMTYwYy01LDAtOS0xLjItMTIuMS0zLjdjLTMtMi40LTQuNC01LjktNC40LTEwLjFzMC03LDQuNC05LjRzNy00LjYsMTIuMS00LjZoNDZ2LTEyLjZIMTMwYy00LDAtNy4yLDEuMS05LjYsMy4zYy0yLjMtMi4yLTMuNS01LjUtMy41LDkuOHYxMTZoLTIyLjJ2LTEyLjZIMTQwLjhaIiBmaWxsPSJ1cmwoI2EpIi8+CiAgICA5PC9nPgogIDwvZz4KPC9zdmc+');
+      background-position: center 35%;
       background-repeat: no-repeat;
-      background-size: 500px;
+      background-size: 450px;
       background-attachment: fixed;
     }
   </style>
@@ -75,10 +73,10 @@
   <header class="wood-header text-white px-4 py-3.5 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
       
-      <!-- Placa Entalhada de Madeira do Logo CP -->
+      <!-- Logo em Placa de Madeira Entalhada -->
       <div class="flex items-center gap-3">
-        <div class="placa-madeira-logo w-14 h-14 flex items-center justify-center">
-          <span class="font-black text-2xl text-amber-300 drop-shadow-[0_2px_2px_rgba(0,0,0,0.9)] tracking-wider">CP</span>
+        <div class="placa-madeira-entalhada w-13 h-13 flex items-center justify-center">
+          <span class="font-black text-xl text-amber-200 drop-shadow-[0_2px_3px_rgba(0,0,0,0.9)] tracking-wider">CP</span>
         </div>
         <div>
           <h1 id="lbl-empresa-nome" class="font-extrabold text-base md:text-lg tracking-wide text-amber-100">CP CONSTRUÇÕES E REFORMAS</h1>
@@ -86,7 +84,7 @@
         </div>
       </div>
 
-      <!-- Menu Superior -->
+      <!-- Navegação Superior -->
       <nav class="flex flex-wrap items-center justify-center gap-1.5 text-xs font-semibold">
         <button onclick="mudarAba('painel')" id="btn-painel" class="px-3.5 py-2.5 rounded-xl transition tab-active flex items-center gap-1.5">
           <i data-feather="grid" class="w-4 h-4"></i> Painel
@@ -136,7 +134,7 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
-        <!-- Coluna Esquerda do Dashboard -->
+        <!-- Coluna Esquerda -->
         <div class="space-y-6">
           <div class="wood-card rounded-2xl p-6 space-y-4 shadow-sm border-l-4 border-amber-700">
             <h4 class="text-xs font-bold uppercase text-stone-600 tracking-widest flex items-center justify-between">
@@ -163,7 +161,7 @@
             </h4>
             <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-amber-700 rounded-full flex items-center justify-center font-bold text-white text-xs shadow">CP</div>
+                <div class="w-10 h-10 placa-madeira-entalhada flex items-center justify-center font-bold text-white text-xs shadow">CP</div>
                 <div>
                   <p class="text-xs font-bold text-amber-950">Cristiano Paes</p>
                   <p class="text-[10px] text-amber-800">Mestre de Obras / Construtor</p>
@@ -195,7 +193,7 @@
           </div>
         </div>
 
-        <!-- Coluna Direita do Dashboard -->
+        <!-- Coluna Direita -->
         <div class="space-y-6">
           <div class="wood-card rounded-2xl p-6 space-y-4 shadow-sm border-l-4 border-emerald-600">
             <h4 class="text-xs font-bold uppercase text-emerald-800 tracking-widest">RESUMO FINANCEIRO</h4>
@@ -305,15 +303,15 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 4: TABELAS SINAPI E SINDUSCON COMPLETAS POR ETAPAS DA OBRA -->
+    <!-- SEÇÃO 4: TABELAS SINAPI E SINDUSCON COMPLETAS -->
     <section id="sec-tabelas" class="space-y-8 hidden">
       
-      <!-- TABELA SINAPI (REFORMAS) DETALHADA -->
+      <!-- TABELA SINAPI (REFORMAS) -->
       <div class="wood-card rounded-2xl p-6 space-y-6">
         <div class="bg-[#2c1810] text-white p-5 rounded-xl flex justify-between items-center shadow">
           <div>
             <h2 class="text-lg font-bold">Tabela SINAPI - Reformas & Composições de Custo</h2>
-            <p class="text-xs text-amber-200">Composições de Custo Completas Por Fases de Reforma | Estado de São Paulo</p>
+            <p class="text-xs text-amber-200">Composições Completas Por Fases de Reforma | Estado de São Paulo</p>
           </div>
         </div>
         <div class="overflow-x-auto">
@@ -345,7 +343,7 @@
         </div>
       </div>
 
-      <!-- TABELA SINDUSCON (NOVOS SERVIÇOS E ESTRUTURA) DETALHADA -->
+      <!-- TABELA SINDUSCON (NOVOS SERVIÇOS) -->
       <div class="wood-card rounded-2xl p-6 space-y-6">
         <div class="bg-[#1a0f0a] text-white p-5 rounded-xl flex justify-between items-center shadow">
           <div>
@@ -460,7 +458,7 @@
   <script>
     feather.replace();
 
-    let sistemaDb = JSON.parse(localStorage.getItem('cp_sistema_completo_db_v10')) || {
+    let sistemaDb = JSON.parse(localStorage.getItem('cp_sistema_completo_db_v11')) || {
       empresa: { nome: "CP CONSTRUÇÕES E REFORMAS", cnpj: "35.000.000/0001-00", tel: "(13) 99999-9999", cidade: "Itanhaém - SP" },
       clientes: [], equipe: [], diarias: [], orcamentos: [], caixa: []
     };
@@ -478,7 +476,7 @@
     }
 
     function salvarDados() {
-      localStorage.setItem('cp_sistema_completo_db_v10', JSON.stringify(sistemaDb));
+      localStorage.setItem('cp_sistema_completo_db_v11', JSON.stringify(sistemaDb));
       renderizarTudo();
     }
 
@@ -648,15 +646,4 @@
         `).join('');
       }
 
-      document.getElementById('lista-clientes-cadastrados').innerHTML = sistemaDb.clientes.map(c => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span><b>${c.nome}</b> - ${c.tel}</span><button onclick="removerItem('cliente', ${c.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
-      document.getElementById('lista-equipe-cadastrada').innerHTML = sistemaDb.equipe.map(e => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span><b>${e.nome}</b> (${e.funcao}) - R$ ${e.diaria.toFixed(2)}/dia</span><button onclick="removerItem('equipe', ${e.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
-      document.getElementById('lista-orcamentos-emitidos').innerHTML = sistemaDb.orcamentos.map(o => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span><b>${o.cliente}</b> - R$ ${o.valorTotal.toFixed(2)}</span><button onclick="removerItem('orcamento', ${o.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
-      document.getElementById('lista-caixa-historico').innerHTML = sistemaDb.caixa.map(cx => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span>${cx.desc}</span><b class="${cx.tipo === 'entrada' ? 'text-emerald-700' : 'text-rose-700'}">R$ ${cx.valor.toFixed(2)}</b></div>`).join('');
-
-      feather.replace();
-    }
-
-    renderizarTudo();
-  </script>
-</body>
-</html>
+      document.getElementById('lista-clientes-cadastrados').innerHTML = sistemaDb.clientes.map(
