@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CP Construções e Reformas - Gestão Completa</title>
   
-  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22CP%20Constru%C3%A7%C3%B5es%20e%20Reformas%22,%22short_name%22:%22CP%20Obras%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22#fbf8f3%22,%22theme_color%22:%22#5c3a21%22}">
-  <meta name="theme-color" content="#5c3a21">
+  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22CP%20Constru%C3%A7%C3%B5es%20e%20Reformas%22,%22short_name%22:%22CP%20Obras%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22#fbf8f3%22,%22theme_color%22:%22#3b1e10%22}">
+  <meta name="theme-color" content="#3b1e10">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/feather-icons"></script>
@@ -16,18 +16,55 @@
   <style>
     body { background-color: #fbf8f3; color: #2d231d; font-family: system-ui, -apple-system, sans-serif; overflow-x: hidden; }
     
-    .wood-header { background: #5c3a21; border-bottom: 3px solid #d4a373; }
-    .wood-card { background-color: #ffffff; border: 1px solid #d4a373; box-shadow: 0 4px 6px -1px rgba(92, 58, 33, 0.05); }
+    /* Efeito de Madeira Entalhada e Verniz */
+    .wood-header { 
+      background: linear-gradient(180deg, #3b1e10 0%, #25120a 100%); 
+      border-bottom: 4px solid #a67c52; 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
     
-    .btn-wood { background-color: #3b2211; color: #ffffff; }
-    .btn-wood:hover { background-color: #27170a; }
+    .wood-logo {
+      background: radial-gradient(circle, #7a4a26 0%, #4a2811 100%);
+      border: 3px solid #d4a373;
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -3px 6px rgba(0,0,0,0.7), 0 3px 6px rgba(0,0,0,0.5);
+    }
+
+    .wood-card { 
+      background-color: #ffffff; 
+      border: 2px solid #a67c52; 
+      box-shadow: 0 4px 8px -2px rgba(59, 30, 16, 0.12); 
+    }
     
-    .tab-active { background-color: #c68b59; color: #ffffff; font-weight: bold; }
-    .tab-inactive { background-color: rgba(255, 255, 255, 0.12); color: #f4ebd0; }
-    .tab-inactive:hover { background-color: rgba(255, 255, 255, 0.22); }
+    .btn-wood { 
+      background: linear-gradient(180deg, #4a2712 0%, #2b1408 100%); 
+      color: #fbf8f3; 
+      border: 1px solid #a67c52;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .btn-wood:hover { 
+      background: linear-gradient(180deg, #391d0d 0%, #1c0b04 100%); 
+    }
+    
+    .tab-active { 
+      background: linear-gradient(180deg, #a67c52 0%, #7a522f 100%); 
+      color: #ffffff; 
+      font-weight: bold; 
+      border: 1px solid #d4a373;
+    }
+    .tab-inactive { 
+      background-color: rgba(255, 255, 255, 0.08); 
+      color: #e6d3c1; 
+      border: 1px solid rgba(166, 124, 82, 0.3);
+    }
+    .tab-inactive:hover { 
+      background-color: rgba(255, 255, 255, 0.18); 
+    }
+
+    .text-wood { color: #5a351a; }
+    .text-wood-dark { color: #3b1e10; }
     
     .marca-dagua {
-      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiB2aWV3Qm94PSIwIDAgMzA5IDMwOSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSI5NC4wOSIgeTE9IjkyLjc1IiB4Mj0iMjUxLjkzIiB5Mj0iMjUwLjU5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPbkVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzUzM2EyMSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNkNGEzNzMiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxnIGlkPSJiIiBvcGFjaXR5PSIwLjA0Ij4KICAgIDxyZWN0IHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiBmaWxsPSJub25lIi8+CiAgICA8ZyBpZD0iYyI+CiAgICAgIDxwYXRoIGQ9Ik0xNTQuNSwwQzY5LjIsMCwwLDY5LjIsMCwxNTQuNVM2OS4yLDMwOSwxNTQuNSwzMDlzMTU0LjUtNjkuMiwxNTQuNSwxNTQuNVMyMzkuOCwwLDE1NC41LDBabTAsMjg1LjdDODIuMiwyODUuNywyMy4zLDIyNi44LDIzLjMsMTU0LjVTODIuMiwyMy4zLDE1NC41LDIzNzNzMTMxLjIsNTguOSwxMzEuMiwxMzEuMiw1OC45LDEzMS4yLTEzMS4yLDEzMS4yWiIgZmlsbD0idXJsKCNhKSIvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+');
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiB2aWV3Qm94PSIwIDAgMzA5IDMwOSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSI5NC4wOSIgeTE9IjkyLjc1IiB4Mj0iMjUxLjkzIiB5Mj0iMjUwLjU5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPbkVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzNiMWUxMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNhNjdjNTIiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxnIGlkPSJiIiBvcGFjaXR5PSIwLjA1Ij4KICAgIDxyZWN0IHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiBmaWxsPSJub25lIi8+CiAgICA8ZyBpZD0iYyI+CiAgICAgIDxwYXRoIGQ9Ik0xNTQuNSwwQzY5LjIsMCwwLDY5LjIsMCwxNTQuNVM2OS4yLDMwOSwxNTQuNSwzMDlzMTU0LjUtNjkuMiwxNTQuNS0xNTQuNVMyMzkuOCwwLDE1NC41LDBabTAsMjg1LjdDODIuMiwyODUuNywyMy4zLDIyNi44LDIzLjMsMTU0LjVTODIuMiwyMy4zLDE1NC41LDIzNzNzMTMxLjIsNTguOSwxMzEuMiwxMzEuMiw1OC45LDEzMS4yLTEzMS4yLDEzMS4yWiIgZmlsbD0idXJsKCNhKSIvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+');
       background-position: center;
       background-repeat: no-repeat;
       background-size: 50%;
@@ -38,17 +75,17 @@
 <body class="min-h-screen pb-12 overflow-x-hidden">
 
   <!-- Cabeçalho Principal -->
-  <header class="wood-header text-white px-4 py-3.5 shadow-md sticky top-0 z-50">
+  <header class="wood-header text-white px-4 py-3.5 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
       
+      <!-- Logo Esculpido no Canto Superior Esquerdo -->
       <div class="flex items-center gap-3">
-        <!-- Logotipo em Madeira Original Preservado -->
-        <div class="w-12 h-12 bg-amber-700 rounded-xl flex items-center justify-center font-black text-xl text-white shadow-inner border-2 border-amber-400">
+        <div class="w-13 h-13 wood-logo rounded-2xl flex items-center justify-center font-black text-xl text-amber-200 tracking-wider">
           CP
         </div>
         <div>
           <h1 id="lbl-empresa-nome" class="font-extrabold text-base md:text-lg tracking-wide text-amber-100">CP CONSTRUÇÕES E REFORMAS</h1>
-          <p class="text-xs text-amber-200 font-medium">CNPJ MEI: <span id="lbl-empresa-cnpj">35.000.000/0001-00</span> | TEL: <span id="lbl-empresa-tel">(13) 99999-9999</span></p>
+          <p class="text-xs text-amber-300 font-medium">CNPJ MEI: <span id="lbl-empresa-cnpj">35.000.000/0001-00</span> | TEL: <span id="lbl-empresa-tel">(13) 99999-9999</span></p>
         </div>
       </div>
 
@@ -86,46 +123,46 @@
     <!-- SEÇÃO 1: PAINEL DE CONTROLE -->
     <section id="sec-painel" class="space-y-6">
       
-      <div class="wood-card rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-[#d4a373] shadow-sm">
+      <div class="wood-card rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
         <div>
-          <h2 class="text-xl md:text-2xl font-black text-stone-900 tracking-tight">Painel de Controle de Obras</h2>
+          <h2 class="text-xl md:text-2xl font-black text-wood-dark tracking-tight">Painel de Controle de Obras</h2>
           <p class="text-xs md:text-sm text-stone-600 mt-1">Bem-vindo, <strong>Cristiano dos Santos Paes</strong> | CP Construções e Reformas (Itanhaém - SP)[cite: 5].</p>
         </div>
-        <button onclick="mudarAba('orcamentos')" class="btn-wood px-5 py-3 rounded-xl font-bold text-xs md:text-sm flex items-center gap-2 shadow-md">
-          <i data-feather="plus-circle" class="w-4 h-4"></i> Criar Novo Orçamento
+        <button onclick="mudarAba('orcamentos')" class="btn-wood px-5 py-3 rounded-xl font-bold text-xs md:text-sm flex items-center gap-2">
+          <i data-feather="plus-circle" class="w-4 h-4 text-amber-300"></i> Criar Novo Orçamento
         </button>
       </div>
 
-      <!-- 4 Cards de Indicadores -->
+      <!-- 4 Cards de Indicadores com Bordas e Tons de Madeira -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div class="wood-card rounded-2xl p-6 space-y-2 border-l-4 border-amber-600 shadow-sm">
-          <span class="text-xs font-bold uppercase tracking-wider text-stone-500">Obras Ativas</span>
-          <div id="stat-obras" class="text-3xl font-black text-stone-900">0</div>
+        <div class="wood-card rounded-2xl p-6 space-y-2 border-l-8 border-l-[#8c5a32]">
+          <span class="text-xs font-bold uppercase tracking-wider text-wood">Obras Ativas</span>
+          <div id="stat-obras" class="text-3xl font-black text-wood-dark">0</div>
           <p class="text-xs text-stone-500">Em andamento / Aprovadas</p>
         </div>
 
-        <div class="wood-card rounded-2xl p-6 space-y-2 border-l-4 border-emerald-600 shadow-sm">
+        <div class="wood-card rounded-2xl p-6 space-y-2 border-l-8 border-l-emerald-600">
           <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Recebimentos</span>
           <div id="stat-recebimentos" class="text-3xl font-black text-emerald-600">R$ 0,00</div>
           <p class="text-xs text-stone-500">Total recebido de clientes</p>
         </div>
 
-        <div class="wood-card rounded-2xl p-6 space-y-2 border-l-4 border-rose-700 shadow-sm">
+        <div class="wood-card rounded-2xl p-6 space-y-2 border-l-8 border-l-rose-700">
           <span class="text-xs font-bold uppercase tracking-wider text-rose-800">Pagamento Colaboradores</span>
           <div id="stat-pagamentos" class="text-3xl font-black text-rose-700">R$ 0,00</div>
           <p class="text-xs text-stone-500">Diárias e folha de ajudantes</p>
         </div>
 
-        <div class="wood-card rounded-2xl p-6 space-y-2 border-l-4 border-stone-700 shadow-sm">
-          <span class="text-xs font-bold uppercase tracking-wider text-stone-600">Saldo Consolidado</span>
-          <div id="stat-saldo" class="text-3xl font-black text-stone-900">R$ 0,00</div>
+        <div class="wood-card rounded-2xl p-6 space-y-2 border-l-8 border-l-[#3b1e10]">
+          <span class="text-xs font-bold uppercase tracking-wider text-wood-dark">Saldo Consolidado</span>
+          <div id="stat-saldo" class="text-3xl font-black text-wood-dark">R$ 0,00</div>
           <p class="text-xs text-stone-500">Balanço líquido acumulado</p>
         </div>
       </div>
 
-      <div class="wood-card rounded-2xl p-6 space-y-4 shadow-sm">
-        <h3 class="text-xs font-bold text-stone-700 uppercase tracking-wider flex items-center gap-2">
-          <i data-feather="clock" class="w-4 h-4 text-amber-800"></i> Orçamentos e Contratos Recentes
+      <div class="wood-card rounded-2xl p-6 space-y-4">
+        <h3 class="text-xs font-bold text-wood-dark uppercase tracking-wider flex items-center gap-2">
+          <i data-feather="clock" class="w-4 h-4 text-amber-700"></i> Orçamentos e Contratos Recentes
         </h3>
         <div id="painel-lista-recente" class="space-y-2 text-sm text-stone-500 italic">
           Nenhum registro recente encontrado.
@@ -137,16 +174,16 @@
     <!-- SEÇÃO 2: CLIENTES -->
     <section id="sec-clientes" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2"><i data-feather="users" class="w-5 h-5 text-amber-800"></i> Gestão de Clientes</h2>
+        <h2 class="text-lg font-bold text-wood-dark flex items-center gap-2"><i data-feather="users" class="w-5 h-5 text-amber-700"></i> Gestão de Clientes</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <input type="text" id="cli-nome" placeholder="Nome do Cliente" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
-          <input type="text" id="cli-tel" placeholder="Telefone / Contato" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
-          <input type="text" id="cli-end" placeholder="Endereço da Obra" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
+          <input type="text" id="cli-nome" placeholder="Nome do Cliente" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
+          <input type="text" id="cli-tel" placeholder="Telefone / Contato" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
+          <input type="text" id="cli-end" placeholder="Endereço da Obra" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
         </div>
         <button onclick="adicionarCliente()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Cadastrar Cliente</button>
       </div>
       <div class="wood-card rounded-2xl p-6 space-y-3">
-        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Clientes Cadastrados</h3>
+        <h3 class="text-xs font-bold text-wood uppercase tracking-wider">Clientes Cadastrados</h3>
         <div id="lista-clientes-cadastrados" class="space-y-2 text-sm"></div>
       </div>
     </section>
@@ -154,31 +191,31 @@
     <!-- SEÇÃO 3: EQUIPE E DIÁRIAS -->
     <section id="sec-equipe" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2"><i data-feather="user-check" class="w-5 h-5 text-amber-800"></i> Cadastro de Colaborador</h2>
+        <h2 class="text-lg font-bold text-wood-dark flex items-center gap-2"><i data-feather="user-check" class="w-5 h-5 text-amber-700"></i> Cadastro de Colaborador</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <input type="text" id="eq-nome" placeholder="Nome do Colaborador" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
-          <input type="text" id="eq-funcao" placeholder="Função (Pedreiro, Ajudante...)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
-          <input type="number" id="eq-diaria" placeholder="Valor da Diária (R$)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
+          <input type="text" id="eq-nome" placeholder="Nome do Colaborador" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
+          <input type="text" id="eq-funcao" placeholder="Função (Pedreiro, Ajudante...)" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
+          <input type="number" id="eq-diaria" placeholder="Valor da Diária (R$)" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
         </div>
         <button onclick="adicionarEquipe()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Cadastrar Profissional</button>
       </div>
 
-      <div class="wood-card rounded-2xl p-6 space-y-4 border-l-4 border-amber-700 shadow-sm">
-        <h3 class="text-sm font-bold text-stone-900 uppercase tracking-wider flex items-center gap-2">
-          <i data-feather="calendar" class="w-4 h-4 text-amber-800"></i> Apontamento de Diárias de Campo
+      <div class="wood-card rounded-2xl p-6 space-y-4 border-l-8 border-l-[#7a4a26]">
+        <h3 class="text-sm font-bold text-wood-dark uppercase tracking-wider flex items-center gap-2">
+          <i data-feather="calendar" class="w-4 h-4 text-amber-700"></i> Apontamento de Diárias de Campo
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
-          <select id="diaria-colaborador" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900 md:col-span-2">
+          <select id="diaria-colaborador" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900 md:col-span-2">
             <option value="">Selecione o Colaborador...</option>
           </select>
-          <input type="date" id="diaria-data" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
-          <input type="number" id="diaria-qtd" placeholder="Qtd. Dias (1 ou 0.5)" step="0.5" value="1" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
+          <input type="date" id="diaria-data" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
+          <input type="number" id="diaria-qtd" placeholder="Qtd. Dias (1 ou 0.5)" step="0.5" value="1" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
         </div>
         <button onclick="registrarDiaria()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Salvar Apontamento</button>
       </div>
 
       <div class="wood-card rounded-2xl p-6 space-y-3">
-        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Folha de Colaboradores</h3>
+        <h3 class="text-xs font-bold text-wood uppercase tracking-wider">Folha de Colaboradores</h3>
         <div id="lista-equipe-cadastrada" class="space-y-3 text-sm"></div>
       </div>
     </section>
@@ -186,7 +223,7 @@
     <!-- SEÇÃO 4: TABELAS SINAPI -->
     <section id="sec-tabelas" class="space-y-8 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-6">
-        <div class="bg-[#3b2211] text-white p-5 rounded-xl flex justify-between items-center">
+        <div class="wood-header text-white p-5 rounded-xl flex justify-between items-center">
           <div>
             <h2 class="text-lg font-bold">Tabela de Reforma e Serviços Gerais (SINAPI)</h2>
             <p class="text-xs text-amber-200">Composições de Custo de Mão de Obra | Estado de São Paulo</p>
@@ -194,7 +231,7 @@
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs text-stone-700">
-            <thead class="bg-stone-100 text-stone-900 font-bold uppercase">
+            <thead class="bg-stone-100 text-wood-dark font-bold uppercase">
               <tr><th class="p-3">Item</th><th class="p-3">Descrição do Serviço</th><th class="p-3">Unid.</th><th class="p-3">Faixa SP (R$)</th></tr>
             </thead>
             <tbody class="divide-y divide-stone-200">
@@ -209,25 +246,25 @@
     <!-- SEÇÃO 5: ORÇAMENTOS -->
     <section id="sec-orcamentos" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2"><i data-feather="file-text" class="w-5 h-5 text-amber-800"></i> Orçamento Detalhado por Itens</h2>
+        <h2 class="text-lg font-bold text-wood-dark flex items-center gap-2"><i data-feather="file-text" class="w-5 h-5 text-amber-700"></i> Orçamento Detalhado por Itens</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <input type="text" id="orc-cliente" placeholder="Nome do Cliente" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
-          <input type="number" id="orc-prazo" placeholder="Prazo (Dias Úteis)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
+          <input type="text" id="orc-cliente" placeholder="Nome do Cliente" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
+          <input type="number" id="orc-prazo" placeholder="Prazo (Dias Úteis)" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
         </div>
-        <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-3">
+        <div class="bg-stone-50 p-4 rounded-xl border border-[#a67c52] space-y-3">
           <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
-            <input type="text" id="item-desc" placeholder="Descrição do Serviço" class="bg-white border border-stone-300 rounded-lg p-2.5 md:col-span-2">
-            <input type="number" id="item-qtd" placeholder="Qtd / m²" class="bg-white border border-stone-300 rounded-lg p-2.5">
-            <input type="number" id="item-val" placeholder="Valor Unitário (R$)" class="bg-white border border-stone-300 rounded-lg p-2.5">
+            <input type="text" id="item-desc" placeholder="Descrição do Serviço" class="bg-white border border-[#a67c52] rounded-lg p-2.5 md:col-span-2">
+            <input type="number" id="item-qtd" placeholder="Qtd / m²" class="bg-white border border-[#a67c52] rounded-lg p-2.5">
+            <input type="number" id="item-val" placeholder="Valor Unitário (R$)" class="bg-white border border-[#a67c52] rounded-lg p-2.5">
           </div>
           <button onclick="adicionarItemOrcamento()" class="btn-wood text-xs px-4 py-2.5 rounded-lg font-bold">Adicionar Item</button>
         </div>
         <div id="itens-orcamento-temp" class="space-y-1.5 text-xs text-stone-500 italic">Nenhum item incluído.</div>
-        <div class="text-right text-sm font-bold text-stone-900">Total: <span id="total-orcamento-temp" class="text-emerald-700">R$ 0,00</span></div>
+        <div class="text-right text-sm font-bold text-wood-dark">Total: <span id="total-orcamento-temp" class="text-emerald-700">R$ 0,00</span></div>
         <button onclick="salvarOrcamentoCompleto()" class="btn-wood px-6 py-3.5 rounded-2xl font-bold text-sm shadow-xl w-full">Salvar Orçamento</button>
       </div>
       <div class="wood-card rounded-2xl p-6 space-y-3">
-        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Histórico de Orçamentos</h3>
+        <h3 class="text-xs font-bold text-wood uppercase tracking-wider">Histórico de Orçamentos</h3>
         <div id="lista-orcamentos-emitidos" class="space-y-3 text-sm"></div>
       </div>
     </section>
@@ -235,11 +272,11 @@
     <!-- SEÇÃO 6: CAIXA -->
     <section id="sec-caixa" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2"><i data-feather="dollar-sign" class="w-5 h-5 text-amber-800"></i> Caixa</h2>
+        <h2 class="text-lg font-bold text-wood-dark flex items-center gap-2"><i data-feather="dollar-sign" class="w-5 h-5 text-amber-700"></i> Caixa</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <input type="text" id="cx-desc" placeholder="Descrição (Ex: Cimento)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
-          <input type="number" id="cx-valor" placeholder="Valor (R$)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
-          <select id="cx-tipo" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
+          <input type="text" id="cx-desc" placeholder="Descrição (Ex: Cimento)" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
+          <input type="number" id="cx-valor" placeholder="Valor (R$)" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
+          <select id="cx-tipo" class="bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
             <option value="entrada">Entrada</option>
             <option value="saida">Saída</option>
           </select>
@@ -247,33 +284,33 @@
         <button onclick="adicionarCaixa()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Lançar no Caixa</button>
       </div>
       <div class="wood-card rounded-2xl p-6 space-y-3">
-        <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Histórico</h3>
+        <h3 class="text-xs font-bold text-wood uppercase tracking-wider">Histórico</h3>
         <div id="lista-caixa-historico" class="space-y-2 text-sm"></div>
       </div>
     </section>
 
-    <!-- SEÇÃO 7: EMPRESA (ALTERAÇÃO DE CNPJ E TELEFONE) -->
+    <!-- SEÇÃO 7: EMPRESA -->
     <section id="sec-empresa" class="space-y-6 hidden">
       <div class="wood-card rounded-2xl p-6 space-y-4">
-        <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2"><i data-feather="settings" class="w-5 h-5 text-amber-800"></i> Configurações da Empresa & CNPJ</h2>
+        <h2 class="text-lg font-bold text-wood-dark flex items-center gap-2"><i data-feather="settings" class="w-5 h-5 text-amber-700"></i> Configurações da Empresa & CNPJ</h2>
         <p class="text-xs text-stone-600">Altere abaixo os dados da sua empresa. Eles serão atualizados automaticamente no cabeçalho e nos documentos gerados.</p>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div>
-            <label class="block text-xs font-semibold text-stone-700 mb-1">Nome da Empresa</label>
-            <input type="text" id="conf-empresa-nome" value="CP CONSTRUÇÕES E REFORMAS" class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
+            <label class="block text-xs font-semibold text-wood-dark mb-1">Nome da Empresa</label>
+            <input type="text" id="conf-empresa-nome" value="CP CONSTRUÇÕES E REFORMAS" class="w-full bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-stone-700 mb-1">CNPJ / MEI</label>
-            <input type="text" id="conf-empresa-cnpj" value="35.000.000/0001-00" class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
+            <label class="block text-xs font-semibold text-wood-dark mb-1">CNPJ / MEI</label>
+            <input type="text" id="conf-empresa-cnpj" value="35.000.000/0001-00" class="w-full bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-stone-700 mb-1">Telefone de Contato</label>
-            <input type="text" id="conf-empresa-tel" value="(13) 99999-9999" class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
+            <label class="block text-xs font-semibold text-wood-dark mb-1">Telefone de Contato</label>
+            <input type="text" id="conf-empresa-tel" value="(13) 99999-9999" class="w-full bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-stone-700 mb-1">Região / Cidade</label>
-            <input type="text" id="conf-empresa-cidade" value="Itanhaém - SP" class="w-full bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
+            <label class="block text-xs font-semibold text-wood-dark mb-1">Região / Cidade</label>
+            <input type="text" id="conf-empresa-cidade" value="Itanhaém - SP" class="w-full bg-stone-50 border border-[#a67c52] rounded-xl p-3 text-stone-900">
           </div>
         </div>
         <button onclick="salvarConfigEmpresa()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow flex items-center gap-2">
@@ -287,7 +324,7 @@
   <script>
     feather.replace();
 
-    let sistemaDb = JSON.parse(localStorage.getItem('cp_sistema_completo_db_v6')) || {
+    let sistemaDb = JSON.parse(localStorage.getItem('cp_sistema_completo_db_v7')) || {
       empresa: { nome: "CP CONSTRUÇÕES E REFORMAS", cnpj: "35.000.000/0001-00", tel: "(13) 99999-9999", cidade: "Itanhaém - SP" },
       clientes: [], equipe: [], diarias: [], orcamentos: [], caixa: []
     };
@@ -305,7 +342,7 @@
     }
 
     function salvarDados() {
-      localStorage.setItem('cp_sistema_completo_db_v6', JSON.stringify(sistemaDb));
+      localStorage.setItem('cp_sistema_completo_db_v7', JSON.stringify(sistemaDb));
       renderizarTudo();
     }
 
@@ -348,7 +385,7 @@
       sistemaDb.diarias.push({ id: Date.now(), colabId, colabNome: colab.nome, data, qtd, valorTotal });
       sistemaDb.caixa.push({ id: Date.now(), desc: `Diária (${qtd}d) - ${colab.nome}`, valor: valorTotal, tipo: 'saida' });
       salvarDados();
-      alert('Apontamento registado!');
+      alert('Apontamento registrado!');
     }
 
     function adicionarItemOrcamento() {
@@ -368,7 +405,7 @@
       let total = 0;
       container.innerHTML = itensTempOrcamento.map(i => {
         total += i.totalItem;
-        return `<div class="bg-white p-2 rounded border flex justify-between"><span>${i.desc} (${i.qtd}x R$ ${i.val.toFixed(2)})</span><strong>R$ ${i.totalItem.toFixed(2)}</strong></div>`;
+        return `<div class="bg-white p-2 rounded border border-[#a67c52] flex justify-between"><span>${i.desc} (${i.qtd}x R$ ${i.val.toFixed(2)})</span><strong>R$ ${i.totalItem.toFixed(2)}</strong></div>`;
       }).join('');
       totalSpan.innerText = `R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
     }
@@ -404,7 +441,6 @@
     }
 
     function renderizarTudo() {
-      // Atualiza cabeçalho com os dados da empresa salvos
       if(sistemaDb.empresa) {
         document.getElementById('lbl-empresa-nome').innerText = sistemaDb.empresa.nome;
         document.getElementById('lbl-empresa-cnpj').innerText = sistemaDb.empresa.cnpj;
@@ -436,16 +472,16 @@
         painelRecente.innerHTML = 'Nenhum registro recente encontrado.';
       } else {
         painelRecente.innerHTML = sistemaDb.orcamentos.slice(-3).reverse().map(o => `
-          <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 flex justify-between items-center text-xs text-stone-900">
+          <div class="bg-stone-50 p-3 rounded-xl border border-[#a67c52] flex justify-between items-center text-xs text-stone-900">
             <span><strong>${o.cliente}</strong> — R$ ${o.valorTotal.toFixed(2)} (${o.prazo} dias)</span>
           </div>
         `).join('');
       }
 
-      document.getElementById('lista-clientes-cadastrados').innerHTML = sistemaDb.clientes.map(c => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span><b>${c.nome}</b> - ${c.tel}</span><button onclick="removerItem('cliente', ${c.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
-      document.getElementById('lista-equipe-cadastrada').innerHTML = sistemaDb.equipe.map(e => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span><b>${e.nome}</b> (${e.funcao}) - R$ ${e.diaria.toFixed(2)}/dia</span><button onclick="removerItem('equipe', ${e.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
-      document.getElementById('lista-orcamentos-emitidos').innerHTML = sistemaDb.orcamentos.map(o => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span><b>${o.cliente}</b> - R$ ${o.valorTotal.toFixed(2)}</span><button onclick="removerItem('orcamento', ${o.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
-      document.getElementById('lista-caixa-historico').innerHTML = sistemaDb.caixa.map(cx => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span>${cx.desc}</span><b class="${cx.tipo === 'entrada' ? 'text-emerald-700' : 'text-rose-700'}">R$ ${cx.valor.toFixed(2)}</b></div>`).join('');
+      document.getElementById('lista-clientes-cadastrados').innerHTML = sistemaDb.clientes.map(c => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border border-[#a67c52]"><span><b>${c.nome}</b> - ${c.tel}</span><button onclick="removerItem('cliente', ${c.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
+      document.getElementById('lista-equipe-cadastrada').innerHTML = sistemaDb.equipe.map(e => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border border-[#a67c52]"><span><b>${e.nome}</b> (${e.funcao}) - R$ ${e.diaria.toFixed(2)}/dia</span><button onclick="removerItem('equipe', ${e.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
+      document.getElementById('lista-orcamentos-emitidos').innerHTML = sistemaDb.orcamentos.map(o => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border border-[#a67c52]"><span><b>${o.cliente}</b> - R$ ${o.valorTotal.toFixed(2)}</span><button onclick="removerItem('orcamento', ${o.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
+      document.getElementById('lista-caixa-historico').innerHTML = sistemaDb.caixa.map(cx => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border border-[#a67c52]"><span>${cx.desc}</span><b class="${cx.tipo === 'entrada' ? 'text-emerald-700' : 'text-rose-700'}">R$ ${cx.valor.toFixed(2)}</b></div>`).join('');
 
       feather.replace();
     }
