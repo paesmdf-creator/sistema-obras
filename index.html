@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CP Construções e Reformas - Gestão Completa</title>
   
-  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22CP%20Constru%C3%A7%C3%B5es%20e%20Reformas%22,%22short_name%22:%22CP%20Obras%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22#fdfbf7%22,%22theme_color%22:%22#2c1810%22}">
+  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22CP%20Constru%C3%A7%C3%B5es%20e%20Reformas%22,%22short_name%22:%22CP%20Obras%22,%22start_url%22:%22./%22,%22display%22:%22standalone%22,%22background_color%22:%22#fbf8f3%22,%22theme_color%22:%22#2c1810%22}">
   <meta name="theme-color" content="#2c1810">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,12 +14,7 @@
   <script src="https://unpkg.com/feather-icons"></script>
 
   <style>
-    body { 
-      background-color: #fbf8f3; 
-      color: #2d231d; 
-      font-family: system-ui, -apple-system, sans-serif; 
-      overflow-x: hidden; 
-    }
+    body { background-color: #fbf8f3; color: #2d231d; font-family: system-ui, -apple-system, sans-serif; overflow-x: hidden; }
     
     .wood-header { 
       background: linear-gradient(135deg, #2c1810 0%, #170d08 100%); 
@@ -27,21 +22,21 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
     
-    /* Placa de Madeira Esculpida Realista (Idêntica à sua marca física) */
-    .placa-madeira-entalhada {
-      background: linear-gradient(135deg, #4a2811 0%, #2c1810 50%, #170d08 100%);
+    /* Placa de Madeira Física Realista idêntica à imagem */
+    .placa-madeira-real {
+      background: linear-gradient(145deg, #5c3a21 0%, #3b2211 60%, #1c0b04 100%);
       border: 3px solid #d4a373;
-      border-radius: 12px;
+      border-radius: 14px;
       box-shadow: 
-        inset 0 3px 6px rgba(255, 235, 170, 0.35),
-        inset 0 -4px 8px rgba(0, 0, 0, 0.85),
-        0 4px 8px rgba(0, 0, 0, 0.4);
+        inset 0 3px 6px rgba(255, 235, 170, 0.4),
+        inset 0 -5px 10px rgba(0, 0, 0, 0.9),
+        0 6px 12px rgba(0, 0, 0, 0.5);
     }
 
-    .wood-card { 
+    .prancha-card { 
       background-color: #ffffff; 
       border: 2px solid #b8860b; 
-      box-shadow: 0 4px 10px -2px rgba(44, 24, 16, 0.1); 
+      box-shadow: 0 4px 10px -2px rgba(44, 24, 16, 0.12); 
     }
     
     .btn-wood { 
@@ -57,12 +52,12 @@
     .tab-inactive { background-color: rgba(255,255,255,0.06); color: #d3c5b4; }
     .tab-inactive:hover { background-color: rgba(255,255,255,0.12); }
     
-    /* Marca d'Água Central Bem Visível e Nítida */
+    /* Marca d'água central nítida */
     .marca-dagua {
-      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiB2aWV3Qm94PSIwIDAgMzA5IDMwOSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSI5NC4wOSIgeTE9IjkyLjc1IiB4Mj0iMjUxLjkzIiB5Mj0iMjUwLjU5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPbkVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2I4ODYwYiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM0YTI4MTEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxnIGlkPSJiIiBvcGFjaXR5PSIwLjE4Ij4KICAgIDxyZWN0IHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiBmaWxsPSJub25lIi8+CiAgICA8ZyBpZD0iYyI+CiAgICAgIDxwYXRoIGQ9Ik0xNTQuNSwwQzY5LjIsMCwwLDY5LjIsMCwxNTQuNVM2OS4yLDMwOSwxNTQuNSwzMDlzMTU0LjUtNjkuMiwxNTQuNS0xNTQuNVMyMzkuOCwwLDE1NC41LDBabTAsMjg1LjdDODIuMiwyODUuNywyMy4zLDIyNi44LDIzLjMsMTU0LjVTODIuMiwyMy4zLDE1NC41LDIzNzNzMTMxLjIsNTguOSwxMzEuMiwxMzEuMiw1OC45LDEzMS4yLTEzMS4yLDEzMS4yWiIgZmlsbD0idXJsKCNhKSIvPgogICAgICA8cGF0aCBkPSJNMjQ5LjMsMTc4LjhsLTEzLjUsNC41Yy0xLjYsNC44LTQsOS40LTcuM2wxMywxMC4xLDEwLTkuNC05LjQtOS40LTEwLjEtMTBjLTQuMSwzLjMtOC43LDUuOS0xMy41LDcuOWwtNC41LDEzLjVIMjE2LjdsLTQuNS0xMy41Yy00LjgtMS42LTkuNC00LTEzLjUtNy4ybC0xMCwxMC4xLTkuNC05LjQsMTAtMTAuMWMtMy4zLTQuMS01LjktOC43LTcuOS0xMy41bC0xMy41LTQuNXYtMTguN2wxMy41LTQuNWMxLjYtNC44LDQtOS40LDcuMi0xMy41bC0xMC4xLTEwLDkuNC05LjQsMTAuMSwxMGM0LjEtMy4zLDguNy01LjksMTMuNS03LjlsNC41LTEzLjVIMjMxbDQuNSwxMy41YzQuOCwxLjYsOS40LDQsMTMuNSw3LjJsMTAtMTAuMSw5LjQsOS40LTEwLDEwLjFjMy4zLDQuMSw1LjksOC43LDcuOSwxMzVsMTMuNSw0LjV2MTguN1paTTE1NC41LDY5LjNDMTA4LjUsNjkuMyw3MS4yLDEwNi42LDcxLjIsMTUyLjdzMzcuMyw4My40LDgzLjQsODMuNCw4My40LTM3LjMsODMuNC04My40UzIwMC41LDY5LjMsMTU0LjUsNjkuM1ptMCwxNSYuNWMtNDAsMC03NC0zMy4yLTc0LTc0UzExMy43LDc5LDE1NC41LDc5czc0LDMzLjIsNzQsNzQtMzMuMiw3NC03NCw3NFoiIGZpbGw9InVybCojYSkvPgogICAgICA8cGF0aCBkPSJNMTkxLjIsMTgwLjVjLTMsNS41LTcuMyw5LjgtMTIuNywxMjQuOHMtMTEuNyw0LjUtMTguOCw0LjVWMjUuMnYtMTguM2gyMS42di00MS4yaC0yMS42di0xOC4zSDkxLjdjOS43LDAsMTgsMi4zLDI0LjksNi44czExLjYsMTAuOSwxNCwyMGMxLjksOC44LDEuNSwxNi44LTEuMywyMy43czUuMywxMS41LDEyLjQsMTMuOUMxNzQsMTU1LjgsMTczLjUsMTU5LjYsMTcyLjYsMTY3LjVTMTkxLjIsMTgwLjUsMTkxLjIsMTgwLjVaTTE0MC44LDE2OC4yYzUuNyw0LjgsMTIuOCw3LjIsMjEuMyw3LjJhNDYuNSYtdDEyLjZIMTYwYy01LjEsMC05LjEtMS4yLTEyLjEtMy43cy00LjQtNS45LTQuNC0xMC4xYz0tNCwxLjUtNy4xLDQuNC05LjRzNy00LjYsMTIuMS00LjZoNDZ2LTEyLjZIMTYwYy01LDAtOS0xLjItMTIuMS0zLjdjLTMtMi40LTQuNC01LjktNC40LTEwLjFzMC03LDQuNC05LjRzNy00LjYsMTIuMS00LjZoNDZ2LTEyLjZIMTMwYy00LDAtNy4yLDEuMS05LjYsMy4zYy0yLjMtMi4yLTMuNS01LjUtMy41LDkuOHYxMTZoLTIyLjJ2LTEyLjZIMTQwLjhaIiBmaWxsPSJ1cmwoI2EpIi8+CiAgICA5PC9nPgogIDwvZz4KPC9zdmc+');
-      background-position: center 35%;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiB2aWV3Qm94PSIwIDAgMzA5IDMwOSI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSI5NC4wOSIgeTE9IjkyLjc1IiB4Mj0iMjUxLjkzIiB5Mj0iMjUwLjU5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPbkVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2I4ODYwYiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM0YTI4MTEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxnIGlkPSJiIiBvcGFjaXR5PSIwLjE2Ij4KICAgIDxyZWN0IHdpZHRoPSIzMDkiIGhlaWdodD0iMzA5IiBmaWxsPSJub25lIi8+CiAgICA8ZyBpZD0iYyI+CiAgICAgIDxwYXRoIGQ9Ik0xNTQuNSwwQzY5LjIsMCwwLDY5LjIsMCwxNTQuNVM2OS4yLDMwOSwxNTQuNSwzMDlzMTU0LjUtNjkuMiwxNTQuNSwxNTQuNVMyMzkuOCwwLDE1NC41LDBabTAsMjg1LjdDODIuMiwyODUuNywyMy4zLDIyNi44LDIzLjMsMTU0LjVTODIuMiwyMy4zLDE1NC41LDIzNzNzMTMxLjIsNTguOSwxMzEuMiwxMzEuMiw1OC45LDEzMS4yLTEzMS4yLDEzMS4yWiIgZmlsbD0idXJsKCNhKSIvPgogICAgICA8cGF0aCBkPSJNMjQ5LjMsMTc4LjhsLTEzLjUsNC41Yy0xLjYsNC44LTQsOS40LTcuM2wxMywxMC4xLDEwLTkuNC05LjQtOS40LTEwLjEtMTBjLTQuMSwzLjMtOC43LDUuOS0xMy41LDcuOWwtNC41LDEzLjVIMjE2LjdsLTQuNS0xMy41Yy00LjgtMS42LTkuNC00LTEzLjUtNy4ybC0xMCwxMC4xLTkuNC05LjQsMTAtMTAuMWMtMy4zLTQuMS01LjktOC43LTcuOS0xMy41bC0xMy41LTQuNXYtMTguN2wxMy41LTQuNWMxLjYtNC44LDQtOS40LDcuMi0xMy41bC0xMCxJLTEwLDkuNC05LjQsMTAuMSwxMGM0LjEtMy4zLDguNy01LjksMTMuNS03LjlsNC41LTEzLjVIMjMxbDQuNSwxMy41YzQuOCwxLjYsOS40LDQsMTMuNSw3LjJsMTAtMTAuMSw5LjQsOS40LTEwLDEwLjFjMy4zLDQuMSw1LjksOC43LDcuOSwxMzVsMTMuNSw0LjV2MTguN1paTTE1NC41LDY5LjNDMTA4LjUsNjkuMyw3MS4yLDEwNi42LDcxLjIsMTUyLjdzMzcuMyw4My40LDgzLjQsODMuNCw4My40LTM3LjMsODMuNC04My40UzIwMC41LDY5LjMsMTU0LjUsNjkuM1ptMCwxNSYuNWMtNDAsMC03NC0zMy4yLTc0LTc0UzExMy43LDc5LDE1NC41LDc5czc0LDMzLjIsNzQsNzktMzMuMiw3NC03NCw3NFoiIGZpbGw9InVybCojYSkvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+');
+      background-position: center 40%;
       background-repeat: no-repeat;
-      background-size: 450px;
+      background-size: 480px;
       background-attachment: fixed;
     }
   </style>
@@ -73,10 +68,9 @@
   <header class="wood-header text-white px-4 py-3.5 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
       
-      <!-- Logo em Placa de Madeira Entalhada -->
       <div class="flex items-center gap-3">
-        <div class="placa-madeira-entalhada w-13 h-13 flex items-center justify-center">
-          <span class="font-black text-xl text-amber-200 drop-shadow-[0_2px_3px_rgba(0,0,0,0.9)] tracking-wider">CP</span>
+        <div class="w-12 h-12 placa-madeira-real flex items-center justify-center font-black text-xl text-amber-200 tracking-wider shadow-inner">
+          CP
         </div>
         <div>
           <h1 id="lbl-empresa-nome" class="font-extrabold text-base md:text-lg tracking-wide text-amber-100">CP CONSTRUÇÕES E REFORMAS</h1>
@@ -84,7 +78,6 @@
         </div>
       </div>
 
-      <!-- Navegação Superior -->
       <nav class="flex flex-wrap items-center justify-center gap-1.5 text-xs font-semibold">
         <button onclick="mudarAba('painel')" id="btn-painel" class="px-3.5 py-2.5 rounded-xl transition tab-active flex items-center gap-1.5">
           <i data-feather="grid" class="w-4 h-4"></i> Painel
@@ -114,40 +107,55 @@
 
   <main class="max-w-7xl mx-auto px-4 pt-6 space-y-6">
 
-    <!-- SEÇÃO 1: PAINEL / DASHBOARD -->
+    <!-- SEÇÃO 1: PAINEL / DASHBOARD EM FORMATO DE PRANCHA EXECUTIVA (EXATAMENTE COMO NA SUA IMAGEM DE REFERÊNCIA) -->
     <section id="sec-painel" class="space-y-6">
       
-      <div class="wood-card rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-l-8 border-amber-800 shadow-md">
+      <!-- Placa Centralizada do Logotipo com a Placa de Madeira Física em Destaque no Topo -->
+      <div class="prancha-card rounded-2xl p-6 text-center space-y-3 relative overflow-hidden border-t-8 border-t-[#2c1810]">
+        <div class="w-24 h-24 placa-madeira-real mx-auto flex items-center justify-center shadow-xl">
+          <div class="text-center">
+            <span class="font-black text-2xl text-amber-200 tracking-widest block">CP</span>
+            <span class="text-[8px] text-amber-300 uppercase tracking-tighter block">CP CONSTRUÇÕES E REFORMAS</span>
+          </div>
+        </div>
+        <p class="text-xs text-stone-500 font-semibold tracking-wider">CNPJ: 35.000.000/0001-00 | ITANHAÉM - SP</p>
+      </div>
+
+      <!-- Título da Prancha: DASHBOARD DO PROJETO - GESTÃO DE OBRAS -->
+      <div class="prancha-card rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4 border-l-8 border-amber-800 shadow-md">
         <div>
-          <h2 class="text-xl md:text-2xl font-black text-stone-900 tracking-tight">DASHBOARD DO PROJETO - GESTÃO DE OBRAS</h2>
-          <p class="text-xs md:text-sm text-stone-600 mt-1">PROJETO: <strong>Residencial Principal</strong> | CLIENTE: <strong id="dash-cli-nome">Não selecionado</strong> | REC. CONTRATO: <strong id="dash-num-contrato">#001</strong></p>
+          <h2 class="text-xl font-black text-stone-900 tracking-tight">DASHBOARD DO PROJETO - GESTÃO DE OBRAS</h2>
+          <p class="text-xs text-stone-600 mt-1">PROJETO: <strong>Residencial Principal</strong> | CLIENTE: <strong id="dash-cli-nome">Não selecionado</strong> | REF. CONTRATO: <strong>#001</strong></p>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="exportarDados()" class="bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs px-4 py-3 rounded-xl font-bold flex items-center gap-1.5 shadow">
+          <button onclick="exportarDados()" class="bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs px-3.5 py-2.5 rounded-xl font-bold flex items-center gap-1.5 shadow">
             <i data-feather="download" class="w-4 h-4"></i> Backup Nuvem
           </button>
-          <button onclick="mudarAba('orcamentos')" class="btn-wood px-5 py-3 rounded-xl font-bold text-xs md:text-sm flex items-center gap-2 shadow-xl">
-            <i data-feather="plus-circle" class="w-4 h-4"></i> Criar Novo Orçamento
+          <button onclick="mudarAba('orcamentos')" class="btn-wood px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-lg">
+            <i data-feather="plus-circle" class="w-4 h-4"></i> Novo Orçamento
           </button>
         </div>
       </div>
 
+      <!-- Duas Colunas Paralelas Exatamente Como na Imagem -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
-        <!-- Coluna Esquerda -->
+        <!-- COLUNA ESQUERDA -->
         <div class="space-y-6">
-          <div class="wood-card rounded-2xl p-6 space-y-4 shadow-sm border-l-4 border-amber-700">
-            <h4 class="text-xs font-bold uppercase text-stone-600 tracking-widest flex items-center justify-between">
+          
+          <!-- Visão Geral do Projeto -->
+          <div class="prancha-card rounded-2xl p-5 space-y-4 shadow-sm border-l-4 border-amber-700">
+            <h4 class="text-xs font-bold uppercase text-stone-700 tracking-widest flex items-center justify-between">
               <span>VISÃO GERAL DO PROJETO</span>
               <span class="text-[10px] text-stone-500">DATA ATUAL: <span id="data-hoje-lbl">--/--/----</span></span>
             </h4>
             <div class="flex items-center justify-between gap-3">
               <div>
-                <span class="text-[10px] text-stone-600 block uppercase font-semibold">Progresso Total</span>
+                <span class="text-[10px] text-stone-600 block uppercase font-bold">Progresso Total</span>
                 <span id="dash-qtd-progresso" class="text-3xl font-black text-amber-900">65%</span>
                 <span class="text-xs text-stone-500 block mt-1">Dias Restantes: <strong class="text-stone-800">45</strong></span>
               </div>
-              <div class="w-20 h-20 rounded-full border-[8px] border-amber-800 flex items-center justify-center font-extrabold text-lg text-amber-900 shadow-inner bg-amber-50">65%</div>
+              <div class="w-16 h-16 rounded-full border-[6px] border-amber-800 flex items-center justify-center font-extrabold text-sm text-amber-900 shadow-inner bg-amber-50">65%</div>
             </div>
             <div class="text-xs text-stone-600 pt-2 border-t border-stone-200 flex justify-between">
               <span>Membros da Equipe Ativos: <strong id="dash-qtd-equipe" class="text-stone-900">0</strong></span>
@@ -155,23 +163,25 @@
             </div>
           </div>
 
-          <div class="wood-card rounded-2xl p-6 space-y-3 shadow-sm border-l-4 border-stone-800">
+          <!-- Mão de Obra e Diárias (Com Tabela Interna Completa) -->
+          <div class="prancha-card rounded-2xl p-5 space-y-3 shadow-sm border-l-4 border-stone-800">
             <h4 class="text-xs font-bold uppercase text-stone-700 tracking-widest flex items-center gap-2">
               <i data-feather="user" class="w-4 h-4 text-amber-800"></i> MÃO DE OBRA E DIÁRIAS
             </h4>
-            <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 placa-madeira-entalhada flex items-center justify-center font-bold text-white text-xs shadow">CP</div>
-                <div>
-                  <p class="text-xs font-bold text-amber-950">Cristiano Paes</p>
-                  <p class="text-[10px] text-amber-800">Mestre de Obras / Construtor</p>
-                </div>
-              </div>
-              <span id="dash-total-diarias-mes" class="text-xs font-bold text-stone-800 bg-white px-3 py-1.5 rounded-lg border border-amber-300">R$ 0,00</span>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-stone-700">
+                <thead class="bg-amber-100/60 font-bold text-amber-950 uppercase">
+                  <tr><th class="p-2">Colaborador</th><th class="p-2">Dias</th><th class="p-2">Total (R$)</th></tr>
+                </thead>
+                <tbody id="tabela-diarias-dashboard" class="divide-y divide-stone-200">
+                  <tr><td colspan="3" class="p-2 text-stone-500 italic">Nenhum apontamento registrado.</td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <div class="wood-card rounded-2xl p-6 space-y-4 shadow-sm border-l-4 border-amber-900">
+          <!-- Progresso de Etapas (SINAPI / SINDUSCON) -->
+          <div class="prancha-card rounded-2xl p-5 space-y-4 shadow-sm border-l-4 border-amber-900">
             <h4 class="text-xs font-bold uppercase text-stone-700 tracking-widest flex items-center justify-between">
               <span>PROGRESSO DE ETAPAS (SINAPI/SINDUSCON)</span>
               <button onclick="mudarAba('tabelas')" class="text-xs text-amber-800 font-bold hover:underline">Ver Tabelas</button>
@@ -191,11 +201,14 @@
               </div>
             </div>
           </div>
+
         </div>
 
-        <!-- Coluna Direita -->
+        <!-- COLUNA DIREITA -->
         <div class="space-y-6">
-          <div class="wood-card rounded-2xl p-6 space-y-4 shadow-sm border-l-4 border-emerald-600">
+          
+          <!-- Resumo Financeiro -->
+          <div class="prancha-card rounded-2xl p-5 space-y-4 shadow-sm border-l-4 border-emerald-600">
             <h4 class="text-xs font-bold uppercase text-emerald-800 tracking-widest">RESUMO FINANCEIRO</h4>
             <div class="grid grid-cols-2 gap-4">
               <div class="bg-stone-50 p-3.5 rounded-xl border border-stone-200">
@@ -209,7 +222,8 @@
             </div>
           </div>
 
-          <div class="wood-card rounded-2xl p-6 space-y-3 shadow-sm border-l-4 border-indigo-700">
+          <!-- Resumo Diário do Mês -->
+          <div class="prancha-card rounded-2xl p-5 space-y-3 shadow-sm border-l-4 border-indigo-700">
             <h4 class="text-xs font-bold uppercase text-stone-700 tracking-widest flex items-center gap-2">
               <i data-feather="calendar" class="w-4 h-4 text-indigo-700"></i> RESUMO DIÁRIO DO MÊS
             </h4>
@@ -218,7 +232,8 @@
             </div>
           </div>
 
-          <div class="wood-card rounded-2xl p-6 space-y-3 shadow-sm border-l-4 border-amber-800">
+          <!-- Gestão de Caixa -->
+          <div class="prancha-card rounded-2xl p-5 space-y-3 shadow-sm border-l-4 border-amber-800">
             <h4 class="text-xs font-bold uppercase text-stone-700 tracking-widest flex items-center justify-between">
               <span>GESTÃO DE CAIXA & LANÇAMENTOS</span>
               <button onclick="mudarAba('caixa')" class="text-xs text-amber-800 font-bold hover:underline">Ver Caixa</button>
@@ -227,12 +242,13 @@
               <p class="italic">Nenhum lançamento recente no caixa.</p>
             </div>
           </div>
+
         </div>
 
       </div>
 
-      <!-- Rodapé do Dashboard -->
-      <div class="wood-card rounded-2xl p-6 space-y-4 shadow-md border-t-4 border-amber-800">
+      <!-- Rodapé da Prancha: Confirmação Digital e Assinatura -->
+      <div class="prancha-card rounded-2xl p-6 space-y-4 shadow-md border-t-4 border-amber-800">
         <h4 class="text-xs font-bold uppercase text-stone-700 tracking-widest">CONFIRMAR RECEBIMENTO DIGITAL & ASSINATURA</h4>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 text-xs">
           <div class="space-y-2">
@@ -256,7 +272,7 @@
 
     <!-- SEÇÃO 2: CLIENTES -->
     <section id="sec-clientes" class="space-y-6 hidden">
-      <div class="wood-card rounded-2xl p-6 space-y-4">
+      <div class="prancha-card rounded-2xl p-6 space-y-4">
         <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2"><i data-feather="users" class="w-5 h-5 text-amber-800"></i> Gestão de Clientes</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <input type="text" id="cli-nome" placeholder="Nome do Cliente" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
@@ -265,7 +281,7 @@
         </div>
         <button onclick="adicionarCliente()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Cadastrar Cliente</button>
       </div>
-      <div class="wood-card rounded-2xl p-6 space-y-3">
+      <div class="prancha-card rounded-2xl p-6 space-y-3">
         <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Clientes Cadastrados</h3>
         <div id="lista-clientes-cadastrados" class="space-y-2 text-sm"></div>
       </div>
@@ -273,7 +289,7 @@
 
     <!-- SEÇÃO 3: EQUIPE E DIÁRIAS -->
     <section id="sec-equipe" class="space-y-6 hidden">
-      <div class="wood-card rounded-2xl p-6 space-y-4">
+      <div class="prancha-card rounded-2xl p-6 space-y-4">
         <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2"><i data-feather="user-check" class="w-5 h-5 text-amber-800"></i> Cadastro de Colaborador</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <input type="text" id="eq-nome" placeholder="Nome do Colaborador" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
@@ -283,7 +299,7 @@
         <button onclick="adicionarEquipe()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Cadastrar Profissional</button>
       </div>
 
-      <div class="wood-card rounded-2xl p-6 space-y-4 border-l-4 border-amber-700 shadow-sm">
+      <div class="prancha-card rounded-2xl p-6 space-y-4 border-l-4 border-amber-700 shadow-sm">
         <h3 class="text-sm font-bold text-stone-900 uppercase tracking-wider flex items-center gap-2">
           <i data-feather="calendar" class="w-4 h-4 text-amber-800"></i> Apontamento de Diárias de Campo
         </h3>
@@ -297,7 +313,7 @@
         <button onclick="registrarDiaria()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Salvar Apontamento</button>
       </div>
 
-      <div class="wood-card rounded-2xl p-6 space-y-3">
+      <div class="prancha-card rounded-2xl p-6 space-y-3">
         <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Folha de Colaboradores</h3>
         <div id="lista-equipe-cadastrada" class="space-y-3 text-sm"></div>
       </div>
@@ -307,7 +323,7 @@
     <section id="sec-tabelas" class="space-y-8 hidden">
       
       <!-- TABELA SINAPI (REFORMAS) -->
-      <div class="wood-card rounded-2xl p-6 space-y-6">
+      <div class="prancha-card rounded-2xl p-6 space-y-6">
         <div class="bg-[#2c1810] text-white p-5 rounded-xl flex justify-between items-center shadow">
           <div>
             <h2 class="text-lg font-bold">Tabela SINAPI - Reformas & Composições de Custo</h2>
@@ -344,7 +360,7 @@
       </div>
 
       <!-- TABELA SINDUSCON (NOVOS SERVIÇOS) -->
-      <div class="wood-card rounded-2xl p-6 space-y-6">
+      <div class="prancha-card rounded-2xl p-6 space-y-6">
         <div class="bg-[#1a0f0a] text-white p-5 rounded-xl flex justify-between items-center shadow">
           <div>
             <h2 class="text-lg font-bold">Tabela SINDUSCON - Construção & Estrutura do Zero</h2>
@@ -379,7 +395,7 @@
 
     <!-- SEÇÃO 5: ORÇAMENTOS -->
     <section id="sec-orcamentos" class="space-y-6 hidden">
-      <div class="wood-card rounded-2xl p-6 space-y-4">
+      <div class="prancha-card rounded-2xl p-6 space-y-4">
         <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2"><i data-feather="file-text" class="w-5 h-5 text-amber-800"></i> Orçamento Detalhado por Itens</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <input type="text" id="orc-cliente" placeholder="Nome do Cliente" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
@@ -397,7 +413,7 @@
         <div class="text-right text-sm font-bold text-stone-900">Total: <span id="total-orcamento-temp" class="text-emerald-700">R$ 0,00</span></div>
         <button onclick="salvarOrcamentoCompleto()" class="btn-wood px-6 py-3.5 rounded-2xl font-bold text-sm shadow-xl w-full">Salvar Orçamento</button>
       </div>
-      <div class="wood-card rounded-2xl p-6 space-y-3">
+      <div class="prancha-card rounded-2xl p-6 space-y-3">
         <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Histórico de Orçamentos</h3>
         <div id="lista-orcamentos-emitidos" class="space-y-3 text-sm"></div>
       </div>
@@ -405,7 +421,7 @@
 
     <!-- SEÇÃO 6: CAIXA -->
     <section id="sec-caixa" class="space-y-6 hidden">
-      <div class="wood-card rounded-2xl p-6 space-y-4">
+      <div class="prancha-card rounded-2xl p-6 space-y-4">
         <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2"><i data-feather="dollar-sign" class="w-5 h-5 text-amber-800"></i> Caixa</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <input type="text" id="cx-desc" placeholder="Descrição (Ex: Cimento)" class="bg-stone-50 border border-stone-300 rounded-xl p-3 text-stone-900">
@@ -417,7 +433,7 @@
         </div>
         <button onclick="adicionarCaixa()" class="btn-wood px-6 py-3 rounded-xl font-bold text-sm shadow">Lançar no Caixa</button>
       </div>
-      <div class="wood-card rounded-2xl p-6 space-y-3">
+      <div class="prancha-card rounded-2xl p-6 space-y-3">
         <h3 class="text-xs font-bold text-stone-600 uppercase tracking-wider">Histórico</h3>
         <div id="lista-caixa-historico" class="space-y-2 text-sm"></div>
       </div>
@@ -425,7 +441,7 @@
 
     <!-- SEÇÃO 7: EMPRESA -->
     <section id="sec-empresa" class="space-y-6 hidden">
-      <div class="wood-card rounded-2xl p-6 space-y-4">
+      <div class="prancha-card rounded-2xl p-6 space-y-4">
         <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2"><i data-feather="settings" class="w-5 h-5 text-amber-800"></i> Configurações da Empresa & CNPJ</h2>
         <p class="text-xs text-stone-600">Altere abaixo os dados da sua empresa. Eles serão atualizados automaticamente no cabeçalho.</p>
         
@@ -458,7 +474,7 @@
   <script>
     feather.replace();
 
-    let sistemaDb = JSON.parse(localStorage.getItem('cp_sistema_completo_db_v11')) || {
+    let sistemaDb = JSON.parse(localStorage.getItem('cp_sistema_completo_db_v12')) || {
       empresa: { nome: "CP CONSTRUÇÕES E REFORMAS", cnpj: "35.000.000/0001-00", tel: "(13) 99999-9999", cidade: "Itanhaém - SP" },
       clientes: [], equipe: [], diarias: [], orcamentos: [], caixa: []
     };
@@ -476,7 +492,7 @@
     }
 
     function salvarDados() {
-      localStorage.setItem('cp_sistema_completo_db_v11', JSON.stringify(sistemaDb));
+      localStorage.setItem('cp_sistema_completo_db_v12', JSON.stringify(sistemaDb));
       renderizarTudo();
     }
 
@@ -611,15 +627,25 @@
       document.getElementById('dash-recebimentos-val').innerText = `R$ ${totalEntradas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
       document.getElementById('dash-saldo-val').innerText = `R$ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
 
-      const totalDiariasMes = sistemaDb.diarias.reduce((acc, curr) => acc + curr.valorTotal, 0);
-      document.getElementById('dash-total-diarias-mes').innerText = `R$ ${totalDiariasMes.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-
       const hojeStr = new Date().toLocaleDateString('pt-BR');
       document.getElementById('data-hoje-lbl').innerText = hojeStr;
       document.getElementById('assinatura-data-cliente').innerText = `Data: ${hojeStr}`;
 
       if(sistemaDb.clientes.length > 0) {
         document.getElementById('dash-cli-nome').innerText = sistemaDb.clientes[sistemaDb.clientes.length - 1].nome;
+      }
+
+      const tabelaDiariasDash = document.getElementById('tabela-diarias-dashboard');
+      if(sistemaDb.diarias.length === 0) {
+        tabelaDiariasDash.innerHTML = '<tr><td colspan="3" class="p-2 text-stone-500 italic">Nenhum apontamento registrado.</td></tr>';
+      } else {
+        tabelaDiariasDash.innerHTML = sistemaDb.diarias.map(d => `
+          <tr>
+            <td class="p-2 font-bold">${d.colabNome}</td>
+            <td class="p-2">${d.qtd}d</td>
+            <td class="p-2 font-bold text-rose-700">R$ ${d.valorTotal.toFixed(2)}</td>
+          </tr>
+        `).join('');
       }
 
       const painelResumoDiario = document.getElementById('painel-resumo-diario');
@@ -646,4 +672,15 @@
         `).join('');
       }
 
-      document.getElementById('lista-clientes-cadastrados').innerHTML = sistemaDb.clientes.map(
+      document.getElementById('lista-clientes-cadastrados').innerHTML = sistemaDb.clientes.map(c => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span><b>${c.nome}</b> - ${c.tel}</span><button onclick="removerItem('cliente', ${c.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
+      document.getElementById('lista-equipe-cadastrada').innerHTML = sistemaDb.equipe.map(e => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span><b>${e.nome}</b> (${e.funcao}) - R$ ${e.diaria.toFixed(2)}/dia</span><button onclick="removerItem('equipe', ${e.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
+      document.getElementById('lista-orcamentos-emitidos').innerHTML = sistemaDb.orcamentos.map(o => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span><b>${o.cliente}</b> - R$ ${o.valorTotal.toFixed(2)}</span><button onclick="removerItem('orcamento', ${o.id})" class="text-rose-600 font-bold">Excluir</button></div>`).join('');
+      document.getElementById('lista-caixa-historico').innerHTML = sistemaDb.caixa.map(cx => `<div class="bg-stone-50 p-3 rounded-xl flex justify-between border"><span>${cx.desc}</span><b class="${cx.tipo === 'entrada' ? 'text-emerald-700' : 'text-rose-700'}">R$ ${cx.valor.toFixed(2)}</b></div>`).join('');
+
+      feather.replace();
+    }
+
+    renderizarTudo();
+  </script>
+</body>
+</html>
