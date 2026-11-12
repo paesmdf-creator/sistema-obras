@@ -587,3 +587,195 @@
       const selServ = document.getElementById('sel-servico-orc');
       if (!grupo) return;
       selServ.innerHTML = grupo.itens.map(i => `<option value="${i.cod}">${i.cod} - ${i.desc} (R$ ${i.preco.toFixed(2)}/${i.unid})</option>`).join('');
+      preencherValorUnitarioServico();
+    }
+
+    function preencherValorUnitarioServico() {
+      const mod = document.getElementById('orc-modalidade').value;
+      const base = mod === 'OBRA_NOVA' ? DADOS_OBRA_NOVA : DADOS_REFORMA;
+      const etapaId = document.getElementById('sel-etapa-orc').value;
+      const codServ = document.getElementById('sel-servico-orc').value;
+      const grupo = base.find(g => g.etapa === etapaId);
+      if (!grupo) return;
+      const item = grupo.itens.find(i => i.cod === codServ);
+      if (item) {
+        document.getElementById('inp-val-orc').value = item.preco.toFixed(2);
+      }
+    }
+
+    function adicionarItemOrcamento() {
+      const mod = document.getElementById('orc-modalidade').value;
+      const base = mod === 'OBRA_NOVA' ? DADOS_OBRA_NOVA : DADOS_REFORMA;
+      const etapaId = document.getElementById('sel-etapa-orc').value;
+      const codServ = document.getElementById('sel-servico-orc').value;
+      const qtd = parseFloat(document.getElementById('inp-qtd-orc').value);
+      const val = parseFloat(document.getElementById('inp-val-orc').value);
+      const grupo = base.find(g => g.etapa === etapaId);
+      const item = grupo ? grupo.itens.find(i => i.cod === codServ) : null;
+      if (!item || isNaN(qtd) || isNaN(val)) return;
+
+      itensOrcamentoTemp.push({ etapaTitulo: grupo.titulo, cod: item.cod, desc: item.desc, unid: item.unid, qtd, valorUnit: val, subtotal: qtd * val });
+      renderizarItensOrcamento();
+    }
+
+    function removerItemOrcamento(idx) { itensOrcamentoTemp.splice(idx, 1); renderizarItensOrcamento(); }
+
+    function renderizarItensOrcamento() {
+      const tbody = document.getElementById('tbody-itens-orcamento');
+      const perc = parseFloat(document.getElementById('orc-adicional-reforma').value) || 0;
+      if (itensOrcamentoTemp.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-3 text-slate-400">Nenhum item adicionado.</td></tr>`;
+        document.getElementById('lbl-total-final-orc').innerText = 'R$ 0,00';
+        return;
+      }
+      let base = 0;
+      tbody.innerHTML = itensOrcamentoTemp.map((it, idx) => {
+        base += it.subtotal;
+        return `<tr><td class="p-2 font-bold">${it.cod}</td><td class="p-2">${it.desc}</td><td class="p-2 text-center">${it.unid}</td><td class="p-2 text-right">${it.qtd}</td><td class="p-2 text-right">R$ ${it.valorUnit.toFixed(2)}</td><td class="p-2 text-right font-bold">R$ ${it.subtotal.toFixed(2)}</td><td class="p-2 text-center"><button onclick="removerItemOrcamento(${idx})" class="text-rose-600"><i class="fa-solid fa-trash"></i></button></td></tr>`;
+      }).join('');
+      const total = base * (1 + perc / 100);
+      document.getElementById('lbl-total-final-orc').innerText = 'R$ ' + total.toFixed(2);
+    }
+
+    function salvarOrcamentoCompleto() {
+      const cliId = document.getElementById('orc-cliente').value;
+      const cliente = appData.clientes.find(c => c.id === cliId);
+      if (!cliente) { alert('Selecione um cliente.'); return; }
+      if (itensOrcamentoTemp.length === 0) { alert('Adicione itens.'); return; }
+      const mod = document.getElementById('orc-modalidade').value;
+      const perc = parseFloat(document.getElementById('orc-adicional-reforma').value) || 0;
+      const base = itensOrcamentoTemp.reduce((a, b) => a + b.subtotal, 0);
+      const total = base * (1 + perc / 100);
+
+      const novo = {
+        id: 'ORC-' + Math.floor(1000 + Math.random() * 9000),
+        clienteNome: cliente.nome, clienteEnd: cliente.end,
+        modalidade: mod === 'OBRA_NOVA' ? 'Obra Nova' : 'Reforma',
+        data: new Date().toLocaleDateString('pt-BR'),
+        fator: (1 + perc / 100),
+        itens: [...itensOrcamentoTemp],
+        valorTotal: total
+      };
+      appData.orçamentos.push(novo);
+      appData.financeiro.push({ id: Date.now().toString(), data: novo.data, tipo: 'ENTRADA', desc: `Proposta: ${cliente.nome}`, valor: total });
+      salvarDados();
+      fecharFormOrcamento();
+      visualizarPropostaCliente(novo.id);
+    }
+
+    function renderizarListaOrcamentos() {
+      const tbody = document.getElementById('lista-orcamentos-salvos');
+      if (appData.orçamentos.length === 0) { tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-slate-400">Nenhum orçamento.</td></tr>`; return; }
+      tbody.innerHTML = appData.orçamentos.slice().reverse().map(o => `<tr><td class="p-3 font-bold">${o.id}</td><td class="p-3">${o.clienteNome}</td><td class="p-3">${o.modalidade}</td><td class="p-3">${o.data}</td><td class="p-3 text-right font-bold">R$ ${o.valorTotal.toFixed(2)}</td><td class="p-3 text-right space-x-1"><button onclick="visualizarPropostaCliente('${o.id}')" class="bg-wood-100 p-1 rounded font-bold text-xs">Ver</button><button onclick="excluirOrcamento('${o.id}')" class="text-rose-600 text-xs">Excluir</button></td></tr>`).join('');
+    }
+
+    function visualizarPropostaCliente(id) {
+      const o = appData.orçamentos.find(x => x.id === id);
+      if (!o) return;
+      document.getElementById('print-header-empresa').innerText = appData.config.nome;
+      document.getElementById('print-empresa-cnpj').innerText = 'CNPJ MEI: ' + (appData.config.cnpj || '---');
+      document.getElementById('print-cliente-nome').innerText = o.clienteNome;
+      document.getElementById('print-cliente-end').innerText = o.clienteEnd || '---';
+      document.getElementById('print-orc-id').innerText = o.id;
+      document.getElementById('print-orc-data').innerText = o.data;
+      document.getElementById('print-valor-total').innerText = 'R$ ' + o.valorTotal.toFixed(2);
+
+      const grupos = {};
+      o.itens.forEach(it => {
+        if (!grupos[it.etapaTitulo]) grupos[it.etapaTitulo] = { descrs: [], sub: 0 };
+        grupos[it.etapaTitulo].descrs.push(it.desc);
+        grupos[it.etapaTitulo].sub += (it.subtotal * o.fator);
+      });
+
+      document.getElementById('print-container-etapas-cliente').innerHTML = Object.keys(grupos).map(t => `
+        <div class="border rounded p-3 bg-white space-y-1">
+          <div class="font-bold text-wood-900 flex justify-between"><span>${t}</span><span>R$ ${grupos[t].sub.toFixed(2)}</span></div>
+          <ul class="text-slate-600 text-xs space-y-0.5">${grupos[t].descrs.map(d => `<li>• ${d}</li>`).join('')}</ul>
+        </div>
+      `).join('');
+      document.getElementById('area-impressao-contrato').classList.remove('hidden');
+    }
+
+    function fecharVisualizacaoContrato() { document.getElementById('area-impressao-contrato').classList.add('hidden'); }
+    function excluirOrcamento(id) { appData.orçamentos = appData.orçamentos.filter(o => o.id !== id); salvarDados(); }
+
+    function renderizarDashboard() {
+      document.getElementById('dash-obras-ativas').innerText = appData.orçamentos.length;
+      let e = 0, s = 0;
+      appData.financeiro.forEach(f => { if (f.tipo === 'ENTRADA') e += f.valor; else s += f.valor; });
+      document.getElementById('dash-recebimentos').innerText = 'R$ ' + e.toFixed(2);
+      document.getElementById('dash-pagamentos').innerText = 'R$ ' + s.toFixed(2);
+      document.getElementById('dash-saldo').innerText = 'R$ ' + (e - s).toFixed(2);
+    }
+
+    function abrirModalCliente() { document.getElementById('modal-cliente').classList.remove('hidden'); document.getElementById('modal-cliente').classList.add('flex'); }
+    function salvarCliente() {
+      const n = document.getElementById('cli-nome').value, t = document.getElementById('cli-tel').value, e = document.getElementById('cli-end').value;
+      if (!n) return;
+      appData.clientes.push({ id: Date.now().toString(), nome: n, tel: t, end: e });
+      salvarDados(); document.getElementById('modal-cliente').classList.add('hidden');
+    }
+    function renderizarClientes() {
+      document.getElementById('lista-clientes').innerHTML = appData.clientes.map(c => `<tr><td class="p-3 font-bold">${c.nome}</td><td class="p-3">${c.tel}</td><td class="p-3">${c.end}</td><td class="p-3 text-right"><button onclick="excluirCliente('${c.id}')" class="text-rose-600">Excluir</button></td></tr>`).join('');
+    }
+    function excluirCliente(id) { appData.clientes = appData.clientes.filter(c => c.id !== id); salvarDados(); }
+
+    function abrirModalColaborador() { document.getElementById('modal-colaborador').classList.remove('hidden'); document.getElementById('modal-colaborador').classList.add('flex'); }
+    function salvarColaborador() {
+      const n = document.getElementById('colab-nome').value, f = document.getElementById('colab-funcao').value, d = parseFloat(document.getElementById('colab-diaria').value);
+      if (!n || isNaN(d)) return;
+      appData.colaboradores.push({ id: Date.now().toString(), nome: n, funcao: f, diaria: d, dias: [] });
+      salvarDados(); document.getElementById('modal-colaborador').classList.add('hidden');
+    }
+    function renderizarColaboradores() {
+      document.getElementById('lista-colaboradores').innerHTML = appData.colaboradores.map(c => `
+        <tr><td class="p-3 font-bold">${c.nome}</td><td class="p-3 text-xs">${c.funcao}</td><td class="p-3 text-right font-bold">R$ ${c.diaria.toFixed(2)}</td><td class="p-3 text-center">${c.dias?c.dias.length:0}</td>
+        <td class="p-3 text-right space-x-1"><button onclick="adicionarDiaria('${c.id}')" class="bg-emerald-700 text-white px-2 py-1 rounded text-xs">+ Diária</button><button onclick="gerarRecibo('${c.id}')" class="bg-wood-700 text-amber-100 px-2 py-1 rounded text-xs">Recibo</button><button onclick="excluirColaborador('${c.id}')" class="text-rose-600 text-xs">Excluir</button></td></tr>
+      `).join('');
+    }
+    function adicionarDiaria(id) {
+      const c = appData.colaboradores.find(x => x.id === id);
+      if (!c) return;
+      if (!c.dias) c.dias = [];
+      const hoje = new Date().toLocaleDateString('pt-BR');
+      c.dias.push({ data: hoje, valor: c.diaria });
+      appData.financeiro.push({ id: Date.now().toString(), data: hoje, tipo: 'SAIDA', desc: `Diária: ${c.nome}`, valor: c.diaria });
+      salvarDados();
+    }
+    function gerarRecibo(id) {
+      const c = appData.colaboradores.find(x => x.id === id);
+      if (!c) return;
+      document.getElementById('rec-empresa-titulo').innerText = appData.config.nome;
+      document.getElementById('recibo-cnpj').innerText = 'CNPJ MEI: ' + (appData.config.cnpj || '---');
+      document.getElementById('rec-colab-nome').innerText = c.nome;
+      document.getElementById('rec-colab-funcao').innerText = c.funcao;
+      document.getElementById('rec-colab-diaria').innerText = c.diaria.toFixed(2);
+      const dias = c.dias ? c.dias.length : 0;
+      document.getElementById('rec-colab-dias').innerText = dias;
+      document.getElementById('rec-colab-total').innerText = (dias * c.diaria).toFixed(2);
+      document.getElementById('rec-assinatura-colab').innerText = c.nome.toUpperCase();
+      document.getElementById('area-recibo-pagamento').classList.remove('hidden');
+    }
+    function fecharReciboPagamento() { document.getElementById('area-recibo-pagamento').classList.add('hidden'); }
+    function excluirColaborador(id) { appData.colaboradores = appData.colaboradores.filter(c => c.id !== id); salvarDados(); }
+
+    function abrirModalFinanceiro() { document.getElementById('modal-financeiro').classList.remove('hidden'); document.getElementById('modal-financeiro').classList.add('flex'); }
+    function salvarLancamentoFinanceiro() {
+      const t = document.getElementById('fin-tipo').value, d = document.getElementById('fin-desc').value, v = parseFloat(document.getElementById('fin-valor').value);
+      if (!d || isNaN(v)) return;
+      appData.financeiro.push({ id: Date.now().toString(), data: new Date().toLocaleDateString('pt-BR'), tipo: t, desc: d, valor: v });
+      salvarDados(); document.getElementById('modal-financeiro').classList.add('hidden');
+    }
+    function renderizarFinanceiro() {
+      document.getElementById('lista-financeiro').innerHTML = appData.financeiro.map(f => `<tr><td class="p-3 text-xs">${f.data}</td><td class="p-3 font-bold text-xs ${f.tipo==='ENTRADA'?'text-emerald-700':'text-rose-700'}">${f.tipo}</td><td class="p-3">${f.desc}</td><td class="p-3 text-right font-bold">R$ ${f.valor.toFixed(2)}</td></tr>`).join('');
+    }
+    function salvarConfiguracoes() {
+      appData.config.nome = document.getElementById('cfg-nome').value;
+      appData.config.cnpj = document.getElementById('cfg-cnpj').value;
+      appData.config.tel = document.getElementById('cfg-tel').value;
+      salvarDados();
+      alert('Configurações salvas!');
+    }
+  </script>
+</body>
+</html>
