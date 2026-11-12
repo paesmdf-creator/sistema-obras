@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CP Construções e Reformas - Gestão de Obras Pro</title>
 
-  <!-- PWA Manifest e Service Worker -->
+  <!-- PWA Manifest e Configurações Mobile -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#5c3a21">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -69,7 +69,7 @@
 
           <nav class="hidden md:flex space-x-1">
             <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 bg-wood-800 text-amber-200 border-b-2 border-amber-400"><i class="fa-solid fa-chart-line"></i><span>Painel</span></button>
-            <button onclick="switchTab('tabelas')" id="nav-tabelas" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-table-list"></i><span>Tabelas</span></button>
+            <button onclick="switchTab('tabelas')" id="nav-tabelas" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-table-list"></i><span>Tabelas SP</span></button>
             <button onclick="switchTab('orcamentos')" id="nav-orcamentos" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-file-contract"></i><span>Orçamentos</span></button>
             <button onclick="switchTab('clientes')" id="nav-clientes" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-users"></i><span>Clientes</span></button>
             <button onclick="switchTab('equipe')" id="nav-equipe" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-user-gear"></i><span>Equipe</span></button>
@@ -112,18 +112,50 @@
         </div>
       </section>
 
-      <!-- 2. TABELAS DE MÃO DE OBRA (SP) -->
+      <!-- 2. TABELAS DETALHADAS DE MÃO DE OBRA (OBRA NOVA VS REFORMA) -->
       <section id="tab-tabelas" class="tab-content hidden space-y-6">
-        <div class="bg-emerald-900 text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="bg-emerald-900 text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2 class="text-2xl font-bold">Tabela de Mão de Obra - Profissional Autônomo</h2>
-            <p class="text-emerald-200 text-xs mt-1">Valores Praticados por Profissionais Diretos | Estado de São Paulo</p>
+            <h2 id="titulo-tabela-principal" class="text-2xl font-bold tracking-tight">Tabela de Mão de Obra - Profissional Autônomo</h2>
+            <p id="subtitulo-tabela-principal" class="text-emerald-200 text-xs mt-1">Valores Praticados por Profissionais Diretos | Estado de São Paulo</p>
           </div>
-          <div class="flex space-x-2">
-            <button onclick="selecionarModoTabela('OBRA_NOVA')" id="btn-tab-obranova" class="px-3 py-1.5 rounded text-xs font-bold bg-emerald-700 text-white">Obra Nova</button>
-            <button onclick="selecionarModoTabela('REFORMA')" id="btn-tab-reforma" class="px-3 py-1.5 rounded text-xs font-bold bg-emerald-950 text-emerald-200">Reforma</button>
+          <div class="text-left md:text-right text-xs text-emerald-100 space-y-0.5 bg-emerald-950/50 p-3 rounded-lg border border-emerald-700">
+            <p><strong>Perfil:</strong> Autônomo / Empreiteiro Direto</p>
+            <p><strong>Região:</strong> São Paulo (Litoral / Itanhaém)</p>
+            <p id="meta-diaria-tabela"><strong>Meta Diária Base:</strong> R$ 300,00 (Dupla)</p>
           </div>
         </div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-3 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+          <div class="flex space-x-2 w-full sm:w-auto">
+            <button onclick="selecionarModoTabela('OBRA_NOVA')" id="btn-tab-obranova" class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-emerald-800 text-white shadow transition">
+              🏗️ Obra Nova (Desde o Início)
+            </button>
+            <button onclick="selecionarModoTabela('REFORMA')" id="btn-tab-reforma" class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+              🛠️ Reformas &amp; Encargos Específicos
+            </button>
+          </div>
+        </div>
+
+        <div id="cards-indicadores-tabela" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl">
+            <span id="ind-1-titulo" class="text-[11px] font-bold text-emerald-800 uppercase">ESTIMATIVA MÉDIA / M²</span>
+            <p id="ind-1-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 520,00 - 580,00</p>
+          </div>
+          <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl">
+            <span id="ind-2-titulo" class="text-[11px] font-bold text-emerald-800 uppercase">PEDREIRO AUTÔNOMO (DIA)</span>
+            <p id="ind-2-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 200,00 - 250,00</p>
+          </div>
+          <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl">
+            <span id="ind-3-titulo" class="text-[11px] font-bold text-emerald-800 uppercase">AJUDANTE (DIA)</span>
+            <p id="ind-3-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 100,00 - 130,00</p>
+          </div>
+          <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl">
+            <span id="ind-4-titulo" class="text-[11px] font-bold text-emerald-800 uppercase">MODELO CONTRATO</span>
+            <p id="ind-4-valor" class="text-lg font-bold text-slate-900 mt-1">Empreitada por Etapa</p>
+          </div>
+        </div>
+
         <div id="container-etapas-detalhadas" class="space-y-6"></div>
       </section>
 
@@ -277,64 +309,123 @@
   <div id="modal-financeiro" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-lg max-w-md w-full p-6 space-y-4 carved-card text-xs"><h3 class="font-bold text-sm border-b pb-2">Lançamento</h3><select id="fin-tipo" class="w-full border p-2 rounded"><option value="ENTRADA">Entrada</option><option value="SAIDA">Saída</option></select><input type="text" id="fin-desc" placeholder="Descrição" class="w-full border p-2 rounded"><input type="number" step="0.01" id="fin-valor" placeholder="Valor R$" class="w-full border p-2 rounded"><div class="flex justify-end pt-2"><button onclick="salvarLancamentoFinanceiro()" class="wood-texture-header text-amber-100 px-4 py-2 rounded font-bold">Salvar</button></div></div></div>
 
   <script>
+    // =========================================================================
+    // BASES DE DADOS TÉCNICAS COMPLETAS (OBRA NOVA E REFORMA)
+    // =========================================================================
     const DADOS_OBRA_NOVA = [
-      { etapa: '1', titulo: 'ETAPA 1: SERVIÇOS PRELIMINARES E FUNDAÇÃO', badge: 'FASE INICIAL', itens: [
-        { cod: '1.1', desc: 'Limpeza do terreno, gabarito e marcação simples', unid: 'm²', preco: 12.00, faixa: '10,00 - 15,00' },
-        { cod: '1.2', desc: 'Escavação manual para baldrame/sapatas', unid: 'm³', preco: 50.00, faixa: '40,00 - 60,00' },
-        { cod: '1.3', desc: 'Caixaria de madeira para baldrame/fundação', unid: 'm linear', preco: 22.00, faixa: '18,00 - 26,00' },
-        { cod: '1.4', desc: 'Corte, dobra e colocação de armações de ferro', unid: 'kg', preco: 3.00, faixa: '2,50 - 3,80' },
-        { cod: '1.5', desc: 'Concretagem de baldrame/sapatas e impermeabilização', unid: 'm linear', preco: 30.00, faixa: '25,00 - 36,00' }
-      ]},
-      { etapa: '2', titulo: 'ETAPA 2: ALVENARIA E ESTRUTURA', badge: 'ELEVAÇÃO', itens: [
-        { cod: '2.1', desc: 'Alvenaria de vedação (bloco cerâmico padrão)', unid: 'm²', preco: 35.00, faixa: '30,00 - 42,00' },
-        { cod: '2.2', desc: 'Alvenaria de bloco de concreto estrutural', unid: 'm²', preco: 45.00, faixa: '38,00 - 52,00' },
-        { cod: '2.3', desc: 'Caixaria, ferragem e concretagem de pilares', unid: 'm linear', preco: 38.00, faixa: '32,00 - 45,00' },
-        { cod: '2.4', desc: 'Vigas de amarrações e vergas', unid: 'm linear', preco: 28.00, faixa: '24,00 - 35,00' },
-        { cod: '2.5', desc: 'Montagem e escoramento de laje pré-moldada', unid: 'm²', preco: 26.00, faixa: '22,00 - 30,00' }
-      ]},
-      { etapa: '3', titulo: 'ETAPA 3: COBERTURA E TELHADO', badge: 'PROTEÇÃO', itens: [
-        { cod: '3.1', desc: 'Madeiramento completo para telhado', unid: 'm²', preco: 42.00, faixa: '35,00 - 50,00' },
-        { cod: '3.2', desc: 'Assentamento de telhas cerâmicas / concreto', unid: 'm²', preco: 22.00, faixa: '18,00 - 28,00' }
-      ]},
-      { etapa: '4', titulo: 'ETAPA 4: REVESTIMENTOS BRUTOS E CONTRAPISO', badge: 'PREPARAÇÃO', itens: [
-        { cod: '4.1', desc: 'Chapisco interno e externo', unid: 'm²', preco: 6.00, faixa: '5,00 - 8,00' },
-        { cod: '4.2', desc: 'Emboço / Reboco paulista', unid: 'm²', preco: 26.00, faixa: '22,00 - 32,00' },
-        { cod: '4.3', desc: 'Contrapiso sarrafeado e nivelado', unid: 'm²', preco: 22.00, faixa: '18,00 - 28,00' }
-      ]},
-      { etapa: '5', titulo: 'ETAPA 5: ELÉTRICA E HIDRÁULICA', badge: 'INFRAESTRUTURA', itens: [
-        { cod: '5.1', desc: 'Chumbamento de conduítes e caixinhas 4x2', unid: 'ponto', preco: 35.00, faixa: '28,00 - 45,00' },
-        { cod: '5.2', desc: 'Passagem de fiação e quadros', unid: 'ponto', preco: 40.00, faixa: '32,00 - 50,00' },
-        { cod: '5.3', desc: 'Tubulação de água fria/quente', unid: 'ponto', preco: 95.00, faixa: '80,00 - 120,00' }
-      ]},
-      { etapa: '6', titulo: 'ETAPA 6: PISOS E ACABAMENTOS', badge: 'ACABAMENTO', itens: [
-        { cod: '6.1', desc: 'Assentamento de piso cerâmico', unid: 'm²', preco: 35.00, faixa: '28,00 - 42,00' },
-        { cod: '6.2', desc: 'Assentamento de porcelanato', unid: 'm²', preco: 52.00, faixa: '45,00 - 65,00' },
-        { cod: '6.3', desc: 'Revestimento de parede', unid: 'm²', preco: 48.00, faixa: '40,00 - 60,00' }
-      ]},
-      { etapa: '7', titulo: 'ETAPA 7: PINTURA E FINALIZAÇÃO', badge: 'ENTREGA', itens: [
-        { cod: '7.1', desc: 'Selador + massa corrida + lixamento', unid: 'm²', preco: 18.00, faixa: '15,00 - 22,00' },
-        { cod: '7.2', desc: 'Pintura látex / acrílica (demãos)', unid: 'm²', preco: 14.00, faixa: '12,00 - 18,00' }
-      ]}
+      {
+        etapa: '1', titulo: 'ETAPA 1: SERVIÇOS PRELIMINARES E FUNDAÇÃO', badge: 'FASE INICIAL',
+        subtotalTexto: 'Subtotal Estimado Autônomo - Infraestrutura (por m² de obra)', subtotalValor: 'R$ 80,00', subtotalUnid: 'm² construído',
+        itens: [
+          { cod: '1.1', desc: 'Limpeza do terreno, gabarito e marcação simples da obra', unid: 'm²', preco: 12.00, faixa: '10,00 - 15,00' },
+          { cod: '1.2', desc: 'Escavação manual para baldrame/sapatas (solo comum)', unid: 'm³', preco: 50.00, faixa: '40,00 - 60,00' },
+          { cod: '1.3', desc: 'Caixaria de madeira para baldrame/fundação', unid: 'm linear', preco: 22.00, faixa: '18,00 - 26,00' },
+          { cod: '1.4', desc: 'Corte, dobra e colocação de armações de ferro', unid: 'kg', preco: 3.00, faixa: '2,50 - 3,80' },
+          { cod: '1.5', desc: 'Concretagem de baldrame/sapatas e pintura de impermeabilização', unid: 'm linear', preco: 30.00, faixa: '25,00 - 36,00' }
+        ]
+      },
+      {
+        etapa: '2', titulo: 'ETAPA 2: ALVENARIA E ESTRUTURA', badge: 'ELEVAÇÃO',
+        subtotalTexto: 'Subtotal Estimado Autônomo - Estrutura e Alvenaria (por m² de obra)', subtotalValor: 'R$ 130,00', subtotalUnid: 'm² construído',
+        itens: [
+          { cod: '2.1', desc: 'Alvenaria de vedação (bloco baiano / cerâmico padrão)', unid: 'm²', preco: 35.00, faixa: '30,00 - 42,00' },
+          { cod: '2.2', desc: 'Alvenaria de bloco de concreto estrutural', unid: 'm²', preco: 45.00, faixa: '38,00 - 52,00' },
+          { cod: '2.3', desc: 'Caixaria, ferragem e concretagem de colunas/pilares', unid: 'm linear', preco: 38.00, faixa: '32,00 - 45,00' },
+          { cod: '2.4', desc: 'Vigas de amarrações, vergas e contravergas', unid: 'm linear', preco: 28.00, faixa: '24,00 - 35,00' },
+          { cod: '2.5', desc: 'Montagem e escoramento de laje pré-moldada (vigota/lajota)', unid: 'm²', preco: 26.00, faixa: '22,00 - 30,00' },
+          { cod: '2.6', desc: 'Concretagem de laje (espalhamento e sarrafeamento)', unid: 'm²', preco: 14.00, faixa: '12,00 - 18,00' }
+        ]
+      },
+      {
+        etapa: '3', titulo: 'ETAPA 3: COBERTURA E TELHADO', badge: 'PROTEÇÃO',
+        subtotalTexto: 'Subtotal Estimado Autônomo - Cobertura', subtotalValor: 'R$ 65,00', subtotalUnid: 'm² telhado',
+        itens: [
+          { cod: '3.1', desc: 'Madeiramento completo para telhado (tesouras, caibros e ripas)', unid: 'm²', preco: 42.00, faixa: '35,00 - 50,00' },
+          { cod: '3.2', desc: 'Assentamento de telhas cerâmicas / concreto', unid: 'm²', preco: 22.00, faixa: '18,00 - 28,00' },
+          { cod: '3.3', desc: 'Instalação de telha fibrocimento / sanduíche', unid: 'm²', preco: 18.00, faixa: '15,00 - 24,00' },
+          { cod: '3.4', desc: 'Assentamento de cumeeiras e rufos simples', unid: 'm linear', preco: 16.00, faixa: '14,00 - 22,00' }
+        ]
+      },
+      {
+        etapa: '4', titulo: 'ETAPA 4: REVESTIMENTOS BRUTOS E CONTRAPISO', badge: 'PREPARAÇÃO',
+        subtotalTexto: 'Subtotal Estimado Autônomo - Revestimento Grosso', subtotalValor: 'R$ 60,00', subtotalUnid: 'm² área',
+        itens: [
+          { cod: '4.1', desc: 'Chapisco interno e externo', unid: 'm²', preco: 6.00, faixa: '5,00 - 8,00' },
+          { cod: '4.2', desc: 'Emboço / Reboco paulista (massa única desempenada)', unid: 'm²', preco: 26.00, faixa: '22,00 - 32,00' },
+          { cod: '4.3', desc: 'Contrapiso sarrafeado e nivelado (até 5cm)', unid: 'm²', preco: 22.00, faixa: '18,00 - 28,00' },
+          { cod: '4.4', desc: 'Impermeabilização de áreas molhadas / lajes', unid: 'm²', preco: 18.00, faixa: '15,00 - 24,00' }
+        ]
+      },
+      {
+        etapa: '5', titulo: 'ETAPA 5: INSTALAÇÕES ELÉTRICAS E HIDRÁULICAS', badge: 'INFRAESTRUTURA',
+        subtotalTexto: 'Subtotal Estimado Autônomo - Instalações', subtotalValor: 'R$ 65,00', subtotalUnid: 'm² construído',
+        itens: [
+          { cod: '5.1', desc: 'Corte de alvenaria, chumbamento de conduítes e caixinhas 4x2', unid: 'ponto', preco: 35.00, faixa: '28,00 - 45,00' },
+          { cod: '5.2', desc: 'Passagem de fiação, montagem de quadro e acabamentos', unid: 'ponto', preco: 40.00, faixa: '32,00 - 50,00' },
+          { cod: '5.3', desc: 'Tubulação de água fria/quente (corte, solda e teste)', unid: 'ponto', preco: 95.00, faixa: '80,00 - 120,00' },
+          { cod: '5.4', desc: 'Rede de esgoto sanitário e caixas de inspeção', unid: 'ponto', preco: 110.00, faixa: '90,00 - 140,00' }
+        ]
+      },
+      {
+        etapa: '6', titulo: 'ETAPA 6: REVESTIMENTOS FINOS, PISOS E ESQUADRIAS', badge: 'ACABAMENTO',
+        subtotalTexto: 'Subtotal Estimado Autônomo - Acabamentos', subtotalValor: 'R$ 85,00', subtotalUnid: 'm² área',
+        itens: [
+          { cod: '6.1', desc: 'Assentamento de piso cerâmico padrão', unid: 'm²', preco: 35.00, faixa: '28,00 - 42,00' },
+          { cod: '6.2', desc: 'Assentamento de porcelanato (com niveladores/clipes)', unid: 'm²', preco: 52.00, faixa: '45,00 - 65,00' },
+          { cod: '6.3', desc: 'Revestimento de parede (azulejo / pastilha / porcelanato)', unid: 'm²', preco: 48.00, faixa: '40,00 - 60,00' },
+          { cod: '6.4', desc: 'Assentamento de rodapé embutido ou sobreposto', unid: 'm linear', preco: 14.00, faixa: '12,00 - 18,00' },
+          { cod: '6.5', desc: 'Chumbamento de contramarcos, portas e janelas', unid: 'unid', preco: 85.00, faixa: '70,00 - 110,00' }
+        ]
+      },
+      {
+        etapa: '7', titulo: 'ETAPA 7: PINTURA E ENTREGA FINAL', badge: 'FINALIZAÇÃO',
+        subtotalTexto: 'Subtotal Estimado Autônomo - Pintura', subtotalValor: 'R$ 35,00', subtotalUnid: 'm² área',
+        itens: [
+          { cod: '7.1', desc: 'Aplicação de selador + massa corrida/acrílica + lixamento', unid: 'm²', preco: 18.00, faixa: '15,00 - 22,00' },
+          { cod: '7.2', desc: 'Pintura látex PVA ou acrílica (2 a 3 demãos)', unid: 'm²', preco: 14.00, faixa: '12,00 - 18,00' },
+          { cod: '7.3', desc: 'Instalação de louças, metais, pias e bancadas', unid: 'unid', preco: 75.00, faixa: '60,00 - 95,00' }
+        ]
+      }
     ];
 
     const DADOS_REFORMA = [
-      { etapa: '1', titulo: 'ETAPA 1: DEMOLIÇÃO E RETIRADA', badge: 'PREPARO', itens: [
-        { cod: 'R1.1', desc: 'Demolição manual controlada de alvenaria', unid: 'm²', preco: 45.00, faixa: '38,00 - 55,00' },
-        { cod: 'R1.2', desc: 'Remoção de piso cerâmico / porcelanato', unid: 'm²', preco: 26.00, faixa: '22,00 - 34,00' },
-        { cod: 'R1.3', desc: 'Ensacamento e transporte de entulho', unid: 'm³', preco: 95.00, faixa: '80,00 - 120,00' }
-      ]},
-      { etapa: '2', titulo: 'ETAPA 2: REESTRUTURAÇÃO E VÃOS', badge: 'INTERVENÇÃO', itens: [
-        { cod: 'R2.1', desc: 'Abertura de vão com verga de concreto', unid: 'm²', preco: 110.00, faixa: '90,00 - 140,00' },
-        { cod: 'R2.2', desc: 'Recomposição de reboco em rasgos', unid: 'm²', preco: 36.00, faixa: '30,00 - 45,00' }
-      ]},
-      { etapa: '3', titulo: 'ETAPA 3: PISO SOBRE PISO', badge: 'ACABAMENTO', itens: [
-        { cod: 'R3.1', desc: 'Assentamento de porcelanato piso sobre piso', unid: 'm²', preco: 62.00, faixa: '52,00 - 78,00' },
-        { cod: 'R3.2', desc: 'Nivelamento de contrapiso', unid: 'm²', preco: 28.00, faixa: '22,00 - 35,00' }
-      ]},
-      { etapa: '4', titulo: 'ETAPA 4: ADEQUAÇÃO E REPINTURA', badge: 'MODERNIZAÇÃO', itens: [
-        { cod: 'R4.1', desc: 'Novo ponto elétrico em parede pronta', unid: 'ponto', preco: 65.00, faixa: '55,00 - 85,00' },
-        { cod: 'R4.2', desc: 'Tratamento de trincas e repintura completa', unid: 'm²', preco: 28.00, faixa: '22,00 - 36,00' }
-      ]}
+      {
+        etapa: '1', titulo: 'ETAPA 1: DEMOLIÇÃO, RETIRADA E PROTEÇÃO DE REFORMA', badge: 'PREPARO & ENTULHO',
+        subtotalTexto: 'Encargo Técnico de Reforma: Inclui proteção e ensacamento', subtotalValor: 'Sob Medida', subtotalUnid: 'serviço',
+        itens: [
+          { cod: 'R1.1', desc: 'Demolição manual controlada de alvenaria', unid: 'm²', preco: 45.00, faixa: '38,00 - 55,00' },
+          { cod: 'R1.2', desc: 'Remoção de piso cerâmico ou porcelanato antigo (picotamento)', unid: 'm²', preco: 26.00, faixa: '22,00 - 34,00' },
+          { cod: 'R1.3', desc: 'Remoção de azulejos antigos em banheiro/cozinha', unid: 'm²', preco: 28.00, faixa: '24,00 - 36,00' },
+          { cod: 'R1.4', desc: 'Ensacamento e transporte manual de entulho até caçamba', unid: 'm³', preco: 95.00, faixa: '80,00 - 120,00' }
+        ]
+      },
+      {
+        etapa: '2', titulo: 'ETAPA 2: ABERTURA DE VÃOS E REESTRUTURAÇÃO', badge: 'INTERVENÇÃO',
+        subtotalTexto: 'Requer escoramento provisório e vergas de reforço', subtotalValor: 'Sob Medida', subtotalUnid: 'serviço',
+        itens: [
+          { cod: 'R2.1', desc: 'Abertura de vão em parede existente com verga de concreto', unid: 'm²', preco: 110.00, faixa: '90,00 - 140,00' },
+          { cod: 'R2.2', desc: 'Fechamento de vãos de portas/janelas em alvenaria', unid: 'm²', preco: 48.00, faixa: '40,00 - 60,00' },
+          { cod: 'R2.3', desc: 'Recomposição de reboco em rasgos e emendas de parede', unid: 'm²', preco: 36.00, faixa: '30,00 - 45,00' }
+        ]
+      },
+      {
+        etapa: '3', titulo: 'ETAPA 3: PISO SOBRE PISO E REVESTIMENTO EM REFORMA', badge: 'ACABAMENTO',
+        subtotalTexto: 'Uso de argamassa ACIII e cortes detalhados', subtotalValor: 'Sob Medida', subtotalUnid: 'm²',
+        itens: [
+          { cod: 'R3.1', desc: 'Assentamento de porcelanato PISO SOBRE PISO', unid: 'm²', preco: 62.00, faixa: '52,00 - 78,00' },
+          { cod: 'R3.2', desc: 'Regularização / nivelamento fino de contrapiso antigo', unid: 'm²', preco: 28.00, faixa: '22,00 - 35,00' },
+          { cod: 'R3.3', desc: 'Troca pontual de peças quebradas / rejuntamento', unid: 'm²', preco: 35.00, faixa: '28,00 - 45,00' }
+        ]
+      },
+      {
+        etapa: '4', titulo: 'ETAPA 4: ADEQUAÇÃO ELÉTRICA, HIDRÁULICA E PINTURA DE REFORMA', badge: 'MODERNIZAÇÃO',
+        subtotalTexto: 'Adequação de pontos antigos', subtotalValor: 'Sob Medida', subtotalUnid: 'ponto / m²',
+        itens: [
+          { cod: 'R4.1', desc: 'Deslocamento / criação de novo ponto de tomada ou iluminação', unid: 'ponto', preco: 65.00, faixa: '55,00 - 85,00' },
+          { cod: 'R4.2', desc: 'Substituição de tubulação hidráulica antiga por PPR/PVC novo', unid: 'ponto', preco: 145.00, faixa: '120,00 - 180,00' },
+          { cod: 'R4.3', desc: 'Raspagem, tratamento de trincas/umidade e repintura completa', unid: 'm²', preco: 28.00, faixa: '22,00 - 36,00' }
+        ]
+      }
     ];
 
     let appData = { config: { nome: 'CP CONSTRUÇÕES E REFORMAS', cnpj: '', tel: '' }, clientes: [], colaboradores: [], orçamentos: [], financeiro: [] };
@@ -345,12 +436,154 @@
       atualizarInterfaceGlobal();
       selecionarModoTabela('OBRA_NOVA');
       
-      // Registra o Service Worker para habilitar a instalação nativa no celular
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error:', err));
       }
     });
 
     function carregarDados() {
-      const salvo = localStorage.getItem('CP_CONSTRUCOES_FINAL_FIX_V4');
-      if (salvo) { try { appData = JSON.parse(salvo); } catch(
+      const salvo = localStorage.getItem('CP_CONSTRUCOES_FINAL_FIX_V5');
+      if (salvo) { try { appData = JSON.parse(salvo); } catch(e){} }
+    }
+
+    function salvarDados() {
+      localStorage.setItem('CP_CONSTRUCOES_FINAL_FIX_V5', JSON.stringify(appData));
+      atualizarInterfaceGlobal();
+    }
+
+    function atualizarInterfaceGlobal() {
+      document.getElementById('top-company-name').innerText = appData.config.nome || 'CP CONSTRUÇÕES E REFORMAS';
+      document.getElementById('top-company-sub').innerText = `CNPJ MEI: ${appData.config.cnpj || 'Não informado'} | Sincronizado`;
+      document.getElementById('cfg-nome').value = appData.config.nome || '';
+      document.getElementById('cfg-cnpj').value = appData.config.cnpj || '';
+      document.getElementById('cfg-tel').value = appData.config.tel || '';
+
+      renderizarDashboard();
+      renderizarClientes();
+      renderizarColaboradores();
+      renderizarListaOrcamentos();
+      renderizarFinanceiro();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('bg-wood-800', 'text-amber-200', 'border-b-2', 'border-amber-400'));
+      const active = document.getElementById('nav-' + tabId);
+      if (active) active.classList.add('bg-wood-800', 'text-amber-200', 'border-b-2', 'border-amber-400');
+    }
+
+    // =========================================================================
+    // RENDERIZAÇÃO DAS TABELAS DETALHADAS DE MÃO DE OBRA
+    // =========================================================================
+    function selecionarModoTabela(modo) {
+      const btnNova = document.getElementById('btn-tab-obranova');
+      const btnRef = document.getElementById('btn-tab-reforma');
+
+      if (modo === 'OBRA_NOVA') {
+        btnNova.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-emerald-800 text-white shadow transition";
+        btnRef.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+        document.getElementById('titulo-tabela-principal').innerText = "Tabela de Mão de Obra - Profissional Autônomo";
+        document.getElementById('subtitulo-tabela-principal').innerText = "Valores Praticados por Profissionais Diretos (Obra Nova desde o Início) | Estado de São Paulo";
+        document.getElementById('meta-diaria-tabela').innerHTML = "<strong>Meta Diária Base:</strong> R$ 300,00 (Dupla)";
+        
+        document.getElementById('ind-1-titulo').innerText = "ESTIMATIVA MÉDIA / M²";
+        document.getElementById('ind-1-valor').innerText = "R$ 520,00 - 580,00";
+        document.getElementById('ind-2-titulo').innerText = "PEDREIRO AUTÔNOMO (DIA)";
+        document.getElementById('ind-2-valor').innerText = "R$ 200,00 - 250,00";
+        document.getElementById('ind-3-titulo').innerText = "AJUDANTE (DIA)";
+        document.getElementById('ind-3-valor').innerText = "R$ 100,00 - 130,00";
+        document.getElementById('ind-4-titulo').innerText = "MODELO CONTRATO";
+        document.getElementById('ind-4-valor').innerText = "Empreitada por Etapa";
+      } else {
+        btnRef.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-emerald-800 text-white shadow transition";
+        btnNova.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+        document.getElementById('titulo-tabela-principal').innerText = "Tabela de Reformas & Manutenção - Encargos Específicos";
+        document.getElementById('subtitulo-tabela-principal').innerText = "Valores Diferenciados para Demolição, Retirada de Entulho, Piso sobre Piso e Adequações | SP";
+        document.getElementById('meta-diaria-tabela').innerHTML = "<strong>Adicional Complexidade:</strong> +10% a +25% (Área Habitada)";
+
+        document.getElementById('ind-1-titulo').innerText = "ACRÉSCIMO REFORMA";
+        document.getElementById('ind-1-valor').innerText = "+15% a +25% s/ Base";
+        document.getElementById('ind-2-titulo').innerText = "PEDREIRO REFORMA (DIA)";
+        document.getElementById('ind-2-valor').innerText = "R$ 230,00 - 280,00";
+        document.getElementById('ind-3-titulo').innerText = "AJUDANTE / ENTULHO (DIA)";
+        document.getElementById('ind-3-valor').innerText = "R$ 120,00 - 150,00";
+        document.getElementById('ind-4-titulo').innerText = "MODELO CONTRATO";
+        document.getElementById('ind-4-valor').innerText = "Escopo Fechado / Etapa";
+      }
+
+      const dados = modo === 'OBRA_NOVA' ? DADOS_OBRA_NOVA : DADOS_REFORMA;
+      const container = document.getElementById('container-etapas-detalhadas');
+
+      container.innerHTML = dados.map(grupo => `
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="bg-emerald-900 text-white px-5 py-3 flex justify-between items-center">
+            <h3 class="font-bold text-sm tracking-wide">${grupo.titulo}</h3>
+            <span class="bg-emerald-700 text-emerald-100 text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider">${grupo.badge}</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-emerald-50 text-emerald-950 font-bold border-b border-emerald-200 uppercase">
+                <tr>
+                  <th class="p-3 w-16">ITEM</th>
+                  <th class="p-3">DESCRIÇÃO DO SERVIÇO (PREÇO DIRETO)</th>
+                  <th class="p-3 text-center w-24">UNID.</th>
+                  <th class="p-3 text-right w-32">PREÇO UN. (R$)</th>
+                  <th class="p-3 text-right w-40">FAIXA AUTÔNOMO SP</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700">
+                ${grupo.itens.map(item => `
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-3 font-mono text-slate-500">${item.cod}</td>
+                    <td class="p-3 font-medium text-slate-800">${item.desc}</td>
+                    <td class="p-3 text-center font-mono text-slate-600">${item.unid}</td>
+                    <td class="p-3 text-right font-bold font-mono text-slate-900">R$ ${item.preco.toFixed(2)}</td>
+                    <td class="p-3 text-right font-mono text-slate-500">${item.faixa}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+              <tfoot class="bg-slate-50 font-bold text-slate-900 border-t border-slate-200">
+                <tr>
+                  <td colspan="3" class="p-3">${grupo.subtotalTexto || 'Subtotal da Etapa'}</td>
+                  <td class="p-3 text-right font-mono">${grupo.subtotalValor || ''}</td>
+                  <td class="p-3 text-right font-mono text-slate-600">${grupo.subtotalUnid || ''}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // =========================================================================
+    // ORÇAMENTOS E DEMAIS MÓDULOS
+    // =========================================================================
+    function iniciarNovoOrcamento() {
+      const sel = document.getElementById('orc-cliente');
+      sel.innerHTML = appData.clientes.length === 0 ? '<option value="">Cadastre um cliente primeiro</option>' : appData.clientes.map(c => `<option value="${c.id}">${c.nome}</option>`).join('');
+      itensOrcamentoTemp = [];
+      document.getElementById('container-form-orcamento').classList.remove('hidden');
+      document.getElementById('area-impressao-contrato').classList.add('hidden');
+      aoMudarModalidadeOrcamento();
+      renderizarItensOrcamento();
+    }
+
+    function fecharFormOrcamento() { document.getElementById('container-form-orcamento').classList.add('hidden'); }
+
+    function aoMudarModalidadeOrcamento() {
+      const mod = document.getElementById('orc-modalidade').value;
+      const base = mod === 'OBRA_NOVA' ? DADOS_OBRA_NOVA : DADOS_REFORMA;
+      const selEtapa = document.getElementById('sel-etapa-orc');
+      selEtapa.innerHTML = base.map(g => `<option value="${g.etapa}">${g.titulo}</option>`).join('');
+      carregarServicosPorEtapa();
+    }
+
+    function carregarServicosPorEtapa() {
+      const mod = document.getElementById('orc-modalidade').value;
+      const base = mod === 'OBRA_NOVA' ? DADOS_OBRA_NOVA : DADOS_REFORMA;
+      const etapaId = document.getElementById('sel-etapa-orc').value;
+      const grupo = base.find(g => g.etapa === etapaId);
+      const selServ = document.getElementById('sel-servico-orc');
+      if (!grupo) return;
+      selServ.innerHTML = grupo.itens.map(i => `<option value="${i.cod}">${i.cod} - ${i.desc} (R$ ${i.preco.toFixed(2)}/${i.unid})</option>`).join('');
