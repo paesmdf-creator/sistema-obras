@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CP Construções e Reformas - Gestão de Obras Pro</title>
+  <title>CP Construções e Reformas — Gestão Corporativa & Obras</title>
 
+  <!-- PWA Manifest e Configurações Mobile -->
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#5c3a21">
+  <meta name="theme-color" content="#341e16">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <!-- Firebase SDK (Compatível para Sincronização Escritório <-> Canteiro em Tempo Real) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
   <script>
     tailwind.config = {
       theme: {
@@ -30,199 +35,353 @@
   </script>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #f4f5f7; color: #1e293b; }
     .font-serif-artisan { font-family: 'Cinzel', serif; }
-    .carved-card { background: #ffffff; border: 1px solid #dfcaaa; border-top: 3px solid #8b5a2b; box-shadow: 0 4px 12px rgba(97, 60, 44, 0.05); }
-    .wood-texture-header {
-      background: linear-gradient(135deg, #341e16 0%, #5c3a21 50%, #774832 100%);
-      border-bottom: 3px solid #8b5a2b;
+    
+    .executive-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-top: 3px solid #774832;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
     }
+
+    .wood-texture-header {
+      background: linear-gradient(135deg, #2b1810 0%, #4a2c18 55%, #613c2c 100%);
+      border-bottom: 3px solid #b47b44;
+    }
+
+    .watermark-bg {
+      position: relative;
+    }
+    .watermark-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23774832' stroke-width='2' opacity='0.04'%3E%3Cpath d='M22 78 V36 L52 16 L80 35 V55 H54 V36'/%3E%3Cpath d='M52 52 H32 V78 H54'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 280px;
+      pointer-events: none;
+    }
+
     @media print {
       .no-print { display: none !important; }
       body { background-color: #ffffff !important; color: #000000 !important; }
-      .print-shadow-none { box-shadow: none !important; border: 1px solid #cccccc !important; }
+      .print-shadow-none { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+      .watermark-bg::before { opacity: 0.06 !important; }
     }
   </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col antialiased">
+<body class="min-h-screen flex flex-col antialiased">
 
   <div class="flex flex-col min-h-screen">
-    <header class="wood-texture-header text-white shadow-md no-print sticky top-0 z-40">
+    <!-- CABEÇALHO CORPORATIVO -->
+    <header class="wood-texture-header text-white shadow-lg no-print sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
-          <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
-            <div class="w-12 h-12 rounded-lg bg-white/10 border border-amber-400/50 flex items-center justify-center shadow-inner p-1">
-              <svg viewBox="0 0 100 100" class="w-9 h-9 text-amber-200 fill-none stroke-current" stroke-width="4.5">
+          <div class="flex items-center space-x-3.5 cursor-pointer" onclick="switchTab('dashboard')">
+            <div class="w-12 h-12 rounded-lg bg-wood-950/60 border border-amber-400/60 flex items-center justify-center shadow-inner p-1.5">
+              <svg viewBox="0 0 100 100" class="w-9 h-9 text-amber-300 fill-none stroke-current" stroke-width="4.5">
                 <path d="M22 78 V36 L52 16 L80 35 V55 H54 V36" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M52 52 H32 V78 H54" stroke-linecap="round" stroke-linejoin="round"/>
-                <line x1="22" y1="26" x2="52" y2="6" stroke="#d97706" stroke-width="4" stroke-linecap="round"/>
+                <line x1="22" y1="26" x2="52" y2="6" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
               </svg>
             </div>
             <div>
               <h1 id="top-company-name" class="font-serif-artisan text-base sm:text-lg font-bold tracking-wider text-amber-100">CP CONSTRUÇÕES E REFORMAS</h1>
-              <p id="top-company-sub" class="text-[10px] text-amber-300 font-light tracking-widest uppercase">Sistema Ativo • Sincronizado</p>
+              <div class="flex items-center space-x-2 mt-0.5">
+                <span id="cloud-status-badge" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-950/80 text-amber-300 border border-amber-500/30">
+                  <span id="cloud-dot" class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>
+                  <span id="cloud-status-text">Modo Local Ativo</span>
+                </span>
+                <span id="top-company-cnpj" class="hidden sm:inline text-[10px] text-amber-200/80 tracking-wider uppercase">Itanhaém • SP</span>
+              </div>
             </div>
           </div>
 
           <nav class="hidden md:flex space-x-1">
-            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 bg-wood-800 text-amber-200 border-b-2 border-amber-400"><i class="fa-solid fa-chart-line"></i><span>Painel</span></button>
-            <button onclick="switchTab('tabelas')" id="nav-tabelas" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-table-list"></i><span>Tabelas SP</span></button>
-            <button onclick="switchTab('orcamentos')" id="nav-orcamentos" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-file-contract"></i><span>Orçamentos</span></button>
-            <button onclick="switchTab('clientes')" id="nav-clientes" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-users"></i><span>Clientes</span></button>
-            <button onclick="switchTab('equipe')" id="nav-equipe" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-user-gear"></i><span>Equipe</span></button>
-            <button onclick="switchTab('financeiro')" id="nav-financeiro" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-calculator"></i><span>Caixa</span></button>
-            <button onclick="switchTab('config')" id="nav-config" class="nav-btn px-3 py-2 rounded-md text-xs font-medium transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800"><i class="fa-solid fa-gear"></i><span>Empresa</span></button>
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 bg-wood-800 text-amber-200 border-b-2 border-amber-400"><i class="fa-solid fa-building-shield"></i><span>Painel</span></button>
+            <button onclick="switchTab('tabelas')" id="nav-tabelas" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-layer-group"></i><span>Tabelas SP</span></button>
+            <button onclick="switchTab('orcamentos')" id="nav-orcamentos" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-file-signature"></i><span>Orçamentos</span></button>
+            <button onclick="switchTab('clientes')" id="nav-clientes" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-address-book"></i><span>Clientes</span></button>
+            <button onclick="switchTab('equipe')" id="nav-equipe" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-helmet-safety"></i><span>Equipe</span></button>
+            <button onclick="switchTab('financeiro')" id="nav-financeiro" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-vault"></i><span>Caixa</span></button>
+            <button onclick="switchTab('config')" id="nav-config" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-sliders"></i><span>Empresa</span></button>
           </nav>
         </div>
       </div>
     </header>
 
-    <div class="md:hidden wood-texture-header border-t border-wood-700 px-2 py-2 flex justify-around no-print text-[10px] text-amber-100 overflow-x-auto">
-      <button onclick="switchTab('dashboard')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-chart-line text-sm"></i><span>Painel</span></button>
-      <button onclick="switchTab('tabelas')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-table-list text-sm"></i><span>Tabelas</span></button>
-      <button onclick="switchTab('orcamentos')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-file-contract text-sm"></i><span>Orçamentos</span></button>
-      <button onclick="switchTab('clientes')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-users text-sm"></i><span>Clientes</span></button>
-      <button onclick="switchTab('equipe')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-user-gear text-sm"></i><span>Equipe</span></button>
-      <button onclick="switchTab('financeiro')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-calculator text-sm"></i><span>Caixa</span></button>
-      <button onclick="switchTab('config')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-gear text-sm"></i><span>Empresa</span></button>
+    <!-- NAVEGAÇÃO MOBILE -->
+    <div class="md:hidden wood-texture-header border-t border-wood-700 px-1 py-2 flex justify-around no-print text-[10px] text-amber-100">
+      <button onclick="switchTab('dashboard')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-building-shield text-sm"></i><span>Painel</span></button>
+      <button onclick="switchTab('tabelas')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-layer-group text-sm"></i><span>Tabelas</span></button>
+      <button onclick="switchTab('orcamentos')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-file-signature text-sm"></i><span>Propostas</span></button>
+      <button onclick="switchTab('clientes')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-address-book text-sm"></i><span>Clientes</span></button>
+      <button onclick="switchTab('equipe')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-helmet-safety text-sm"></i><span>Equipe</span></button>
+      <button onclick="switchTab('financeiro')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-vault text-sm"></i><span>Caixa</span></button>
+      <button onclick="switchTab('config')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-sliders text-sm"></i><span>Empresa</span></button>
     </div>
 
+    <!-- CONTEÚDO PRINCIPAL -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-      <!-- 1. DASHBOARD -->
+      <!-- =================================================================== -->
+      <!-- 1. DASHBOARD EXECUTIVO (SOLIDEZ, ROBUSTEZ E CREDIBILIDADE)          -->
+      <!-- =================================================================== -->
       <section id="tab-dashboard" class="tab-content space-y-6">
-        <div class="carved-card p-6 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h2 class="text-xl font-bold font-serif-artisan text-wood-900">Painel de Obras &amp; Gestão</h2>
-            <p class="text-slate-600 text-sm mt-1">Responsável: <strong>Cristiano dos Santos Paes</strong> — Itanhaém / SP.</p>
+        
+        <!-- Banner Institucional -->
+        <div class="executive-card rounded-lg p-6 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-gradient-to-r from-white via-wood-50/40 to-white">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-wood-900 text-amber-200 rounded">Gestão Executiva</span>
+              <span class="text-xs text-slate-500 font-medium">Litoral Sul • Itanhaém / SP</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold font-serif-artisan text-wood-950">Controle Corporativo de Obras &amp; Engenharia</h2>
+            <p class="text-slate-600 text-xs sm:text-sm">Direção Técnica: <strong>Cristiano dos Santos Paes</strong> — Operação integrada Escritório ⇄ Canteiro de Obras.</p>
           </div>
-          <div class="flex space-x-2">
-            <button onclick="switchTab('tabelas')" class="bg-emerald-800 hover:bg-emerald-900 text-white px-4 py-2 rounded-lg text-xs font-medium shadow"><i class="fa-solid fa-table-list mr-1"></i> Ver Tabelas SP</button>
-            <button onclick="switchTab('orcamentos'); iniciarNovoOrcamento();" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs font-medium shadow"><i class="fa-solid fa-plus mr-1"></i> Novo Orçamento</button>
+          <div class="flex flex-wrap gap-2 w-full lg:w-auto">
+            <button onclick="switchTab('tabelas')" class="flex-1 lg:flex-none bg-emerald-900 hover:bg-emerald-950 text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
+              <i class="fa-solid fa-layer-group mr-2 text-emerald-300"></i> Bases de Preços SP
+            </button>
+            <button onclick="switchTab('orcamentos'); iniciarNovoOrcamento();" class="flex-1 lg:flex-none wood-texture-header hover:opacity-95 text-amber-100 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
+              <i class="fa-solid fa-file-circle-plus mr-2 text-amber-300"></i> Emitir Proposta
+            </button>
           </div>
         </div>
 
+        <!-- 4 Cartões de KPIs Executivos -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-white p-4 rounded-lg border-l-4 border-amber-600 carved-card shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Orçamentos</span><p id="dash-obras-ativas" class="text-2xl font-bold text-slate-800 mt-1">0</p></div>
-          <div class="bg-white p-4 rounded-lg border-l-4 border-emerald-600 carved-card shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Recebimentos</span><p id="dash-recebimentos" class="text-2xl font-bold text-emerald-700 mt-1">R$ 0,00</p></div>
-          <div class="bg-white p-4 rounded-lg border-l-4 border-rose-600 carved-card shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Pagamentos Equipe</span><p id="dash-pagamentos" class="text-2xl font-bold text-rose-700 mt-1">R$ 0,00</p></div>
-          <div class="bg-white p-4 rounded-lg border-l-4 border-wood-700 carved-card shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Saldo Líquido</span><p id="dash-saldo" class="text-2xl font-bold text-wood-900 mt-1">R$ 0,00</p></div>
-        </div>
+          <div class="executive-card p-5 rounded-lg">
+            <div class="flex justify-between items-start">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Propostas / Obras</span>
+              <i class="fa-solid fa-folder-open text-wood-700 text-sm"></i>
+            </div>
+            <p id="dash-obras-ativas" class="text-2xl font-bold text-slate-900 mt-2">0</p>
+            <p class="text-[11px] text-slate-500 mt-1">Contratos registrados no sistema</p>
+          </div>
 
-        <div class="carved-card rounded-lg p-6">
-          <h3 class="text-base font-bold font-serif-artisan text-wood-900 mb-3">Últimas Propostas Geradas</h3>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-slate-600">
-              <thead class="bg-wood-100 text-wood-900 uppercase">
-                <tr><th class="p-3">Código</th><th class="p-3">Cliente</th><th class="p-3">Modalidade</th><th class="p-3">Data</th><th class="p-3 text-right">Valor Total</th><th class="p-3 text-right">Ação</th></tr>
-              </thead>
-              <tbody id="dash-lista-recentes" class="divide-y"></tbody>
-            </table>
+          <div class="executive-card p-5 rounded-lg" style="border-top-color: #065f46;">
+            <div class="flex justify-between items-start">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Faturamento Bruto</span>
+              <i class="fa-solid fa-arrow-trend-up text-emerald-700 text-sm"></i>
+            </div>
+            <p id="dash-recebimentos" class="text-2xl font-bold text-emerald-800 mt-2">R$ 0,00</p>
+            <p class="text-[11px] text-slate-500 mt-1">Receitas e medições lançadas</p>
+          </div>
+
+          <div class="executive-card p-5 rounded-lg" style="border-top-color: #9f1239;">
+            <div class="flex justify-between items-start">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Custos &amp; Equipe</span>
+              <i class="fa-solid fa-helmet-safety text-rose-700 text-sm"></i>
+            </div>
+            <p id="dash-pagamentos" class="text-2xl font-bold text-rose-800 mt-2">R$ 0,00</p>
+            <p class="text-[11px] text-slate-500 mt-1">Diárias e despesas operacionais</p>
+          </div>
+
+          <div class="executive-card p-5 rounded-lg" style="border-top-color: #b45309;">
+            <div class="flex justify-between items-start">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Saldo de Caixa</span>
+              <i class="fa-solid fa-scale-balanced text-amber-700 text-sm"></i>
+            </div>
+            <p id="dash-saldo" class="text-2xl font-bold text-wood-950 mt-2">R$ 0,00</p>
+            <p class="text-[11px] text-slate-500 mt-1">Resultado líquido consolidado</p>
           </div>
         </div>
+
+        <!-- Painel Inferior: Propostas Recentes + Referência Rápida de Equipe -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 executive-card rounded-lg p-5">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
+              <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Propostas &amp; Contratos Recentes</h3>
+              <button onclick="switchTab('orcamentos')" class="text-xs font-semibold text-wood-800 hover:underline">Ver todos →</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
+                  <tr>
+                    <th class="p-2.5">Código</th>
+                    <th class="p-2.5">Cliente</th>
+                    <th class="p-2.5">Perfil / Modalidade</th>
+                    <th class="p-2.5 text-right">Valor Contrato</th>
+                    <th class="p-2.5 text-right">Documento</th>
+                  </tr>
+                </thead>
+                <tbody id="dash-lista-recentes" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="executive-card rounded-lg p-5 space-y-4">
+            <div class="border-b border-slate-200 pb-3">
+              <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Parâmetros de Referência SP</h3>
+            </div>
+            <div class="space-y-3 text-xs">
+              <div class="p-3 rounded bg-wood-50 border border-wood-200">
+                <span class="font-bold text-wood-900 block">Base A — Profissional Autônomo</span>
+                <span class="text-slate-600">Execução direta • Média R$ 520 a R$ 580/m² (Obra Nova)</span>
+              </div>
+              <div class="p-3 rounded bg-emerald-50 border border-emerald-200">
+                <span class="font-bold text-emerald-950 block">Base B — Construtor / Empresa</span>
+                <span class="text-slate-600">Empreitada corporativa com encargos &amp; BDI • Média R$ 740 a R$ 850/m²</span>
+              </div>
+              <div class="p-3 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
+                <div>
+                  <span class="font-bold text-slate-800 block">Clientes Cadastrados</span>
+                  <span class="text-slate-500">Carteira ativa sincronizada</span>
+                </div>
+                <span id="dash-total-clientes" class="text-lg font-bold text-wood-900">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </section>
 
-      <!-- 2. TABELAS DETALHADAS -->
+      <!-- =================================================================== -->
+      <!-- 2. DUAS TABELAS INTEGRADAS: AUTÔNOMO VS. CONSTRUTOR / EMPRESA       -->
+      <!-- =================================================================== -->
       <section id="tab-tabelas" class="tab-content hidden space-y-6">
-        <div class="bg-emerald-900 text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        
+        <!-- Cabeçalho Dinâmico da Tabela -->
+        <div id="banner-tabela-ativa" class="bg-emerald-950 text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2 id="titulo-tabela-principal" class="text-2xl font-bold tracking-tight">Tabela de Mão de Obra - Profissional Autônomo</h2>
+            <div class="flex items-center space-x-2 mb-1">
+              <span id="badge-perfil-tabela" class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-700 text-emerald-100">BASE A: AUTÔNOMO DIRETO</span>
+              <span class="text-xs text-emerald-300">Uso Interno Exclusivo da Empresa</span>
+            </div>
+            <h2 id="titulo-tabela-principal" class="text-xl sm:text-2xl font-bold tracking-tight">Tabela de Mão de Obra — Profissional Autônomo</h2>
             <p id="subtitulo-tabela-principal" class="text-emerald-200 text-xs mt-1">Valores Praticados por Profissionais Diretos | Estado de São Paulo</p>
           </div>
-          <div class="text-left md:text-right text-xs text-emerald-100 space-y-0.5 bg-emerald-950/50 p-3 rounded-lg border border-emerald-700">
-            <p><strong>Perfil:</strong> Autônomo / Empreiteiro Direto</p>
+          <div class="text-left md:text-right text-xs text-emerald-100 space-y-1 bg-black/25 p-3.5 rounded-lg border border-white/10">
+            <p id="info-lat-1"><strong>Perfil:</strong> Autônomo / Execução Direta</p>
             <p><strong>Região:</strong> São Paulo (Litoral / Itanhaém)</p>
-            <p id="meta-diaria-tabela"><strong>Meta Diária Base:</strong> R$ 300,00 (Dupla)</p>
+            <p id="info-lat-2"><strong>Meta Diária Base:</strong> R$ 300,00 (Dupla)</p>
           </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-3 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-          <div class="flex space-x-2 w-full sm:w-auto">
-            <button onclick="selecionarModoTabela('OBRA_NOVA')" id="btn-tab-obranova" class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-emerald-800 text-white shadow transition">
-              🏗️ Obra Nova (Desde o Início)
-            </button>
-            <button onclick="selecionarModoTabela('REFORMA')" id="btn-tab-reforma" class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
-              🛠️ Reformas &amp; Encargos Específicos
-            </button>
+        <!-- Seletor Duplo: PERFIL DA EMPRESA (Autônomo vs Construtor) + TIPO DE OBRA (Obra Nova vs Reforma) -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
+          
+          <!-- Seletor 1: Autônomo vs Construtor -->
+          <div class="flex flex-col space-y-1">
+            <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">1. Selecione a Tabela de Referência:</span>
+            <div class="inline-flex rounded-lg bg-slate-100 p-1">
+              <button onclick="mudarPerfilTabela('AUTONOMO')" id="btn-perfil-autonomo" class="px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition">
+                👷 Tabela Autônomo (Direto)
+              </button>
+              <button onclick="mudarPerfilTabela('CONSTRUTOR')" id="btn-perfil-construtor" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
+                🏢 Tabela Construtor (Empresa / BDI)
+              </button>
+            </div>
+          </div>
+
+          <!-- Seletor 2: Obra Nova vs Reforma -->
+          <div class="flex flex-col space-y-1">
+            <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">2. Selecione o Escopo da Obra:</span>
+            <div class="inline-flex rounded-lg bg-slate-100 p-1">
+              <button onclick="mudarEscopoTabela('OBRA_NOVA')" id="btn-escopo-obranova" class="px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-100 shadow transition">
+                🏗️ Obra Nova (Desde o Início)
+              </button>
+              <button onclick="mudarEscopoTabela('REFORMA')" id="btn-escopo-reforma" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
+                🛠️ Reformas &amp; Encargos Específicos
+              </button>
+            </div>
           </div>
         </div>
 
-        <div id="cards-indicadores-tabela" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl">
-            <span id="ind-1-titulo" class="text-[11px] font-bold text-emerald-800 uppercase">ESTIMATIVA MÉDIA / M²</span>
+        <!-- 4 Indicadores da Tabela Selecionada -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+            <span id="ind-1-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ESTIMATIVA MÉDIA / M²</span>
             <p id="ind-1-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 520,00 - 580,00</p>
           </div>
-          <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl">
-            <span id="ind-2-titulo" class="text-[11px] font-bold text-emerald-800 uppercase">PEDREIRO AUTÔNOMO (DIA)</span>
+          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+            <span id="ind-2-titulo" class="text-[11px] font-bold text-slate-500 uppercase">PEDREIRO / OFICIAL (DIA)</span>
             <p id="ind-2-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 200,00 - 250,00</p>
           </div>
-          <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl">
-            <span id="ind-3-titulo" class="text-[11px] font-bold text-emerald-800 uppercase">AJUDANTE (DIA)</span>
+          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+            <span id="ind-3-titulo" class="text-[11px] font-bold text-slate-500 uppercase">AJUDANTE / SERVENTE (DIA)</span>
             <p id="ind-3-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 100,00 - 130,00</p>
           </div>
-          <div class="bg-emerald-50/60 border border-emerald-200 p-4 rounded-xl">
-            <span id="ind-4-titulo" class="text-[11px] font-bold text-emerald-800 uppercase">MODELO CONTRATO</span>
-            <p id="ind-4-valor" class="text-lg font-bold text-slate-900 mt-1">Empreitada por Etapa</p>
+          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+            <span id="ind-4-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ENQUADRAMENTO</span>
+            <p id="ind-4-valor" class="text-lg font-bold text-slate-900 mt-1">Mão de Obra Direta</p>
           </div>
         </div>
 
+        <!-- Container das Etapas Detalhadas -->
         <div id="container-etapas-detalhadas" class="space-y-6"></div>
       </section>
 
-      <!-- 3. ORÇAMENTOS -->
+      <!-- =================================================================== -->
+      <!-- 3. MONTADOR DE ORÇAMENTOS & PROPOSTA LIMPA EM PDF                   -->
+      <!-- =================================================================== -->
       <section id="tab-orcamentos" class="tab-content hidden space-y-6">
         <div class="flex justify-between items-center no-print">
-          <h2 class="text-xl font-bold font-serif-artisan text-wood-900">Montador de Orçamentos &amp; Propostas</h2>
-          <button onclick="iniciarNovoOrcamento()" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs font-medium shadow">+ Criar Novo Orçamento</button>
+          <div>
+            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Orçamentos &amp; Propostas Comerciais</h2>
+            <p class="text-xs text-slate-500">Selecione a tabela interna desejada. O PDF do cliente exibe apenas o escopo e valores finais.</p>
+          </div>
+          <button onclick="iniciarNovoOrcamento()" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">+ Novo Orçamento</button>
         </div>
 
-        <div id="container-form-orcamento" class="carved-card p-6 rounded-lg hidden space-y-5 no-print">
-          <div class="flex justify-between items-center border-b border-wood-200 pb-3">
-            <h3 class="text-lg font-bold font-serif-artisan text-wood-900">Cálculo Detalhado por Etapa (Uso Interno)</h3>
+        <!-- Formulário Interno de Orçamento -->
+        <div id="container-form-orcamento" class="executive-card p-6 rounded-lg hidden space-y-5 no-print">
+          <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+            <h3 class="text-base font-bold font-serif-artisan text-wood-950">Composição Interna de Preços (Uso Exclusivo da Empresa)</h3>
             <button onclick="fecharFormOrcamento()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
             <div>
-              <label class="block font-bold text-wood-900 mb-1">Cliente *</label>
-              <select id="orc-cliente" class="w-full border border-slate-300 p-2 rounded-lg"></select>
+              <label class="block font-bold text-slate-700 mb-1">Cliente *</label>
+              <select id="orc-cliente" class="w-full border border-slate-300 p-2 rounded-lg bg-white"></select>
             </div>
             <div>
-              <label class="block font-bold text-wood-900 mb-1">Modalidade da Obra *</label>
-              <select id="orc-modalidade" onchange="aoMudarModalidadeOrcamento()" class="w-full border-2 border-emerald-700 bg-emerald-50 font-bold text-emerald-950 p-2 rounded-lg">
-                <option value="OBRA_NOVA">🏗️ Obra Nova (Tabela Autônomo SP)</option>
-                <option value="REFORMA">🛠️ Reforma / Manutenção (Valores &amp; Encargos)</option>
+              <label class="block font-bold text-slate-700 mb-1">Base de Preço Interna *</label>
+              <select id="orc-perfil-base" onchange="aoMudarConfiguracaoOrcamento()" class="w-full border-2 border-wood-700 bg-wood-50 font-bold text-wood-950 p-2 rounded-lg">
+                <option value="AUTONOMO">👷 Base Autônomo (Direto)</option>
+                <option value="CONSTRUTOR">🏢 Base Construtor (Empresa/BDI)</option>
               </select>
             </div>
             <div>
-              <label class="block font-bold text-wood-900 mb-1">Adicional Complexidade / Encargo Reforma (%)</label>
-              <select id="orc-adicional-reforma" onchange="renderizarItensOrcamento()" class="w-full border border-slate-300 p-2 rounded-lg">
-                <option value="0">0% (Padrão / Sem adicional)</option>
-                <option value="10">+10% (Acesso restrito / Logística)</option>
-                <option value="15">+15% (Imóvel habitado / Proteção extra)</option>
-                <option value="20">+20% (Demolição pesada / Retirada difícil)</option>
-                <option value="25">+25% (Urgência / Alta complexidade técnica)</option>
+              <label class="block font-bold text-slate-700 mb-1">Tipo de Obra *</label>
+              <select id="orc-modalidade" onchange="aoMudarConfiguracaoOrcamento()" class="w-full border-2 border-emerald-700 bg-emerald-50 font-bold text-emerald-950 p-2 rounded-lg">
+                <option value="OBRA_NOVA">🏗️ Obra Nova</option>
+                <option value="REFORMA">🛠️ Reforma / Reestruturação</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Ajuste / Encargo Adicional (%)</label>
+              <select id="orc-adicional-reforma" onchange="renderizarItensOrcamento()" class="w-full border border-slate-300 p-2 rounded-lg bg-white">
+                <option value="0">0% (Valor exato da tabela)</option>
+                <option value="10">+10% (Logística / Acesso)</option>
+                <option value="15">+15% (Imóvel habitado / Proteção)</option>
+                <option value="20">+20% (Demolição pesada / BDI extra)</option>
+                <option value="25">+25% (Urgência / Alta complexidade)</option>
               </select>
             </div>
           </div>
 
-          <div class="bg-wood-50 p-4 rounded-lg border border-wood-200 grid grid-cols-1 md:grid-cols-12 gap-3 items-end text-xs">
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 grid grid-cols-1 md:grid-cols-12 gap-3 items-end text-xs">
             <div class="md:col-span-3">
               <label class="block font-semibold text-slate-700 mb-1">Etapa da Obra</label>
-              <select id="sel-etapa-orc" onchange="carregarServicosPorEtapa()" class="w-full border border-slate-300 rounded p-2"></select>
+              <select id="sel-etapa-orc" onchange="carregarServicosPorEtapa()" class="w-full border border-slate-300 rounded p-2 bg-white"></select>
             </div>
             <div class="md:col-span-4">
-              <label class="block font-semibold text-slate-700 mb-1">Serviço da Tabela</label>
-              <select id="sel-servico-orc" onchange="preencherValorUnitarioServico()" class="w-full border border-slate-300 rounded p-2"></select>
+              <label class="block font-semibold text-slate-700 mb-1">Serviço da Tabela Selecionada</label>
+              <select id="sel-servico-orc" onchange="preencherValorUnitarioServico()" class="w-full border border-slate-300 rounded p-2 bg-white"></select>
             </div>
             <div class="md:col-span-2">
               <label class="block font-semibold text-slate-700 mb-1">Qtd. (<span id="lbl-unid-orc">m²</span>)</label>
-              <input type="number" step="0.01" id="inp-qtd-orc" value="1" class="w-full border border-slate-300 rounded p-2">
+              <input type="number" step="0.01" id="inp-qtd-orc" value="1" class="w-full border border-slate-300 rounded p-2 bg-white">
             </div>
             <div class="md:col-span-2">
               <label class="block font-semibold text-slate-700 mb-1">Unitário (R$)</label>
-              <input type="number" step="0.01" id="inp-val-orc" class="w-full border border-slate-300 rounded p-2 font-bold">
+              <input type="number" step="0.01" id="inp-val-orc" class="w-full border border-slate-300 rounded p-2 font-bold bg-white">
             </div>
             <div class="md:col-span-1">
               <button onclick="adicionarItemOrcamento()" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white py-2 rounded font-bold"><i class="fa-solid fa-plus"></i></button>
@@ -231,9 +390,9 @@
 
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border border-slate-200">
-              <thead class="bg-wood-100 text-wood-900 uppercase">
+              <thead class="bg-wood-100 text-wood-950 uppercase font-bold">
                 <tr>
-                  <th class="p-2">Etapa</th>
+                  <th class="p-2">Cód.</th>
                   <th class="p-2">Serviço</th>
                   <th class="p-2 text-center">Unid.</th>
                   <th class="p-2 text-right">Qtd.</th>
@@ -243,19 +402,19 @@
                 </tr>
               </thead>
               <tbody id="tbody-itens-orcamento" class="divide-y"></tbody>
-              <tfoot class="bg-amber-50 font-bold text-wood-950 border-t-2 border-wood-300">
+              <tfoot class="bg-amber-50/70 font-bold text-wood-950 border-t-2 border-wood-300">
                 <tr>
                   <td colspan="5" class="p-2.5 text-right">Subtotal Base dos Serviços:</td>
                   <td id="lbl-subtotal-base" class="p-2.5 text-right">R$ 0,00</td>
                   <td></td>
                 </tr>
                 <tr id="row-encargo-reforma" class="hidden text-emerald-900">
-                  <td colspan="5" class="p-2.5 text-right">Adicional Complexidade / Encargo Reforma:</td>
+                  <td colspan="5" class="p-2.5 text-right">Ajuste / Encargo Adicional:</td>
                   <td id="lbl-valor-encargo" class="p-2.5 text-right">R$ 0,00</td>
                   <td></td>
                 </tr>
                 <tr class="text-sm">
-                  <td colspan="5" class="p-3 text-right uppercase font-serif-artisan">Valor Total Final da Proposta:</td>
+                  <td colspan="5" class="p-3 text-right uppercase font-serif-artisan">Valor Total da Proposta ao Cliente:</td>
                   <td id="lbl-total-final-orc" class="p-3 text-right text-base">R$ 0,00</td>
                   <td></td>
                 </tr>
@@ -265,137 +424,244 @@
 
           <div class="flex justify-end space-x-2 pt-2">
             <button onclick="fecharFormOrcamento()" class="px-4 py-2 border rounded text-xs text-slate-600">Cancelar</button>
-            <button onclick="salvarOrcamentoCompleto()" class="wood-texture-header text-amber-100 px-6 py-2 rounded text-xs font-bold shadow">Salvar &amp; Gerar Proposta Limpa</button>
+            <button onclick="salvarOrcamentoCompleto()" class="wood-texture-header text-amber-100 px-6 py-2.5 rounded text-xs font-bold shadow">Salvar &amp; Gerar Proposta Limpa</button>
           </div>
         </div>
 
-        <div class="carved-card rounded-lg overflow-hidden no-print">
+        <!-- Lista de Orçamentos -->
+        <div class="executive-card rounded-lg overflow-hidden no-print">
           <table class="w-full text-left text-sm text-slate-600">
-            <thead class="bg-wood-100 text-wood-900 uppercase text-xs">
+            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
               <tr><th class="p-3">Código</th><th class="p-3">Cliente</th><th class="p-3">Modalidade</th><th class="p-3">Data</th><th class="p-3 text-right">Total</th><th class="p-3 text-right">Ações</th></tr>
             </thead>
             <tbody id="lista-orcamentos-salvos" class="divide-y"></tbody>
           </table>
         </div>
 
-        <div id="area-impressao-contrato" class="hidden carved-card p-8 rounded-lg space-y-6 print-shadow-none">
+        <!-- ================================================================= -->
+        <!-- DOCUMENTO LIMPO DO CLIENTE (PDF / IMPRESSÃO CORPORATIVA)          -->
+        <!-- ================================================================= -->
+        <div id="area-impressao-contrato" class="hidden executive-card watermark-bg p-8 rounded-lg space-y-6 print-shadow-none bg-white">
           <div class="no-print flex justify-between items-center bg-wood-100 p-3 rounded mb-4">
-            <button onclick="fecharVisualizacaoContrato()" class="text-xs font-bold text-slate-600">← Voltar à Lista</button>
-            <button onclick="window.print()" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded"><i class="fa-solid fa-print mr-1"></i> Imprimir / Salvar Proposta PDF</button>
+            <button onclick="fecharVisualizacaoContrato()" class="text-xs font-bold text-slate-700">← Voltar à Lista</button>
+            <button onclick="window.print()" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded shadow"><i class="fa-solid fa-print mr-1.5"></i> Imprimir / Salvar Proposta PDF</button>
           </div>
           
-          <div class="border-b-2 border-wood-800 pb-4 text-center space-y-2">
-            <h3 id="print-header-empresa" class="font-serif-artisan text-2xl font-bold tracking-widest text-wood-900">CP CONSTRUÇÕES E REFORMAS</h3>
-            <p id="print-empresa-cnpj" class="text-xs font-semibold uppercase text-slate-600">CNPJ MEI: ---</p>
-            <p id="print-empresa-contato" class="text-xs text-slate-500">Responsável Técnico: Cristiano dos Santos Paes</p>
+          <!-- Cabeçalho Oficial com Marca Entalhada -->
+          <div class="border-b-2 border-wood-900 pb-5 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-4">
+              <div class="w-14 h-14 rounded-lg bg-wood-950 flex items-center justify-center p-2 border border-amber-500">
+                <svg viewBox="0 0 100 100" class="w-10 h-10 text-amber-300 fill-none stroke-current" stroke-width="4.5">
+                  <path d="M22 78 V36 L52 16 L80 35 V55 H54 V36" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M52 52 H32 V78 H54" stroke-linecap="round" stroke-linejoin="round"/>
+                  <line x1="22" y1="26" x2="52" y2="6" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div>
+                <h3 id="print-header-empresa" class="font-serif-artisan text-xl sm:text-2xl font-bold tracking-wider text-wood-950">CP CONSTRUÇÕES E REFORMAS</h3>
+                <p id="print-empresa-cnpj" class="text-xs font-semibold uppercase text-slate-600">CNPJ MEI: ---</p>
+                <p id="print-empresa-contato" class="text-xs text-slate-500">Responsável Técnico: Cristiano dos Santos Paes</p>
+              </div>
+            </div>
+            <div class="text-center sm:text-right">
+              <span class="px-3 py-1 bg-wood-900 text-amber-200 text-xs font-bold uppercase tracking-widest rounded">Proposta Comercial</span>
+              <p class="text-xs font-bold text-slate-700 mt-1.5">Nº <span id="print-orc-id">---</span></p>
+              <p class="text-xs text-slate-500">Emissão: <span id="print-orc-data">---</span></p>
+            </div>
           </div>
 
-          <div class="grid grid-cols-2 text-xs border border-wood-300 p-4 rounded bg-wood-50/30 gap-4">
-            <div>
+          <!-- Dados do Cliente -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 text-xs border border-wood-300 p-4 rounded bg-wood-50/40 gap-4">
+            <div class="space-y-1">
+              <p class="text-[10px] font-bold uppercase text-wood-800">Dados do Contratante</p>
               <p><strong>CLIENTE:</strong> <span id="print-cliente-nome">---</span></p>
               <p><strong>TELEFONE:</strong> <span id="print-cliente-tel">---</span></p>
               <p><strong>LOCAL DA OBRA:</strong> <span id="print-cliente-end">---</span></p>
             </div>
-            <div class="text-right">
-              <p><strong>PROPOSTA Nº:</strong> <span id="print-orc-id">---</span></p>
-              <p><strong>DATA:</strong> <span id="print-orc-data">---</span></p>
+            <div class="sm:text-right space-y-1">
+              <p class="text-[10px] font-bold uppercase text-wood-800">Especificação do Projeto</p>
               <p><strong>MODALIDADE:</strong> <span id="print-orc-modalidade" class="font-bold">---</span></p>
+              <p><strong>VALIDADE DA PROPOSTA:</strong> 15 dias corridos</p>
+              <p><strong>REGIÃO:</strong> Itanhaém / Litoral Sul - SP</p>
             </div>
           </div>
 
+          <!-- Escopo Limpo por Etapa (Sem revelar tabelas internas de custo) -->
           <div class="space-y-3">
-            <h4 class="font-bold font-serif-artisan text-wood-900 text-xs uppercase border-b border-wood-400 pb-1">Escopo Técnico dos Serviços por Etapa da Obra</h4>
+            <h4 class="font-bold font-serif-artisan text-wood-950 text-xs uppercase border-b border-wood-400 pb-1.5">Escopo Técnico dos Serviços por Etapa</h4>
             <div id="print-container-etapas-cliente" class="space-y-3"></div>
           </div>
 
-          <div class="flex justify-end border-t-2 border-wood-800 pt-4">
-            <div class="text-right">
-              <span class="text-xs font-bold uppercase text-slate-600">INVESTIMENTO TOTAL DE MÃO DE OBRA:</span>
-              <p id="print-valor-total" class="text-2xl font-bold font-serif-artisan text-wood-900">R$ 0,00</p>
+          <!-- Totalização -->
+          <div class="flex justify-end border-t-2 border-wood-900 pt-4">
+            <div class="text-right bg-wood-50 px-5 py-3 rounded-lg border border-wood-300">
+              <span class="text-xs font-bold uppercase text-slate-600">INVESTIMENTO TOTAL DE EXECUÇÃO:</span>
+              <p id="print-valor-total" class="text-2xl font-bold font-serif-artisan text-wood-950 mt-0.5">R$ 0,00</p>
               <span class="text-[10px] text-slate-500 block mt-0.5">Valores referentes à execução técnica especializada conforme etapas descritas.</span>
             </div>
           </div>
 
+          <!-- Assinaturas -->
           <div class="pt-12 grid grid-cols-2 gap-8 text-center text-xs">
             <div class="border-t border-slate-800 pt-2">
-              <p class="font-bold text-wood-900 uppercase">CP CONSTRUÇÕES E REFORMAS</p>
-              <p class="text-[10px] text-slate-500">Contratada / Responsável Técnico</p>
+              <p class="font-bold text-wood-950 uppercase">CP CONSTRUÇÕES E REFORMAS</p>
+              <p class="text-[10px] text-slate-500">Contratada • Responsável Técnico</p>
             </div>
             <div class="border-t border-slate-800 pt-2">
-              <p id="print-ass-cliente-nome" class="font-bold text-wood-900 uppercase">ASSINATURA DO CLIENTE</p>
+              <p id="print-ass-cliente-nome" class="font-bold text-wood-950 uppercase">ASSINATURA DO CLIENTE</p>
               <p class="text-[10px] text-slate-500">De acordo com a proposta apresentada</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 4. CLIENTES -->
+      <!-- =================================================================== -->
+      <!-- 4. CLIENTES (COM IMPORTAÇÃO DIRETA DA AGENDA DO CELULAR)            -->
+      <!-- =================================================================== -->
       <section id="tab-clientes" class="tab-content hidden space-y-6">
-        <div class="flex justify-between items-center"><h2 class="text-xl font-bold font-serif-artisan text-wood-900">Cadastro de Clientes</h2><button onclick="abrirModalCliente()" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs">+ Novo Cliente</button></div>
-        <div class="carved-card rounded-lg overflow-hidden"><table class="w-full text-left text-sm text-slate-600"><thead class="bg-wood-100 text-wood-900 uppercase text-xs"><tr><th class="p-3">Nome</th><th class="p-3">Telefone</th><th class="p-3">Endereço da Obra</th><th class="p-3 text-right">Ação</th></tr></thead><tbody id="lista-clientes" class="divide-y"></tbody></table></div>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div>
+            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Carteira de Clientes</h2>
+            <p class="text-xs text-slate-500">Cadastro unificado entre escritório e canteiro de obras.</p>
+          </div>
+          <div class="flex space-x-2">
+            <button onclick="importarContatoCelular()" id="btn-importar-agenda" class="bg-emerald-800 hover:bg-emerald-900 text-white px-4 py-2 rounded-lg text-xs font-bold shadow flex items-center">
+              <i class="fa-solid fa-mobile-screen-button mr-1.5"></i> Importar da Agenda (Celular)
+            </button>
+            <button onclick="abrirModalCliente()" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs font-bold shadow">+ Novo Cliente</button>
+          </div>
+        </div>
+        <div class="executive-card rounded-lg overflow-hidden">
+          <table class="w-full text-left text-sm text-slate-600">
+            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
+              <tr><th class="p-3">Nome</th><th class="p-3">Telefone / WhatsApp</th><th class="p-3">Endereço da Obra</th><th class="p-3 text-right">Ação</th></tr>
+            </thead>
+            <tbody id="lista-clientes" class="divide-y"></tbody>
+          </table>
+        </div>
       </section>
 
-      <!-- 5. EQUIPE & DIÁRIAS -->
+      <!-- =================================================================== -->
+      <!-- 5. EQUIPE & DIÁRIAS                                                 -->
+      <!-- =================================================================== -->
       <section id="tab-equipe" class="tab-content hidden space-y-6">
-        <div class="flex justify-between items-center no-print"><h2 class="text-xl font-bold font-serif-artisan text-wood-900">Equipe &amp; Controle de Diárias</h2><button onclick="abrirModalColaborador()" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs">+ Novo Colaborador</button></div>
-        <div class="carved-card rounded-lg overflow-hidden no-print"><table class="w-full text-left text-sm text-slate-600"><thead class="bg-wood-100 text-wood-900 uppercase text-xs"><tr><th class="p-3">Nome</th><th class="p-3">Função</th><th class="p-3 text-right">Diária (R$)</th><th class="p-3 text-center">Dias</th><th class="p-3 text-right">Ações</th></tr></thead><tbody id="lista-colaboradores" class="divide-y"></tbody></table></div>
+        <div class="flex justify-between items-center no-print">
+          <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Equipe &amp; Controle de Diárias</h2>
+          <button onclick="abrirModalColaborador()" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs font-bold shadow">+ Novo Colaborador</button>
+        </div>
+        <div class="executive-card rounded-lg overflow-hidden no-print">
+          <table class="w-full text-left text-sm text-slate-600">
+            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
+              <tr><th class="p-3">Nome</th><th class="p-3">Função</th><th class="p-3 text-right">Diária (R$)</th><th class="p-3 text-center">Dias</th><th class="p-3 text-right">Ações</th></tr>
+            </thead>
+            <tbody id="lista-colaboradores" class="divide-y"></tbody>
+          </table>
+        </div>
 
-        <div id="area-recibo-pagamento" class="hidden carved-card p-8 rounded-lg space-y-6 print-shadow-none">
+        <div id="area-recibo-pagamento" class="hidden executive-card p-8 rounded-lg space-y-6 print-shadow-none bg-white">
           <div class="no-print flex justify-between items-center bg-wood-100 p-3 rounded mb-4">
-            <button onclick="fecharReciboPagamento()" class="text-xs font-bold text-slate-600">← Voltar</button>
+            <button onclick="fecharReciboPagamento()" class="text-xs font-bold text-slate-700">← Voltar</button>
             <button onclick="window.print()" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded">Imprimir Recibo PDF</button>
           </div>
-          <div class="border-b-2 border-wood-800 pb-4 text-center space-y-2">
-            <h3 id="rec-empresa-titulo" class="font-serif-artisan text-xl font-bold text-wood-900">CP CONSTRUÇÕES E REFORMAS</h3>
+          <div class="border-b-2 border-wood-900 pb-4 text-center space-y-2">
+            <h3 id="rec-empresa-titulo" class="font-serif-artisan text-xl font-bold text-wood-950">CP CONSTRUÇÕES E REFORMAS</h3>
             <p id="recibo-cnpj" class="text-xs font-semibold uppercase text-slate-600">CNPJ MEI: ---</p>
           </div>
-          <div class="text-center py-1"><h4 class="font-serif-artisan text-sm font-bold text-wood-900 uppercase">RECIBO DE PAGAMENTO DE DIÁRIAS</h4></div>
+          <div class="text-center py-1"><h4 class="font-serif-artisan text-sm font-bold text-wood-950 uppercase">RECIBO DE PAGAMENTO DE DIÁRIAS</h4></div>
           <div class="border border-wood-300 p-4 rounded bg-wood-50/30 text-xs space-y-2">
             <p><strong>COLABORADOR:</strong> <span id="rec-colab-nome">---</span></p>
             <p><strong>FUNÇÃO:</strong> <span id="rec-colab-funcao">---</span></p>
             <p><strong>VALOR DA DIÁRIA:</strong> R$ <span id="rec-colab-diaria">0,00</span></p>
             <p><strong>DIAS TRABALHADOS:</strong> <span id="rec-colab-dias">0</span> dia(s)</p>
-            <p class="text-sm font-bold text-wood-900 pt-2 border-t border-wood-300"><strong>TOTAL PAGO:</strong> R$ <span id="rec-colab-total">0,00</span></p>
+            <p class="text-sm font-bold text-wood-950 pt-2 border-t border-wood-300"><strong>TOTAL PAGO:</strong> R$ <span id="rec-colab-total">0,00</span></p>
           </div>
           <div class="pt-10 grid grid-cols-2 gap-8 text-center text-xs">
-            <div class="border-t border-slate-800 pt-2"><p class="font-bold text-wood-900 uppercase">CP CONSTRUÇÕES E REFORMAS</p></div>
-            <div class="border-t border-slate-800 pt-2"><p id="rec-assinatura-colab" class="font-bold text-wood-900 uppercase">ASSINATURA DO COLABORADOR</p></div>
+            <div class="border-t border-slate-800 pt-2"><p class="font-bold text-wood-950 uppercase">CP CONSTRUÇÕES E REFORMAS</p></div>
+            <div class="border-t border-slate-800 pt-2"><p id="rec-assinatura-colab" class="font-bold text-wood-950 uppercase">ASSINATURA DO COLABORADOR</p></div>
           </div>
         </div>
       </section>
 
-      <!-- 6. CAIXA -->
+      <!-- =================================================================== -->
+      <!-- 6. FLUXO DE CAIXA                                                   -->
+      <!-- =================================================================== -->
       <section id="tab-financeiro" class="tab-content hidden space-y-6">
-        <div class="flex justify-between items-center"><h2 class="text-xl font-bold font-serif-artisan text-wood-900">Fluxo de Caixa</h2><button onclick="abrirModalFinanceiro()" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs">+ Novo Lançamento</button></div>
-        <div class="carved-card rounded-lg overflow-hidden"><table class="w-full text-left text-sm text-slate-600"><thead class="bg-wood-100 uppercase text-xs"><tr><th class="p-3">Data</th><th class="p-3">Tipo</th><th class="p-3">Descrição</th><th class="p-3 text-right">Valor (R$)</th></tr></thead><tbody id="lista-financeiro" class="divide-y"></tbody></table></div>
+        <div class="flex justify-between items-center">
+          <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Fluxo de Caixa Corporativo</h2>
+          <button onclick="abrirModalFinanceiro()" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs font-bold shadow">+ Novo Lançamento</button>
+        </div>
+        <div class="executive-card rounded-lg overflow-hidden">
+          <table class="w-full text-left text-sm text-slate-600">
+            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
+              <tr><th class="p-3">Data</th><th class="p-3">Tipo</th><th class="p-3">Descrição</th><th class="p-3 text-right">Valor (R$)</th></tr>
+            </thead>
+            <tbody id="lista-financeiro" class="divide-y"></tbody>
+          </table>
+        </div>
       </section>
 
-      <!-- 7. EMPRESA -->
+      <!-- =================================================================== -->
+      <!-- 7. EMPRESA & SINCRONIZAÇÃO EM NUVEM (ESCRITÓRIO <-> CANTEIRO)       -->
+      <!-- =================================================================== -->
       <section id="tab-config" class="tab-content hidden space-y-6">
-        <div class="carved-card p-6 rounded-lg max-w-lg mx-auto space-y-4">
-          <h2 class="text-lg font-bold font-serif-artisan text-wood-900 border-b pb-2">Dados Cadastrais da Empresa (MEI)</h2>
-          <div class="space-y-3 text-xs">
-            <div><label class="block font-bold mb-1">Razão Social / Nome Fantasia</label><input type="text" id="cfg-nome" class="w-full border p-2 rounded"></div>
-            <div><label class="block font-bold mb-1">CNPJ MEI</label><input type="text" id="cfg-cnpj" placeholder="00.000.000/0001-00" class="w-full border p-2 rounded"></div>
-            <div><label class="block font-bold mb-1">Telefone / WhatsApp</label><input type="text" id="cfg-tel" placeholder="(13) 99999-9999" class="w-full border p-2 rounded"></div>
-            <button onclick="salvarConfiguracoes()" class="w-full wood-texture-header text-amber-100 py-2.5 rounded font-bold">Salvar Dados da Empresa</button>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Dados da Empresa -->
+          <div class="executive-card p-6 rounded-lg space-y-4">
+            <h2 class="text-base font-bold font-serif-artisan text-wood-950 border-b pb-2">Dados Institucionais da Empresa</h2>
+            <div class="space-y-3 text-xs">
+              <div><label class="block font-bold mb-1">Razão Social / Nome Fantasia</label><input type="text" id="cfg-nome" class="w-full border p-2.5 rounded"></div>
+              <div><label class="block font-bold mb-1">CNPJ MEI / Empresa</label><input type="text" id="cfg-cnpj" placeholder="00.000.000/0001-00" class="w-full border p-2.5 rounded"></div>
+              <div><label class="block font-bold mb-1">Telefone / WhatsApp Oficial</label><input type="text" id="cfg-tel" placeholder="(13) 99999-9999" class="w-full border p-2.5 rounded"></div>
+              <button onclick="salvarConfiguracoes()" class="w-full wood-texture-header text-amber-100 py-2.5 rounded font-bold shadow">Salvar Dados Institucionais</button>
+            </div>
           </div>
+
+          <!-- Sincronização em Nuvem Tempo Real -->
+          <div class="executive-card p-6 rounded-lg space-y-4" style="border-top-color: #065f46;">
+            <div class="flex justify-between items-center border-b pb-2">
+              <h2 class="text-base font-bold font-serif-artisan text-emerald-950">Sincronização em Nuvem (Escritório ⇄ Canteiro)</h2>
+              <span class="px-2 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-900 rounded">Tempo Real</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Para que o notebook no escritório e o celular no canteiro de obras compartilhem os dados simultaneamente, cole abaixo o objeto de configuração do seu projeto gratuito no <strong>Firebase Firestore</strong>:
+            </p>
+            <div class="space-y-3 text-xs">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Chave de Conexão Firebase (JSON):</label>
+                <textarea id="cfg-firebase" rows="4" placeholder='{"apiKey": "...", "authDomain": "...", "projectId": "..."}' class="w-full border p-2 rounded font-mono text-[11px] bg-slate-50"></textarea>
+              </div>
+              <div class="flex space-x-2">
+                <button onclick="salvarConexaoNuvem()" class="flex-1 bg-emerald-800 hover:bg-emerald-900 text-white py-2.5 rounded font-bold shadow">Conectar Nuvem Agora</button>
+                <button onclick="exportarBackupManual()" class="px-3 py-2.5 border border-slate-300 rounded font-semibold text-slate-700 hover:bg-slate-50" title="Exportar arquivo de backup"><i class="fa-solid fa-download"></i></button>
+                <label class="px-3 py-2.5 border border-slate-300 rounded font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer" title="Importar arquivo de backup">
+                  <i class="fa-solid fa-upload"></i>
+                  <input type="file" accept=".json" onchange="importarBackupManual(event)" class="hidden">
+                </label>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
     </main>
 
     <footer class="wood-texture-header text-amber-200/80 text-xs py-4 text-center border-t border-wood-800 mt-auto no-print">
-      <p>© 2026 CP Construções e Reformas — Responsável Técnico: Cristiano dos Santos Paes</p>
+      <p>© 2026 CP Construções e Reformas — Direção Técnica: Cristiano dos Santos Paes • Itanhaém/SP</p>
     </footer>
   </div>
 
-  <div id="modal-cliente" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-lg max-w-md w-full p-6 space-y-4 carved-card text-xs"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-sm">Novo Cliente</h3><button onclick="document.getElementById('modal-cliente').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button></div><input type="text" id="cli-nome" placeholder="Nome Completo" class="w-full border p-2 rounded"><input type="text" id="cli-tel" placeholder="Telefone / WhatsApp" class="w-full border p-2 rounded"><input type="text" id="cli-end" placeholder="Endereço da Obra" class="w-full border p-2 rounded"><div class="flex justify-end pt-2"><button onclick="salvarCliente()" class="wood-texture-header text-amber-100 px-4 py-2 rounded font-bold">Salvar Cliente</button></div></div></div>
-  <div id="modal-colaborador" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-lg max-w-md w-full p-6 space-y-4 carved-card text-xs"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-sm">Novo Colaborador</h3><button onclick="document.getElementById('modal-colaborador').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button></div><input type="text" id="colab-nome" placeholder="Nome" class="w-full border p-2 rounded"><input type="text" id="colab-funcao" placeholder="Função (Ex: Pedreiro, Ajudante)" class="w-full border p-2 rounded"><input type="number" step="0.01" id="colab-diaria" placeholder="Valor Diária R$" class="w-full border p-2 rounded"><div class="flex justify-end pt-2"><button onclick="salvarColaborador()" class="wood-texture-header text-amber-100 px-4 py-2 rounded font-bold">Salvar</button></div></div></div>
-  <div id="modal-financeiro" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-lg max-w-md w-full p-6 space-y-4 carved-card text-xs"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-sm">Lançamento no Caixa</h3><button onclick="document.getElementById('modal-financeiro').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button></div><select id="fin-tipo" class="w-full border p-2 rounded"><option value="ENTRADA">Entrada (Recebimento)</option><option value="SAIDA">Saída (Despesa / Material)</option></select><input type="text" id="fin-desc" placeholder="Descrição" class="w-full border p-2 rounded"><input type="number" step="0.01" id="fin-valor" placeholder="Valor R$" class="w-full border p-2 rounded"><div class="flex justify-end pt-2"><button onclick="salvarLancamentoFinanceiro()" class="wood-texture-header text-amber-100 px-4 py-2 rounded font-bold">Salvar</button></div></div></div>
+  <!-- MODAIS -->
+  <div id="modal-cliente" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-lg max-w-md w-full p-6 space-y-4 executive-card text-xs"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-sm">Cadastrar Cliente</h3><button onclick="document.getElementById('modal-cliente').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button></div><input type="text" id="cli-nome" placeholder="Nome Completo / Empresa" class="w-full border p-2.5 rounded"><input type="text" id="cli-tel" placeholder="Telefone / WhatsApp" class="w-full border p-2.5 rounded"><input type="text" id="cli-end" placeholder="Endereço da Obra" class="w-full border p-2.5 rounded"><div class="flex justify-between items-center pt-2"><button type="button" onclick="importarContatoCelular()" class="text-emerald-800 font-bold hover:underline"><i class="fa-solid fa-address-book mr-1"></i> Puxar da Agenda</button><button onclick="salvarCliente()" class="wood-texture-header text-amber-100 px-5 py-2 rounded font-bold">Salvar Cliente</button></div></div></div>
+  <div id="modal-colaborador" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-lg max-w-md w-full p-6 space-y-4 executive-card text-xs"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-sm">Cadastrar Colaborador</h3><button onclick="document.getElementById('modal-colaborador').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button></div><input type="text" id="colab-nome" placeholder="Nome Completo" class="w-full border p-2.5 rounded"><input type="text" id="colab-funcao" placeholder="Função (Ex: Pedreiro, Azulejista, Ajudante)" class="w-full border p-2.5 rounded"><input type="number" step="0.01" id="colab-diaria" placeholder="Valor Diária R$" class="w-full border p-2.5 rounded"><div class="flex justify-end pt-2"><button onclick="salvarColaborador()" class="wood-texture-header text-amber-100 px-5 py-2 rounded font-bold">Salvar</button></div></div></div>
+  <div id="modal-financeiro" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4"><div class="bg-white rounded-lg max-w-md w-full p-6 space-y-4 executive-card text-xs"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-sm">Lançamento no Caixa</h3><button onclick="document.getElementById('modal-financeiro').classList.add('hidden')"><i class="fa-solid fa-xmark"></i></button></div><select id="fin-tipo" class="w-full border p-2.5 rounded"><option value="ENTRADA">Entrada (Medição / Recebimento)</option><option value="SAIDA">Saída (Material / Despesa)</option></select><input type="text" id="fin-desc" placeholder="Descrição do Lançamento" class="w-full border p-2.5 rounded"><input type="number" step="0.01" id="fin-valor" placeholder="Valor R$" class="w-full border p-2.5 rounded"><div class="flex justify-end pt-2"><button onclick="salvarLancamentoFinanceiro()" class="wood-texture-header text-amber-100 px-5 py-2 rounded font-bold">Salvar</button></div></div></div>
 
   <script>
-    const DADOS_OBRA_NOVA = [
+    // =========================================================================
+    // BASE A: TABELAS PROFISSIONAL AUTÔNOMO (DIRETO) - SÃO PAULO
+    // =========================================================================
+    const AUTONOMO_OBRA_NOVA = [
       {
         etapa: '1', titulo: 'ETAPA 1: SERVIÇOS PRELIMINARES E FUNDAÇÃO', badge: 'FASE INICIAL',
         subtotalTexto: 'Subtotal Estimado Autônomo - Infraestrutura (por m² de obra)', subtotalValor: 'R$ 80,00', subtotalUnid: 'm² construído',
@@ -471,7 +737,7 @@
       }
     ];
 
-    const DADOS_REFORMA = [
+    const AUTONOMO_REFORMA = [
       {
         etapa: '1', titulo: 'ETAPA 1: DEMOLIÇÃO, RETIRADA E PROTEÇÃO DE REFORMA', badge: 'PREPARO & ENTULHO',
         subtotalTexto: 'Encargo Técnico de Reforma: Inclui proteção e ensacamento', subtotalValor: 'Sob Medida', subtotalUnid: 'serviço',
@@ -511,33 +777,274 @@
       }
     ];
 
+    // =========================================================================
+    // BASE B: TABELAS CONSTRUTOR / EMPRESA (COM ENCARGOS, BDI E GESTÃO) - SP
+    // =========================================================================
+    const CONSTRUTOR_OBRA_NOVA = [
+      {
+        etapa: '1', titulo: 'ETAPA 1: SERVIÇOS PRELIMINARES E FUNDAÇÃO (EMPRESA)', badge: 'GESTÃO + BDI',
+        subtotalTexto: 'Subtotal Construtor - Infraestrutura (inclui encargos e supervisão)', subtotalValor: 'R$ 115,00', subtotalUnid: 'm² construído',
+        itens: [
+          { cod: 'C1.1', desc: 'Limpeza, locação topográfica/gabarito e placa/instalação de canteiro', unid: 'm²', preco: 18.00, faixa: '15,00 - 22,00' },
+          { cod: 'C1.2', desc: 'Escavação mecanizada/manual para baldrame e sapatas', unid: 'm³', preco: 72.00, faixa: '60,00 - 85,00' },
+          { cod: 'C1.3', desc: 'Fôrmas/caixaria de madeira com reaproveitamento e desmoldante', unid: 'm linear', preco: 32.00, faixa: '28,00 - 38,00' },
+          { cod: 'C1.4', desc: 'Armação em aço CA-50/60 (corte, dobra e montagem técnica)', unid: 'kg', preco: 4.50, faixa: '3,80 - 5,50' },
+          { cod: 'C1.5', desc: 'Concretagem estrutural, vibração e impermeabilização asfáltica', unid: 'm linear', preco: 44.00, faixa: '38,00 - 52,00' }
+        ]
+      },
+      {
+        etapa: '2', titulo: 'ETAPA 2: ALVENARIA E ESTRUTURA (EMPRESA)', badge: 'ESTRUTURAL',
+        subtotalTexto: 'Subtotal Construtor - Estrutura e Alvenaria (inclui encargos e BDI)', subtotalValor: 'R$ 185,00', subtotalUnid: 'm² construído',
+        itens: [
+          { cod: 'C2.1', desc: 'Alvenaria de vedação com controle de prumo e nível a laser', unid: 'm²', preco: 50.00, faixa: '44,00 - 58,00' },
+          { cod: 'C2.2', desc: 'Alvenaria estrutural em bloco de concreto com grauteamento', unid: 'm²', preco: 64.00, faixa: '55,00 - 75,00' },
+          { cod: 'C2.3', desc: 'Pilares e colunas em concreto armado (fôrma, aço e concretagem)', unid: 'm linear', preco: 54.00, faixa: '46,00 - 65,00' },
+          { cod: 'C2.4', desc: 'Vigas baldrames superiores, cintas de amarração e vergas', unid: 'm linear', preco: 40.00, faixa: '35,00 - 48,00' },
+          { cod: 'C2.5', desc: 'Montagem, escoramento metálico/madeira de laje pré-moldada', unid: 'm²', preco: 38.00, faixa: '32,00 - 45,00' },
+          { cod: 'C2.6', desc: 'Concretagem de laje usinada/virada com nivelamento fino', unid: 'm²', preco: 22.00, faixa: '18,00 - 26,00' }
+        ]
+      },
+      {
+        etapa: '3', titulo: 'ETAPA 3: COBERTURA E TELHADO (EMPRESA)', badge: 'ESTANQUEIDADE',
+        subtotalTexto: 'Subtotal Construtor - Cobertura Completa', subtotalValor: 'R$ 92,00', subtotalUnid: 'm² telhado',
+        itens: [
+          { cod: 'C3.1', desc: 'Estrutura de madeira aparelhada/tratada (tesouras, terças, caibros)', unid: 'm²', preco: 60.00, faixa: '52,00 - 72,00' },
+          { cod: 'C3.2', desc: 'Cobertura com telhas cerâmicas/concreto e amarração', unid: 'm²', preco: 32.00, faixa: '26,00 - 38,00' },
+          { cod: 'C3.3', desc: 'Cobertura termoacústica (telha sanduíche / fibrocimento)', unid: 'm²', preco: 26.00, faixa: '22,00 - 32,00' },
+          { cod: 'C3.4', desc: 'Rufos, calhas e cumeeiras embutidas com vedação PU', unid: 'm linear', preco: 24.00, faixa: '20,00 - 30,00' }
+        ]
+      },
+      {
+        etapa: '4', titulo: 'ETAPA 4: REVESTIMENTOS BRUTOS E CONTRAPISO (EMPRESA)', badge: 'REGULARIZAÇÃO',
+        subtotalTexto: 'Subtotal Construtor - Revestimento Grosso', subtotalValor: 'R$ 85,00', subtotalUnid: 'm² área',
+        itens: [
+          { cod: 'C4.1', desc: 'Chapisco rolado/projetado adesivo interno e externo', unid: 'm²', preco: 9.00, faixa: '7,50 - 11,00' },
+          { cod: 'C4.2', desc: 'Reboco mestrado com taliscamento e acabamento desempenado', unid: 'm²', preco: 38.00, faixa: '32,00 - 45,00' },
+          { cod: 'C4.3', desc: 'Contrapiso autonivelante/sarrafeado com controle de caimento', unid: 'm²', preco: 32.00, faixa: '26,00 - 38,00' },
+          { cod: 'C4.4', desc: 'Impermeabilização estruturada com tela de poliéster em áreas molhadas', unid: 'm²', preco: 28.00, faixa: '24,00 - 35,00' }
+        ]
+      },
+      {
+        etapa: '5', titulo: 'ETAPA 5: INSTALAÇÕES ELÉTRICAS E HIDRÁULICAS (EMPRESA)', badge: 'ENGENHARIA',
+        subtotalTexto: 'Subtotal Construtor - Instalações Prediais', subtotalValor: 'R$ 95,00', subtotalUnid: 'm² construído',
+        itens: [
+          { cod: 'C5.1', desc: 'Infraestrutura seca: rasgos, eletrodutos e caixas niveladas', unid: 'ponto', preco: 50.00, faixa: '42,00 - 60,00' },
+          { cod: 'C5.2', desc: 'Cabeamento, balanceamento de fases, DR/DPS e acabamentos', unid: 'ponto', preco: 58.00, faixa: '48,00 - 70,00' },
+          { cod: 'C5.3', desc: 'Rede hidráulica água fria/quente com teste de estanqueidade', unid: 'ponto', preco: 135.00, faixa: '115,00 - 160,00' },
+          { cod: 'C5.4', desc: 'Rede de esgoto primário/secundário, ventilação e caixas', unid: 'ponto', preco: 155.00, faixa: '130,00 - 185,00' }
+        ]
+      },
+      {
+        etapa: '6', titulo: 'ETAPA 6: REVESTIMENTOS FINOS, PISOS E ESQUADRIAS (EMPRESA)', badge: 'ALTO PADRÃO',
+        subtotalTexto: 'Subtotal Construtor - Acabamentos Nobres', subtotalValor: 'R$ 120,00', subtotalUnid: 'm² área',
+        itens: [
+          { cod: 'C6.1', desc: 'Assentamento de piso cerâmico com dupla colagem', unid: 'm²', preco: 48.00, faixa: '42,00 - 56,00' },
+          { cod: 'C6.2', desc: 'Assentamento de porcelanato grandes formatos com niveladores', unid: 'm²', preco: 74.00, faixa: '65,00 - 88,00' },
+          { cod: 'C6.3', desc: 'Revestimento de paredes e nichos com cortes em 45° (meia-esquadria)', unid: 'm²', preco: 68.00, faixa: '58,00 - 82,00' },
+          { cod: 'C6.4', desc: 'Rodapé embutido ou sobreposto com acabamento fino', unid: 'm linear', preco: 20.00, faixa: '16,00 - 25,00' },
+          { cod: 'C6.5', desc: 'Instalação e regulagem técnica de portas, batentes e esquadrias', unid: 'unid', preco: 120.00, faixa: '100,00 - 145,00' }
+        ]
+      },
+      {
+        etapa: '7', titulo: 'ETAPA 7: PINTURA E ENTREGA TÉCNICA (EMPRESA)', badge: 'ENTREGA CHAVE',
+        subtotalTexto: 'Subtotal Construtor - Pintura & Comissionamento', subtotalValor: 'R$ 52,00', subtotalUnid: 'm² área',
+        itens: [
+          { cod: 'C7.1', desc: 'Preparação completa: selador, 2 a 3 demãos massa e lixamento mecanizado', unid: 'm²', preco: 26.00, faixa: '22,00 - 32,00' },
+          { cod: 'C7.2', desc: 'Pintura acrílica premium linha profissional (3 demãos)', unid: 'm²', preco: 20.00, faixa: '17,00 - 25,00' },
+          { cod: 'C7.3', desc: 'Instalação de louças, metais, registros, pias e limpeza pós-obra', unid: 'unid', preco: 105.00, faixa: '90,00 - 130,00' }
+        ]
+      }
+    ];
+
+    const CONSTRUTOR_REFORMA = [
+      {
+        etapa: '1', titulo: 'ETAPA 1: DEMOLIÇÃO CONTROLADA E GESTÃO DE RESÍDUOS (EMPRESA)', badge: 'REFORMA CORP.',
+        subtotalTexto: 'Inclui isolamento de ambientes, EPIs e logística de caçamba', subtotalValor: 'Sob Medida', subtotalUnid: 'serviço',
+        itens: [
+          { cod: 'CR1.1', desc: 'Demolição controlada de alvenaria com isolamento de poeira', unid: 'm²', preco: 64.00, faixa: '55,00 - 78,00' },
+          { cod: 'CR1.2', desc: 'Remoção mecanizada/manual de pisos antigos e argamassa colante', unid: 'm²', preco: 38.00, faixa: '32,00 - 46,00' },
+          { cod: 'CR1.3', desc: 'Remoção de revestimentos cerâmicos de parede sem danos à rede', unid: 'm²', preco: 40.00, faixa: '34,00 - 48,00' },
+          { cod: 'CR1.4', desc: 'Ensacamento reforçado, transporte vertical/horizontal até caçamba', unid: 'm³', preco: 135.00, faixa: '115,00 - 160,00' }
+        ]
+      },
+      {
+        etapa: '2', titulo: 'ETAPA 2: REESTRUTURAÇÃO E ABERTURA DE VÃOS (EMPRESA)', badge: 'ESTRUTURAL',
+        subtotalTexto: 'Execução com escoramento metálico e reforço em concreto/aço', subtotalValor: 'Sob Medida', subtotalUnid: 'serviço',
+        itens: [
+          { cod: 'CR2.1', desc: 'Abertura de vãos integrados com instalação de viga de reforço', unid: 'm²', preco: 155.00, faixa: '135,00 - 185,00' },
+          { cod: 'CR2.2', desc: 'Fechamento de vãos com amarração química/ferros de espera', unid: 'm²', preco: 68.00, faixa: '58,00 - 82,00' },
+          { cod: 'CR2.3', desc: 'Recomposição estruturada de emboço em rasgos e emendas', unid: 'm²', preco: 52.00, faixa: '44,00 - 62,00' }
+        ]
+      },
+      {
+        etapa: '3', titulo: 'ETAPA 3: PISO SOBRE PISO E REVESTIMENTO PREMIUM (EMPRESA)', badge: 'ACABAMENTO',
+        subtotalTexto: 'Assentamento técnico sobre base existente com argamassa especial', subtotalValor: 'Sob Medida', subtotalUnid: 'm²',
+        itens: [
+          { cod: 'CR3.1', desc: 'Assentamento de porcelanato PISO SOBRE PISO com preparação química', unid: 'm²', preco: 88.00, faixa: '75,00 - 105,00' },
+          { cod: 'CR3.2', desc: 'Regularização autonivelante de contrapiso existente', unid: 'm²', preco: 42.00, faixa: '35,00 - 50,00' },
+          { cod: 'CR3.3', desc: 'Substituição pontual de peças e rejuntamento epóxi/acrílico', unid: 'm²', preco: 50.00, faixa: '42,00 - 60,00' }
+        ]
+      },
+      {
+        etapa: '4', titulo: 'ETAPA 4: MODERNIZAÇÃO PREDIAL E PINTURA DE REFORMA (EMPRESA)', badge: 'RETROFIT',
+        subtotalTexto: 'Atualização normativa elétrica, hidráulica e acabamento', subtotalValor: 'Sob Medida', subtotalUnid: 'ponto / m²',
+        itens: [
+          { cod: 'CR4.1', desc: 'Remanejamento/criação de pontos elétricos em alvenaria existente', unid: 'ponto', preco: 92.00, faixa: '78,00 - 110,00' },
+          { cod: 'CR4.2', desc: 'Substituição integral de coluna/ramal hidráulico antigo por PPR', unid: 'ponto', preco: 195.00, faixa: '165,00 - 235,00' },
+          { cod: 'CR4.3', desc: 'Tratamento de patologias/fissuras, emassamento e repintura geral', unid: 'm²', preco: 40.00, faixa: '34,00 - 48,00' }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // ESTADO DA APLICAÇÃO E SINCRONIZAÇÃO EM NUVEM (FIREBASE + BACKUP LOCAL)
+    // =========================================================================
     let appData = {
       config: { nome: 'CP CONSTRUÇÕES E REFORMAS', cnpj: '', tel: '' },
       clientes: [], colaboradores: [], orçamentos: [], financeiro: []
     };
 
+    let perfilTabelaAtual = 'AUTONOMO'; // 'AUTONOMO' ou 'CONSTRUTOR'
+    let escopoTabelaAtual = 'OBRA_NOVA'; // 'OBRA_NOVA' ou 'REFORMA'
     let itensOrcamentoTemp = [];
+    let dbFirestore = null;
+    let isCloudConnected = false;
 
     window.addEventListener('DOMContentLoaded', () => {
-      carregarDados();
+      carregarDadosLocais();
+      inicializarNuvemSeConfigurada();
       atualizarInterfaceGlobal();
-      selecionarModoTabela('OBRA_NOVA');
+      renderizarTabelasAtivas();
 
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error:', err));
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
       }
     });
 
-    function carregarDados() {
-      const salvo = localStorage.getItem('CP_CONSTRUCOES_SISTEMA_COMPLETO_VFINAL');
+    function obterBaseDadosTabela(perfil, escopo) {
+      if (perfil === 'AUTONOMO') {
+        return escopo === 'OBRA_NOVA' ? AUTONOMO_OBRA_NOVA : AUTONOMO_REFORMA;
+      } else {
+        return escopo === 'OBRA_NOVA' ? CONSTRUTOR_OBRA_NOVA : CONSTRUTOR_REFORMA;
+      }
+    }
+
+    function carregarDadosLocais() {
+      const salvo = localStorage.getItem('CP_CONSTRUCOES_CORPORATIVO_V2');
       if (salvo) { try { appData = JSON.parse(salvo); } catch(e){} }
     }
 
     function salvarDados() {
-      localStorage.setItem('CP_CONSTRUCOES_SISTEMA_COMPLETO_VFINAL', JSON.stringify(appData));
+      localStorage.setItem('CP_CONSTRUCOES_CORPORATIVO_V2', JSON.stringify(appData));
       atualizarInterfaceGlobal();
+
+      if (isCloudConnected && dbFirestore) {
+        dbFirestore.collection('cp_construcoes').doc('dados_empresa').set({
+          payload: JSON.stringify(appData),
+          updatedAt: new Date().toISOString()
+        }).catch(err => console.error('Erro ao sincronizar nuvem:', err));
+      }
     }
 
+    function inicializarNuvemSeConfigurada() {
+      const fbConfigStr = localStorage.getItem('CP_FIREBASE_CONFIG');
+      if (!fbConfigStr) return;
+      document.getElementById('cfg-firebase').value = fbConfigStr;
+
+      try {
+        const fbConfig = JSON.parse(fbConfigStr);
+        if (!firebase.apps.length) {
+          firebase.initializeApp(fbConfig);
+        }
+        dbFirestore = firebase.firestore();
+        isCloudConnected = true;
+
+        document.getElementById('cloud-dot').className = "w-2 h-2 rounded-full bg-emerald-400 mr-1.5 animate-pulse";
+        document.getElementById('cloud-status-text').innerText = "Nuvem Sincronizada (Escritório ⇄ Obra)";
+
+        // Escuta atualizações em tempo real entre Notebook e Celular
+        dbFirestore.collection('cp_construcoes').doc('dados_empresa').onSnapshot((doc) => {
+          if (doc.exists && doc.data().payload) {
+            const remoto = JSON.parse(doc.data().payload);
+            appData = remoto;
+            localStorage.setItem('CP_CONSTRUCOES_CORPORATIVO_V2', JSON.stringify(appData));
+            atualizarInterfaceGlobal();
+          }
+        });
+      } catch (e) {
+        console.warn('Configuração Firebase inválida:', e);
+      }
+    }
+
+    function salvarConexaoNuvem() {
+      const val = document.getElementById('cfg-firebase').value.trim();
+      if (!val) {
+        localStorage.removeItem('CP_FIREBASE_CONFIG');
+        alert('Configuração de nuvem removida. O sistema operará em modo local.');
+        location.reload();
+        return;
+      }
+      try {
+        JSON.parse(val);
+        localStorage.setItem('CP_FIREBASE_CONFIG', val);
+        alert('Configuração da nuvem salva! Conectando escritório e canteiro de obras...');
+        location.reload();
+      } catch (e) {
+        alert('Formato inválido. Cole o objeto JSON exato fornecido pelo Firebase.');
+      }
+    }
+
+    function exportarBackupManual() {
+      const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `CP_Construcoes_Backup_${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+    }
+
+    function importarBackupManual(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          appData = JSON.parse(e.target.result);
+          salvarDados();
+          alert('Dados sincronizados e importados com sucesso!');
+        } catch (err) {
+          alert('Arquivo inválido.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // =========================================================================
+    // IMPORTAÇÃO DIRETA DE CONTATOS DA AGENDA DO CELULAR
+    // =========================================================================
+    async function importarContatoCelular() {
+      if ('contacts' in navigator && 'ContactsManager' in window) {
+        try {
+          const contatos = await navigator.contacts.select(['name', 'tel'], { multiple: false });
+          if (contatos && contatos.length > 0) {
+            const c = contatos[0];
+            const nome = (c.name && c.name.length > 0) ? c.name[0] : '';
+            const tel = (c.tel && c.tel.length > 0) ? c.tel[0] : '';
+            abrirModalCliente();
+            document.getElementById('cli-nome').value = nome;
+            document.getElementById('cli-tel').value = tel;
+          }
+        } catch (err) {
+          console.log('Seleção cancelada ou indisponível:', err);
+        }
+      } else {
+        alert('A importação direta da agenda está disponível apenas no navegador do celular (Android/Chrome). No notebook, utilize o botão "+ Novo Cliente".');
+      }
+    }
+
+    // =========================================================================
+    // NAVEGAÇÃO E RENDERIZAÇÃO DAS DUAS TABELAS
+    // =========================================================================
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       document.getElementById('tab-' + tabId).classList.remove('hidden');
@@ -548,7 +1055,7 @@
 
     function atualizarInterfaceGlobal() {
       document.getElementById('top-company-name').innerText = appData.config.nome || 'CP CONSTRUÇÕES E REFORMAS';
-      document.getElementById('top-company-sub').innerText = `CNPJ MEI: ${appData.config.cnpj || 'Não informado'} | Sincronizado`;
+      document.getElementById('top-company-cnpj').innerText = appData.config.cnpj ? `CNPJ: ${appData.config.cnpj}` : 'Itanhaém • SP';
       document.getElementById('cfg-nome').value = appData.config.nome || '';
       document.getElementById('cfg-cnpj').value = appData.config.cnpj || '';
       document.getElementById('cfg-tel').value = appData.config.tel || '';
@@ -560,60 +1067,79 @@
       renderizarFinanceiro();
     }
 
-    function selecionarModoTabela(modo) {
-      const btnNova = document.getElementById('btn-tab-obranova');
-      const btnRef = document.getElementById('btn-tab-reforma');
+    function mudarPerfilTabela(perfil) {
+      perfilTabelaAtual = perfil;
+      renderizarTabelasAtivas();
+    }
 
-      if (modo === 'OBRA_NOVA') {
-        btnNova.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-emerald-800 text-white shadow transition";
-        btnRef.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
-        document.getElementById('titulo-tabela-principal').innerText = "Tabela de Mão de Obra - Profissional Autônomo";
-        document.getElementById('subtitulo-tabela-principal').innerText = "Valores Praticados por Profissionais Diretos (Obra Nova desde o Início) | Estado de São Paulo";
-        document.getElementById('meta-diaria-tabela').innerHTML = "<strong>Meta Diária Base:</strong> R$ 300,00 (Dupla)";
-        
-        document.getElementById('ind-1-titulo').innerText = "ESTIMATIVA MÉDIA / M²";
-        document.getElementById('ind-1-valor').innerText = "R$ 520,00 - 580,00";
-        document.getElementById('ind-2-titulo').innerText = "PEDREIRO AUTÔNOMO (DIA)";
+    function mudarEscopoTabela(escopo) {
+      escopoTabelaAtual = escopo;
+      renderizarTabelasAtivas();
+    }
+
+    function renderizarTabelasAtivas() {
+      const btnAut = document.getElementById('btn-perfil-autonomo');
+      const btnCon = document.getElementById('btn-perfil-construtor');
+      const btnObra = document.getElementById('btn-escopo-obranova');
+      const btnRef = document.getElementById('btn-escopo-reforma');
+      const banner = document.getElementById('banner-tabela-ativa');
+
+      if (perfilTabelaAtual === 'AUTONOMO') {
+        btnAut.className = "px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition";
+        btnCon.className = "px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition";
+        banner.className = "bg-emerald-950 text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4";
+        document.getElementById('badge-perfil-tabela').innerText = "BASE A: PROFISSIONAL AUTÔNOMO (DIRETO)";
+        document.getElementById('badge-perfil-tabela').className = "px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-700 text-emerald-100";
+        document.getElementById('titulo-tabela-principal').innerText = escopoTabelaAtual === 'OBRA_NOVA' ? "Tabela Autônomo — Obra Nova (São Paulo)" : "Tabela Autônomo — Reformas & Encargos";
+        document.getElementById('info-lat-1').innerHTML = "<strong>Perfil:</strong> Autônomo / Execução Direta";
+        document.getElementById('info-lat-2').innerHTML = "<strong>Meta Diária Base:</strong> R$ 300,00 (Dupla)";
+        document.getElementById('ind-1-valor').innerText = escopoTabelaAtual === 'OBRA_NOVA' ? "R$ 520,00 - 580,00" : "+15% a +25% s/ Base";
         document.getElementById('ind-2-valor').innerText = "R$ 200,00 - 250,00";
-        document.getElementById('ind-3-titulo').innerText = "AJUDANTE (DIA)";
         document.getElementById('ind-3-valor').innerText = "R$ 100,00 - 130,00";
-        document.getElementById('ind-4-titulo').innerText = "MODELO CONTRATO";
-        document.getElementById('ind-4-valor').innerText = "Empreitada por Etapa";
+        document.getElementById('ind-4-valor').innerText = "Execução Direta";
       } else {
-        btnRef.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-emerald-800 text-white shadow transition";
-        btnNova.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
-        document.getElementById('titulo-tabela-principal').innerText = "Tabela de Reformas & Manutenção - Encargos Específicos";
-        document.getElementById('subtitulo-tabela-principal').innerText = "Valores Diferenciados para Demolição, Retirada de Entulho, Piso sobre Piso e Adequações | SP";
-        document.getElementById('meta-diaria-tabela').innerHTML = "<strong>Adicional Complexidade:</strong> +10% a +25% (Área Habitada)";
-
-        document.getElementById('ind-1-titulo').innerText = "ACRÉSCIMO REFORMA";
-        document.getElementById('ind-1-valor').innerText = "+15% a +25% s/ Base";
-        document.getElementById('ind-2-titulo').innerText = "PEDREIRO REFORMA (DIA)";
-        document.getElementById('ind-2-valor').innerText = "R$ 230,00 - 280,00";
-        document.getElementById('ind-3-titulo').innerText = "AJUDANTE / ENTULHO (DIA)";
-        document.getElementById('ind-3-valor').innerText = "R$ 120,00 - 150,00";
-        document.getElementById('ind-4-titulo').innerText = "MODELO CONTRATO";
-        document.getElementById('ind-4-valor').innerText = "Escopo Fechado / Etapa";
+        btnCon.className = "px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-200 shadow transition";
+        btnAut.className = "px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition";
+        banner.className = "wood-texture-header text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4";
+        document.getElementById('badge-perfil-tabela').innerText = "BASE B: CONSTRUTOR / EMPRESA (BDI + ENCARGOS)";
+        document.getElementById('badge-perfil-tabela').className = "px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-600 text-white";
+        document.getElementById('titulo-tabela-principal').innerText = escopoTabelaAtual === 'OBRA_NOVA' ? "Tabela Construtor — Empreitada Corporativa (SP)" : "Tabela Construtor — Reformas & Retrofit Corporativo";
+        document.getElementById('info-lat-1').innerHTML = "<strong>Perfil:</strong> Construtora / Empreiteira Jurídica";
+        document.getElementById('info-lat-2').innerHTML = "<strong>Estrutura:</strong> Inclui Encargos, Gestão & BDI";
+        document.getElementById('ind-1-valor').innerText = escopoTabelaAtual === 'OBRA_NOVA' ? "R$ 740,00 - 850,00" : "+25% a +35% s/ Base";
+        document.getElementById('ind-2-valor').innerText = "R$ 280,00 - 340,00";
+        document.getElementById('ind-3-valor').innerText = "R$ 145,00 - 180,00";
+        document.getElementById('ind-4-valor').innerText = "Empreitada Global / BDI";
       }
 
-      const dados = modo === 'OBRA_NOVA' ? DADOS_OBRA_NOVA : DADOS_REFORMA;
-      const container = document.getElementById('container-etapas-detalhadas');
+      if (escopoTabelaAtual === 'OBRA_NOVA') {
+        btnObra.className = "px-4 py-2 rounded-md text-xs font-bold bg-slate-800 text-white shadow transition";
+        btnRef.className = "px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition";
+      } else {
+        btnRef.className = "px-4 py-2 rounded-md text-xs font-bold bg-slate-800 text-white shadow transition";
+        btnObra.className = "px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition";
+      }
 
-      container.innerHTML = dados.map(grupo => `
+      const dados = obterBaseDadosTabela(perfilTabelaAtual, escopoTabelaAtual);
+      const headerBg = perfilTabelaAtual === 'AUTONOMO' ? 'bg-emerald-900' : 'bg-wood-900';
+      const badgeBg = perfilTabelaAtual === 'AUTONOMO' ? 'bg-emerald-700 text-emerald-100' : 'bg-wood-700 text-amber-200';
+      const theadBg = perfilTabelaAtual === 'AUTONOMO' ? 'bg-emerald-50 text-emerald-950 border-emerald-200' : 'bg-wood-100 text-wood-950 border-wood-200';
+
+      document.getElementById('container-etapas-detalhadas').innerHTML = dados.map(grupo => `
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-          <div class="bg-emerald-900 text-white px-5 py-3 flex justify-between items-center">
+          <div class="${headerBg} text-white px-5 py-3 flex justify-between items-center">
             <h3 class="font-bold text-sm tracking-wide">${grupo.titulo}</h3>
-            <span class="bg-emerald-700 text-emerald-100 text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider">${grupo.badge}</span>
+            <span class="${badgeBg} text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider">${grupo.badge}</span>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
-              <thead class="bg-emerald-50 text-emerald-950 font-bold border-b border-emerald-200 uppercase">
+              <thead class="${theadBg} font-bold border-b uppercase">
                 <tr>
                   <th class="p-3 w-16">ITEM</th>
-                  <th class="p-3">DESCRIÇÃO DO SERVIÇO (PREÇO DIRETO)</th>
+                  <th class="p-3">DESCRIÇÃO DO SERVIÇO</th>
                   <th class="p-3 text-center w-24">UNID.</th>
                   <th class="p-3 text-right w-32">PREÇO UN. (R$)</th>
-                  <th class="p-3 text-right w-40">FAIXA AUTÔNOMO SP</th>
+                  <th class="p-3 text-right w-40">FAIXA REFERÊNCIA SP</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 text-slate-700">
@@ -640,29 +1166,34 @@
       `).join('');
     }
 
+    // =========================================================================
+    // MONTADOR DE ORÇAMENTOS & PROPOSTA LIMPA PARA O CLIENTE
+    // =========================================================================
     function iniciarNovoOrcamento() {
       const selCli = document.getElementById('orc-cliente');
       selCli.innerHTML = appData.clientes.length === 0 ? '<option value="">Cadastre um cliente primeiro</option>' : appData.clientes.map(c => `<option value="${c.id}">${c.nome}</option>`).join('');
       itensOrcamentoTemp = [];
       document.getElementById('container-form-orcamento').classList.remove('hidden');
       document.getElementById('area-impressao-contrato').classList.add('hidden');
-      aoMudarModalidadeOrcamento();
+      aoMudarConfiguracaoOrcamento();
       renderizarItensOrcamento();
     }
 
     function fecharFormOrcamento() { document.getElementById('container-form-orcamento').classList.add('hidden'); }
 
-    function aoMudarModalidadeOrcamento() {
+    function aoMudarConfiguracaoOrcamento() {
+      const perfil = document.getElementById('orc-perfil-base').value;
       const mod = document.getElementById('orc-modalidade').value;
-      const base = mod === 'OBRA_NOVA' ? DADOS_OBRA_NOVA : DADOS_REFORMA;
+      const base = obterBaseDadosTabela(perfil, mod);
       const selEtapa = document.getElementById('sel-etapa-orc');
       selEtapa.innerHTML = base.map(g => `<option value="${g.etapa}">${g.titulo}</option>`).join('');
       carregarServicosPorEtapa();
     }
 
     function carregarServicosPorEtapa() {
+      const perfil = document.getElementById('orc-perfil-base').value;
       const mod = document.getElementById('orc-modalidade').value;
-      const base = mod === 'OBRA_NOVA' ? DADOS_OBRA_NOVA : DADOS_REFORMA;
+      const base = obterBaseDadosTabela(perfil, mod);
       const etapaId = document.getElementById('sel-etapa-orc').value;
       const grupo = base.find(g => g.etapa === etapaId);
       const selServ = document.getElementById('sel-servico-orc');
@@ -672,8 +1203,9 @@
     }
 
     function preencherValorUnitarioServico() {
+      const perfil = document.getElementById('orc-perfil-base').value;
       const mod = document.getElementById('orc-modalidade').value;
-      const base = mod === 'OBRA_NOVA' ? DADOS_OBRA_NOVA : DADOS_REFORMA;
+      const base = obterBaseDadosTabela(perfil, mod);
       const etapaId = document.getElementById('sel-etapa-orc').value;
       const codServ = document.getElementById('sel-servico-orc').value;
       const grupo = base.find(g => g.etapa === etapaId);
@@ -686,8 +1218,9 @@
     }
 
     function adicionarItemOrcamento() {
+      const perfil = document.getElementById('orc-perfil-base').value;
       const mod = document.getElementById('orc-modalidade').value;
-      const base = mod === 'OBRA_NOVA' ? DADOS_OBRA_NOVA : DADOS_REFORMA;
+      const base = obterBaseDadosTabela(perfil, mod);
       const etapaId = document.getElementById('sel-etapa-orc').value;
       const codServ = document.getElementById('sel-servico-orc').value;
       const qtd = parseFloat(document.getElementById('inp-qtd-orc').value);
@@ -696,7 +1229,9 @@
       const item = grupo ? grupo.itens.find(i => i.cod === codServ) : null;
       if (!item || isNaN(qtd) || isNaN(val)) return;
 
-      itensOrcamentoTemp.push({ etapaTitulo: grupo.titulo, cod: item.cod, desc: item.desc, unid: item.unid, qtd, valorUnit: val, subtotal: qtd * val });
+      // Limpa sufixos internos do título da etapa para o documento do cliente
+      const tituloLimpoCliente = grupo.titulo.replace(' (EMPRESA)', '');
+      itensOrcamentoTemp.push({ etapaTitulo: tituloLimpoCliente, cod: item.cod, desc: item.desc, unid: item.unid, qtd, valorUnit: val, subtotal: qtd * val });
       renderizarItensOrcamento();
     }
 
@@ -706,7 +1241,7 @@
       const tbody = document.getElementById('tbody-itens-orcamento');
       const perc = parseFloat(document.getElementById('orc-adicional-reforma').value) || 0;
       if (itensOrcamentoTemp.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-slate-400">Nenhum item adicionado.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-slate-400">Nenhum serviço adicionado.</td></tr>`;
         document.getElementById('lbl-subtotal-base').innerText = 'R$ 0,00';
         document.getElementById('lbl-total-final-orc').innerText = 'R$ 0,00';
         document.getElementById('row-encargo-reforma').classList.add('hidden');
@@ -733,23 +1268,23 @@
       const cliId = document.getElementById('orc-cliente').value;
       const cliente = appData.clientes.find(c => c.id === cliId);
       if (!cliente) { alert('Selecione um cliente.'); return; }
-      if (itensOrcamentoTemp.length === 0) { alert('Adicione itens.'); return; }
+      if (itensOrcamentoTemp.length === 0) { alert('Adicione pelo menos um serviço.'); return; }
       const mod = document.getElementById('orc-modalidade').value;
       const perc = parseFloat(document.getElementById('orc-adicional-reforma').value) || 0;
       const subtotalBase = itensOrcamentoTemp.reduce((a, b) => a + b.subtotal, 0);
       const total = subtotalBase * (1 + perc / 100);
 
       const novo = {
-        id: 'ORC-' + Math.floor(1000 + Math.random() * 9000),
+        id: 'CP-' + Math.floor(1000 + Math.random() * 9000),
         clienteNome: cliente.nome, clienteTel: cliente.tel, clienteEnd: cliente.end,
-        modalidade: mod === 'OBRA_NOVA' ? 'Obra Nova' : 'Reforma',
+        modalidade: mod === 'OBRA_NOVA' ? 'Construção / Obra Nova' : 'Reforma & Reestruturação',
         data: new Date().toLocaleDateString('pt-BR'),
         fator: (1 + perc / 100),
         itens: [...itensOrcamentoTemp],
         valorTotal: total
       };
       appData.orçamentos.push(novo);
-      appData.financeiro.push({ id: Date.now().toString(), data: novo.data, tipo: 'ENTRADA', desc: `Proposta: ${cliente.nome}`, valor: total });
+      appData.financeiro.push({ id: Date.now().toString(), data: novo.data, tipo: 'ENTRADA', desc: `Contrato: ${cliente.nome} (${novo.id})`, valor: total });
       salvarDados();
       fecharFormOrcamento();
       visualizarPropostaCliente(novo.id);
@@ -757,15 +1292,16 @@
 
     function renderizarListaOrcamentos() {
       const tbody = document.getElementById('lista-orcamentos-salvos');
-      if (appData.orçamentos.length === 0) { tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-slate-400">Nenhum orçamento.</td></tr>`; return; }
-      tbody.innerHTML = appData.orçamentos.slice().reverse().map(o => `<tr><td class="p-3 font-bold">${o.id}</td><td class="p-3">${o.clienteNome}</td><td class="p-3">${o.modalidade}</td><td class="p-3">${o.data}</td><td class="p-3 text-right font-bold">R$ ${o.valorTotal.toFixed(2)}</td><td class="p-3 text-right space-x-1"><button onclick="visualizarPropostaCliente('${o.id}')" class="bg-wood-100 p-1 rounded font-bold text-xs">Ver PDF</button><button onclick="excluirOrcamento('${o.id}')" class="text-rose-600 text-xs">Excluir</button></td></tr>`).join('');
+      if (appData.orçamentos.length === 0) { tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-slate-400">Nenhuma proposta emitida ainda.</td></tr>`; return; }
+      tbody.innerHTML = appData.orçamentos.slice().reverse().map(o => `<tr><td class="p-3 font-bold text-wood-950">${o.id}</td><td class="p-3 font-semibold">${o.clienteNome}</td><td class="p-3 text-xs">${o.modalidade}</td><td class="p-3 text-xs">${o.data}</td><td class="p-3 text-right font-bold">R$ ${o.valorTotal.toFixed(2)}</td><td class="p-3 text-right space-x-2"><button onclick="visualizarPropostaCliente('${o.id}')" class="bg-wood-100 hover:bg-wood-200 text-wood-950 px-2.5 py-1 rounded font-bold text-xs">Proposta PDF</button><button onclick="excluirOrcamento('${o.id}')" class="text-rose-600 text-xs">Excluir</button></td></tr>`).join('');
     }
 
     function visualizarPropostaCliente(id) {
       const o = appData.orçamentos.find(x => x.id === id);
       if (!o) return;
-      document.getElementById('print-header-empresa').innerText = appData.config.nome;
-      document.getElementById('print-empresa-cnpj').innerText = 'CNPJ MEI: ' + (appData.config.cnpj || '---');
+      document.getElementById('print-header-empresa').innerText = appData.config.nome || 'CP CONSTRUÇÕES E REFORMAS';
+      document.getElementById('print-empresa-cnpj').innerText = 'CNPJ: ' + (appData.config.cnpj || '---');
+      document.getElementById('print-empresa-contato').innerText = `Responsável Técnico: Cristiano dos Santos Paes • Tel: ${appData.config.tel || '(13) 99999-9999'}`;
       document.getElementById('print-cliente-nome').innerText = o.clienteNome;
       document.getElementById('print-cliente-tel').innerText = o.clienteTel || '---';
       document.getElementById('print-cliente-end').innerText = o.clienteEnd || '---';
@@ -783,9 +1319,12 @@
       });
 
       document.getElementById('print-container-etapas-cliente').innerHTML = Object.keys(grupos).map(t => `
-        <div class="border rounded p-3 bg-white space-y-1">
-          <div class="font-bold text-wood-900 flex justify-between"><span>${t}</span><span>R$ ${grupos[t].sub.toFixed(2)}</span></div>
-          <ul class="text-slate-600 text-xs space-y-0.5">${grupos[t].itens.map(d => `<li>• ${d}</li>`).join('')}</ul>
+        <div class="border border-wood-300 rounded overflow-hidden">
+          <div class="bg-wood-100 px-3 py-2 font-bold text-xs text-wood-950 flex justify-between border-b border-wood-300">
+            <span>${t}</span>
+            <span>Valor da Etapa: R$ ${grupos[t].sub.toFixed(2)}</span>
+          </div>
+          <ul class="p-3 text-slate-700 text-xs space-y-1 bg-white">${grupos[t].itens.map(d => `<li>• ${d}</li>`).join('')}</ul>
         </div>
       `).join('');
       document.getElementById('area-impressao-contrato').classList.remove('hidden');
@@ -794,8 +1333,12 @@
     function fecharVisualizacaoContrato() { document.getElementById('area-impressao-contrato').classList.add('hidden'); }
     function excluirOrcamento(id) { appData.orçamentos = appData.orçamentos.filter(o => o.id !== id); salvarDados(); }
 
+    // =========================================================================
+    // DASHBOARD, CLIENTES, EQUIPE, CAIXA & EMPRESA
+    // =========================================================================
     function renderizarDashboard() {
       document.getElementById('dash-obras-ativas').innerText = appData.orçamentos.length;
+      document.getElementById('dash-total-clientes').innerText = appData.clientes.length;
       let e = 0, s = 0;
       appData.financeiro.forEach(f => { if (f.tipo === 'ENTRADA') e += f.valor; else s += f.valor; });
       document.getElementById('dash-recebimentos').innerText = 'R$ ' + e.toFixed(2);
@@ -803,8 +1346,8 @@
       document.getElementById('dash-saldo').innerText = 'R$ ' + (e - s).toFixed(2);
 
       const tbody = document.getElementById('dash-lista-recentes');
-      if (appData.orçamentos.length === 0) { tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-slate-400">Nenhum orçamento.</td></tr>`; return; }
-      tbody.innerHTML = appData.orçamentos.slice(-5).reverse().map(o => `<tr><td class="p-3 font-bold">${o.id}</td><td class="p-3">${o.clienteNome}</td><td class="p-3">${o.modalidade}</td><td class="p-3">${o.data}</td><td class="p-3 text-right font-bold">R$ ${o.valorTotal.toFixed(2)}</td><td class="p-3 text-right"><button onclick="switchTab('orcamentos'); visualizarPropostaCliente('${o.id}');" class="text-wood-800 underline font-semibold">Abrir</button></td></tr>`).join('');
+      if (appData.orçamentos.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400">Nenhuma proposta emitida ainda.</td></tr>`; return; }
+      tbody.innerHTML = appData.orçamentos.slice(-5).reverse().map(o => `<tr><td class="p-2.5 font-bold text-wood-950">${o.id}</td><td class="p-2.5 font-medium">${o.clienteNome}</td><td class="p-2.5">${o.modalidade}</td><td class="p-2.5 text-right font-bold">R$ ${o.valorTotal.toFixed(2)}</td><td class="p-2.5 text-right"><button onclick="switchTab('orcamentos'); visualizarPropostaCliente('${o.id}');" class="text-wood-800 underline font-semibold">Abrir PDF</button></td></tr>`).join('');
     }
 
     function abrirModalCliente() { document.getElementById('modal-cliente').classList.remove('hidden'); document.getElementById('modal-cliente').classList.add('flex'); }
@@ -813,11 +1356,12 @@
       if (!n) return;
       appData.clientes.push({ id: Date.now().toString(), nome: n, tel: t, end: e });
       salvarDados(); document.getElementById('modal-cliente').classList.add('hidden');
+      document.getElementById('cli-nome').value = ''; document.getElementById('cli-tel').value = ''; document.getElementById('cli-end').value = '';
     }
     function renderizarClientes() {
       const tbody = document.getElementById('lista-clientes');
       if (appData.clientes.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-400">Nenhum cliente cadastrado.</td></tr>`; return; }
-      tbody.innerHTML = appData.clientes.map(c => `<tr><td class="p-3 font-bold">${c.nome}</td><td class="p-3">${c.tel}</td><td class="p-3 text-xs">${c.end}</td><td class="p-3 text-right"><button onclick="excluirCliente('${c.id}')" class="text-rose-600 text-xs">Excluir</button></td></tr>`).join('');
+      tbody.innerHTML = appData.clientes.map(c => `<tr><td class="p-3 font-bold text-slate-800">${c.nome}</td><td class="p-3">${c.tel}</td><td class="p-3 text-xs">${c.end}</td><td class="p-3 text-right"><button onclick="excluirCliente('${c.id}')" class="text-rose-600 text-xs">Excluir</button></td></tr>`).join('');
     }
     function excluirCliente(id) { appData.clientes = appData.clientes.filter(c => c.id !== id); salvarDados(); }
 
@@ -827,13 +1371,14 @@
       if (!n || isNaN(d)) return;
       appData.colaboradores.push({ id: Date.now().toString(), nome: n, funcao: f, diaria: d, dias: [] });
       salvarDados(); document.getElementById('modal-colaborador').classList.add('hidden');
+      document.getElementById('colab-nome').value = ''; document.getElementById('colab-funcao').value = ''; document.getElementById('colab-diaria').value = '';
     }
     function renderizarColaboradores() {
       const tbody = document.getElementById('lista-colaboradores');
       if (appData.colaboradores.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400">Nenhum colaborador cadastrado.</td></tr>`; return; }
       tbody.innerHTML = appData.colaboradores.map(c => `
-        <tr><td class="p-3 font-bold">${c.nome}</td><td class="p-3 text-xs">${c.funcao}</td><td class="p-3 text-right font-bold">R$ ${c.diaria.toFixed(2)}</td><td class="p-3 text-center"><span class="bg-wood-100 px-2 py-1 rounded font-bold">${c.dias?c.dias.length:0}</span></td>
-        <td class="p-3 text-right space-x-1"><button onclick="adicionarDiaria('${c.id}')" class="bg-emerald-700 text-white px-2 py-1 rounded text-xs">+ Diária</button><button onclick="gerarRecibo('${c.id}')" class="bg-wood-700 text-amber-100 px-2 py-1 rounded text-xs">Recibo</button><button onclick="excluirColaborador('${c.id}')" class="text-rose-600 text-xs">Excluir</button></td></tr>
+        <tr><td class="p-3 font-bold">${c.nome}</td><td class="p-3 text-xs">${c.funcao}</td><td class="p-3 text-right font-bold">R$ ${c.diaria.toFixed(2)}</td><td class="p-3 text-center"><span class="bg-wood-100 px-2.5 py-1 rounded font-bold">${c.dias?c.dias.length:0}</span></td>
+        <td class="p-3 text-right space-x-1"><button onclick="adicionarDiaria('${c.id}')" class="bg-emerald-800 text-white px-2.5 py-1 rounded text-xs font-semibold">+ Diária</button><button onclick="gerarRecibo('${c.id}')" class="bg-wood-800 text-amber-100 px-2.5 py-1 rounded text-xs font-semibold">Recibo</button><button onclick="excluirColaborador('${c.id}')" class="text-rose-600 text-xs">Excluir</button></td></tr>
       `).join('');
     }
     function adicionarDiaria(id) {
@@ -842,14 +1387,14 @@
       if (!c.dias) c.dias = [];
       const hoje = new Date().toLocaleDateString('pt-BR');
       c.dias.push({ data: hoje, valor: c.diaria });
-      appData.financeiro.push({ id: Date.now().toString(), data: hoje, tipo: 'SAIDA', desc: `Diária: ${c.nome}`, valor: c.diaria });
+      appData.financeiro.push({ id: Date.now().toString(), data: hoje, tipo: 'SAIDA', desc: `Diária Obra: ${c.nome}`, valor: c.diaria });
       salvarDados();
     }
     function gerarRecibo(id) {
       const c = appData.colaboradores.find(x => x.id === id);
       if (!c) return;
-      document.getElementById('rec-empresa-titulo').innerText = appData.config.nome;
-      document.getElementById('recibo-cnpj').innerText = 'CNPJ MEI: ' + (appData.config.cnpj || '---');
+      document.getElementById('rec-empresa-titulo').innerText = appData.config.nome || 'CP CONSTRUÇÕES E REFORMAS';
+      document.getElementById('recibo-cnpj').innerText = 'CNPJ: ' + (appData.config.cnpj || '---');
       document.getElementById('rec-colab-nome').innerText = c.nome;
       document.getElementById('rec-colab-funcao').innerText = c.funcao;
       document.getElementById('rec-colab-diaria').innerText = c.diaria.toFixed(2);
@@ -868,10 +1413,11 @@
       if (!d || isNaN(v)) return;
       appData.financeiro.push({ id: Date.now().toString(), data: new Date().toLocaleDateString('pt-BR'), tipo: t, desc: d, valor: v });
       salvarDados(); document.getElementById('modal-financeiro').classList.add('hidden');
+      document.getElementById('fin-desc').value = ''; document.getElementById('fin-valor').value = '';
     }
     function renderizarFinanceiro() {
       const tbody = document.getElementById('lista-financeiro');
-      if (appData.financeiro.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-400">Nenhum lançamento.</td></tr>`; return; }
+      if (appData.financeiro.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-400">Nenhum lançamento registrado.</td></tr>`; return; }
       tbody.innerHTML = appData.financeiro.slice().reverse().map(f => `<tr><td class="p-3 text-xs">${f.data}</td><td class="p-3 font-bold text-xs ${f.tipo==='ENTRADA'?'text-emerald-700':'text-rose-700'}">${f.tipo}</td><td class="p-3">${f.desc}</td><td class="p-3 text-right font-bold">R$ ${f.valor.toFixed(2)}</td></tr>`).join('');
     }
     function salvarConfiguracoes() {
@@ -879,7 +1425,7 @@
       appData.config.cnpj = document.getElementById('cfg-cnpj').value;
       appData.config.tel = document.getElementById('cfg-tel').value;
       salvarDados();
-      alert('Configurações salvas!');
+      alert('Dados institucionais salvos!');
     }
   </script>
 </body>
