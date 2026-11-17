@@ -1,319 +1,309 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#1e293b" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="CP Obras" />
-  <title>CP Construções e Reformas — Gestão de Obras</title>
-  <link rel="manifest" href="./manifest.json" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CP Construções e Reformas — Gestão Corporativa & Obras</title>
+
+  <!-- PWA Manifest e Configurações Mobile -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#341e16">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Firebase SDK (Compatível para Sincronização Escritório <-> Canteiro em Tempo Real) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            wood: {
+              50: '#fdfbf7', 100: '#f7f2e8', 200: '#eee3d0', 300: '#dfcaaa',
+              400: '#cca97d', 500: '#be8c54', 600: '#af7444', 700: '#925a38',
+              800: '#774832', 900: '#613c2c', 950: '#341e16',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; }
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #f4f5f7; color: #1e293b; }
+    .font-serif-artisan { font-family: 'Cinzel', serif; }
+    
+    .executive-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-top: 3px solid #774832;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+
+    .wood-texture-header {
+      background: linear-gradient(135deg, #2b1810 0%, #4a2c18 55%, #613c2c 100%);
+      border-bottom: 3px solid #b47b44;
+    }
+
+    .watermark-bg {
+      position: relative;
+    }
+    .watermark-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23774832' stroke-width='2' opacity='0.04'%3E%3Cpath d='M22 78 V36 L52 16 L80 35 V55 H54 V36'/%3E%3Cpath d='M52 52 H32 V78 H54'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 280px;
+      pointer-events: none;
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background-color: #ffffff !important; color: #000000 !important; }
+      .print-shadow-none { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+      .watermark-bg::before { opacity: 0.06 !important; }
+    }
   </style>
 </head>
-<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col antialiased">
 
-  <!-- CABEÇALHO -->
-  <header class="bg-slate-900 text-white shadow-lg border-b border-slate-800">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-extrabold text-lg shadow">
-          <i class="fa-solid fa-helmet-safety"></i>
-        </div>
-        <div>
-          <h1 class="text-lg font-extrabold tracking-tight">CP Construções e Reformas</h1>
-          <p class="text-xs text-slate-400">Gestão de Obras, Orçamentos e Lançamentos</p>
+  <div class="flex flex-col min-h-screen">
+    <!-- CABEÇALHO CORPORATIVO -->
+    <header class="wood-texture-header text-white shadow-lg no-print sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          <div class="flex items-center space-x-3.5 cursor-pointer" onclick="switchTab('dashboard')">
+            <div class="w-12 h-12 rounded-lg bg-wood-950/60 border border-amber-400/60 flex items-center justify-center shadow-inner p-1.5">
+              <svg viewBox="0 0 100 100" class="w-9 h-9 text-amber-300 fill-none stroke-current" stroke-width="4.5">
+                <path d="M22 78 V36 L52 16 L80 35 V55 H54 V36" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M52 52 H32 V78 H54" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="22" y1="26" x2="52" y2="6" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h1 id="top-company-name" class="font-serif-artisan text-base sm:text-lg font-bold tracking-wider text-amber-100">CP CONSTRUÇÕES E REFORMAS</h1>
+              <div class="flex items-center space-x-2 mt-0.5">
+                <span id="cloud-status-badge" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-950/80 text-amber-300 border border-amber-500/30">
+                  <span id="cloud-dot" class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>
+                  <span id="cloud-status-text">Modo Local Ativo</span>
+                </span>
+                <span id="top-company-cnpj" class="hidden sm:inline text-[10px] text-amber-200/80 tracking-wider uppercase">Itanhaém • SP</span>
+              </div>
+            </div>
+          </div>
+
+          <nav class="hidden md:flex space-x-1">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 bg-wood-800 text-amber-200 border-b-2 border-amber-400"><i class="fa-solid fa-building-shield"></i><span>Painel</span></button>
+            <button onclick="switchTab('tabelas')" id="nav-tabelas" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-layer-group"></i><span>Tabelas SP</span></button>
+            <button onclick="switchTab('orcamentos')" id="nav-orcamentos" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-file-signature"></i><span>Orçamentos</span></button>
+            <button onclick="switchTab('clientes')" id="nav-clientes" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-address-book"></i><span>Clientes</span></button>
+            <button onclick="switchTab('equipe')" id="nav-equipe" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-helmet-safety"></i><span>Equipe</span></button>
+            <button onclick="switchTab('financeiro')" id="nav-financeiro" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-vault"></i><span>Caixa</span></button>
+            <button onclick="switchTab('config')" id="nav-config" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-sliders"></i><span>Empresa</span></button>
+          </nav>
         </div>
       </div>
+    </header>
 
-      <div class="flex flex-wrap items-center gap-2">
-        <span id="cloudStatusBadge" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30">
-          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> Conectando à nuvem...
-        </span>
-        <button id="btnInstallPwa" type="button" onclick="installSystemPWA()" class="hidden px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-extrabold transition">
-          <i class="fa-solid fa-mobile-screen-button mr-1"></i> Instalar App
-        </button>
-      </div>
+    <!-- NAVEGAÇÃO MOBILE -->
+    <div class="md:hidden wood-texture-header border-t border-wood-700 px-1 py-2 flex justify-around no-print text-[10px] text-amber-100">
+      <button onclick="switchTab('dashboard')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-building-shield text-sm"></i><span>Painel</span></button>
+      <button onclick="switchTab('tabelas')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-layer-group text-sm"></i><span>Tabelas</span></button>
+      <button onclick="switchTab('orcamentos')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-file-signature text-sm"></i><span>Propostas</span></button>
+      <button onclick="switchTab('clientes')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-address-book text-sm"></i><span>Clientes</span></button>
+      <button onclick="switchTab('equipe')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-helmet-safety text-sm"></i><span>Equipe</span></button>
+      <button onclick="switchTab('financeiro')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-vault text-sm"></i><span>Caixa</span></button>
+      <button onclick="switchTab('config')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-sliders text-sm"></i><span>Empresa</span></button>
     </div>
-  </header>
 
-  <!-- CONTEÚDO PRINCIPAL -->
-  <main class="max-w-6xl w-full mx-auto px-4 py-6 flex-1 space-y-6">
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-    <!-- RESUMO -->
-    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span class="text-xs font-bold uppercase text-slate-400">Obras / Lançamentos</span>
-        <p id="statCount" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
-      </div>
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span class="text-xs font-bold uppercase text-slate-400">Total Previsto / Orçado</span>
-        <p id="statTotal" class="text-2xl font-extrabold text-emerald-700 mt-1">R$ 0,00</p>
-      </div>
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span class="text-xs font-bold uppercase text-slate-400">Projeto Firestore</span>
-        <p class="text-sm font-bold text-slate-700 mt-2 font-mono">cp-construcoes-481db</p>
-      </div>
-    </section>
-
-    <!-- FORMULÁRIO DE CADASTRO -->
-    <section class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-      <h2 class="text-base font-extrabold text-slate-900 mb-4 flex items-center gap-2">
-        <i class="fa-solid fa-plus-circle text-amber-600"></i> Novo Registro de Obra / Lançamento
-      </h2>
-      <form id="obraForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div>
-          <label class="block text-xs font-bold text-slate-600 mb-1">Cliente / Obra *</label>
-          <input type="text" id="obraCliente" required placeholder="Ex: Reforma Cozinha - João"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm outline-none focus:border-slate-800" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-600 mb-1">Etapa / Serviço *</label>
-          <input type="text" id="obraEtapa" required placeholder="Ex: Alvenaria, Reboco, Piso"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm outline-none focus:border-slate-800" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-600 mb-1">Valor (R$) *</label>
-          <input type="number" step="0.01" min="0" id="obraValor" required placeholder="0.00"
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm outline-none focus:border-slate-800" />
-        </div>
-        <div class="flex items-end">
-          <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold shadow transition">
-            <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> Salvar
-          </button>
-        </div>
-      </form>
-    </section>
-
-    <!-- LISTA DE REGISTROS -->
-    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-      <div class="p-4 border-b border-slate-100 flex items-center justify-between">
-        <h2 class="text-base font-extrabold text-slate-900">Registros Sincronizados</h2>
-        <span id="lastSyncText" class="text-xs text-slate-400">Aguardando sincronização...</span>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm">
-          <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-bold">
-            <tr>
-              <th class="px-5 py-3.5">Cliente / Obra</th>
-              <th class="px-5 py-3.5">Etapa / Serviço</th>
-              <th class="px-5 py-3.5">Valor</th>
-              <th class="px-5 py-3.5 text-right">Ações</th>
-            </tr>
-          </thead>
-          <tbody id="obrasTableBody" class="divide-y divide-slate-100">
-            <tr><td colspan="4" class="px-5 py-8 text-center text-slate-400">Nenhum registro carregado ainda.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-  </main>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import {
-      getFirestore,
-      collection,
-      doc,
-      setDoc,
-      deleteDoc,
-      onSnapshot
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js").catch((err) => {
-          console.warn("Falha ao registrar sw.js:", err);
-        });
-      });
-    }
-
-    let deferredPrompt = null;
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      const btn = document.getElementById("btnInstallPwa");
-      if (btn) btn.classList.remove("hidden");
-    });
-
-    window.installSystemPWA = async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      document.getElementById("btnInstallPwa")?.classList.add("hidden");
-    };
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyACDtzYKklKNSRpLqX-wMeAf3nIdkHuvGs",
-      authDomain: "cp-construcoes-481db.firebaseapp.com",
-      projectId: "cp-construcoes-481db",
-      storageBucket: "cp-construcoes-481db.firebasestorage.app",
-      messagingSenderId: "610096987498",
-      appId: "1:610096987498:web:68dd2c452ad25c67e0f913",
-      measurementId: "G-926XRZWEM2"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const STORAGE_KEY = "cp_construcoes_local_fallback_v1";
-    let items = [];
-    let cloudActive = false;
-
-    function setStatus(isOnline, labelText) {
-      cloudActive = isOnline;
-      const badge = document.getElementById("cloudStatusBadge");
-      if (!badge) return;
-      if (isOnline) {
-        badge.className = "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30";
-        badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> ${labelText || "Nuvem Conectada"}`;
-      } else {
-        badge.className = "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30";
-        badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span> ${labelText || "Modo Local Ativo"}`;
-      }
-    }
-
-    function loadLocalFallback() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        items = raw ? JSON.parse(raw) : [];
-      } catch (_) {
-        items = [];
-      }
-      renderTable();
-    }
-
-    function saveLocalFallback() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-      } catch (_) {}
-    }
-
-    function formatBRL(val) {
-      return Number(val || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-    }
-
-    function renderTable() {
-      const tbody = document.getElementById("obrasTableBody");
-      const countEl = document.getElementById("statCount");
-      const totalEl = document.getElementById("statTotal");
-      const syncEl = document.getElementById("lastSyncText");
-
-      countEl.textContent = String(items.length);
-      const total = items.reduce((acc, item) => acc + Number(item.valor || 0), 0);
-      totalEl.textContent = formatBRL(total);
-      if (syncEl) {
-        syncEl.textContent = `Atualizado às ${new Date().toLocaleTimeString("pt-BR")}`;
-      }
-
-      if (!items.length) {
-        tbody.innerHTML = '<tr><td colspan="4" class="px-5 py-8 text-center text-slate-400">Nenhum registro cadastrado ainda.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = items.map((item) => `
-        <tr class="hover:bg-slate-50">
-          <td class="px-5 py-3.5 font-bold text-slate-900">${escapeHtml(item.cliente)}</td>
-          <td class="px-5 py-3.5 text-slate-600">${escapeHtml(item.etapa)}</td>
-          <td class="px-5 py-3.5 font-bold text-emerald-700">${formatBRL(item.valor)}</td>
-          <td class="px-5 py-3.5 text-right space-x-1.5">
-            <button type="button" onclick="downloadObraPDF('${item.id}')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold">
-              <i class="fa-solid fa-file-pdf mr-1"></i> PDF
+      <!-- 1. DASHBOARD EXECUTIVO -->
+      <section id="tab-dashboard" class="tab-content space-y-6">
+        <div class="executive-card rounded-lg p-6 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-gradient-to-r from-white via-wood-50/40 to-white">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-wood-900 text-amber-200 rounded">Gestão Executiva</span>
+              <span class="text-xs text-slate-500 font-medium">Litoral Sul • Itanhaém / SP</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold font-serif-artisan text-wood-950">Controle Corporativo de Obras &amp; Engenharia</h2>
+            <p class="text-slate-600 text-xs sm:text-sm">Direção Técnica: <strong>Cristiano dos Santos Paes</strong> — Operação integrada Escritório ⇄ Canteiro de Obras.</p>
+          </div>
+          <div class="flex flex-wrap gap-2 w-full lg:w-auto">
+            <button onclick="switchTab('tabelas')" class="flex-1 lg:flex-none bg-emerald-900 hover:bg-emerald-950 text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
+              <i class="fa-solid fa-layer-group mr-2 text-emerald-300"></i> Bases de Preços SP
             </button>
-            <button type="button" onclick="removeObra('${item.id}')" class="px-2.5 py-1.5 rounded-xl bg-red-100 hover:bg-red-200 text-red-700 text-xs font-bold">
-              <i class="fa-solid fa-trash"></i>
+            <button onclick="switchTab('orcamentos'); iniciarNovoOrcamento();" class="flex-1 lg:flex-none wood-texture-header hover:opacity-95 text-amber-100 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
+              <i class="fa-solid fa-file-circle-plus mr-2 text-amber-300"></i> Emitir Proposta
             </button>
-          </td>
-        </tr>
-      `).join("");
-    }
+          </div>
+        </div>
 
-    function escapeHtml(str) {
-      return String(str || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
-    }
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="executive-card p-5 rounded-lg">
+            <div class="flex justify-between items-start">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Propostas / Obras</span>
+              <i class="fa-solid fa-folder-open text-wood-700 text-sm"></i>
+            </div>
+            <p id="dash-obras-ativas" class="text-2xl font-bold text-slate-900 mt-2">0</p>
+            <p class="text-[11px] text-slate-500 mt-1">Contratos registrados no sistema</p>
+          </div>
 
-    // Assinatura em tempo real do Firestore (coleção: obras)
-    const obrasCol = collection(db, "obras");
-    onSnapshot(
-      obrasCol,
-      (snapshot) => {
-        items = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
-        saveLocalFallback();
-        setStatus(true, "Nuvem Conectada (cp-construcoes-481db)");
-        renderTable();
-      },
-      (error) => {
-        console.warn("Erro Firestore onSnapshot:", error);
-        setStatus(false, "Modo Local Ativo");
-        loadLocalFallback();
-      }
-    );
+          <div class="executive-card p-5 rounded-lg" style="border-top-color: #065f46;">
+            <div class="flex justify-between items-start">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Faturamento Bruto</span>
+              <i class="fa-solid fa-arrow-trend-up text-emerald-700 text-sm"></i>
+            </div>
+            <p id="dash-recebimentos" class="text-2xl font-bold text-emerald-800 mt-2">R$ 0,00</p>
+            <p class="text-[11px] text-slate-500 mt-1">Receitas e medições lançadas</p>
+          </div>
 
-    document.getElementById("obraForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = "obra_" + Date.now();
-      const record = {
-        id,
-        cliente: document.getElementById("obraCliente").value.trim(),
-        etapa: document.getElementById("obraEtapa").value.trim(),
-        valor: Number(document.getElementById("obraValor").value || 0),
-        criadoEm: new Date().toISOString()
-      };
+          <div class="executive-card p-5 rounded-lg" style="border-top-color: #9f1239;">
+            <div class="flex justify-between items-start">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Custos &amp; Equipe</span>
+              <i class="fa-solid fa-helmet-safety text-rose-700 text-sm"></i>
+            </div>
+            <p id="dash-pagamentos" class="text-2xl font-bold text-rose-800 mt-2">R$ 0,00</p>
+            <p class="text-[11px] text-slate-500 mt-1">Diárias e despesas operacionais</p>
+          </div>
 
-      // Atualiza imediatamente na tela e salva no Firestore
-      items.unshift(record);
-      saveLocalFallback();
-      renderTable();
-      e.target.reset();
+          <div class="executive-card p-5 rounded-lg" style="border-top-color: #b45309;">
+            <div class="flex justify-between items-start">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Saldo de Caixa</span>
+              <i class="fa-solid fa-scale-balanced text-amber-700 text-sm"></i>
+            </div>
+            <p id="dash-saldo" class="text-2xl font-bold text-wood-950 mt-2">R$ 0,00</p>
+            <p class="text-[11px] text-slate-500 mt-1">Resultado líquido consolidado</p>
+          </div>
+        </div>
 
-      try {
-        await setDoc(doc(db, "obras", id), record);
-        setStatus(true, "Nuvem Conectada (cp-construcoes-481db)");
-      } catch (err) {
-        console.warn("Falha ao gravar no Firestore:", err);
-        setStatus(false, "Modo Local Ativo");
-      }
-    });
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 executive-card rounded-lg p-5">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
+              <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Propostas &amp; Contratos Recentes</h3>
+              <button onclick="switchTab('orcamentos')" class="text-xs font-semibold text-wood-800 hover:underline">Ver todos →</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
+                  <tr>
+                    <th class="p-2.5">Código</th>
+                    <th class="p-2.5">Cliente</th>
+                    <th class="p-2.5">Perfil / Modalidade</th>
+                    <th class="p-2.5 text-right">Valor Contrato</th>
+                    <th class="p-2.5 text-right">Documento</th>
+                  </tr>
+                </thead>
+                <tbody id="dash-lista-recentes" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
 
-    window.removeObra = async (id) => {
-      items = items.filter((x) => x.id !== id);
-      saveLocalFallback();
-      renderTable();
-      try {
-        await deleteDoc(doc(db, "obras", id));
-      } catch (err) {
-        console.warn("Falha ao excluir no Firestore:", err);
-      }
-    };
+          <div class="executive-card rounded-lg p-5 space-y-4">
+            <div class="border-b border-slate-200 pb-3">
+              <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Parâmetros de Referência SP</h3>
+            </div>
+            <div class="space-y-3 text-xs">
+              <div class="p-3 rounded bg-wood-50 border border-wood-200">
+                <span class="font-bold text-wood-900 block">Base A — Profissional Autônomo</span>
+                <span class="text-slate-600">Execução direta • Média R$ 520 a R$ 580/m² (Obra Nova)</span>
+              </div>
+              <div class="p-3 rounded bg-emerald-50 border border-emerald-200">
+                <span class="font-bold text-emerald-950 block">Base B — Construtor / Empresa</span>
+                <span class="text-slate-600">Empreitada corporativa com encargos &amp; BDI • Média R$ 740 a R$ 850/m²</span>
+              </div>
+              <div class="p-3 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
+                <div>
+                  <span class="font-bold text-slate-800 block">Clientes Cadastrados</span>
+                  <span class="text-slate-500">Carteira ativa sincronizada</span>
+                </div>
+                <span id="dash-total-clientes" class="text-lg font-bold text-wood-900">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    window.downloadObraPDF = (id) => {
-      const item = items.find((x) => x.id === id);
-      if (!item || !window.jspdf) return;
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(15);
-      pdf.text("CP CONSTRUÇÕES E REFORMAS", 20, 22);
-      pdf.setFontSize(11);
-      pdf.setFont("helvetica", "normal");
-      pdf.text(`Cliente / Obra: ${item.cliente}`, 20, 36);
-      pdf.text(`Etapa / Serviço: ${item.etapa}`, 20, 44);
-      pdf.text(`Valor: ${formatBRL(item.valor)}`, 20, 52);
-      pdf.save(`CP_Obras_${item.id}.pdf`);
-    };
-  </script>
-</body>
-</html>
+      <!-- 2. DUAS TABELAS INTEGRADAS: AUTÔNOMO VS. CONSTRUTOR / EMPRESA -->
+      <section id="tab-tabelas" class="tab-content hidden space-y-6">
+        <div id="banner-tabela-ativa" class="bg-emerald-950 text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <div class="flex items-center space-x-2 mb-1">
+              <span id="badge-perfil-tabela" class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-700 text-emerald-100">BASE A: AUTÔNOMO DIRETO</span>
+              <span class="text-xs text-emerald-300">Uso Interno Exclusivo da Empresa</span>
+            </div>
+            <h2 id="titulo-tabela-principal" class="text-xl sm:text-2xl font-bold tracking-tight">Tabela de Mão de Obra — Profissional Autônomo</h2>
+            <p id="subtitulo-tabela-principal" class="text-emerald-200 text-xs mt-1">Valores Praticados por Profissionais Diretos | Estado de São Paulo</p>
+          </div>
+          <div class="text-left md:text-right text-xs text-emerald-100 space-y-1 bg-black/25 p-3.5 rounded-lg border border-white/10">
+            <p id="info-lat-1"><strong>Perfil:</strong> Autônomo / Execução Direta</p>
+            <p><strong>Região:</strong> São Paulo (Litoral / Itanhaém)</p>
+            <p id="info-lat-2"><strong>Meta Diária Base:</strong> R$ 300,00 (Dupla)</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
+          <div class="flex flex-col space-y-1">
+            <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">1. Selecione a Tabela de Referência:</span>
+            <div class="inline-flex rounded-lg bg-slate-100 p-1">
+              <button onclick="mudarPerfilTabela('AUTONOMO')" id="btn-perfil-autonomo" class="px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition">
+                👷 Tabela Autônomo (Direto)
+              </button>
+              <button onclick="mudarPerfilTabela('CONSTRUTOR')" id="btn-perfil-construtor" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
+                🏢 Tabela Construtor (Empresa / BDI)
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-col space-y-1">
+            <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">2. Selecione o Escopo da Obra:</span>
+            <div class="inline-flex rounded-lg bg-slate-100 p-1">
+              <button onclick="mudarEscopoTabela('OBRA_NOVA')" id="btn-escopo-obranova" class="px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-100 shadow transition">
+                🏗️ Obra Nova (Desde o Início)
+              </button>
+              <button onclick="mudarEscopoTabela('REFORMA')" id="btn-escopo-reforma" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
+                🛠️ Reformas &amp; Encargos Específicos
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+            <span id="ind-1-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ESTIMATIVA MÉDIA / M²</span>
+            <p id="ind-1-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 520,00 - 580,00</p>
+          </div>
+          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+            <span id="ind-2-titulo" class="text-[11px] font-bold text-slate-500 uppercase">PEDREIRO / OFICIAL (DIA)</span>
+            <p id="ind-2-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 200,00 - 250,00</p>
+          </div>
+          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+            <span id="ind-3-titulo" class="text-[11px] font-bold text-slate-500 uppercase">AJUDANTE / SERVENTE (DIA)</span>
+            <p id="ind-3-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 100,00 - 130,00</p>
+          </div>
+          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+            <span id="ind-4-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ENQUADRAMENTO</span>
+            <p id="ind-4-valor" class="text-lg font-bold text-slate-900 mt-1">Mão de Obra Direta</p>
+          </div>
+        </div>
+
+        <div id="container-etapas-detalhadas" class="space-y-6"></div>
+      </section>
+
+      <!-- 3. MONTADOR DE ORÇAMENTOS & PROPOSTA LIMPA EM PDF -->
+      <section id="tab-orcamentos" class="tab-content hidden space-y-6">
+        <div class="flex justify-between items-center no-print">
+          <div>
+            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Orçamentos &amp; Propostas Comerciais</h2>
+            <p class="text-xs text-slate-500">Selecione a tabela interna desejada. O PDF do cliente exibe apenas o escopo e valores finais.</p>
+          </div>
+          <button onclick="iniciarNovoOrcamento()" class="wood-texture-header
