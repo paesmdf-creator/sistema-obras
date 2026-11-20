@@ -14,7 +14,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Firebase SDK (Compatível para Sincronização Escritório <-> Canteiro em Tempo Real) -->
+  <!-- Firebase SDK (Sincronização Escritório <-> Canteiro em Tempo Real) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
@@ -93,7 +93,7 @@
               <div class="flex items-center space-x-2 mt-0.5">
                 <span id="cloud-status-badge" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-950/80 text-amber-300 border border-amber-500/30">
                   <span id="cloud-dot" class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>
-                  <span id="cloud-status-text">Modo Local Ativo</span>
+                  <span id="cloud-status-text">Conectando Nuvem...</span>
                 </span>
                 <span id="top-company-cnpj" class="hidden sm:inline text-[10px] text-amber-200/80 tracking-wider uppercase">Itanhaém • SP</span>
               </div>
@@ -617,7 +617,7 @@
       <section id="tab-config" class="tab-content hidden space-y-6">
         <div>
           <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Dados da Empresa &amp; Sincronização em Nuvem</h2>
-          <p class="text-xs text-slate-500">Configure os dados da proposta comercial e conecte Escritório ⇄ Canteiro de Obras.</p>
+          <p class="text-xs text-slate-500">Configure os dados da proposta comercial e gerencie o backup da nuvem.</p>
         </div>
 
         <div class="executive-card p-6 rounded-lg space-y-4">
@@ -644,9 +644,9 @@
         </div>
 
         <div class="executive-card p-6 rounded-lg space-y-4">
-          <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase">Sincronização em Nuvem (Escritório ⇄ Canteiro)</h3>
-          <p class="text-xs text-slate-600">Cole abaixo o objeto JSON de configuração do Firebase (`firebaseConfig`) para sincronizar em tempo real no documento `cp_construcoes/dados_empresa`.</p>
-          <textarea id="cfg-firebase" rows="5" class="w-full border border-slate-300 p-3 rounded-lg font-mono text-xs" placeholder='{"apiKey":"...","authDomain":"...","projectId":"cp-construcoes-481db",...}'></textarea>
+          <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase">Sincronização em Nuvem (Automática Ativa)</h3>
+          <p class="text-xs text-slate-600">A conexão com o banco <strong>cp-construcoes-481db</strong> já está integrada automaticamente neste aplicativo. Use o campo abaixo apenas se precisar apontar para outro projeto Firebase.</p>
+          <textarea id="cfg-firebase" rows="4" class="w-full border border-slate-300 p-3 rounded-lg font-mono text-xs"></textarea>
           <div class="flex flex-wrap justify-between items-center gap-2">
             <div class="flex flex-wrap gap-2">
               <button onclick="exportarBackupManual()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold">
@@ -658,7 +658,7 @@
               </label>
             </div>
             <button onclick="salvarConexaoNuvem()" class="bg-emerald-800 hover:bg-emerald-900 text-white px-5 py-2.5 rounded-lg text-xs font-bold shadow">
-              Conectar Nuvem
+              Reconectar Nuvem
             </button>
           </div>
         </div>
@@ -753,6 +753,16 @@
   </div>
 
   <script>
+    const DEFAULT_FIREBASE_CONFIG = {
+      apiKey: "AIzaSyACDtzYKklKNSRpLqX-wMeAf3nIdkHuvGs",
+      authDomain: "cp-construcoes-481db.firebaseapp.com",
+      projectId: "cp-construcoes-481db",
+      storageBucket: "cp-construcoes-481db.firebasestorage.app",
+      messagingSenderId: "610096987498",
+      appId: "1:610096987498:web:68dd2c452ad25c67e0f913",
+      measurementId: "G-926XRZWEM2"
+    };
+
     const AUTONOMO_OBRA_NOVA = [
       {
         etapa: '1', titulo: 'ETAPA 1: SERVIÇOS PRELIMINARES E FUNDAÇÃO', badge: 'EXECUÇÃO DIRETA',
@@ -1034,11 +1044,21 @@
 
     function inicializarNuvemSeConfigurada() {
       const fbConfigStr = localStorage.getItem('CP_FIREBASE_CONFIG');
-      if (!fbConfigStr) return;
-      document.getElementById('cfg-firebase').value = fbConfigStr;
+      let fbConfig = DEFAULT_FIREBASE_CONFIG;
+
+      if (fbConfigStr) {
+        try {
+          fbConfig = JSON.parse(fbConfigStr);
+          document.getElementById('cfg-firebase').value = fbConfigStr;
+        } catch (e) {
+          fbConfig = DEFAULT_FIREBASE_CONFIG;
+          document.getElementById('cfg-firebase').value = JSON.stringify(DEFAULT_FIREBASE_CONFIG);
+        }
+      } else {
+        document.getElementById('cfg-firebase').value = JSON.stringify(DEFAULT_FIREBASE_CONFIG);
+      }
 
       try {
-        const fbConfig = JSON.parse(fbConfigStr);
         if (!firebase.apps.length) {
           firebase.initializeApp(fbConfig);
         }
@@ -1055,9 +1075,14 @@
             localStorage.setItem('CP_CONSTRUCOES_CORPORATIVO_V2', JSON.stringify(appData));
             atualizarInterfaceGlobal();
           }
+        }, (err) => {
+          console.warn('Erro de leitura Firestore:', err);
+          document.getElementById('cloud-dot').className = "w-2 h-2 rounded-full bg-rose-400 mr-1.5";
+          document.getElementById('cloud-status-text').innerText = "Erro de Permissão Nuvem";
         });
       } catch (e) {
         console.warn('Configuração Firebase inválida:', e);
+        document.getElementById('cloud-status-text').innerText = "Modo Local Ativo";
       }
     }
 
@@ -1065,14 +1090,14 @@
       const val = document.getElementById('cfg-firebase').value.trim();
       if (!val) {
         localStorage.removeItem('CP_FIREBASE_CONFIG');
-        alert('Configuração de nuvem removida. O sistema operará em modo local.');
+        alert('Configuração personalizada removida. Usando conexão padrão da nuvem.');
         location.reload();
         return;
       }
       try {
         JSON.parse(val);
         localStorage.setItem('CP_FIREBASE_CONFIG', val);
-        alert('Configuração da nuvem salva! Conectando escritório e canteiro de obras...');
+        alert('Configuração da nuvem salva! Reconectando...');
         location.reload();
       } catch (e) {
         alert('Formato inválido. Cole o objeto JSON exato fornecido pelo Firebase.');
