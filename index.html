@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CP Construções e Reformas — Gestão Corporativa & Obras</title>
 
-  <!-- PWA Manifest e Configurações Mobile -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#341e16">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,8 +12,6 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Firebase SDK (Sincronização Escritório <-> Canteiro em Tempo Real) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
@@ -38,7 +35,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
     body { font-family: 'Inter', sans-serif; background-color: #f4f5f7; color: #1e293b; }
     .font-serif-artisan { font-family: 'Cinzel', serif; }
-    
+
     .executive-card {
       background: #ffffff;
       border: 1px solid #e2e8f0;
@@ -51,9 +48,7 @@
       border-bottom: 3px solid #b47b44;
     }
 
-    .watermark-bg {
-      position: relative;
-    }
+    .watermark-bg { position: relative; }
     .watermark-bg::before {
       content: "";
       position: absolute;
@@ -78,51 +73,51 @@
   <div class="flex flex-col min-h-screen">
     <!-- CABEÇALHO CORPORATIVO -->
     <header class="wood-texture-header text-white shadow-lg no-print sticky top-0 z-40">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-20">
-          <div class="flex items-center space-x-3.5 cursor-pointer" onclick="switchTab('dashboard')">
-            <div class="w-12 h-12 rounded-lg bg-wood-950/60 border border-amber-400/60 flex items-center justify-center shadow-inner p-1.5">
-              <svg viewBox="0 0 100 100" class="w-9 h-9 text-amber-300 fill-none stroke-current" stroke-width="4.5">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap items-center justify-between gap-2 py-2.5 min-h-[5rem]">
+          <div class="flex items-center space-x-2.5 cursor-pointer min-w-0" onclick="switchTab('dashboard')">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-lg bg-wood-950/60 border border-amber-400/60 flex items-center justify-center shadow-inner p-1.5">
+              <svg viewBox="0 0 100 100" class="w-8 h-8 text-amber-300 fill-none stroke-current" stroke-width="4.5">
                 <path d="M22 78 V36 L52 16 L80 35 V55 H54 V36" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M52 52 H32 V78 H54" stroke-linecap="round" stroke-linejoin="round"/>
                 <line x1="22" y1="26" x2="52" y2="6" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
               </svg>
             </div>
-            <div>
-              <h1 id="top-company-name" class="font-serif-artisan text-base sm:text-lg font-bold tracking-wider text-amber-100">CP CONSTRUÇÕES E REFORMAS</h1>
-              <div class="flex items-center space-x-2 mt-0.5">
+            <div class="min-w-0">
+              <h1 id="top-company-name" class="font-serif-artisan text-sm sm:text-base lg:text-lg font-bold tracking-wide text-amber-100 truncate">CP CONSTRUÇÕES E REFORMAS</h1>
+              <div class="flex flex-wrap items-center gap-1.5 mt-0.5">
                 <span id="cloud-status-badge" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-950/80 text-amber-300 border border-amber-500/30">
                   <span id="cloud-dot" class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>
                   <span id="cloud-status-text">Conectando Nuvem...</span>
                 </span>
-                <span id="top-company-cnpj" class="hidden sm:inline text-[10px] text-amber-200/80 tracking-wider uppercase">Itanhaém • SP</span>
+                <span id="top-company-cnpj" class="hidden lg:inline text-[10px] text-amber-200/80 tracking-wider uppercase">Itanhaém • SP</span>
               </div>
             </div>
           </div>
 
-          <nav class="hidden md:flex space-x-1">
-            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 bg-wood-800 text-amber-200 border-b-2 border-amber-400"><i class="fa-solid fa-building-shield"></i><span>Painel</span></button>
-            <button onclick="switchTab('tabelas')" id="nav-tabelas" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-layer-group"></i><span>Tabelas SP</span></button>
-            <button onclick="switchTab('orcamentos')" id="nav-orcamentos" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-file-signature"></i><span>Orçamentos</span></button>
-            <button onclick="switchTab('clientes')" id="nav-clientes" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-address-book"></i><span>Clientes</span></button>
-            <button onclick="switchTab('equipe')" id="nav-equipe" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-helmet-safety"></i><span>Equipe</span></button>
-            <button onclick="switchTab('financeiro')" id="nav-financeiro" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-vault"></i><span>Caixa</span></button>
-            <button onclick="switchTab('config')" id="nav-config" class="nav-btn px-3 py-2 rounded-md text-xs font-semibold transition flex items-center space-x-2 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-sliders"></i><span>Empresa</span></button>
+          <nav class="hidden md:flex flex-wrap items-center gap-1">
+            <button type="button" onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 bg-wood-800 text-amber-200 border-b-2 border-amber-400"><i class="fa-solid fa-building-shield"></i><span>Painel</span></button>
+            <button type="button" onclick="switchTab('tabelas')" id="nav-tabelas" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-layer-group"></i><span>Tabelas SP</span></button>
+            <button type="button" onclick="switchTab('orcamentos')" id="nav-orcamentos" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-file-signature"></i><span>Orçamentos</span></button>
+            <button type="button" onclick="switchTab('clientes')" id="nav-clientes" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-address-book"></i><span>Clientes</span></button>
+            <button type="button" onclick="switchTab('equipe')" id="nav-equipe" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-helmet-safety"></i><span>Equipe</span></button>
+            <button type="button" onclick="switchTab('financeiro')" id="nav-financeiro" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-vault"></i><span>Caixa</span></button>
+            <button type="button" onclick="switchTab('config')" id="nav-config" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-sliders"></i><span>Empresa</span></button>
           </nav>
         </div>
       </div>
-    </header>
 
-    <!-- NAVEGAÇÃO MOBILE -->
-    <div class="md:hidden wood-texture-header border-t border-wood-700 px-1 py-2 flex justify-around no-print text-[10px] text-amber-100">
-      <button onclick="switchTab('dashboard')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-building-shield text-sm"></i><span>Painel</span></button>
-      <button onclick="switchTab('tabelas')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-layer-group text-sm"></i><span>Tabelas</span></button>
-      <button onclick="switchTab('orcamentos')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-file-signature text-sm"></i><span>Propostas</span></button>
-      <button onclick="switchTab('clientes')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-address-book text-sm"></i><span>Clientes</span></button>
-      <button onclick="switchTab('equipe')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-helmet-safety text-sm"></i><span>Equipe</span></button>
-      <button onclick="switchTab('financeiro')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-vault text-sm"></i><span>Caixa</span></button>
-      <button onclick="switchTab('config')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-sliders text-sm"></i><span>Empresa</span></button>
-    </div>
+      <!-- NAVEGAÇÃO MOBILE -->
+      <div class="md:hidden border-t border-wood-700/80 px-1 py-1.5 flex justify-around no-print text-[10px] text-amber-100 bg-wood-950/30">
+        <button type="button" onclick="switchTab('dashboard')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-building-shield text-sm"></i><span>Painel</span></button>
+        <button type="button" onclick="switchTab('tabelas')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-layer-group text-sm"></i><span>Tabelas</span></button>
+        <button type="button" onclick="switchTab('orcamentos')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-file-signature text-sm"></i><span>Propostas</span></button>
+        <button type="button" onclick="switchTab('clientes')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-address-book text-sm"></i><span>Clientes</span></button>
+        <button type="button" onclick="switchTab('equipe')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-helmet-safety text-sm"></i><span>Equipe</span></button>
+        <button type="button" onclick="switchTab('financeiro')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-vault text-sm"></i><span>Caixa</span></button>
+        <button type="button" onclick="switchTab('config')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-sliders text-sm"></i><span>Empresa</span></button>
+      </div>
+    </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -139,10 +134,10 @@
             <p class="text-slate-600 text-xs sm:text-sm">Direção Técnica: <strong>Cristiano dos Santos Paes</strong> — Operação integrada Escritório ⇄ Canteiro de Obras.</p>
           </div>
           <div class="flex flex-wrap gap-2 w-full lg:w-auto">
-            <button onclick="switchTab('tabelas')" class="flex-1 lg:flex-none bg-emerald-900 hover:bg-emerald-950 text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
+            <button type="button" onclick="switchTab('tabelas')" class="flex-1 lg:flex-none bg-emerald-900 hover:bg-emerald-950 text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
               <i class="fa-solid fa-layer-group mr-2 text-emerald-300"></i> Bases de Preços SP
             </button>
-            <button onclick="switchTab('orcamentos'); iniciarNovoOrcamento();" class="flex-1 lg:flex-none wood-texture-header hover:opacity-95 text-amber-100 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
+            <button type="button" onclick="switchTab('orcamentos'); iniciarNovoOrcamento();" class="flex-1 lg:flex-none wood-texture-header hover:opacity-95 text-amber-100 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
               <i class="fa-solid fa-file-circle-plus mr-2 text-amber-300"></i> Emitir Proposta
             </button>
           </div>
@@ -190,7 +185,7 @@
           <div class="lg:col-span-2 executive-card rounded-lg p-5">
             <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
               <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Propostas &amp; Contratos Recentes</h3>
-              <button onclick="switchTab('orcamentos')" class="text-xs font-semibold text-wood-800 hover:underline">Ver todos →</button>
+              <button type="button" onclick="switchTab('orcamentos')" class="text-xs font-semibold text-wood-800 hover:underline">Ver todos →</button>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs text-slate-600">
@@ -254,11 +249,11 @@
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
           <div class="flex flex-col space-y-1">
             <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">1. Selecione a Tabela de Referência:</span>
-            <div class="inline-flex rounded-lg bg-slate-100 p-1">
-              <button onclick="mudarPerfilTabela('AUTONOMO')" id="btn-perfil-autonomo" class="px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition">
+            <div class="inline-flex flex-wrap rounded-lg bg-slate-100 p-1 gap-1">
+              <button type="button" onclick="mudarPerfilTabela('AUTONOMO')" id="btn-perfil-autonomo" class="px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition">
                 👷 Tabela Autônomo (Direto)
               </button>
-              <button onclick="mudarPerfilTabela('CONSTRUTOR')" id="btn-perfil-construtor" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
+              <button type="button" onclick="mudarPerfilTabela('CONSTRUTOR')" id="btn-perfil-construtor" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
                 🏢 Tabela Construtor (Empresa / BDI)
               </button>
             </div>
@@ -266,11 +261,11 @@
 
           <div class="flex flex-col space-y-1">
             <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">2. Selecione o Escopo da Obra:</span>
-            <div class="inline-flex rounded-lg bg-slate-100 p-1">
-              <button onclick="mudarEscopoTabela('OBRA_NOVA')" id="btn-escopo-obranova" class="px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-100 shadow transition">
+            <div class="inline-flex flex-wrap rounded-lg bg-slate-100 p-1 gap-1">
+              <button type="button" onclick="mudarEscopoTabela('OBRA_NOVA')" id="btn-escopo-obranova" class="px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-100 shadow transition">
                 🏗️ Obra Nova (Desde o Início)
               </button>
-              <button onclick="mudarEscopoTabela('REFORMA')" id="btn-escopo-reforma" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
+              <button type="button" onclick="mudarEscopoTabela('REFORMA')" id="btn-escopo-reforma" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
                 🛠️ Reformas &amp; Encargos Específicos
               </button>
             </div>
@@ -306,13 +301,13 @@
             <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Orçamentos &amp; Propostas Comerciais</h2>
             <p class="text-xs text-slate-500">Selecione a tabela interna desejada. O PDF do cliente exibe apenas o escopo e valores finais.</p>
           </div>
-          <button onclick="iniciarNovoOrcamento()" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">+ Novo Orçamento</button>
+          <button type="button" onclick="iniciarNovoOrcamento()" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">+ Novo Orçamento</button>
         </div>
 
         <div id="container-form-orcamento" class="executive-card p-6 rounded-lg hidden space-y-5 no-print">
           <div class="flex justify-between items-center border-b border-slate-200 pb-3">
             <h3 class="text-base font-bold font-serif-artisan text-wood-950">Composição Interna de Preços (Uso Exclusivo da Empresa)</h3>
-            <button onclick="fecharFormOrcamento()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <button type="button" onclick="fecharFormOrcamento()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
@@ -364,7 +359,7 @@
               <input type="number" step="0.01" id="inp-val-orc" class="w-full border border-slate-300 rounded p-2 font-bold bg-white">
             </div>
             <div class="md:col-span-1">
-              <button onclick="adicionarItemOrcamento()" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white py-2 rounded font-bold"><i class="fa-solid fa-plus"></i></button>
+              <button type="button" onclick="adicionarItemOrcamento()" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white py-2 rounded font-bold"><i class="fa-solid fa-plus"></i></button>
             </div>
           </div>
 
@@ -403,8 +398,8 @@
           </div>
 
           <div class="flex justify-end space-x-2 pt-2">
-            <button onclick="fecharFormOrcamento()" class="px-4 py-2 border rounded text-xs text-slate-600">Cancelar</button>
-            <button onclick="salvarOrcamentoCompleto()" class="wood-texture-header text-amber-100 px-6 py-2.5 rounded text-xs font-bold shadow">Salvar &amp; Gerar Proposta Limpa</button>
+            <button type="button" onclick="fecharFormOrcamento()" class="px-4 py-2 border rounded text-xs text-slate-600">Cancelar</button>
+            <button type="button" onclick="salvarOrcamentoCompleto()" class="wood-texture-header text-amber-100 px-6 py-2.5 rounded text-xs font-bold shadow">Salvar &amp; Gerar Proposta Limpa</button>
           </div>
         </div>
 
@@ -417,286 +412,14 @@
           </table>
         </div>
 
-        <!-- DOCUMENTO LIMPO DO CLIENTE (PDF / IMPRESSÃO CORPORATIVA) -->
         <div id="area-impressao-contrato" class="hidden executive-card watermark-bg p-8 rounded-lg space-y-6 print-shadow-none bg-white">
           <div class="no-print flex justify-between items-center bg-wood-100 p-3 rounded mb-4">
-            <button onclick="fecharVisualizacaoContrato()" class="text-xs font-bold text-slate-700">← Voltar à Lista</button>
-            <button onclick="window.print()" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded shadow"><i class="fa-solid fa-print mr-1.5"></i> Imprimir / Salvar Proposta PDF</button>
+            <button type="button" onclick="fecharVisualizacaoContrato()" class="text-xs font-bold text-slate-700">← Voltar à Lista</button>
+            <button type="button" onclick="window.print()" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded shadow"><i class="fa-solid fa-print mr-1.5"></i> Imprimir / Salvar Proposta PDF</button>
           </div>
-          
+
           <div class="border-b-2 border-wood-900 pb-5 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-4">
               <div class="w-14 h-14 rounded-lg bg-wood-950 flex items-center justify-center p-2 border border-amber-500">
                 <svg viewBox="0 0 100 100" class="w-10 h-10 text-amber-300 fill-none stroke-current" stroke-width="4.5">
-                  <path d="M22 78 V36 L52 16 L80 35 V55 H54 V36" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M52 52 H32 V78 H54" stroke-linecap="round" stroke-linejoin="round"/>
-                  <line x1="22" y1="26" x2="52" y2="6" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <div>
-                <h3 id="print-header-empresa" class="font-serif-artisan text-xl sm:text-2xl font-bold tracking-wider text-wood-950">CP CONSTRUÇÕES E REFORMAS</h3>
-                <p id="print-empresa-cnpj" class="text-xs font-semibold uppercase text-slate-600">CNPJ MEI: ---</p>
-                <p id="print-empresa-contato" class="text-xs text-slate-500">Responsável Técnico: Cristiano dos Santos Paes</p>
-              </div>
-            </div>
-            <div class="text-center sm:text-right">
-              <span class="px-3 py-1 bg-wood-900 text-amber-200 text-xs font-bold uppercase tracking-widest rounded">Proposta Comercial</span>
-              <p class="text-xs font-bold text-slate-700 mt-1.5">Nº <span id="print-orc-id">---</span></p>
-              <p class="text-xs text-slate-500">Emissão: <span id="print-orc-data">---</span></p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 text-xs border border-wood-300 p-4 rounded bg-wood-50/40 gap-4">
-            <div class="space-y-1">
-              <p class="text-[10px] font-bold uppercase text-wood-800">Dados do Contratante</p>
-              <p><strong>CLIENTE:</strong> <span id="print-cliente-nome">---</span></p>
-              <p><strong>TELEFONE:</strong> <span id="print-cliente-tel">---</span></p>
-              <p><strong>LOCAL DA OBRA:</strong> <span id="print-cliente-end">---</span></p>
-            </div>
-            <div class="sm:text-right space-y-1">
-              <p class="text-[10px] font-bold uppercase text-wood-800">Especificação do Projeto</p>
-              <p><strong>MODALIDADE:</strong> <span id="print-orc-modalidade" class="font-bold">---</span></p>
-              <p><strong>VALIDADE DA PROPOSTA:</strong> 15 dias corridos</p>
-              <p><strong>REGIÃO:</strong> Itanhaém / Litoral Sul - SP</p>
-            </div>
-          </div>
-
-          <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-wood-950">Escopo Técnico por Etapa</h4>
-            <div id="print-container-etapas-cliente" class="space-y-3"></div>
-          </div>
-
-          <div class="border-t-2 border-wood-900 pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <p class="text-xs text-slate-500 max-w-md">Proposta sujeita a medições em obra, acesso de materiais e condições de execução acordadas entre as partes.</p>
-            <div class="text-right">
-              <span class="text-xs uppercase font-bold text-slate-500 block">Valor Global da Proposta</span>
-              <span id="print-valor-total" class="text-2xl font-bold font-serif-artisan text-wood-950">R$ 0,00</span>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-10 text-center text-xs">
-            <div>
-              <div class="border-t border-slate-400 pt-2 font-bold text-slate-700">CP CONSTRUÇÕES E REFORMAS</div>
-              <div class="text-[11px] text-slate-500">Cristiano dos Santos Paes — Direção Técnica</div>
-            </div>
-            <div>
-              <div class="border-t border-slate-400 pt-2 font-bold text-slate-700" id="print-ass-cliente-nome">CONTRATANTE</div>
-              <div class="text-[11px] text-slate-500">De acordo com a proposta</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 4. CLIENTES -->
-      <section id="tab-clientes" class="tab-content hidden space-y-6">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Carteira de Clientes</h2>
-            <p class="text-xs text-slate-500">Cadastro de contratantes e endereços de obra.</p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button onclick="importarContatoCelular()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2.5 rounded-lg text-xs font-bold shadow">
-              <i class="fa-solid fa-address-card mr-1.5"></i> Agenda do Celular
-            </button>
-            <button onclick="abrirModalCliente()" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">
-              + Novo Cliente
-            </button>
-          </div>
-        </div>
-
-        <div class="executive-card rounded-lg overflow-hidden">
-          <table class="w-full text-left text-sm text-slate-600">
-            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
-              <tr>
-                <th class="p-3">Cliente</th>
-                <th class="p-3">Telefone</th>
-                <th class="p-3">Endereço / Obra</th>
-                <th class="p-3 text-right">Ações</th>
-              </tr>
-            </thead>
-            <tbody id="lista-clientes" class="divide-y"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- 5. EQUIPE & DIÁRIAS -->
-      <section id="tab-equipe" class="tab-content hidden space-y-6">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Equipe de Campo &amp; Diárias</h2>
-            <p class="text-xs text-slate-500">Controle de profissionais, lançamento de diárias e emissão de recibos.</p>
-          </div>
-          <button onclick="abrirModalColaborador()" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">
-            + Novo Colaborador
-          </button>
-        </div>
-
-        <div class="executive-card rounded-lg overflow-hidden">
-          <table class="w-full text-left text-sm text-slate-600">
-            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
-              <tr>
-                <th class="p-3">Nome</th>
-                <th class="p-3">Função</th>
-                <th class="p-3 text-right">Diária</th>
-                <th class="p-3 text-center">Dias</th>
-                <th class="p-3 text-right">Ações</th>
-              </tr>
-            </thead>
-            <tbody id="lista-colaboradores" class="divide-y"></tbody>
-          </table>
-        </div>
-
-        <!-- RECIBO DE PAGAMENTO DE EQUIPE -->
-        <div id="area-recibo-pagamento" class="hidden executive-card watermark-bg p-8 rounded-lg space-y-6 print-shadow-none bg-white">
-          <div class="no-print flex justify-between items-center bg-wood-100 p-3 rounded">
-            <button onclick="fecharReciboPagamento()" class="text-xs font-bold text-slate-700">← Fechar Recibo</button>
-            <button onclick="window.print()" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded shadow"><i class="fa-solid fa-print mr-1.5"></i> Imprimir Recibo</button>
-          </div>
-
-          <div class="border-b-2 border-wood-900 pb-4 flex justify-between items-center">
-            <div>
-              <h3 id="rec-empresa-titulo" class="font-serif-artisan text-xl font-bold text-wood-950">CP CONSTRUÇÕES E REFORMAS</h3>
-              <p id="recibo-cnpj" class="text-xs text-slate-600">CNPJ: ---</p>
-            </div>
-            <span class="px-3 py-1 bg-wood-900 text-amber-200 text-xs font-bold uppercase rounded">Recibo de Diárias</span>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs border border-wood-300 p-4 rounded bg-wood-50/40">
-            <p><strong>COLABORADOR:</strong> <span id="rec-colab-nome">---</span></p>
-            <p><strong>FUNÇÃO:</strong> <span id="rec-colab-funcao">---</span></p>
-            <p><strong>VALOR DA DIÁRIA:</strong> R$ <span id="rec-colab-diaria">0.00</span></p>
-            <p><strong>DIAS LANÇADOS:</strong> <span id="rec-colab-dias">0</span></p>
-          </div>
-
-          <div class="text-right">
-            <span class="text-xs uppercase font-bold text-slate-500 block">Total Acumulado</span>
-            <span class="text-2xl font-bold font-serif-artisan text-wood-950">R$ <span id="rec-colab-total">0.00</span></span>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-10 text-center text-xs">
-            <div>
-              <div class="border-t border-slate-400 pt-2 font-bold text-slate-700">CP CONSTRUÇÕES E REFORMAS</div>
-              <div class="text-[11px] text-slate-500">Responsável Técnico</div>
-            </div>
-            <div>
-              <div class="border-t border-slate-400 pt-2 font-bold text-slate-700" id="rec-assinatura-colab">COLABORADOR</div>
-              <div class="text-[11px] text-slate-500">Assinatura do Recebedor</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 6. CAIXA / FINANCEIRO -->
-      <section id="tab-financeiro" class="tab-content hidden space-y-6">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Controle de Caixa &amp; Lançamentos</h2>
-            <p class="text-xs text-slate-500">Entradas de contratos e saídas de diárias ou despesas da obra.</p>
-          </div>
-          <button onclick="abrirModalFinanceiro()" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">
-            + Novo Lançamento
-          </button>
-        </div>
-
-        <div class="executive-card rounded-lg overflow-hidden">
-          <table class="w-full text-left text-sm text-slate-600">
-            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
-              <tr>
-                <th class="p-3">Data</th>
-                <th class="p-3">Tipo</th>
-                <th class="p-3">Descrição</th>
-                <th class="p-3 text-right">Valor</th>
-              </tr>
-            </thead>
-            <tbody id="lista-financeiro" class="divide-y"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- 7. EMPRESA & SINCRONIZAÇÃO EM NUVEM -->
-      <section id="tab-config" class="tab-content hidden space-y-6">
-        <div>
-          <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Dados da Empresa &amp; Sincronização em Nuvem</h2>
-          <p class="text-xs text-slate-500">Configure os dados da proposta comercial e gerencie o backup da nuvem.</p>
-        </div>
-
-        <div class="executive-card p-6 rounded-lg space-y-4">
-          <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase">Identificação Institucional</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Nome da Empresa</label>
-              <input type="text" id="cfg-nome" class="w-full border border-slate-300 p-2 rounded-lg" placeholder="CP CONSTRUÇÕES E REFORMAS">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">CNPJ / MEI</label>
-              <input type="text" id="cfg-cnpj" class="w-full border border-slate-300 p-2 rounded-lg" placeholder="00.000.000/0001-00">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Telefone / WhatsApp</label>
-              <input type="text" id="cfg-tel" class="w-full border border-slate-300 p-2 rounded-lg" placeholder="(13) 99999-9999">
-            </div>
-          </div>
-          <div class="flex justify-end">
-            <button onclick="salvarConfiguracoes()" class="wood-texture-header text-amber-100 px-5 py-2.5 rounded-lg text-xs font-bold shadow">
-              Salvar Dados da Empresa
-            </button>
-          </div>
-        </div>
-
-        <div class="executive-card p-6 rounded-lg space-y-4">
-          <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase">Sincronização em Nuvem (Automática Ativa)</h3>
-          <p class="text-xs text-slate-600">Conexão direta integrada com o projeto <strong>cp-construcoes-481db</strong>. Utilize os botões abaixo se desejar exportar ou restaurar uma cópia de segurança em arquivo JSON.</p>
-          <div class="flex flex-wrap justify-between items-center gap-2">
-            <div class="flex flex-wrap gap-2">
-              <button onclick="exportarBackupManual()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold">
-                <i class="fa-solid fa-download mr-1.5"></i> Exportar Backup JSON
-              </button>
-              <label class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2 rounded-lg text-xs font-bold cursor-pointer">
-                <i class="fa-solid fa-upload mr-1.5"></i> Importar Backup JSON
-                <input type="file" accept=".json" onchange="importarBackupManual(event)" class="hidden">
-              </label>
-            </div>
-            <button onclick="forcarSincronizacaoManual()" class="bg-emerald-800 hover:bg-emerald-900 text-white px-5 py-2.5 rounded-lg text-xs font-bold shadow">
-              <i class="fa-solid fa-rotate mr-1.5"></i> Sincronizar Agora
-            </button>
-          </div>
-        </div>
-      </section>
-
-    </main>
-  </div>
-
-  <!-- MODAIS -->
-  <div id="modal-cliente" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-      <div class="flex justify-between items-center border-b pb-2">
-        <h3 class="font-serif-artisan font-bold text-wood-950">Cadastrar Cliente</h3>
-        <button onclick="document.getElementById('modal-cliente').classList.add('hidden'); document.getElementById('modal-cliente').classList.remove('flex');" class="text-slate-400"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="space-y-3 text-xs">
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Nome Completo *</label>
-          <input type="text" id="cli-nome" class="w-full border border-slate-300 p-2 rounded-lg">
-        </div>
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Telefone / WhatsApp</label>
-          <input type="text" id="cli-tel" class="w-full border border-slate-300 p-2 rounded-lg">
-        </div>
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Endereço da Obra</label>
-          <input type="text" id="cli-end" class="w-full border border-slate-300 p-2 rounded-lg">
-        </div>
-      </div>
-      <div class="flex justify-end gap-2 pt-2">
-        <button onclick="document.getElementById('modal-cliente').classList.add('hidden'); document.getElementById('modal-cliente').classList.remove('flex');" class="px-4 py-2 border rounded text-xs">Cancelar</button>
-        <button onclick="salvarCliente()" class="wood-texture-header text-amber-100 px-4 py-2 rounded text-xs font-bold">Salvar Cliente</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="modal-colaborador" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-      <div class="flex justify-between items-center border-b pb-2">
-        <h3 class="font-serif-artisan font-bold text-wood-950">Cadastrar Colaborador</h3>
-        <button onclick="document.getElementById('modal-colaborador').classList.add('hidden');
-      
+                  <path d="M22 78 V36 L52 16 L80 35 V
