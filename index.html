@@ -4,17 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CP Construções e Reformas — Gestão Corporativa & Obras</title>
-
-  <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#341e16">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #f4f5f7; color: #1e293b; }
+    .font-serif-artisan { font-family: 'Cinzel', serif; }
+    .executive-card { background: #ffffff; border: 1px solid #e2e8f0; border-top: 3px solid #774832; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04); }
+    .wood-texture-header { background: linear-gradient(135deg, #2b1810 0%, #4a2c18 55%, #613c2c 100%); border-bottom: 3px solid #b47b44; }
+    @media print { .no-print { display: none !important; } body { background-color: #ffffff !important; } }
+  </style>
   <script>
     tailwind.config = {
       theme: {
@@ -28,398 +30,502 @@
           }
         }
       }
-    }
+    };
   </script>
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; background-color: #f4f5f7; color: #1e293b; }
-    .font-serif-artisan { font-family: 'Cinzel', serif; }
-
-    .executive-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-top: 3px solid #774832;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-    }
-
-    .wood-texture-header {
-      background: linear-gradient(135deg, #2b1810 0%, #4a2c18 55%, #613c2c 100%);
-      border-bottom: 3px solid #b47b44;
-    }
-
-    .watermark-bg { position: relative; }
-    .watermark-bg::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23774832' stroke-width='2' opacity='0.04'%3E%3Cpath d='M22 78 V36 L52 16 L80 35 V55 H54 V36'/%3E%3Cpath d='M52 52 H32 V78 H54'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 280px;
-      pointer-events: none;
-    }
-
-    @media print {
-      .no-print { display: none !important; }
-      body { background-color: #ffffff !important; color: #000000 !important; }
-      .print-shadow-none { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
-      .watermark-bg::before { opacity: 0.06 !important; }
-    }
-  </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
-
-  <div class="flex flex-col min-h-screen">
-    <!-- CABEÇALHO CORPORATIVO -->
-    <header class="wood-texture-header text-white shadow-lg no-print sticky top-0 z-40">
-      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-        <div class="flex flex-wrap items-center justify-between gap-2 py-2.5 min-h-[5rem]">
-          <div class="flex items-center space-x-2.5 cursor-pointer min-w-0" onclick="switchTab('dashboard')">
-            <div class="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-lg bg-wood-950/60 border border-amber-400/60 flex items-center justify-center shadow-inner p-1.5">
-              <svg viewBox="0 0 100 100" class="w-8 h-8 text-amber-300 fill-none stroke-current" stroke-width="4.5">
-                <path d="M22 78 V36 L52 16 L80 35 V55 H54 V36" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M52 52 H32 V78 H54" stroke-linecap="round" stroke-linejoin="round"/>
-                <line x1="22" y1="26" x2="52" y2="6" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="min-w-0">
-              <h1 id="top-company-name" class="font-serif-artisan text-sm sm:text-base lg:text-lg font-bold tracking-wide text-amber-100 truncate">CP CONSTRUÇÕES E REFORMAS</h1>
-              <div class="flex flex-wrap items-center gap-1.5 mt-0.5">
-                <span id="cloud-status-badge" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-950/80 text-amber-300 border border-amber-500/30">
-                  <span id="cloud-dot" class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>
-                  <span id="cloud-status-text">Conectando Nuvem...</span>
-                </span>
-                <span id="top-company-cnpj" class="hidden lg:inline text-[10px] text-amber-200/80 tracking-wider uppercase">Itanhaém • SP</span>
-              </div>
+  <header class="wood-texture-header text-white shadow-lg no-print sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-center justify-between gap-2 py-2.5 min-h-[4.5rem]">
+        <div class="flex items-center space-x-2.5 cursor-pointer" onclick="switchTab('dashboard')">
+          <div class="w-10 h-10 rounded-lg bg-black/30 border border-amber-400/60 flex items-center justify-center">
+            <i class="fa-solid fa-compass-drafting text-amber-300 text-lg"></i>
+          </div>
+          <div>
+            <h1 id="top-company-name" class="font-serif-artisan text-sm sm:text-lg font-bold tracking-wide text-amber-100">CP CONSTRUÇÕES E REFORMAS</h1>
+            <div class="flex items-center space-x-2 mt-0.5">
+              <span id="cloud-status-badge" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-black/40 text-amber-300 border border-amber-500/30">
+                <span id="cloud-dot" class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>
+                <span id="cloud-status-text">Modo Local Ativo</span>
+              </span>
+              <span id="top-company-cnpj" class="hidden sm:inline text-[10px] text-amber-200/80 uppercase">Itanhaém • SP</span>
             </div>
           </div>
+        </div>
+        <nav class="flex flex-wrap items-center gap-1">
+          <button type="button" onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold bg-amber-500/20 text-amber-200">Painel</button>
+          <button type="button" onclick="switchTab('tabelas')" id="nav-tabelas" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold text-amber-100 hover:bg-white/10">Tabelas SP</button>
+          <button type="button" onclick="switchTab('orcamentos')" id="nav-orcamentos" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold text-amber-100 hover:bg-white/10">Orçamentos</button>
+          <button type="button" onclick="switchTab('clientes')" id="nav-clientes" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold text-amber-100 hover:bg-white/10">Clientes</button>
+          <button type="button" onclick="switchTab('equipe')" id="nav-equipe" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold text-amber-100 hover:bg-white/10">Equipe</button>
+          <button type="button" onclick="switchTab('financeiro')" id="nav-financeiro" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold text-amber-100 hover:bg-white/10">Caixa</button>
+          <button type="button" onclick="switchTab('config')" id="nav-config" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold text-amber-100 hover:bg-white/10">Empresa</button>
+        </nav>
+      </div>
+    </div>
+  </header>
 
-          <nav class="hidden md:flex flex-wrap items-center gap-1">
-            <button type="button" onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 bg-wood-800 text-amber-200 border-b-2 border-amber-400"><i class="fa-solid fa-building-shield"></i><span>Painel</span></button>
-            <button type="button" onclick="switchTab('tabelas')" id="nav-tabelas" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-layer-group"></i><span>Tabelas SP</span></button>
-            <button type="button" onclick="switchTab('orcamentos')" id="nav-orcamentos" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-file-signature"></i><span>Orçamentos</span></button>
-            <button type="button" onclick="switchTab('clientes')" id="nav-clientes" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-address-book"></i><span>Clientes</span></button>
-            <button type="button" onclick="switchTab('equipe')" id="nav-equipe" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-helmet-safety"></i><span>Equipe</span></button>
-            <button type="button" onclick="switchTab('financeiro')" id="nav-financeiro" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-vault"></i><span>Caixa</span></button>
-            <button type="button" onclick="switchTab('config')" id="nav-config" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-sliders"></i><span>Empresa</span></button>
-          </nav>
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <section id="tab-dashboard" class="tab-content space-y-6">
+      <div class="executive-card rounded-lg p-6 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+        <div>
+          <span class="px-2 py-0.5 text-[10px] font-bold uppercase bg-amber-900 text-amber-100 rounded">Gestão Executiva</span>
+          <h2 class="text-xl sm:text-2xl font-bold font-serif-artisan text-slate-900 mt-1">Controle de Obras &amp; Reformas</h2>
+          <p class="text-slate-600 text-xs sm:text-sm">Direção Técnica: <strong>Cristiano dos Santos Paes</strong> — Itanhaém / SP.</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button type="button" onclick="switchTab('tabelas')" class="bg-emerald-900 text-white px-4 py-2.5 rounded-lg text-xs font-semibold">Bases de Preços SP</button>
+          <button type="button" onclick="switchTab('orcamentos'); iniciarNovoOrcamento();" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-semibold">+ Novo Orçamento</button>
         </div>
       </div>
 
-      <!-- NAVEGAÇÃO MOBILE -->
-      <div class="md:hidden border-t border-wood-700/80 px-1 py-1.5 flex justify-around no-print text-[10px] text-amber-100 bg-wood-950/30">
-        <button type="button" onclick="switchTab('dashboard')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-building-shield text-sm"></i><span>Painel</span></button>
-        <button type="button" onclick="switchTab('tabelas')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-layer-group text-sm"></i><span>Tabelas</span></button>
-        <button type="button" onclick="switchTab('orcamentos')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-file-signature text-sm"></i><span>Propostas</span></button>
-        <button type="button" onclick="switchTab('clientes')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-address-book text-sm"></i><span>Clientes</span></button>
-        <button type="button" onclick="switchTab('equipe')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-helmet-safety text-sm"></i><span>Equipe</span></button>
-        <button type="button" onclick="switchTab('financeiro')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-vault text-sm"></i><span>Caixa</span></button>
-        <button type="button" onclick="switchTab('config')" class="p-1 flex flex-col items-center"><i class="fa-solid fa-sliders text-sm"></i><span>Empresa</span></button>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="executive-card p-5 rounded-lg">
+          <span class="text-[11px] font-bold text-slate-500 uppercase">Propostas / Obras</span>
+          <p id="dash-obras-ativas" class="text-2xl font-bold text-slate-900 mt-2">0</p>
+        </div>
+        <div class="executive-card p-5 rounded-lg">
+          <span class="text-[11px] font-bold text-slate-500 uppercase">Faturamento Bruto</span>
+          <p id="dash-recebimentos" class="text-2xl font-bold text-emerald-800 mt-2">R$ 0,00</p>
+        </div>
+        <div class="executive-card p-5 rounded-lg">
+          <span class="text-[11px] font-bold text-slate-500 uppercase">Custos &amp; Equipe</span>
+          <p id="dash-pagamentos" class="text-2xl font-bold text-rose-800 mt-2">R$ 0,00</p>
+        </div>
+        <div class="executive-card p-5 rounded-lg">
+          <span class="text-[11px] font-bold text-slate-500 uppercase">Saldo de Caixa</span>
+          <p id="dash-saldo" class="text-2xl font-bold text-slate-900 mt-2">R$ 0,00</p>
+        </div>
       </div>
-    </header>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-
-      <!-- 1. DASHBOARD EXECUTIVO -->
-      <section id="tab-dashboard" class="tab-content space-y-6">
-        <div class="executive-card rounded-lg p-6 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-gradient-to-r from-white via-wood-50/40 to-white">
-          <div class="space-y-1">
-            <div class="flex items-center space-x-2">
-              <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-wood-900 text-amber-200 rounded">Gestão Executiva</span>
-              <span class="text-xs text-slate-500 font-medium">Litoral Sul • Itanhaém / SP</span>
-            </div>
-            <h2 class="text-xl sm:text-2xl font-bold font-serif-artisan text-wood-950">Controle Corporativo de Obras &amp; Engenharia</h2>
-            <p class="text-slate-600 text-xs sm:text-sm">Direção Técnica: <strong>Cristiano dos Santos Paes</strong> — Operação integrada Escritório ⇄ Canteiro de Obras.</p>
-          </div>
-          <div class="flex flex-wrap gap-2 w-full lg:w-auto">
-            <button type="button" onclick="switchTab('tabelas')" class="flex-1 lg:flex-none bg-emerald-900 hover:bg-emerald-950 text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
-              <i class="fa-solid fa-layer-group mr-2 text-emerald-300"></i> Bases de Preços SP
-            </button>
-            <button type="button" onclick="switchTab('orcamentos'); iniciarNovoOrcamento();" class="flex-1 lg:flex-none wood-texture-header hover:opacity-95 text-amber-100 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
-              <i class="fa-solid fa-file-circle-plus mr-2 text-amber-300"></i> Emitir Proposta
-            </button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="executive-card p-5 rounded-lg">
-            <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Propostas / Obras</span>
-              <i class="fa-solid fa-folder-open text-wood-700 text-sm"></i>
-            </div>
-            <p id="dash-obras-ativas" class="text-2xl font-bold text-slate-900 mt-2">0</p>
-            <p class="text-[11px] text-slate-500 mt-1">Contratos registrados no sistema</p>
-          </div>
-
-          <div class="executive-card p-5 rounded-lg" style="border-top-color: #065f46;">
-            <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Faturamento Bruto</span>
-              <i class="fa-solid fa-arrow-trend-up text-emerald-700 text-sm"></i>
-            </div>
-            <p id="dash-recebimentos" class="text-2xl font-bold text-emerald-800 mt-2">R$ 0,00</p>
-            <p class="text-[11px] text-slate-500 mt-1">Receitas e medições lançadas</p>
-          </div>
-
-          <div class="executive-card p-5 rounded-lg" style="border-top-color: #9f1239;">
-            <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Custos &amp; Equipe</span>
-              <i class="fa-solid fa-helmet-safety text-rose-700 text-sm"></i>
-            </div>
-            <p id="dash-pagamentos" class="text-2xl font-bold text-rose-800 mt-2">R$ 0,00</p>
-            <p class="text-[11px] text-slate-500 mt-1">Diárias e despesas operacionais</p>
-          </div>
-
-          <div class="executive-card p-5 rounded-lg" style="border-top-color: #b45309;">
-            <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Saldo de Caixa</span>
-              <i class="fa-solid fa-scale-balanced text-amber-700 text-sm"></i>
-            </div>
-            <p id="dash-saldo" class="text-2xl font-bold text-wood-950 mt-2">R$ 0,00</p>
-            <p class="text-[11px] text-slate-500 mt-1">Resultado líquido consolidado</p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 executive-card rounded-lg p-5">
-            <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
-              <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Propostas &amp; Contratos Recentes</h3>
-              <button type="button" onclick="switchTab('orcamentos')" class="text-xs font-semibold text-wood-800 hover:underline">Ver todos →</button>
-            </div>
-            <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs text-slate-600">
-                <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
-                  <tr>
-                    <th class="p-2.5">Código</th>
-                    <th class="p-2.5">Cliente</th>
-                    <th class="p-2.5">Perfil / Modalidade</th>
-                    <th class="p-2.5 text-right">Valor Contrato</th>
-                    <th class="p-2.5 text-right">Documento</th>
-                  </tr>
-                </thead>
-                <tbody id="dash-lista-recentes" class="divide-y divide-slate-100"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="executive-card rounded-lg p-5 space-y-4">
-            <div class="border-b border-slate-200 pb-3">
-              <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Parâmetros de Referência SP</h3>
-            </div>
-            <div class="space-y-3 text-xs">
-              <div class="p-3 rounded bg-wood-50 border border-wood-200">
-                <span class="font-bold text-wood-900 block">Base A — Profissional Autônomo</span>
-                <span class="text-slate-600">Execução direta • Média R$ 520 a R$ 580/m² (Obra Nova)</span>
-              </div>
-              <div class="p-3 rounded bg-emerald-50 border border-emerald-200">
-                <span class="font-bold text-emerald-950 block">Base B — Construtor / Empresa</span>
-                <span class="text-slate-600">Empreitada corporativa com encargos &amp; BDI • Média R$ 740 a R$ 850/m²</span>
-              </div>
-              <div class="p-3 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
-                <div>
-                  <span class="font-bold text-slate-800 block">Clientes Cadastrados</span>
-                  <span class="text-slate-500">Carteira ativa sincronizada</span>
-                </div>
-                <span id="dash-total-clientes" class="text-lg font-bold text-wood-900">0</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 2. DUAS TABELAS INTEGRADAS: AUTÔNOMO VS. CONSTRUTOR / EMPRESA -->
-      <section id="tab-tabelas" class="tab-content hidden space-y-6">
-        <div id="banner-tabela-ativa" class="bg-emerald-950 text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <div class="flex items-center space-x-2 mb-1">
-              <span id="badge-perfil-tabela" class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-700 text-emerald-100">BASE A: AUTÔNOMO DIRETO</span>
-              <span class="text-xs text-emerald-300">Uso Interno Exclusivo da Empresa</span>
-            </div>
-            <h2 id="titulo-tabela-principal" class="text-xl sm:text-2xl font-bold tracking-tight">Tabela de Mão de Obra — Profissional Autônomo</h2>
-            <p id="subtitulo-tabela-principal" class="text-emerald-200 text-xs mt-1">Valores Praticados por Profissionais Diretos | Estado de São Paulo</p>
-          </div>
-          <div class="text-left md:text-right text-xs text-emerald-100 space-y-1 bg-black/25 p-3.5 rounded-lg border border-white/10">
-            <p id="info-lat-1"><strong>Perfil:</strong> Autônomo / Execução Direta</p>
-            <p><strong>Região:</strong> São Paulo (Litoral / Itanhaém)</p>
-            <p id="info-lat-2"><strong>Meta Diária Base:</strong> R$ 300,00 (Dupla)</p>
-          </div>
-        </div>
-
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
-          <div class="flex flex-col space-y-1">
-            <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">1. Selecione a Tabela de Referência:</span>
-            <div class="inline-flex flex-wrap rounded-lg bg-slate-100 p-1 gap-1">
-              <button type="button" onclick="mudarPerfilTabela('AUTONOMO')" id="btn-perfil-autonomo" class="px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition">
-                👷 Tabela Autônomo (Direto)
-              </button>
-              <button type="button" onclick="mudarPerfilTabela('CONSTRUTOR')" id="btn-perfil-construtor" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
-                🏢 Tabela Construtor (Empresa / BDI)
-              </button>
-            </div>
-          </div>
-
-          <div class="flex flex-col space-y-1">
-            <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">2. Selecione o Escopo da Obra:</span>
-            <div class="inline-flex flex-wrap rounded-lg bg-slate-100 p-1 gap-1">
-              <button type="button" onclick="mudarEscopoTabela('OBRA_NOVA')" id="btn-escopo-obranova" class="px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-100 shadow transition">
-                🏗️ Obra Nova (Desde o Início)
-              </button>
-              <button type="button" onclick="mudarEscopoTabela('REFORMA')" id="btn-escopo-reforma" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
-                🛠️ Reformas &amp; Encargos Específicos
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-            <span id="ind-1-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ESTIMATIVA MÉDIA / M²</span>
-            <p id="ind-1-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 520,00 - 580,00</p>
-          </div>
-          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-            <span id="ind-2-titulo" class="text-[11px] font-bold text-slate-500 uppercase">PEDREIRO / OFICIAL (DIA)</span>
-            <p id="ind-2-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 200,00 - 250,00</p>
-          </div>
-          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-            <span id="ind-3-titulo" class="text-[11px] font-bold text-slate-500 uppercase">AJUDANTE / SERVENTE (DIA)</span>
-            <p id="ind-3-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 100,00 - 130,00</p>
-          </div>
-          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-            <span id="ind-4-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ENQUADRAMENTO</span>
-            <p id="ind-4-valor" class="text-lg font-bold text-slate-900 mt-1">Mão de Obra Direta</p>
-          </div>
-        </div>
-
-        <div id="container-etapas-detalhadas" class="space-y-6"></div>
-      </section>
-
-      <!-- 3. MONTADOR DE ORÇAMENTOS & PROPOSTA LIMPA EM PDF -->
-      <section id="tab-orcamentos" class="tab-content hidden space-y-6">
-        <div class="flex justify-between items-center no-print">
-          <div>
-            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Orçamentos &amp; Propostas Comerciais</h2>
-            <p class="text-xs text-slate-500">Selecione a tabela interna desejada. O PDF do cliente exibe apenas o escopo e valores finais.</p>
-          </div>
-          <button type="button" onclick="iniciarNovoOrcamento()" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">+ Novo Orçamento</button>
-        </div>
-
-        <div id="container-form-orcamento" class="executive-card p-6 rounded-lg hidden space-y-5 no-print">
-          <div class="flex justify-between items-center border-b border-slate-200 pb-3">
-            <h3 class="text-base font-bold font-serif-artisan text-wood-950">Composição Interna de Preços (Uso Exclusivo da Empresa)</h3>
-            <button type="button" onclick="fecharFormOrcamento()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Cliente *</label>
-              <select id="orc-cliente" class="w-full border border-slate-300 p-2 rounded-lg bg-white"></select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Base de Preço Interna *</label>
-              <select id="orc-perfil-base" onchange="aoMudarConfiguracaoOrcamento()" class="w-full border-2 border-wood-700 bg-wood-50 font-bold text-wood-950 p-2 rounded-lg">
-                <option value="AUTONOMO">👷 Base Autônomo (Direto)</option>
-                <option value="CONSTRUTOR">🏢 Base Construtor (Empresa/BDI)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Tipo de Obra *</label>
-              <select id="orc-modalidade" onchange="aoMudarConfiguracaoOrcamento()" class="w-full border-2 border-emerald-700 bg-emerald-50 font-bold text-emerald-950 p-2 rounded-lg">
-                <option value="OBRA_NOVA">🏗️ Obra Nova</option>
-                <option value="REFORMA">🛠️ Reforma / Reestruturação</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Ajuste / Encargo Adicional (%)</label>
-              <select id="orc-adicional-reforma" onchange="renderizarItensOrcamento()" class="w-full border border-slate-300 p-2 rounded-lg bg-white">
-                <option value="0">0% (Valor exato da tabela)</option>
-                <option value="10">+10% (Logística / Acesso)</option>
-                <option value="15">+15% (Imóvel habitado / Proteção)</option>
-                <option value="20">+20% (Demolição pesada / BDI extra)</option>
-                <option value="25">+25% (Urgência / Alta complexidade)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 grid grid-cols-1 md:grid-cols-12 gap-3 items-end text-xs">
-            <div class="md:col-span-3">
-              <label class="block font-semibold text-slate-700 mb-1">Etapa da Obra</label>
-              <select id="sel-etapa-orc" onchange="carregarServicosPorEtapa()" class="w-full border border-slate-300 rounded p-2 bg-white"></select>
-            </div>
-            <div class="md:col-span-4">
-              <label class="block font-semibold text-slate-700 mb-1">Serviço da Tabela Selecionada</label>
-              <select id="sel-servico-orc" onchange="preencherValorUnitarioServico()" class="w-full border border-slate-300 rounded p-2 bg-white"></select>
-            </div>
-            <div class="md:col-span-2">
-              <label class="block font-semibold text-slate-700 mb-1">Qtd. (<span id="lbl-unid-orc">m²</span>)</label>
-              <input type="number" step="0.01" id="inp-qtd-orc" value="1" class="w-full border border-slate-300 rounded p-2 bg-white">
-            </div>
-            <div class="md:col-span-2">
-              <label class="block font-semibold text-slate-700 mb-1">Unitário (R$)</label>
-              <input type="number" step="0.01" id="inp-val-orc" class="w-full border border-slate-300 rounded p-2 font-bold bg-white">
-            </div>
-            <div class="md:col-span-1">
-              <button type="button" onclick="adicionarItemOrcamento()" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white py-2 rounded font-bold"><i class="fa-solid fa-plus"></i></button>
-            </div>
-          </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs border border-slate-200">
-              <thead class="bg-wood-100 text-wood-950 uppercase font-bold">
-                <tr>
-                  <th class="p-2">Cód.</th>
-                  <th class="p-2">Serviço</th>
-                  <th class="p-2 text-center">Unid.</th>
-                  <th class="p-2 text-right">Qtd.</th>
-                  <th class="p-2 text-right">Unit. (R$)</th>
-                  <th class="p-2 text-right">Subtotal</th>
-                  <th class="p-2 text-center">Remover</th>
-                </tr>
-              </thead>
-              <tbody id="tbody-itens-orcamento" class="divide-y"></tbody>
-              <tfoot class="bg-amber-50/70 font-bold text-wood-950 border-t-2 border-wood-300">
-                <tr>
-                  <td colspan="5" class="p-2.5 text-right">Subtotal Base dos Serviços:</td>
-                  <td id="lbl-subtotal-base" class="p-2.5 text-right">R$ 0,00</td>
-                  <td></td>
-                </tr>
-                <tr id="row-encargo-reforma" class="hidden text-emerald-900">
-                  <td colspan="5" class="p-2.5 text-right">Ajuste / Encargo Adicional:</td>
-                  <td id="lbl-valor-encargo" class="p-2.5 text-right">R$ 0,00</td>
-                  <td></td>
-                </tr>
-                <tr class="text-sm">
-                  <td colspan="5" class="p-3 text-right uppercase font-serif-artisan">Valor Total da Proposta ao Cliente:</td>
-                  <td id="lbl-total-final-orc" class="p-3 text-right text-base">R$ 0,00</td>
-                  <td></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-
-          <div class="flex justify-end space-x-2 pt-2">
-            <button type="button" onclick="fecharFormOrcamento()" class="px-4 py-2 border rounded text-xs text-slate-600">Cancelar</button>
-            <button type="button" onclick="salvarOrcamentoCompleto()" class="wood-texture-header text-amber-100 px-6 py-2.5 rounded text-xs font-bold shadow">Salvar &amp; Gerar Proposta Limpa</button>
-          </div>
-        </div>
-
-        <div class="executive-card rounded-lg overflow-hidden no-print">
-          <table class="w-full text-left text-sm text-slate-600">
-            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
-              <tr><th class="p-3">Código</th><th class="p-3">Cliente</th><th class="p-3">Modalidade</th><th class="p-3">Data</th><th class="p-3 text-right">Total</th><th class="p-3 text-right">Ações</th></tr>
+      <div class="executive-card rounded-lg p-5">
+        <h3 class="text-sm font-bold font-serif-artisan uppercase mb-3">Propostas Recentes</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-600">
+            <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
+              <tr><th class="p-2.5">Código</th><th class="p-2.5">Cliente</th><th class="p-2.5">Modalidade</th><th class="p-2.5 text-right">Valor</th><th class="p-2.5 text-right">Ação</th></tr>
             </thead>
-            <tbody id="lista-orcamentos-salvos" class="divide-y"></tbody>
+            <tbody id="dash-lista-recentes" class="divide-y"></tbody>
           </table>
         </div>
+      </div>
+    </section>
 
-        <div id="area-impressao-contrato" class="hidden executive-card watermark-bg p-8 rounded-lg space-y-6 print-shadow-none bg-white">
-          <div class="no-print flex justify-between items-center bg-wood-100 p-3 rounded mb-4">
-            <button type="button" onclick="fecharVisualizacaoContrato()" class="text-xs font-bold text-slate-700">← Voltar à Lista</button>
-            <button type="button" onclick="window.print()" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded shadow"><i class="fa-solid fa-print mr-1.5"></i> Imprimir / Salvar Proposta PDF</button>
+    <section id="tab-tabelas" class="tab-content hidden space-y-6">
+      <div class="bg-emerald-950 text-white rounded-xl p-6 flex flex-wrap justify-between items-center gap-4">
+        <div>
+          <h2 id="titulo-tabela-principal" class="text-xl font-bold">Tabela de Mão de Obra — Profissional Autônomo</h2>
+          <p class="text-emerald-200 text-xs mt-1">Referência Estado de São Paulo (Litoral / Itanhaém)</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button type="button" onclick="mudarPerfilTabela('AUTONOMO')" class="px-3 py-2 rounded text-xs font-bold bg-emerald-700 text-white">Autônomo</button>
+          <button type="button" onclick="mudarPerfilTabela('CONSTRUTOR')" class="px-3 py-2 rounded text-xs font-bold bg-amber-700 text-white">Construtor</button>
+          <button type="button" onclick="mudarEscopoTabela('OBRA_NOVA')" class="px-3 py-2 rounded text-xs font-bold bg-slate-800 text-white">Obra Nova</button>
+          <button type="button" onclick="mudarEscopoTabela('REFORMA')" class="px-3 py-2 rounded text-xs font-bold bg-slate-700 text-white">Reforma</button>
+        </div>
+      </div>
+      <div id="container-etapas-detalhadas" class="space-y-4"></div>
+    </section>
+
+    <section id="tab-orcamentos" class="tab-content hidden space-y-6">
+      <div class="flex justify-between items-center no-print">
+        <h2 class="text-xl font-bold font-serif-artisan">Orçamentos &amp; Propostas</h2>
+        <button type="button" onclick="iniciarNovoOrcamento()" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs font-bold">+ Novo Orçamento</button>
+      </div>
+
+      <div id="container-form-orcamento" class="executive-card p-6 rounded-lg hidden space-y-4 no-print">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div>
+            <label class="block font-bold mb-1">Cliente</label>
+            <select id="orc-cliente" class="w-full border p-2 rounded bg-white"></select>
           </div>
+          <div>
+            <label class="block font-bold mb-1">Perfil</label>
+            <select id="orc-perfil-base" onchange="carregarServicosOrcamento()" class="w-full border p-2 rounded bg-white">
+              <option value="AUTONOMO">Autônomo</option>
+              <option value="CONSTRUTOR">Construtor</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold mb-1">Modalidade</label>
+            <select id="orc-modalidade" onchange="carregarServicosOrcamento()" class="w-full border p-2 rounded bg-white">
+              <option value="OBRA_NOVA">Obra Nova</option>
+              <option value="REFORMA">Reforma</option>
+            </select>
+          </div>
+        </div>
 
-          <div class="border-b-2 border-wood-900 pb-5 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center space-x-4">
-              <div class="w-14 h-14 rounded-lg bg-wood-950 flex items-center justify-center p-2 border border-amber-500">
-                <svg viewBox="0 0 100 100" class="w-10 h-10 text-amber-300 fill-none stroke-current" stroke-width="4.5">
-                  <path d="M22 78 V36 L52 16 L80 35 V
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end text-xs bg-slate-50 p-3 rounded border">
+          <div class="md:col-span-6">
+            <label class="block font-bold mb-1">Serviço</label>
+            <select id="sel-servico-orc" onchange="preencherValorOrcamento()" class="w-full border p-2 rounded bg-white"></select>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block font-bold mb-1">Qtd.</label>
+            <input type="number" step="0.01" id="inp-qtd-orc" value="1" class="w-full border p-2 rounded bg-white">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block font-bold mb-1">Unitário (R$)</label>
+            <input type="number" step="0.01" id="inp-val-orc" class="w-full border p-2 rounded bg-white">
+          </div>
+          <div class="md:col-span-2">
+            <button type="button" onclick="adicionarItemOrcamento()" class="w-full bg-emerald-800 text-white py-2 rounded font-bold">Adicionar</button>
+          </div>
+        </div>
+
+        <table class="w-full text-left text-xs border">
+          <thead class="bg-slate-100 font-bold">
+            <tr><th class="p-2">Serviço</th><th class="p-2 text-right">Qtd.</th><th class="p-2 text-right">Unit.</th><th class="p-2 text-right">Subtotal</th><th class="p-2 text-center">Ação</th></tr>
+          </thead>
+          <tbody id="tbody-itens-orcamento" class="divide-y"></tbody>
+        </table>
+
+        <div class="flex justify-between items-center pt-2">
+          <strong class="text-sm">Total: <span id="lbl-total-final-orc">R$ 0,00</span></strong>
+          <div class="space-x-2">
+            <button type="button" onclick="fecharFormOrcamento()" class="px-4 py-2 border rounded text-xs">Cancelar</button>
+            <button type="button" onclick="salvarOrcamentoCompleto()" class="wood-texture-header text-amber-100 px-5 py-2 rounded text-xs font-bold">Salvar Proposta</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="executive-card rounded-lg overflow-hidden no-print">
+        <table class="w-full text-left text-sm text-slate-600">
+          <thead class="bg-slate-100 text-slate-700 uppercase text-xs font-bold">
+            <tr><th class="p-3">Código</th><th class="p-3">Cliente</th><th class="p-3">Modalidade</th><th class="p-3">Data</th><th class="p-3 text-right">Total</th><th class="p-3 text-right">Ações</th></tr>
+          </thead>
+          <tbody id="lista-orcamentos-salvos" class="divide-y"></tbody>
+        </table>
+      </div>
+
+      <div id="area-impressao-contrato" class="hidden executive-card p-8 rounded-lg space-y-4 bg-white">
+        <div class="no-print flex justify-between items-center bg-slate-100 p-3 rounded">
+          <button type="button" onclick="fecharVisualizacaoContrato()" class="text-xs font-bold">← Fechar</button>
+          <button type="button" onclick="window.print()" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded">Imprimir / PDF</button>
+        </div>
+        <h3 id="print-header-empresa" class="font-serif-artisan text-xl font-bold">CP CONSTRUÇÕES E REFORMAS</h3>
+        <p class="text-xs"><strong>Nº:</strong> <span id="print-orc-id"></span> | <strong>Cliente:</strong> <span id="print-cliente-nome"></span> | <strong>Data:</strong> <span id="print-orc-data"></span></p>
+        <p class="text-xs"><strong>Endereço:</strong> <span id="print-cliente-end"></span> | <strong>Telefone:</strong> <span id="print-cliente-tel"></span></p>
+        <div id="print-itens-lista" class="border-t pt-3 text-xs space-y-1"></div>
+        <p class="text-right font-bold text-lg pt-3 border-t">Total: <span id="print-valor-total">R$ 0,00</span></p>
+      </div>
+    </section>
+
+    <section id="tab-clientes" class="tab-content hidden space-y-6">
+      <div class="flex justify-between items-center">
+        <h2 class="text-xl font-bold font-serif-artisan">Clientes</h2>
+        <button type="button" onclick="abrirModal('modal-cliente')" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs font-bold">+ Novo Cliente</button>
+      </div>
+      <div class="executive-card rounded-lg overflow-hidden">
+        <table class="w-full text-left text-sm text-slate-600">
+          <thead class="bg-slate-100 text-slate-700 uppercase text-xs font-bold">
+            <tr><th class="p-3">Nome</th><th class="p-3">Telefone</th><th class="p-3">Endereço</th><th class="p-3 text-right">Ações</th></tr>
+          </thead>
+          <tbody id="lista-clientes" class="divide-y"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab-equipe" class="tab-content hidden space-y-6">
+      <div class="flex justify-between items-center">
+        <h2 class="text-xl font-bold font-serif-artisan">Equipe &amp; Diárias</h2>
+        <button type="button" onclick="abrirModal('modal-colaborador')" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs font-bold">+ Novo Colaborador</button>
+      </div>
+      <div class="executive-card rounded-lg overflow-hidden">
+        <table class="w-full text-left text-sm text-slate-600">
+          <thead class="bg-slate-100 text-slate-700 uppercase text-xs font-bold">
+            <tr><th class="p-3">Nome</th><th class="p-3">Função</th><th class="p-3 text-right">Diária</th><th class="p-3 text-center">Dias</th><th class="p-3 text-right">Ações</th></tr>
+          </thead>
+          <tbody id="lista-colaboradores" class="divide-y"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab-financeiro" class="tab-content hidden space-y-6">
+      <div class="flex justify-between items-center">
+        <h2 class="text-xl font-bold font-serif-artisan">Caixa</h2>
+        <button type="button" onclick="abrirModal('modal-financeiro')" class="wood-texture-header text-amber-100 px-4 py-2 rounded-lg text-xs font-bold">+ Novo Lançamento</button>
+      </div>
+      <div class="executive-card rounded-lg overflow-hidden">
+        <table class="w-full text-left text-sm text-slate-600">
+          <thead class="bg-slate-100 text-slate-700 uppercase text-xs font-bold">
+            <tr><th class="p-3">Data</th><th class="p-3">Tipo</th><th class="p-3">Descrição</th><th class="p-3 text-right">Valor</th></tr>
+          </thead>
+          <tbody id="lista-financeiro" class="divide-y"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab-config" class="tab-content hidden space-y-6">
+      <div class="executive-card p-6 rounded-lg space-y-4">
+        <h2 class="text-lg font-bold font-serif-artisan">Dados da Empresa &amp; Backup</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div><label class="block font-bold mb-1">Nome</label><input type="text" id="cfg-nome" class="w-full border p-2 rounded"></div>
+          <div><label class="block font-bold mb-1">CNPJ</label><input type="text" id="cfg-cnpj" class="w-full border p-2 rounded"></div>
+          <div><label class="block font-bold mb-1">Telefone</label><input type="text" id="cfg-tel" class="w-full border p-2 rounded"></div>
+        </div>
+        <div class="flex flex-wrap justify-between items-center gap-2 pt-2">
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="salvarConfiguracoes()" class="wood-texture-header text-amber-100 px-4 py-2 rounded text-xs font-bold">Salvar Dados</button>
+            <button type="button" onclick="exportarBackupManual()" class="bg-slate-800 text-white px-4 py-2 rounded text-xs font-bold">Exportar Backup JSON</button>
+            <label class="bg-slate-200 text-slate-800 px-4 py-2 rounded text-xs font-bold cursor-pointer">
+              Importar Backup JSON <input type="file" accept=".json" onchange="importarBackupManual(event)" class="hidden">
+            </label>
+          </div>
+          <button type="button" onclick="forcarSincronizacaoManual()" class="bg-emerald-800 text-white px-4 py-2 rounded text-xs font-bold">Sincronizar Agora</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal-cliente" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-xl max-w-md w-full p-6 space-y-3 text-xs">
+      <h3 class="font-serif-artisan font-bold text-sm">Novo Cliente</h3>
+      <input type="text" id="cli-nome" placeholder="Nome *" class="w-full border p-2 rounded">
+      <input type="text" id="cli-tel" placeholder="Telefone" class="w-full border p-2 rounded">
+      <input type="text" id="cli-end" placeholder="Endereço da obra" class="w-full border p-2 rounded">
+      <div class="flex justify-end gap-2 pt-2">
+        <button type="button" onclick="fecharModal('modal-cliente')" class="px-3 py-2 border rounded">Cancelar</button>
+        <button type="button" onclick="salvarCliente()" class="wood-texture-header text-amber-100 px-4 py-2 rounded font-bold">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-colaborador" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-xl max-w-md w-full p-6 space-y-3 text-xs">
+      <h3 class="font-serif-artisan font-bold text-sm">Novo Colaborador</h3>
+      <input type="text" id="colab-nome" placeholder="Nome *" class="w-full border p-2 rounded">
+      <input type="text" id="colab-funcao" placeholder="Função (ex.: Pedreiro)" class="w-full border p-2 rounded">
+      <input type="number" step="0.01" id="colab-diaria" placeholder="Valor da diária *" class="w-full border p-2 rounded">
+      <div class="flex justify-end gap-2 pt-2">
+        <button type="button" onclick="fecharModal('modal-colaborador')" class="px-3 py-2 border rounded">Cancelar</button>
+        <button type="button" onclick="salvarColaborador()" class="wood-texture-header text-amber-100 px-4 py-2 rounded font-bold">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-financeiro" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-xl max-w-md w-full p-6 space-y-3 text-xs">
+      <h3 class="font-serif-artisan font-bold text-sm">Lançamento de Caixa</h3>
+      <select id="fin-tipo" class="w-full border p-2 rounded bg-white"><option value="ENTRADA">ENTRADA (+)</option><option value="SAIDA">SAÍDA (-)</option></select>
+      <input type="text" id="fin-desc" placeholder="Descrição *" class="w-full border p-2 rounded">
+      <input type="number" step="0.01" id="fin-valor" placeholder="Valor *" class="w-full border p-2 rounded">
+      <div class="flex justify-end gap-2 pt-2">
+        <button type="button" onclick="fecharModal('modal-financeiro')" class="px-3 py-2 border rounded">Cancelar</button>
+        <button type="button" onclick="salvarLancamentoFinanceiro()" class="wood-texture-header text-amber-100 px-4 py-2 rounded font-bold">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const FIREBASE_CLOUD_CONFIG = {
+      apiKey: "AIzaSyACDtzYKklKNSRpLqX-wMeAf3nIdkHuvGs",
+      authDomain: "cp-construcoes-481db.firebaseapp.com",
+      projectId: "cp-construcoes-481db",
+      storageBucket: "cp-construcoes-481db.firebasestorage.app",
+      messagingSenderId: "610096987498",
+      appId: "1:610096987498:web:68dd2c452ad25c67e0f913",
+      measurementId: "G-926XRZWEM2"
+    };
+
+    const TABELAS_BASE = {
+      AUTONOMO: {
+        OBRA_NOVA: [
+          { desc: 'Fundação e baldrame (m² construído)', unid: 'm²', preco: 85.00 },
+          { desc: 'Alvenaria e estrutura (m² construído)', unid: 'm²', preco: 135.00 },
+          { desc: 'Cobertura e telhado (m² telhado)', unid: 'm²', preco: 68.00 },
+          { desc: 'Revestimentos brutos e contrapiso (m²)', unid: 'm²', preco: 62.00 },
+          { desc: 'Instalações elétricas e hidráulicas (m²)', unid: 'm²', preco: 68.00 },
+          { desc: 'Pisos, revestimentos e esquadrias (m²)', unid: 'm²', preco: 85.00 },
+          { desc: 'Pintura e entrega (m²)', unid: 'm²', preco: 36.00 }
+        ],
+        REFORMA: [
+          { desc: 'Demolição controlada e retirada de entulho', unid: 'm²', preco: 45.00 },
+          { desc: 'Abertura de vão e recomposição de reboco', unid: 'm²', preco: 68.00 },
+          { desc: 'Assentamento de porcelanato piso sobre piso', unid: 'm²', preco: 62.00 },
+          { desc: 'Adequação elétrica / hidráulica e repintura', unid: 'm²', preco: 42.00 }
+        ]
+      },
+      CONSTRUTOR: {
+        OBRA_NOVA: [
+          { desc: 'Fundação e baldrame com gestão e encargos', unid: 'm²', preco: 115.00 },
+          { desc: 'Alvenaria e estrutura corporativa', unid: 'm²', preco: 185.00 },
+          { desc: 'Cobertura e telhado completo', unid: 'm²', preco: 92.00 },
+          { desc: 'Revestimentos brutos e contrapiso', unid: 'm²', preco: 85.00 },
+          { desc: 'Instalações elétricas e hidráulicas', unid: 'm²', preco: 95.00 },
+          { desc: 'Pisos, revestimentos e esquadrias', unid: 'm²', preco: 120.00 },
+          { desc: 'Pintura e entrega técnica', unid: 'm²', preco: 52.00 }
+        ],
+        REFORMA: [
+          { desc: 'Demolição controlada e gestão de resíduos', unid: 'm²', preco: 64.00 },
+          { desc: 'Reestruturação e abertura de vãos', unid: 'm²', preco: 95.00 },
+          { desc: 'Porcelanato piso sobre piso com argamassa especial', unid: 'm²', preco: 88.00 },
+          { desc: 'Modernização predial e repintura geral', unid: 'm²', preco: 58.00 }
+        ]
+      }
+    };
+
+    let appData = {
+      config: { nome: 'CP CONSTRUÇÕES E REFORMAS', cnpj: '', tel: '' },
+      clientes: [], colaboradores: [], orcamentos: [], financeiro: []
+    };
+    let perfilAtual = 'AUTONOMO';
+    let escopoAtual = 'OBRA_NOVA';
+    let itensTemp = [];
+    let dbFirestore = null;
+
+    function abrirModal(id) { const el = document.getElementById(id); if (el) { el.classList.remove('hidden'); el.classList.add('flex'); } }
+    function fecharModal(id) { const el = document.getElementById(id); if (el) { el.classList.add('hidden'); el.classList.remove('flex'); } }
+
+    function switchTab(tabId) {
+      try {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+        const target = document.getElementById('tab-' + tabId);
+        if (target) target.classList.remove('hidden');
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('bg-amber-500/20', 'text-amber-200'));
+        const active = document.getElementById('nav-' + tabId);
+        if (active) active.classList.add('bg-amber-500/20', 'text-amber-200');
+      } catch (e) {}
+    }
+
+    function setStatus(tipo, texto) {
+      const dot = document.getElementById('cloud-dot');
+      const txt = document.getElementById('cloud-status-text');
+      if (!dot || !txt) return;
+      dot.className = 'w-1.5 h-1.5 rounded-full mr-1.5 ' + (tipo === 'ok' ? 'bg-emerald-400' : tipo === 'err' ? 'bg-rose-400' : 'bg-amber-400');
+      txt.innerText = texto;
+    }
+
+    function carregarLocal() {
+      try {
+        const raw = localStorage.getItem('CP_CONSTRUCOES_V3');
+        if (raw) {
+          const d = JSON.parse(raw);
+          appData = {
+            config: d.config || { nome: 'CP CONSTRUÇÕES E REFORMAS', cnpj: '', tel: '' },
+            clientes: Array.isArray(d.clientes) ? d.clientes : [],
+            colaboradores: Array.isArray(d.colaboradores) ? d.colaboradores : [],
+            orcamentos: Array.isArray(d.orcamentos) ? d.orcamentos : [],
+            financeiro: Array.isArray(d.financeiro) ? d.financeiro : []
+          };
+        }
+      } catch (e) {}
+    }
+
+    function salvarLocalEAtualizar() {
+      try {
+        localStorage.setItem('CP_CONSTRUCOES_V3', JSON.stringify(appData));
+      } catch (e) {}
+      renderTudo();
+    }
+
+    function enviarParaNuvem() {
+      if (!dbFirestore) { setStatus('local', 'Modo Local Ativo'); return; }
+      dbFirestore.collection('cp_construcoes').doc('dados_empresa').set({
+        payload: JSON.stringify(appData),
+        updatedAt: new Date().toISOString()
+      }).then(() => setStatus('ok', 'Nuvem Sincronizada'))
+        .catch(() => setStatus('err', 'Erro de Permissão Nuvem'));
+    }
+
+    function forcarSincronizacaoManual() {
+      conectarFirebaseSilencioso(true);
+      enviarParaNuvem();
+    }
+
+    function conectarFirebaseSilencioso(deveLer) {
+      try {
+        if (typeof firebase === 'undefined' || !firebase.firestore) {
+          setStatus('local', 'Modo Local Ativo');
+          return;
+        }
+        if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CLOUD_CONFIG);
+        dbFirestore = firebase.firestore();
+        if (deveLer) {
+          dbFirestore.collection('cp_construcoes').doc('dados_empresa').get().then((doc) => {
+            if (doc.exists && doc.data().payload) {
+              const rem = JSON.parse(doc.data().payload);
+              const temRem = (rem.clientes && rem.clientes.length) || (rem.colaboradores && rem.colaboradores.length) || (rem.orcamentos && rem.orcamentos.length) || (rem.financeiro && rem.financeiro.length);
+              if (temRem) {
+                appData = {
+                  config: rem.config || appData.config,
+                  clientes: Array.isArray(rem.clientes) ? rem.clientes : [],
+                  colaboradores: Array.isArray(rem.colaboradores) ? rem.colaboradores : [],
+                  orcamentos: Array.isArray(rem.orcamentos) ? rem.orcamentos : [],
+                  financeiro: Array.isArray(rem.financeiro) ? rem.financeiro : []
+                };
+                salvarLocalEAtualizar();
+              }
+            }
+            setStatus('ok', 'Nuvem Sincronizada');
+          }).catch(() => setStatus('err', 'Erro de Permissão Nuvem'));
+        }
+      } catch (e) {
+        setStatus('local', 'Modo Local Ativo');
+      }
+    }
+
+    function renderTudo() {
+      document.getElementById('top-company-name').innerText = appData.config.nome || 'CP CONSTRUÇÕES E REFORMAS';
+      document.getElementById('top-company-cnpj').innerText = appData.config.cnpj ? 'CNPJ: ' + appData.config.cnpj : 'Itanhaém • SP';
+      document.getElementById('cfg-nome').value = appData.config.nome || '';
+      document.getElementById('cfg-cnpj').value = appData.config.cnpj || '';
+      document.getElementById('cfg-tel').value = appData.config.tel || '';
+
+      let ent = 0, sai = 0;
+      appData.financeiro.forEach(f => { if (f.tipo === 'ENTRADA') ent += Number(f.valor || 0); else sai += Number(f.valor || 0); });
+      document.getElementById('dash-obras-ativas').innerText = appData.orcamentos.length;
+      document.getElementById('dash-recebimentos').innerText = 'R$ ' + ent.toFixed(2);
+      document.getElementById('dash-pagamentos').innerText = 'R$ ' + sai.toFixed(2);
+      document.getElementById('dash-saldo').innerText = 'R$ ' + (ent - sai).toFixed(2);
+
+      document.getElementById('dash-lista-recentes').innerHTML = appData.orcamentos.length === 0
+        ? '<tr><td colspan="5" class="p-4 text-center text-slate-400">Nenhuma proposta registrada.</td></tr>'
+        : appData.orcamentos.slice().reverse().slice(0, 5).map(o => `<tr><td class="p-2.5 font-bold">${o.id}</td><td class="p-2.5">${o.clienteNome}</td><td class="p-2.5">${o.modalidade}</td><td class="p-2.5 text-right font-bold">R$ ${Number(o.valorTotal).toFixed(2)}</td><td class="p-2.5 text-right"><button type="button" onclick="switchTab('orcamentos'); verOrcamento('${o.id}')" class="underline font-semibold">Ver</button></td></tr>`).join('');
+
+      document.getElementById('lista-clientes').innerHTML = appData.clientes.length === 0
+        ? '<tr><td colspan="4" class="p-4 text-center text-slate-400">Nenhum cliente cadastrado.</td></tr>'
+        : appData.clientes.map(c => `<tr><td class="p-3 font-bold">${c.nome}</td><td class="p-3">${c.tel || ''}</td><td class="p-3">${c.end || ''}</td><td class="p-3 text-right"><button type="button" onclick="excluirCliente('${c.id}')" class="text-rose-600 text-xs">Excluir</button></td></tr>`).join('');
+
+      document.getElementById('lista-colaboradores').innerHTML = appData.colaboradores.length === 0
+        ? '<tr><td colspan="5" class="p-4 text-center text-slate-400">Nenhum colaborador cadastrado.</td></tr>'
+        : appData.colaboradores.map(c => `<tr><td class="p-3 font-bold">${c.nome}</td><td class="p-3">${c.funcao || ''}</td><td class="p-3 text-right font-bold">R$ ${Number(c.diaria).toFixed(2)}</td><td class="p-3 text-center">${c.dias || 0}</td><td class="p-3 text-right space-x-2"><button type="button" onclick="lancarDiaria('${c.id}')" class="bg-emerald-800 text-white px-2.5 py-1 rounded text-xs">+ Diária</button><button type="button" onclick="excluirColab('${c.id}')" class="text-rose-600 text-xs">Excluir</button></td></tr>`).join('');
+
+      document.getElementById('lista-financeiro').innerHTML = appData.financeiro.length === 0
+        ? '<tr><td colspan="4" class="p-4 text-center text-slate-400">Nenhum lançamento.</td></tr>'
+        : appData.financeiro.slice().reverse().map(f => `<tr><td class="p-3 text-xs">${f.data}</td><td class="p-3 font-bold text-xs ${f.tipo === 'ENTRADA' ? 'text-emerald-700' : 'text-rose-700'}">${f.tipo}</td><td class="p-3">${f.desc}</td><td class="p-3 text-right font-bold">R$ ${Number(f.valor).toFixed(2)}</td></tr>`).join('');
+
+      document.getElementById('lista-orcamentos-salvos').innerHTML = appData.orcamentos.length === 0
+        ? '<tr><td colspan="6" class="p-4 text-center text-slate-400">Nenhum orçamento salvo.</td></tr>'
+        : appData.orcamentos.slice().reverse().map(o => `<tr><td class="p-3 font-bold">${o.id}</td><td class="p-3">${o.clienteNome}</td><td class="p-3 text-xs">${o.modalidade}</td><td class="p-3 text-xs">${o.data}</td><td class="p-3 text-right font-bold">R$ ${Number(o.valorTotal).toFixed(2)}</td><td class="p-3 text-right space-x-2"><button type="button" onclick="verOrcamento('${o.id}')" class="bg-slate-200 px-2.5 py-1 rounded text-xs font-bold">Abrir</button><button type="button" onclick="excluirOrc('${o.id}')" class="text-rose-600 text-xs">Excluir</button></td></tr>`).join('');
+    }
+
+    function mudarPerfilTabela(p) { perfilAtual = p; renderTabela(); }
+    function mudarEscopoTabela(e) { escopoAtual = e; renderTabela(); }
+    function renderTabela() {
+      const lista = TABELAS_BASE[perfilAtual][escopoAtual];
+      document.getElementById('titulo-tabela-principal').innerText = `Tabela ${perfilAtual === 'AUTONOMO' ? 'Autônomo' : 'Construtor'} — ${escopoAtual === 'OBRA_NOVA' ? 'Obra Nova' : 'Reforma'}`;
+      document.getElementById('container-etapas-detalhadas').innerHTML = `
+        <div class="executive-card rounded-lg overflow-hidden">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 uppercase font-bold"><tr><th class="p-3">Serviço</th><th class="p-3 text-center">Unid.</th><th class="p-3 text-right">Preço Ref.</th></tr></thead>
+            <tbody class="divide-y">${lista.map(i => `<tr><td class="p-3">${i.desc}</td><td class="p-3 text-center">${i.unid}</td><td class="p-3 text-right font-bold">R$ ${i.preco.toFixed(2)}</td></tr>`).join('')}</tbody>
+          </table>
+        </div>`;
+    }
+
+    function iniciarNovoOrcamento() {
+      const sel = document.getElementById('orc-cliente');
+      sel.innerHTML = appData.clientes.length === 0 ? '<option value="">Cadastre um cliente primeiro</option>' : appData.clientes.map(c => `<option value="${c.id}">${c.nome}</option>`).join('');
+      itensTemp = [];
+      document.getElementById('container-form-orcamento').classList.remove('hidden');
+      document.getElementById('area-impressao-contrato').classList.add('hidden');
+      carregarServicosOrcamento();
+      renderItensTemp();
+    }
+    function fecharFormOrcamento() { document.getElementById('container-form-orcamento').classList.add('hidden'); }
+    function carregarServicosOrcamento() {
+      const p = document.getElementById('orc-perfil-base').value;
+      const m = document.getElementById('orc-modalidade').value;
+      const lista = TABELAS_BASE[p][m];
+      document.getElementById('sel
