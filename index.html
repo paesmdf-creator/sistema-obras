@@ -528,4 +528,146 @@
       const p = document.getElementById('orc-perfil-base').value;
       const m = document.getElementById('orc-modalidade').value;
       const lista = TABELAS_BASE[p][m];
-      document.getElementById('sel
+      document.getElementById('sel-servico-orc').innerHTML = lista.map((it, idx) => `<option value="${idx}">${it.desc} (R$ ${it.preco.toFixed(2)}/${it.unid})</option>`).join('');
+      preencherValorOrcamento();
+    }
+    function preencherValorOrcamento() {
+      const p = document.getElementById('orc-perfil-base').value;
+      const m = document.getElementById('orc-modalidade').value;
+      const idx = Number(document.getElementById('sel-servico-orc').value || 0);
+      const item = TABELAS_BASE[p][m][idx];
+      if (item) document.getElementById('inp-val-orc').value = item.preco.toFixed(2);
+    }
+    function adicionarItemOrcamento() {
+      const p = document.getElementById('orc-perfil-base').value;
+      const m = document.getElementById('orc-modalidade').value;
+      const idx = Number(document.getElementById('sel-servico-orc').value || 0);
+      const item = TABELAS_BASE[p][m][idx];
+      const qtd = parseFloat(document.getElementById('inp-qtd-orc').value);
+      const val = parseFloat(document.getElementById('inp-val-orc').value);
+      if (!item || isNaN(qtd) || isNaN(val)) return;
+      itensTemp.push({ desc: item.desc, unid: item.unid, qtd, val, sub: qtd * val });
+      renderItensTemp();
+    }
+    function renderItensTemp() {
+      let tot = 0;
+      document.getElementById('tbody-itens-orcamento').innerHTML = itensTemp.length === 0
+        ? '<tr><td colspan="5" class="p-3 text-center text-slate-400">Nenhum item adicionado.</td></tr>'
+        : itensTemp.map((it, i) => { tot += it.sub; return `<tr><td class="p-2">${it.desc}</td><td class="p-2 text-right">${it.qtd}</td><td class="p-2 text-right">R$ ${it.val.toFixed(2)}</td><td class="p-2 text-right font-bold">R$ ${it.sub.toFixed(2)}</td><td class="p-2 text-center"><button type="button" onclick="itensTemp.splice(${i},1);renderItensTemp()" class="text-rose-600">X</button></td></tr>`; }).join('');
+      document.getElementById('lbl-total-final-orc').innerText = 'R$ ' + tot.toFixed(2);
+    }
+    function salvarOrcamentoCompleto() {
+      const cli = appData.clientes.find(c => c.id === document.getElementById('orc-cliente').value);
+      if (!cli) { alert('Cadastre e selecione um cliente.'); return; }
+      if (itensTemp.length === 0) { alert('Adicione ao menos um item.'); return; }
+      const total = itensTemp.reduce((s, x) => s + x.sub, 0);
+      const hoje = new Date().toLocaleDateString('pt-BR');
+      const novo = {
+        id: 'CP-' + Math.floor(1000 + Math.random() * 9000),
+        clienteNome: cli.nome, clienteTel: cli.tel || '', clienteEnd: cli.end || '',
+        modalidade: document.getElementById('orc-modalidade').value,
+        data: hoje, itens: [...itensTemp], valorTotal: total
+      };
+      appData.orcamentos.push(novo);
+      appData.financeiro.push({ id: String(Date.now()), data: hoje, tipo: 'ENTRADA', desc: `Proposta ${novo.id} — ${cli.nome}`, valor: total });
+      salvarLocalEAtualizar();
+      fecharFormOrcamento();
+      verOrcamento(novo.id);
+    }
+    function verOrcamento(id) {
+      const o = appData.orcamentos.find(x => x.id === id);
+      if (!o) return;
+      document.getElementById('print-header-empresa').innerText = appData.config.nome || 'CP CONSTRUÇÕES E REFORMAS';
+      document.getElementById('print-orc-id').innerText = o.id;
+      document.getElementById('print-cliente-nome').innerText = o.clienteNome;
+      document.getElementById('print-orc-data').innerText = o.data;
+      document.getElementById('print-cliente-end').innerText = o.clienteEnd;
+      document.getElementById('print-cliente-tel').innerText = o.clienteTel;
+      document.getElementById('print-itens-lista').innerHTML = o.itens.map(i => `<div>• ${i.desc} — ${i.qtd} ${i.unid} x R$ ${Number(i.val).toFixed(2)} = <strong>R$ ${Number(i.sub).toFixed(2)}</strong></div>`).join('');
+      document.getElementById('print-valor-total').innerText = 'R$ ' + Number(o.valorTotal).toFixed(2);
+      document.getElementById('area-impressao-contrato').classList.remove('hidden');
+    }
+    function fecharVisualizacaoContrato() { document.getElementById('area-impressao-contrato').classList.add('hidden'); }
+    function excluirOrc(id) { appData.orcamentos = appData.orcamentos.filter(o => o.id !== id); salvarLocalEAtualizar(); }
+
+    function salvarCliente() {
+      const nome = document.getElementById('cli-nome').value.trim();
+      if (!nome) return;
+      appData.clientes.push({ id: String(Date.now()), nome, tel: document.getElementById('cli-tel').value.trim(), end: document.getElementById('cli-end').value.trim() });
+      document.getElementById('cli-nome').value = ''; document.getElementById('cli-tel').value = ''; document.getElementById('cli-end').value = '';
+      fecharModal('modal-cliente'); salvarLocalEAtualizar();
+    }
+    function excluirCliente(id) { appData.clientes = appData.clientes.filter(c => c.id !== id); salvarLocalEAtualizar(); }
+
+    function salvarColaborador() {
+      const nome = document.getElementById('colab-nome').value.trim();
+      const diaria = parseFloat(document.getElementById('colab-diaria').value);
+      if (!nome || isNaN(diaria)) return;
+      appData.colaboradores.push({ id: String(Date.now()), nome, funcao: document.getElementById('colab-funcao').value.trim(), diaria, dias: 0 });
+      document.getElementById('colab-nome').value = ''; document.getElementById('colab-funcao').value = ''; document.getElementById('colab-diaria').value = '';
+      fecharModal('modal-colaborador'); salvarLocalEAtualizar();
+    }
+    function lancarDiaria(id) {
+      const c = appData.colaboradores.find(x => x.id === id);
+      if (!c) return;
+      c.dias = (c.dias || 0) + 1;
+      appData.financeiro.push({ id: String(Date.now()), data: new Date().toLocaleDateString('pt-BR'), tipo: 'SAIDA', desc: `Diária — ${c.nome}`, valor: c.diaria });
+      salvarLocalEAtualizar();
+    }
+    function excluirColab(id) { appData.colaboradores = appData.colaboradores.filter(c => c.id !== id); salvarLocalEAtualizar(); }
+
+    function salvarLancamentoFinanceiro() {
+      const desc = document.getElementById('fin-desc').value.trim();
+      const valor = parseFloat(document.getElementById('fin-valor').value);
+      if (!desc || isNaN(valor)) return;
+      appData.financeiro.push({ id: String(Date.now()), data: new Date().toLocaleDateString('pt-BR'), tipo: document.getElementById('fin-tipo').value, desc, valor });
+      document.getElementById('fin-desc').value = ''; document.getElementById('fin-valor').value = '';
+      fecharModal('modal-financeiro'); salvarLocalEAtualizar();
+    }
+
+    function salvarConfiguracoes() {
+      appData.config.nome = document.getElementById('cfg-nome').value.trim() || 'CP CONSTRUÇÕES E REFORMAS';
+      appData.config.cnpj = document.getElementById('cfg-cnpj').value.trim();
+      appData.config.tel = document.getElementById('cfg-tel').value.trim();
+      salvarLocalEAtualizar();
+      alert('Dados salvos.');
+    }
+
+    function exportarBackupManual() {
+      const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `CP_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+    }
+
+    function importarBackupManual(ev) {
+      const f = ev.target.files && ev.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = function(e) {
+        try {
+          const d = JSON.parse(e.target.result);
+          appData = {
+            config: d.config || { nome: 'CP CONSTRUÇÕES E REFORMAS', cnpj: '', tel: '' },
+            clientes: Array.isArray(d.clientes) ? d.clientes : [],
+            colaboradores: Array.isArray(d.colaboradores) ? d.colaboradores : [],
+            orcamentos: Array.isArray(d.orcamentos) ? d.orcamentos : [],
+            financeiro: Array.isArray(d.financeiro) ? d.financeiro : []
+          };
+          salvarLocalEAtualizar();
+          alert('Backup restaurado.');
+        } catch (err) { alert('Arquivo inválido.'); }
+      };
+      r.readAsText(f);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      carregarLocal();
+      renderTabela();
+      renderTudo();
+      conectarFirebaseSilencioso(false);
+    });
+  </script>
+</body>
+</html>
