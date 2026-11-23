@@ -86,9 +86,9 @@
               <div class="flex flex-wrap items-center gap-1.5 mt-0.5">
                 <span id="cloud-status-badge" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-950/80 text-amber-300 border border-amber-500/30">
                   <span id="cloud-dot" class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>
-                  <span id="cloud-status-text">Conectando Nuvem...</span>
+                  <span id="cloud-status-text">Modo Local</span>
                 </span>
-                <span id="top-company-cnpj" class="hidden lg:inline text-[10px] text-amber-200/80 tracking-wider uppercase">Itanhaém • SP</span>
+                <span id="top-company-cnpj" class="hidden lg:inline text-[10px] text-amber-200/80 tracking-wider uppercase">Itanhaém • SP — Cristiano dos Santos Paes</span>
               </div>
             </div>
           </div>
@@ -128,15 +128,15 @@
               <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-wood-900 text-amber-200 rounded">Gestão Executiva</span>
               <span class="text-xs text-slate-500 font-medium">Litoral Sul • Itanhaém / SP</span>
             </div>
-            <h2 class="text-xl sm:text-2xl font-bold font-serif-artisan text-wood-950">Controle Corporativo de Obras &amp; Engenharia</h2>
-            <p class="text-slate-600 text-xs sm:text-sm">Direção Técnica: <strong>Cristiano dos Santos Paes</strong> — Operação integrada Escritório ⇄ Canteiro de Obras.</p>
+            <h2 class="text-xl sm:text-2xl font-bold font-serif-artisan text-wood-950">Painel de Controle de Obras &amp; Reformas</h2>
+            <p class="text-slate-600 text-xs sm:text-sm">Gestão completa de orçamentos, clientes, equipe, caixa, tabelas de preços SP e nuvem.</p>
           </div>
           <div class="flex flex-wrap gap-2 w-full lg:w-auto">
             <button type="button" id="dash-btn-tabelas" class="flex-1 lg:flex-none bg-emerald-900 hover:bg-emerald-950 text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
-              <i class="fa-solid fa-layer-group mr-2 text-emerald-300"></i> Bases de Preços SP
+              <i class="fa-solid fa-layer-group mr-2 text-emerald-300"></i> Tabelas de Preços SP
             </button>
             <button type="button" id="dash-btn-orcamento" class="flex-1 lg:flex-none wood-texture-header hover:opacity-95 text-amber-100 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
-              <i class="fa-solid fa-file-circle-plus mr-2 text-amber-300"></i> Emitir Proposta
+              <i class="fa-solid fa-plus mr-2 text-amber-300"></i> Novo Orçamento
             </button>
           </div>
         </div>
@@ -144,46 +144,46 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="executive-card p-5 rounded-lg">
             <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Propostas / Obras</span>
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Orçamentos Emitidos</span>
               <i class="fa-solid fa-folder-open text-wood-700 text-sm"></i>
             </div>
             <p id="dash-obras-ativas" class="text-2xl font-bold text-slate-900 mt-2">0</p>
-            <p class="text-[11px] text-slate-500 mt-1">Contratos registrados no sistema</p>
+            <p class="text-[11px] text-slate-500 mt-1">Propostas registradas</p>
           </div>
 
           <div class="executive-card p-5 rounded-lg" style="border-top-color: #065f46;">
             <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Faturamento Bruto</span>
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Entradas no Caixa</span>
               <i class="fa-solid fa-arrow-trend-up text-emerald-700 text-sm"></i>
             </div>
             <p id="dash-recebimentos" class="text-2xl font-bold text-emerald-800 mt-2">R$ 0,00</p>
-            <p class="text-[11px] text-slate-500 mt-1">Receitas e medições lançadas</p>
+            <p class="text-[11px] text-slate-500 mt-1">Receitas lançadas</p>
           </div>
 
           <div class="executive-card p-5 rounded-lg" style="border-top-color: #9f1239;">
             <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Custos &amp; Equipe</span>
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Saídas &amp; Diárias</span>
               <i class="fa-solid fa-helmet-safety text-rose-700 text-sm"></i>
             </div>
             <p id="dash-pagamentos" class="text-2xl font-bold text-rose-800 mt-2">R$ 0,00</p>
-            <p class="text-[11px] text-slate-500 mt-1">Diárias e despesas operacionais</p>
+            <p class="text-[11px] text-slate-500 mt-1">Custos e equipe</p>
           </div>
 
           <div class="executive-card p-5 rounded-lg" style="border-top-color: #b45309;">
             <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Saldo de Caixa</span>
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Saldo Atual</span>
               <i class="fa-solid fa-scale-balanced text-amber-700 text-sm"></i>
             </div>
-            <p id="dash-saldo" class="text-2xl font-bold text-wood-950 mt-2">R$ 0,00</p>
-            <p class="text-[11px] text-slate-500 mt-1">Resultado líquido consolidado</p>
+            <p id="dash-saldo" class="text-2xl font-bold text-amber-700 mt-2">R$ 0,00</p>
+            <p class="text-[11px] text-slate-500 mt-1">Entradas menos saídas</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div class="lg:col-span-2 executive-card rounded-lg p-5">
             <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
-              <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Propostas &amp; Contratos Recentes</h3>
-              <button type="button" id="dash-ver-todos" class="text-xs font-semibold text-wood-800 hover:underline">Ver todos →</button>
+              <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Propostas &amp; Orçamentos Recentes</h3>
+              <button type="button" id="dash-ver-todos" class="text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded">Ver todos</button>
             </div>
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs text-slate-600">
@@ -191,9 +191,10 @@
                   <tr>
                     <th class="p-2.5">Código</th>
                     <th class="p-2.5">Cliente</th>
-                    <th class="p-2.5">Perfil / Modalidade</th>
-                    <th class="p-2.5 text-right">Valor Contrato</th>
-                    <th class="p-2.5 text-right">Documento</th>
+                    <th class="p-2.5">Modalidade</th>
+                    <th class="p-2.5">Data</th>
+                    <th class="p-2.5 text-right">Total</th>
+                    <th class="p-2.5 text-right">Ação</th>
                   </tr>
                 </thead>
                 <tbody id="dash-lista-recentes" class="divide-y divide-slate-100"></tbody>
@@ -427,7 +428,7 @@
               </div>
               <div>
                 <h3 id="print-header-empresa" class="font-serif-artisan text-xl sm:text-2xl font-bold tracking-wider text-wood-950">CP CONSTRUÇÕES E REFORMAS</h3>
-                <p id="print-empresa-cnpj" class="text-xs font-semibold uppercase text-slate-600">CNPJ MEI: ---</p>
+                <p id="print-empresa-cnpj" class="text-xs font-semibold uppercase text-slate-600">CNPJ / MEI: ---</p>
                 <p id="print-empresa-contato" class="text-xs text-slate-500">Responsável Técnico: Cristiano dos Santos Paes</p>
               </div>
             </div>
@@ -523,4 +524,20 @@
           </button>
         </div>
 
-        <div class="executive-card rounded-lg overflow-hidden
+        <div class="executive-card rounded-lg overflow-hidden">
+          <table class="w-full text-left text-sm text-slate-600">
+            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
+              <tr>
+                <th class="p-3">Colaborador</th>
+                <th class="p-3">Função</th>
+                <th class="p-3">Diária Base</th>
+                <th class="p-3">Telefone</th>
+                <th class="p-3 text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="lista-colaboradores" class="divide-y"></tbody>
+          </table>
+        </div>
+
+        <div class="executive-card rounded-lg p-5 space-y-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-
