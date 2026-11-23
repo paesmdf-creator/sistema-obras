@@ -178,7 +178,7 @@
               <span class="text-xs text-slate-500 font-medium">Litoral Sul • Itanhaém / SP</span>
             </div>
             <h2 class="text-xl sm:text-2xl font-bold font-serif-artisan text-wood-950">Painel de Controle de Obras &amp; Reformas</h2>
-            <p class="text-slate-600 text-xs sm:text-sm">Gestão completa de orçamentos, clientes, equipe, caixa, tabelas de preços SP e nuvem.</p>
+            <p class="text-slate-600 text-xs sm:text-sm">Cristiano dos Santos Paes, Sócio-Diretor — Orçamentos, etapas SINAPI/SindusCon, equipe, caixa e nuvem.</p>
           </div>
           <div class="flex flex-wrap gap-2 w-full lg:w-auto">
             <button type="button" id="dash-btn-tabelas" class="flex-1 lg:flex-none bg-emerald-900 hover:bg-emerald-950 text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center gap-2">
@@ -231,25 +231,47 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 executive-card rounded-lg p-5">
-            <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
-              <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Propostas &amp; Orçamentos Recentes</h3>
-              <button type="button" id="dash-ver-todos" class="text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded">Ver todos</button>
+          <div class="lg:col-span-2 executive-card rounded-lg p-5 space-y-6">
+            <div>
+              <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
+                <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Progresso de Etapas (SINAPI / SindusCon)</h3>
+                <span class="text-[11px] font-semibold text-slate-500">Acompanhamento de Obra</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-600">
+                  <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
+                    <tr>
+                      <th class="p-2.5">Etapa</th>
+                      <th class="p-2.5">Progresso (%)</th>
+                      <th class="p-2.5 text-right">Custo Atual</th>
+                      <th class="p-2.5 text-right">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dash-etapas-progresso" class="divide-y divide-slate-100"></tbody>
+                </table>
+              </div>
             </div>
-            <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs text-slate-600">
-                <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
-                  <tr>
-                    <th class="p-2.5">Código</th>
-                    <th class="p-2.5">Cliente</th>
-                    <th class="p-2.5">Modalidade</th>
-                    <th class="p-2.5">Data</th>
-                    <th class="p-2.5 text-right">Total</th>
-                    <th class="p-2.5 text-right">Ação</th>
-                  </tr>
-                </thead>
-                <tbody id="dash-lista-recentes" class="divide-y divide-slate-100"></tbody>
-              </table>
+
+            <div>
+              <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
+                <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Propostas &amp; Orçamentos Recentes</h3>
+                <button type="button" id="dash-ver-todos" class="text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded">Ver todos</button>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-600">
+                  <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
+                    <tr>
+                      <th class="p-2.5">Código</th>
+                      <th class="p-2.5">Cliente</th>
+                      <th class="p-2.5">Modalidade</th>
+                      <th class="p-2.5">Data</th>
+                      <th class="p-2.5 text-right">Total</th>
+                      <th class="p-2.5 text-right">Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dash-lista-recentes" class="divide-y divide-slate-100"></tbody>
+                </table>
+              </div>
             </div>
           </div>
 
@@ -260,11 +282,11 @@
             <div class="space-y-3 text-xs">
               <div class="p-3 rounded bg-wood-50 border border-wood-200">
                 <span class="font-bold text-wood-900 block">Base A — Profissional Autônomo</span>
-                <span class="text-slate-600">Execução direta • Média R$ 520 a R$ 580/m² (Obra Nova)</span>
+                <span class="text-slate-600">Custos detalhados por etapa e serviço • Mão de obra direta</span>
               </div>
               <div class="p-3 rounded bg-emerald-50 border border-emerald-200">
                 <span class="font-bold text-emerald-950 block">Base B — Construtor / Empresa</span>
-                <span class="text-slate-600">Empreitada corporativa com encargos &amp; BDI • Média R$ 740 a R$ 850/m²</span>
+                <span class="text-slate-600">Custos detalhados por etapa e serviço • Encargos &amp; BDI</span>
               </div>
               <div class="p-3 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
                 <div>
@@ -273,26 +295,33 @@
                 </div>
                 <span id="dash-total-clientes" class="text-lg font-bold text-wood-900">0</span>
               </div>
+              <div class="p-3 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
+                <div>
+                  <span class="font-bold text-slate-800 block">Equipe Ativa</span>
+                  <span class="text-slate-500">Profissionais cadastrados</span>
+                </div>
+                <span id="dash-total-equipe" class="text-lg font-bold text-wood-900">0</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 2. DUAS TABELAS INTEGRADAS: AUTÔNOMO VS. CONSTRUTOR / EMPRESA -->
+      <!-- 2. TABELAS DETALHADAS POR ETAPA: AUTÔNOMO VS. CONSTRUTOR / EMPRESA -->
       <section id="tab-tabelas" class="tab-content hidden space-y-6">
         <div id="banner-tabela-ativa" class="bg-emerald-950 text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <div class="flex items-center space-x-2 mb-1">
               <span id="badge-perfil-tabela" class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-700 text-emerald-100">BASE A: AUTÔNOMO DIRETO</span>
-              <span class="text-xs text-emerald-300">Uso Interno Exclusivo da Empresa</span>
+              <span class="text-xs text-emerald-300">Custos Específicos por Etapa da Obra</span>
             </div>
             <h2 id="titulo-tabela-principal" class="text-xl sm:text-2xl font-bold tracking-tight">Tabela de Mão de Obra — Profissional Autônomo</h2>
-            <p id="subtitulo-tabela-principal" class="text-emerald-200 text-xs mt-1">Valores Praticados por Profissionais Diretos | Estado de São Paulo</p>
+            <p id="subtitulo-tabela-principal" class="text-emerald-200 text-xs mt-1">Composição por Etapa e Serviço | Estado de São Paulo</p>
           </div>
           <div class="text-left md:text-right text-xs text-emerald-100 space-y-1 bg-black/25 p-3.5 rounded-lg border border-white/10">
             <p id="info-lat-1"><strong>Perfil:</strong> Autônomo / Execução Direta</p>
             <p><strong>Região:</strong> São Paulo (Litoral / Itanhaém)</p>
-            <p id="info-lat-2"><strong>Meta Diária Base:</strong> R$ 300,00 (Dupla)</p>
+            <p id="info-lat-2"><strong>Detalhamento:</strong> Etapa por Etapa</p>
           </div>
         </div>
 
@@ -324,16 +353,16 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-            <span id="ind-1-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ESTIMATIVA MÉDIA / M²</span>
-            <p id="ind-1-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 520,00 - 580,00</p>
+            <span id="ind-1-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ETAPAS CADASTRADAS</span>
+            <p id="ind-1-valor" class="text-lg font-bold text-slate-900 mt-1">12 Etapas</p>
           </div>
           <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-            <span id="ind-2-titulo" class="text-[11px] font-bold text-slate-500 uppercase">PEDREIRO / OFICIAL (DIA)</span>
-            <p id="ind-2-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 200,00 - 250,00</p>
+            <span id="ind-2-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ITENS DE SERVIÇO</span>
+            <p id="ind-2-valor" class="text-lg font-bold text-slate-900 mt-1">36 Serviços</p>
           </div>
           <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-            <span id="ind-3-titulo" class="text-[11px] font-bold text-slate-500 uppercase">AJUDANTE / SERVENTE (DIA)</span>
-            <p id="ind-3-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 100,00 - 130,00</p>
+            <span id="ind-3-titulo" class="text-[11px] font-bold text-slate-500 uppercase">PEDREIRO / OFICIAL (DIA)</span>
+            <p id="ind-3-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 200,00 - 250,00</p>
           </div>
           <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
             <span id="ind-4-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ENQUADRAMENTO</span>
@@ -349,7 +378,7 @@
         <div class="flex justify-between items-center no-print">
           <div>
             <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Orçamentos &amp; Propostas Comerciais</h2>
-            <p class="text-xs text-slate-500">Selecione a tabela interna desejada. O PDF do cliente exibe apenas o escopo e valores finais.</p>
+            <p class="text-xs text-slate-500">Composição por etapa e serviço da tabela selecionada. O PDF do cliente exibe escopo e valores finais.</p>
           </div>
           <button type="button" id="btn-iniciar-orcamento" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">+ Novo Orçamento</button>
         </div>
@@ -417,7 +446,7 @@
             <table class="w-full text-left text-xs border border-slate-200">
               <thead class="bg-wood-100 text-wood-950 uppercase font-bold">
                 <tr>
-                  <th class="p-2">Cód.</th>
+                  <th class="p-2">Etapa / Cód.</th>
                   <th class="p-2">Serviço</th>
                   <th class="p-2 text-center">Unid.</th>
                   <th class="p-2 text-right">Qtd.</th>
@@ -479,8 +508,8 @@
               </div>
               <div>
                 <h3 id="print-header-empresa" class="font-serif-artisan text-xl sm:text-2xl font-bold tracking-wider text-wood-950">CP CONSTRUÇÕES E REFORMAS</h3>
-                <p id="print-empresa-cnpj" class="text-xs font-semibold uppercase text-slate-600">CNPJ / MEI: ---</p>
-                <p id="print-empresa-contato" class="text-xs text-slate-500">Responsável Técnico: Cristiano dos Santos Paes</p>
+                <p id="print-empresa-cnpj" class="text-xs font-semibold uppercase text-slate-600">CNPJ: 51.473.332/0001-24</p>
+                <p id="print-empresa-contato" class="text-xs text-slate-500">Responsável Técnico: Cristiano dos Santos Paes, Sócio-Diretor</p>
               </div>
             </div>
             <div class="text-center sm:text-right">
@@ -506,7 +535,7 @@
           </div>
 
           <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-wood-950">Escopo Técnico por Etapa</h4>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-wood-950">Escopo Técnico e Custos por Etapa</h4>
             <div id="print-container-etapas-cliente" class="space-y-3"></div>
           </div>
 
@@ -521,11 +550,11 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-10 text-center text-xs">
             <div>
               <div class="border-t border-slate-400 pt-2 font-bold text-slate-700">CP CONSTRUÇÕES E REFORMAS</div>
-              <div class="text-[11px] text-slate-500">Cristiano dos Santos Paes — Direção Técnica</div>
+              <div class="text-[11px] text-slate-500">Cristiano dos Santos Paes, Sócio-Diretor</div>
             </div>
             <div>
               <div class="border-t border-slate-400 pt-2 font-bold text-slate-700" id="print-ass-cliente-nome">CONTRATANTE</div>
-              <div class="text-[11px] text-slate-500">De acordo com a proposta</div>
+              <div class="text-[11px] text-slate-500">Assinatura / Confirmação Digital</div>
             </div>
           </div>
         </div>
@@ -568,7 +597,7 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div>
             <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Equipe de Campo &amp; Diárias</h2>
-            <p class="text-xs text-slate-500">Controle de profissionais, lançamento de diárias e emissão de recibos.</p>
+            <p class="text-xs text-slate-500">Controle de profissionais, lançamento de diárias e resumo de pagamentos.</p>
           </div>
           <button type="button" id="btn-abrir-colaborador" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">
             + Novo Colaborador
@@ -619,7 +648,7 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div>
             <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Controle de Caixa &amp; Financeiro</h2>
-            <p class="text-xs text-slate-500">Entradas de medições/contratos e saídas operacionais de obra.</p>
+            <p class="text-xs text-slate-500">Entradas de medições/contratos e saídas operacionais e de diárias.</p>
           </div>
           <button type="button" id="btn-abrir-lancamento" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">
             + Novo Lançamento
@@ -675,7 +704,7 @@
               <input type="text" id="cfg-empresa-cnpj" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
             </div>
             <div>
-              <label class="block font-bold text-slate-700 mb-1">Responsável Técnico</label>
+              <label class="block font-bold text-slate-700 mb-1">Responsável Técnico / Sócio-Diretor</label>
               <input type="text" id="cfg-empresa-resp" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
             </div>
             <div>
@@ -710,7 +739,7 @@
     <!-- RODAPÉ -->
     <footer class="bg-wood-950 text-amber-100/80 text-xs py-4 px-4 no-print border-t border-amber-500/20">
       <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-        <span>CP Construções e Reformas — Cristiano dos Santos Paes • Itanhaém / SP</span>
+        <span>CP Construções e Reformas — Cristiano dos Santos Paes, Sócio-Diretor • Itanhaém / SP</span>
         <span class="text-[11px] text-amber-300/80">Sistema Operacional de Obras &amp; Orçamentos</span>
       </div>
     </footer>
@@ -741,185 +770,209 @@
       appId: ""
     };
 
-    const STORAGE_KEY = 'cp_construcoes_sistema_v1';
+    const STORAGE_KEY = 'cp_construcoes_sistema_v2';
 
-    const TABELAS_SP = {
-      AUTONOMO: {
-        OBRA_NOVA: {
-          badge: 'BASE A: AUTÔNOMO DIRETO',
-          titulo: 'Tabela de Mão de Obra — Profissional Autônomo',
-          subtitulo: 'Valores Praticados por Profissionais Diretos | Estado de São Paulo',
-          lat1: '<strong>Perfil:</strong> Autônomo / Execução Direta',
-          lat2: '<strong>Meta Diária Base:</strong> R$ 300,00 (Dupla)',
-          indicadores: [
-            ['ESTIMATIVA MÉDIA / M²', 'R$ 520,00 - 580,00'],
-            ['PEDREIRO / OFICIAL (DIA)', 'R$ 200,00 - 250,00'],
-            ['AJUDANTE / SERVENTE (DIA)', 'R$ 100,00 - 130,00'],
-            ['ENQUADRAMENTO', 'Mão de Obra Direta']
-          ],
-          etapas: [
-            {
-              nome: '01. Fundação e Infraestrutura',
-              itens: [
-                { cod: 'AUT-01', servico: 'Escavação e brocas / sapatas de fundação', unid: 'm³', valor: 145 },
-                { cod: 'AUT-02', servico: 'Viga baldrame e cinta de amarração', unid: 'm', valor: 68 },
-                { cod: 'AUT-03', servico: 'Aterro apiloado e regularização de solo', unid: 'm³', valor: 52 }
-              ]
-            },
-            {
-              nome: '02. Alvenaria e Estrutura',
-              itens: [
-                { cod: 'AUT-04', servico: 'Alvenaria de vedação bloco cerâmico / concreto', unid: 'm²', valor: 58 },
-                { cod: 'AUT-05', servico: 'Verga, contraverga e pilares moldados', unid: 'm', valor: 62 },
-                { cod: 'AUT-06', servico: 'Laje pré-moldada / escoramento e concretagem', unid: 'm²', valor: 85 }
-              ]
-            },
-            {
-              nome: '03. Cobertura e Telhado',
-              itens: [
-                { cod: 'AUT-07', servico: 'Madeiramento e colocação de telha cerâmica / fibrocimento', unid: 'm²', valor: 64 },
-                { cod: 'AUT-08', servico: 'Instalação de calhas, rufos e condutores', unid: 'm', valor: 45 }
-              ]
-            },
-            {
-              nome: '04. Instalações Elétricas e Hidráulicas',
-              itens: [
-                { cod: 'AUT-09', servico: 'Eletrodutos, caixas, fiação e pontos elétricos', unid: 'pt', valor: 78 },
-                { cod: 'AUT-10', servico: 'Tubulação de água fria, esgoto e caixas de passagem', unid: 'pt', valor: 85 }
-              ]
-            },
-            {
-              nome: '05. Revestimentos, Piso e Acabamento',
-              itens: [
-                { cod: 'AUT-11', servico: 'Chapisco, emboço e reboco interno/externo', unid: 'm²', valor: 54 },
-                { cod: 'AUT-12', servico: 'Assentamento de piso cerâmico / porcelanato', unid: 'm²', valor: 65 },
-                { cod: 'AUT-13', servico: 'Pintura acrílica / látex e limpeza final de entrega', unid: 'm²', valor: 38 }
-              ]
-            }
+    const ETAPAS_PROGRESSO_BASE = [
+      { etapa: 'Serviços Preliminares & Canteiro', progresso: 100, custoAtual: 2450, status: 'Concluído' },
+      { etapa: 'Fundação & Baldrame', progresso: 100, custoAtual: 8900, status: 'Concluído' },
+      { etapa: 'Estrutura & Concreto', progresso: 75, custoAtual: 11200, status: 'Em Andamento' },
+      { etapa: 'Alvenaria de Vedação', progresso: 62, custoAtual: 7800, status: 'Em Andamento' },
+      { etapa: 'Instalações Elétricas & Hidráulicas', progresso: 40, custoAtual: 5400, status: 'Em Andamento' },
+      { etapa: 'Revestimentos, Piso & Acabamento', progresso: 0, custoAtual: 0, status: 'Pendente' }
+    ];
+
+    function buildCatalogoCompleto() {
+      const etapasObraNovaAutonomo = [
+        {
+          nome: '01. Serviços Preliminares e Canteiro',
+          itens: [
+            { cod: 'AUT-01.1', servico: 'Limpeza de terreno, gabarito e locação da obra', unid: 'm²', valor: 22 },
+            { cod: 'AUT-01.2', servico: 'Montagem de tapume, ligação provisória e abrigo de ferramentas', unid: 'm', valor: 38 }
           ]
         },
-        REFORMA: {
-          badge: 'BASE A: REFORMA DIRETA',
-          titulo: 'Tabela de Reformas — Profissional Autônomo',
-          subtitulo: 'Serviços Pontuais, Reparos e Readequações | Estado de São Paulo',
-          lat1: '<strong>Perfil:</strong> Autônomo / Reforma Pontual',
-          lat2: '<strong>Referência:</strong> Escopo Direto em Obra',
-          indicadores: [
-            ['ESTIMATIVA MÉDIA / M²', 'R$ 340,00 - 460,00'],
-            ['PEDREIRO / OFICIAL (DIA)', 'R$ 220,00 - 260,00'],
-            ['AJUDANTE / SERVENTE (DIA)', 'R$ 110,00 - 140,00'],
-            ['ENQUADRAMENTO', 'Reforma e Manutenção']
-          ],
-          etapas: [
-            {
-              nome: '01. Demolição e Preparo',
-              itens: [
-                { cod: 'REF-01', servico: 'Demolição controlada de alvenaria / revestimento', unid: 'm²', valor: 42 },
-                { cod: 'REF-02', servico: 'Regularização de contrapiso / argamassa', unid: 'm²', valor: 48 },
-                { cod: 'REF-03', servico: 'Ensacamento e remoção de entulho até caçamba', unid: 'm³', valor: 45 }
-              ]
-            },
-            {
-              nome: '02. Adequação Estrutural e Instalações',
-              itens: [
-                { cod: 'REF-04', servico: 'Abertura de vão, verga e recomposição de parede', unid: 'm²', valor: 76 },
-                { cod: 'REF-05', servico: 'Manutenção de pontos hidráulicos e troca de registros', unid: 'pt', valor: 90 },
-                { cod: 'REF-06', servico: 'Troca de tomadas, disjuntores e circuitos pontuais', unid: 'pt', valor: 75 }
-              ]
-            },
-            {
-              nome: '03. Acabamentos e Pintura',
-              itens: [
-                { cod: 'REF-07', servico: 'Troca de revestimento / piso sobre piso', unid: 'm²', valor: 72 },
-                { cod: 'REF-08', servico: 'Impermeabilização de áreas molhadas / lajes', unid: 'm²', valor: 56 },
-                { cod: 'REF-09', servico: 'Pintura látex / acrílica (preparação + 2 demãos)', unid: 'm²', valor: 36 }
-              ]
-            }
-          ]
-        }
-      },
-      CONSTRUTOR: {
-        OBRA_NOVA: {
-          badge: 'BASE B: CONSTRUTOR / EMPRESA',
-          titulo: 'Tabela Corporativa — Construtor / Empreiteira (BDI)',
-          subtitulo: 'Empreitada com Gestão Técnica, Encargos e BDI | Estado de São Paulo',
-          lat1: '<strong>Perfil:</strong> Empresa / Gestão de Obra',
-          lat2: '<strong>Regime:</strong> Empreitada Corporativa',
-          indicadores: [
-            ['ESTIMATIVA MÉDIA / M²', 'R$ 740,00 - 850,00'],
-            ['EQUIPE TÉCNICA (DIA)', 'R$ 360,00 - 450,00'],
-            ['COMPOSIÇÃO BDI', 'Incluído na Tabela'],
-            ['ENQUADRAMENTO', 'Empreitada Corporativa']
-          ],
-          etapas: [
-            {
-              nome: '01. Infraestrutura e Fundação Corporativa',
-              itens: [
-                { cod: 'EMP-01', servico: 'Fundação completa com acompanhamento de execução', unid: 'm²', valor: 210 },
-                { cod: 'EMP-02', servico: 'Cintas, vigas e estrutura de amarração', unid: 'm', valor: 98 },
-                { cod: 'EMP-03', servico: 'Compactação de solo e lastro de brita/concreto', unid: 'm²', valor: 74 }
-              ]
-            },
-            {
-              nome: '02. Vedação, Cobertura e Acabamento',
-              itens: [
-                { cod: 'EMP-04', servico: 'Alvenaria, reboco e preparo técnico', unid: 'm²', valor: 135 },
-                { cod: 'EMP-05', servico: 'Porcelanato, impermeabilização e acabamento fino', unid: 'm²', valor: 115 },
-                { cod: 'EMP-06', servico: 'Cobertura completa com estrutura e calhas', unid: 'm²', valor: 112 }
-              ]
-            },
-            {
-              nome: '03. Instalações Prediais e Entrega',
-              itens: [
-                { cod: 'EMP-07', servico: 'Instalações elétricas completas com quadro e aterramento', unid: 'pt', valor: 128 },
-                { cod: 'EMP-08', servico: 'Instalações hidrossanitárias, esgoto e testes de pressão', unid: 'pt', valor: 132 },
-                { cod: 'EMP-09', servico: 'Pintura técnica completa e entrega limpa de obra', unid: 'm²', valor: 62 }
-              ]
-            }
+        {
+          nome: '02. Fundação e Infraestrutura',
+          itens: [
+            { cod: 'AUT-02.1', servico: 'Escavação manual e execução de brocas / sapatas', unid: 'm³', valor: 145 },
+            { cod: 'AUT-02.2', servico: 'Viga baldrame armada e concretada (incluindo caixaria)', unid: 'm', valor: 68 },
+            { cod: 'AUT-02.3', servico: 'Aterro apiloado e regularização de base', unid: 'm³', valor: 52 }
           ]
         },
-        REFORMA: {
-          badge: 'BASE B: REFORMA CORPORATIVA',
-          titulo: 'Tabela de Reformas — Construtor / Empresa (BDI)',
-          subtitulo: 'Reformas Estruturais, Fachadas e Áreas Especiais | Estado de São Paulo',
-          lat1: '<strong>Perfil:</strong> Empresa / Reforma Técnica',
-          lat2: '<strong>Regime:</strong> Contrato com Medição',
-          indicadores: [
-            ['ESTIMATIVA MÉDIA / M²', 'R$ 520,00 - 690,00'],
-            ['EQUIPE TÉCNICA (DIA)', 'R$ 380,00 - 460,00'],
-            ['COMPOSIÇÃO BDI', 'Incluído na Tabela'],
-            ['ENQUADRAMENTO', 'Reforma Corporativa']
-          ],
-          etapas: [
-            {
-              nome: '01. Adequação e Estrutura',
-              itens: [
-                { cod: 'EMP-R1', servico: 'Demolição técnica, reforço e recomposição', unid: 'm²', valor: 95 },
-                { cod: 'EMP-R2', servico: 'Impermeabilização e regularização de base', unid: 'm²', valor: 88 },
-                { cod: 'EMP-R3', servico: 'Proteção de áreas, isolamento e gestão de resíduos', unid: 'm²', valor: 54 }
-              ]
-            },
-            {
-              nome: '02. Acabamento e Entrega',
-              itens: [
-                { cod: 'EMP-R4', servico: 'Revestimentos especiais e acabamento final', unid: 'm²', valor: 118 },
-                { cod: 'EMP-R5', servico: 'Pintura técnica e entrega limpa de obra', unid: 'm²', valor: 58 },
-                { cod: 'EMP-R6', servico: 'Adequação elétrica/hidráulica com emissão de medição', unid: 'pt', valor: 120 }
-              ]
-            }
+        {
+          nome: '03. Estrutura e Concreto',
+          itens: [
+            { cod: 'AUT-03.1', servico: 'Pilares, vergas e contravergas moldadas in loco', unid: 'm', valor: 62 },
+            { cod: 'AUT-03.2', servico: 'Escoramento, montagem de laje pré-moldada e capa de concreto', unid: 'm²', valor: 88 }
+          ]
+        },
+        {
+          nome: '04. Alvenaria de Vedação',
+          itens: [
+            { cod: 'AUT-04.1', servico: 'Alvenaria de bloco cerâmico 14 cm assentado com argamassa', unid: 'm²', valor: 58 },
+            { cod: 'AUT-04.2', servico: 'Alvenaria de bloco de concreto / muro de divisa', unid: 'm²', valor: 64 }
+          ]
+        },
+        {
+          nome: '05. Cobertura e Telhado',
+          itens: [
+            { cod: 'AUT-05.1', servico: 'Estrutura de madeira (caibros, ripas, terças) e colocação de telhas', unid: 'm²', valor: 66 },
+            { cod: 'AUT-05.2', servico: 'Instalação de calhas, rufos e pingadeiras', unid: 'm', valor: 45 }
+          ]
+        },
+        {
+          nome: '06. Instalações Elétricas',
+          itens: [
+            { cod: 'AUT-06.1', servico: 'Embutimento de eletrodutos, caixas 4x2/4x4 e passagem de cabos', unid: 'pt', valor: 78 },
+            { cod: 'AUT-06.2', servico: 'Montagem de quadro de distribuição e instalação de pontos/disjuntores', unid: 'pt', valor: 92 }
+          ]
+        },
+        {
+          nome: '07. Instalações Hidráulicas e Esgoto',
+          itens: [
+            { cod: 'AUT-07.1', servico: 'Tubulação de água fria (PVC soldável) e pontos de consumo', unid: 'pt', valor: 85 },
+            { cod: 'AUT-07.2', servico: 'Rede de esgoto sanitário, caixas de gordura e inspeção', unid: 'pt', valor: 88 }
+          ]
+        },
+        {
+          nome: '08. Contrapiso e Impermeabilização',
+          itens: [
+            { cod: 'AUT-08.1', servico: 'Contrapiso sarrafeado e desempenado', unid: 'm²', valor: 44 },
+            { cod: 'AUT-08.2', servico: 'Impermeabilização de baldrame, áreas molhadas e lajes', unid: 'm²', valor: 54 }
+          ]
+        },
+        {
+          nome: '09. Revestimentos, Piso e Porcelanato',
+          itens: [
+            { cod: 'AUT-09.1', servico: 'Chapisco, emboço e reboco interno/externo', unid: 'm²', valor: 54 },
+            { cod: 'AUT-09.2', servico: 'Assentamento de piso cerâmico / porcelanato e rodapé', unid: 'm²', valor: 68 }
+          ]
+        },
+        {
+          nome: '10. Esquadrias, Pintura e Entrega',
+          itens: [
+            { cod: 'AUT-10.1', servico: 'Assentamento e arremate de portas, batentes e janelas', unid: 'un', valor: 135 },
+            { cod: 'AUT-10.2', servico: 'Pintura acrílica / látex (selador + 2 demãos) e limpeza final', unid: 'm²', valor: 38 }
           ]
         }
-      }
-    };
+      ];
+
+      const etapasReformaAutonomo = [
+        {
+          nome: '01. Demolição e Remoção de Entulho',
+          itens: [
+            { cod: 'REF-01.1', servico: 'Demolição de alvenaria / parede existente', unid: 'm²', valor: 42 },
+            { cod: 'REF-01.2', servico: 'Remoção de piso / revestimento antigo e ensacamento de entulho', unid: 'm²', valor: 39 }
+          ]
+        },
+        {
+          nome: '02. Adequação Estrutural e Base',
+          itens: [
+            { cod: 'REF-02.1', servico: 'Abertura de vão, colocação de verga e recomposição', unid: 'm²', valor: 76 },
+            { cod: 'REF-02.2', servico: 'Regularização de contrapiso e correção de infiltrações', unid: 'm²', valor: 52 }
+          ]
+        },
+        {
+          nome: '03. Instalações Elétricas e Hidráulicas em Reforma',
+          itens: [
+            { cod: 'REF-03.1', servico: 'Substituição de fiação, tomadas, interruptores e disjuntores', unid: 'pt', valor: 75 },
+            { cod: 'REF-03.2', servico: 'Reparo hidráulico, troca de registros e adequação de esgoto', unid: 'pt', valor: 90 }
+          ]
+        },
+        {
+          nome: '04. Revestimentos, Pintura e Acabamento',
+          itens: [
+            { cod: 'REF-04.1', servico: 'Assentamento de porcelanato / piso sobre piso e rejunte', unid: 'm²', valor: 72 },
+            { cod: 'REF-04.2', servico: 'Preparação de massa, pintura interna/externa e limpeza de entrega', unid: 'm²', valor: 38 }
+          ]
+        }
+      ];
+
+      const multConstrutor = 1.38;
+      const scaleEtapas = (lista, prefix) => lista.map((et, idx) => ({
+        nome: et.nome,
+        itens: et.itens.map((it, jdx) => ({
+          cod: `${prefix}-${String(idx + 1).padStart(2, '0')}.${jdx + 1}`,
+          servico: it.servico,
+          unid: it.unid,
+          valor: Math.round(it.valor * multConstrutor)
+        }))
+      }));
+
+      return {
+        AUTONOMO: {
+          OBRA_NOVA: {
+            badge: 'BASE A: AUTÔNOMO DIRETO',
+            titulo: 'Tabela de Mão de Obra — Profissional Autônomo',
+            subtitulo: 'Custos Específicos por Etapa e Serviço | Estado de São Paulo',
+            lat1: '<strong>Perfil:</strong> Autônomo / Execução Direta',
+            lat2: '<strong>Detalhamento:</strong> Etapa por Etapa',
+            indicadores: [
+              ['ETAPAS DETALHADAS', `${etapasObraNovaAutonomo.length} Etapas`],
+              ['PEDREIRO / OFICIAL (DIA)', 'R$ 200,00 - 250,00'],
+              ['AJUDANTE / SERVENTE (DIA)', 'R$ 100,00 - 130,00'],
+              ['ENQUADRAMENTO', 'Mão de Obra Direta']
+            ],
+            etapas: etapasObraNovaAutonomo
+          },
+          REFORMA: {
+            badge: 'BASE A: REFORMA DIRETA',
+            titulo: 'Tabela de Reformas — Profissional Autônomo',
+            subtitulo: 'Custos Específicos por Etapa de Reforma | Estado de São Paulo',
+            lat1: '<strong>Perfil:</strong> Autônomo / Reforma Pontual',
+            lat2: '<strong>Detalhamento:</strong> Etapa por Etapa',
+            indicadores: [
+              ['ETAPAS DETALHADAS', `${etapasReformaAutonomo.length} Etapas`],
+              ['PEDREIRO / OFICIAL (DIA)', 'R$ 220,00 - 260,00'],
+              ['AJUDANTE / SERVENTE (DIA)', 'R$ 110,00 - 140,00'],
+              ['ENQUADRAMENTO', 'Reforma e Manutenção']
+            ],
+            etapas: etapasReformaAutonomo
+          }
+        },
+        CONSTRUTOR: {
+          OBRA_NOVA: {
+            badge: 'BASE B: CONSTRUTOR / EMPRESA',
+            titulo: 'Tabela Corporativa — Construtor / Empreiteira (BDI)',
+            subtitulo: 'Custos por Etapa com Gestão Técnica, Encargos e BDI | São Paulo',
+            lat1: '<strong>Perfil:</strong> Empresa / Gestão de Obra',
+            lat2: '<strong>Regime:</strong> Empreitada Corporativa',
+            indicadores: [
+              ['ETAPAS DETALHADAS', `${etapasObraNovaAutonomo.length} Etapas`],
+              ['EQUIPE TÉCNICA (DIA)', 'R$ 360,00 - 450,00'],
+              ['COMPOSIÇÃO BDI', 'Incluído por Etapa'],
+              ['ENQUADRAMENTO', 'Empreitada Corporativa']
+            ],
+            etapas: scaleEtapas(etapasObraNovaAutonomo, 'EMP')
+          },
+          REFORMA: {
+            badge: 'BASE B: REFORMA CORPORATIVA',
+            titulo: 'Tabela de Reformas — Construtor / Empresa (BDI)',
+            subtitulo: 'Custos por Etapa de Reforma Técnica e Medição | São Paulo',
+            lat1: '<strong>Perfil:</strong> Empresa / Reforma Técnica',
+            lat2: '<strong>Regime:</strong> Contrato com Medição',
+            indicadores: [
+              ['ETAPAS DETALHADAS', `${etapasReformaAutonomo.length} Etapas`],
+              ['EQUIPE TÉCNICA (DIA)', 'R$ 380,00 - 460,00'],
+              ['COMPOSIÇÃO BDI', 'Incluído por Etapa'],
+              ['ENQUADRAMENTO', 'Reforma Corporativa']
+            ],
+            etapas: scaleEtapas(etapasReformaAutonomo, 'EMPR')
+          }
+        }
+      };
+    }
+
+    const TABELAS_SP = buildCatalogoCompleto();
 
     const defaultState = () => ({
       empresa: {
         nome: 'CP CONSTRUÇÕES E REFORMAS',
         cnpj: '51.473.332/0001-24',
-        responsavel: 'Cristiano dos Santos Paes',
+        responsavel: 'Cristiano dos Santos Paes, Sócio-Diretor',
         telefone: '',
         endereco: 'Itanhaém • Litoral Sul - SP'
       },
+      etapasProgresso: ETAPAS_PROGRESSO_BASE.map((x) => ({ ...x })),
       clientes: [],
       colaboradores: [],
       diarias: [],
@@ -939,7 +992,14 @@
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return defaultState();
         const parsed = JSON.parse(raw);
-        return { ...defaultState(), ...parsed, empresa: { ...defaultState().empresa, ...(parsed.empresa || {}) } };
+        return {
+          ...defaultState(),
+          ...parsed,
+          empresa: { ...defaultState().empresa, ...(parsed.empresa || {}) },
+          etapasProgresso: Array.isArray(parsed.etapasProgresso) && parsed.etapasProgresso.length
+            ? parsed.etapasProgresso
+            : ETAPAS_PROGRESSO_BASE.map((x) => ({ ...x }))
+        };
       } catch (e) {
         return defaultState();
       }
@@ -997,7 +1057,11 @@
         if (snap.exists) {
           const remote = snap.data();
           if (remote && remote.stateData) {
-            state = { ...defaultState(), ...remote.stateData, empresa: { ...defaultState().empresa, ...(remote.stateData.empresa || {}) } };
+            state = {
+              ...defaultState(),
+              ...remote.stateData,
+              empresa: { ...defaultState().empresa, ...(remote.stateData.empresa || {}) }
+            };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
             renderAll();
           }
@@ -1050,7 +1114,7 @@
       const emp = state.empresa || {};
       const nome = emp.nome || 'CP CONSTRUÇÕES E REFORMAS';
       const cnpj = emp.cnpj || '51.473.332/0001-24';
-      const resp = emp.responsavel || 'Cristiano dos Santos Paes';
+      const resp = emp.responsavel || 'Cristiano dos Santos Paes, Sócio-Diretor';
       const tel = emp.telefone || '';
       const end = emp.endereco || 'Itanhaém • Litoral Sul - SP';
 
@@ -1063,7 +1127,7 @@
       const pCnpj = document.getElementById('print-empresa-cnpj');
       const pContato = document.getElementById('print-empresa-contato');
       if (pNome) pNome.textContent = nome;
-      if (pCnpj) pCnpj.textContent = `Registro / CNPJ: ${cnpj}`;
+      if (pCnpj) pCnpj.textContent = `CNPJ: ${cnpj}`;
       if (pContato) pContato.textContent = `Responsável Técnico: ${resp}${tel ? ' • ' + tel : ''} • ${end}`;
 
       const cfgNome = document.getElementById('cfg-empresa-nome');
@@ -1102,6 +1166,8 @@
       const elPag = document.getElementById('dash-pagamentos');
       const elSaldo = document.getElementById('dash-saldo');
       const elCli = document.getElementById('dash-total-clientes');
+      const elEqp = document.getElementById('dash-total-equipe');
+      const tbodyEtapas = document.getElementById('dash-etapas-progresso');
       const tbody = document.getElementById('dash-lista-recentes');
 
       if (elObras) elObras.textContent = String((state.orcamentos || []).length);
@@ -1109,6 +1175,35 @@
       if (elPag) elPag.textContent = formatBRL(saidas);
       if (elSaldo) elSaldo.textContent = formatBRL(saldo);
       if (elCli) elCli.textContent = String((state.clientes || []).length);
+      if (elEqp) elEqp.textContent = String((state.colaboradores || []).length);
+
+      if (tbodyEtapas) {
+        tbodyEtapas.innerHTML = (state.etapasProgresso || []).map((row) => {
+          const pct = Math.max(0, Math.min(100, Number(row.progresso) || 0));
+          const badgeClass = pct === 100
+            ? 'bg-emerald-100 text-emerald-900'
+            : pct > 0
+              ? 'bg-amber-100 text-amber-900'
+              : 'bg-slate-100 text-slate-600';
+          return `
+            <tr class="hover:bg-slate-50">
+              <td class="p-2.5 font-semibold text-slate-800">${escapeHtml(row.etapa)}</td>
+              <td class="p-2.5 w-44">
+                <div class="flex items-center gap-2">
+                  <div class="flex-grow bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div class="bg-wood-800 h-2 rounded-full" style="width: ${pct}%"></div>
+                  </div>
+                  <span class="font-bold text-slate-700 w-9 text-right">${pct}%</span>
+                </div>
+              </td>
+              <td class="p-2.5 text-right font-bold text-slate-800">${formatBRL(row.custoAtual)}</td>
+              <td class="p-2.5 text-right">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeClass}">${escapeHtml(row.status || (pct === 100 ? 'Concluído' : pct > 0 ? 'Em Andamento' : 'Pendente'))}</span>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
 
       if (!tbody) return;
       const recentes = [...(state.orcamentos || [])].slice(-5).reverse();
@@ -1179,36 +1274,39 @@
       const container = document.getElementById('container-etapas-detalhadas');
       if (!container) return;
 
-      container.innerHTML = dados.etapas.map((etapa) => `
-        <div class="executive-card rounded-lg overflow-hidden">
-          <div class="bg-wood-50 px-5 py-3 border-b border-wood-200 flex justify-between items-center">
-            <h3 class="text-sm font-bold font-serif-artisan text-wood-950">${escapeHtml(etapa.nome)}</h3>
-            <span class="text-[11px] font-semibold text-wood-800">${etapa.itens.length} itens</span>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-slate-600">
-              <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
-                <tr>
-                  <th class="p-3">Cód.</th>
-                  <th class="p-3">Serviço</th>
-                  <th class="p-3 text-center">Unid.</th>
-                  <th class="p-3 text-right">Referência (R$)</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100">
-                ${etapa.itens.map((it) => `
-                  <tr class="hover:bg-slate-50">
-                    <td class="p-3 font-mono font-bold text-wood-900">${escapeHtml(it.cod)}</td>
-                    <td class="p-3 text-slate-800">${escapeHtml(it.servico)}</td>
-                    <td class="p-3 text-center">${escapeHtml(it.unid)}</td>
-                    <td class="p-3 text-right font-bold text-emerald-900">${formatBRL(it.valor)}</td>
+      container.innerHTML = dados.etapas.map((etapa) => {
+        const subtotalEtapa = etapa.itens.reduce((acc, item) => acc + (Number(item.valor) || 0), 0);
+        return `
+          <div class="executive-card rounded-lg overflow-hidden">
+            <div class="bg-wood-50 px-5 py-3 border-b border-wood-200 flex flex-wrap justify-between items-center gap-2">
+              <h3 class="text-sm font-bold font-serif-artisan text-wood-950">${escapeHtml(etapa.nome)}</h3>
+              <span class="text-[11px] font-bold text-emerald-900">Soma unitária da etapa: ${formatBRL(subtotalEtapa)} (${etapa.itens.length} itens)</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
+                  <tr>
+                    <th class="p-3">Cód.</th>
+                    <th class="p-3">Serviço da Etapa</th>
+                    <th class="p-3 text-center">Unid.</th>
+                    <th class="p-3 text-right">Custo Unitário (R$)</th>
                   </tr>
-                `).join('')}
-              </tbody>
-            </table>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  ${etapa.itens.map((it) => `
+                    <tr class="hover:bg-slate-50">
+                      <td class="p-3 font-mono font-bold text-wood-900">${escapeHtml(it.cod)}</td>
+                      <td class="p-3 text-slate-800">${escapeHtml(it.servico)}</td>
+                      <td class="p-3 text-center">${escapeHtml(it.unid)}</td>
+                      <td class="p-3 text-right font-bold text-emerald-900">${formatBRL(it.valor)}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function populateOrcamentoSelects() {
@@ -1300,12 +1398,15 @@
 
       if (tbody) {
         if (!orcItensTemp.length) {
-          tbody.innerHTML = '<tr><td colspan="7" class="p-3 text-center text-slate-400">Adicione serviços da tabela para compor a proposta.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="7" class="p-3 text-center text-slate-400">Adicione serviços por etapa para compor a proposta.</td></tr>';
         } else {
           tbody.innerHTML = orcItensTemp.map((it) => `
             <tr>
               <td class="p-2 font-mono font-bold">${escapeHtml(it.cod)}</td>
-              <td class="p-2">${escapeHtml(it.servico)}</td>
+              <td class="p-2">
+                <span class="block text-[10px] font-semibold text-wood-800">${escapeHtml(it.etapa)}</span>
+                <span>${escapeHtml(it.servico)}</span>
+              </td>
               <td class="p-2 text-center">${escapeHtml(it.unid)}</td>
               <td class="p-2 text-right">${Number(it.qtd).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
               <td class="p-2 text-right">${formatBRL(it.unit)}</td>
@@ -1475,10 +1576,6 @@
       saveState();
       renderOrcamentosSalvos();
       renderDashboard();
-      const area = document.getElementById('area-impressao-contrato');
-      if (area && document.getElementById('print-orc-id')?.textContent === '') {
-        area.classList.add('hidden');
-      }
     }
 
     function renderClientes() {
@@ -1554,6 +1651,7 @@
       state.colaboradores = state.colaboradores.filter((c) => c.id !== id);
       saveState();
       renderEquipe();
+      renderDashboard();
     }
 
     function excluirDiaria(id) {
@@ -1759,9 +1857,7 @@
                 return;
               }
             }
-          } catch (e) {
-            // fallback para cadastro manual
-          }
+          } catch (e) {}
         }
         document.getElementById('btn-abrir-cliente')?.click();
       });
@@ -1784,6 +1880,7 @@
           });
           saveState();
           renderEquipe();
+          renderDashboard();
           fecharModal();
         });
       });
@@ -1864,8 +1961,8 @@
       document.getElementById('btn-salvar-config')?.addEventListener('click', () => {
         state.empresa = {
           nome: document.getElementById('cfg-empresa-nome')?.value.trim() || 'CP CONSTRUÇÕES E REFORMAS',
-          cnpj: document.getElementById('cfg-empresa-cnpj')?.value.trim() || '',
-          responsavel: document.getElementById('cfg-empresa-resp')?.value.trim() || 'Cristiano dos Santos Paes',
+          cnpj: document.getElementById('cfg-empresa-cnpj')?.value.trim() || '51.473.332/0001-24',
+          responsavel: document.getElementById('cfg-empresa-resp')?.value.trim() || 'Cristiano dos Santos Paes, Sócio-Diretor',
           telefone: document.getElementById('cfg-empresa-tel')?.value.trim() || '',
           endereco: document.getElementById('cfg-empresa-end')?.value.trim() || ''
         };
@@ -1891,7 +1988,11 @@
         reader.onload = () => {
           try {
             const imported = JSON.parse(String(reader.result || '{}'));
-            state = { ...defaultState(), ...imported, empresa: { ...defaultState().empresa, ...(imported.empresa || {}) } };
+            state = {
+              ...defaultState(),
+              ...imported,
+              empresa: { ...defaultState().empresa, ...(imported.empresa || {}) }
+            };
             saveState();
             renderAll();
             alert('Backup importado com sucesso.');
