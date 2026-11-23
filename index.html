@@ -9,7 +9,6 @@
   <meta name="theme-color" content="#341e16">
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
@@ -58,6 +57,14 @@
       pointer-events: none;
     }
 
+    .ui-icon {
+      width: 1em;
+      height: 1em;
+      display: inline-block;
+      flex-shrink: 0;
+      vertical-align: -0.125em;
+    }
+
     @media print {
       .no-print { display: none !important; }
       body { background-color: #ffffff !important; color: #000000 !important; }
@@ -94,26 +101,68 @@
           </div>
 
           <nav class="hidden md:flex flex-wrap items-center gap-1">
-            <button type="button" data-tab="dashboard" id="nav-dashboard" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 bg-wood-800 text-amber-200 border-b-2 border-amber-400"><i class="fa-solid fa-building-shield"></i><span>Painel</span></button>
-            <button type="button" data-tab="tabelas" id="nav-tabelas" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-layer-group"></i><span>Tabelas SP</span></button>
-            <button type="button" data-tab="orcamentos" id="nav-orcamentos" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-file-signature"></i><span>Orçamentos</span></button>
-            <button type="button" data-tab="clientes" id="nav-clientes" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-address-book"></i><span>Clientes</span></button>
-            <button type="button" data-tab="equipe" id="nav-equipe" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-helmet-safety"></i><span>Equipe</span></button>
-            <button type="button" data-tab="financeiro" id="nav-financeiro" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-vault"></i><span>Caixa</span></button>
-            <button type="button" data-tab="config" id="nav-config" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70"><i class="fa-solid fa-sliders"></i><span>Empresa</span></button>
+            <button type="button" data-tab="dashboard" id="nav-dashboard" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 bg-wood-800 text-amber-200 border-b-2 border-amber-400">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>
+              <span>Painel</span>
+            </button>
+            <button type="button" data-tab="tabelas" id="nav-tabelas" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
+              <span>Tabelas SP</span>
+            </button>
+            <button type="button" data-tab="orcamentos" id="nav-orcamentos" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+              <span>Orçamentos</span>
+            </button>
+            <button type="button" data-tab="clientes" id="nav-clientes" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>Clientes</span>
+            </button>
+            <button type="button" data-tab="equipe" id="nav-equipe" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15a8 8 0 0 1 16 0H4z"/><path d="M12 4v3M2 15h20"/></svg>
+              <span>Equipe</span>
+            </button>
+            <button type="button" data-tab="financeiro" id="nav-financeiro" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M7 9h.01M17 15h.01"/></svg>
+              <span>Caixa</span>
+            </button>
+            <button type="button" data-tab="config" id="nav-config" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
+              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span>Empresa</span>
+            </button>
           </nav>
         </div>
       </div>
 
       <!-- NAVEGAÇÃO MOBILE -->
       <div class="md:hidden border-t border-wood-700/80 px-1 py-1.5 flex justify-around no-print text-[10px] text-amber-100 bg-wood-950/30">
-        <button type="button" data-tab="dashboard" class="nav-btn p-1 flex flex-col items-center"><i class="fa-solid fa-building-shield text-sm"></i><span>Painel</span></button>
-        <button type="button" data-tab="tabelas" class="nav-btn p-1 flex flex-col items-center"><i class="fa-solid fa-layer-group text-sm"></i><span>Tabelas</span></button>
-        <button type="button" data-tab="orcamentos" class="nav-btn p-1 flex flex-col items-center"><i class="fa-solid fa-file-signature text-sm"></i><span>Propostas</span></button>
-        <button type="button" data-tab="clientes" class="nav-btn p-1 flex flex-col items-center"><i class="fa-solid fa-address-book text-sm"></i><span>Clientes</span></button>
-        <button type="button" data-tab="equipe" class="nav-btn p-1 flex flex-col items-center"><i class="fa-solid fa-helmet-safety text-sm"></i><span>Equipe</span></button>
-        <button type="button" data-tab="financeiro" class="nav-btn p-1 flex flex-col items-center"><i class="fa-solid fa-vault text-sm"></i><span>Caixa</span></button>
-        <button type="button" data-tab="config" class="nav-btn p-1 flex flex-col items-center"><i class="fa-solid fa-sliders text-sm"></i><span>Empresa</span></button>
+        <button type="button" data-tab="dashboard" class="nav-btn p-1 flex flex-col items-center gap-0.5">
+          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>
+          <span>Painel</span>
+        </button>
+        <button type="button" data-tab="tabelas" class="nav-btn p-1 flex flex-col items-center gap-0.5">
+          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
+          <span>Tabelas</span>
+        </button>
+        <button type="button" data-tab="orcamentos" class="nav-btn p-1 flex flex-col items-center gap-0.5">
+          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+          <span>Propostas</span>
+        </button>
+        <button type="button" data-tab="clientes" class="nav-btn p-1 flex flex-col items-center gap-0.5">
+          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          <span>Clientes</span>
+        </button>
+        <button type="button" data-tab="equipe" class="nav-btn p-1 flex flex-col items-center gap-0.5">
+          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15a8 8 0 0 1 16 0H4z"/><path d="M12 4v3M2 15h20"/></svg>
+          <span>Equipe</span>
+        </button>
+        <button type="button" data-tab="financeiro" class="nav-btn p-1 flex flex-col items-center gap-0.5">
+          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>
+          <span>Caixa</span>
+        </button>
+        <button type="button" data-tab="config" class="nav-btn p-1 flex flex-col items-center gap-0.5">
+          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09"/></svg>
+          <span>Empresa</span>
+        </button>
       </div>
     </header>
 
@@ -132,11 +181,13 @@
             <p class="text-slate-600 text-xs sm:text-sm">Gestão completa de orçamentos, clientes, equipe, caixa, tabelas de preços SP e nuvem.</p>
           </div>
           <div class="flex flex-wrap gap-2 w-full lg:w-auto">
-            <button type="button" id="dash-btn-tabelas" class="flex-1 lg:flex-none bg-emerald-900 hover:bg-emerald-950 text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
-              <i class="fa-solid fa-layer-group mr-2 text-emerald-300"></i> Tabelas de Preços SP
+            <button type="button" id="dash-btn-tabelas" class="flex-1 lg:flex-none bg-emerald-900 hover:bg-emerald-950 text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center gap-2">
+              <svg class="ui-icon text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
+              <span>Tabelas de Preços SP</span>
             </button>
-            <button type="button" id="dash-btn-orcamento" class="flex-1 lg:flex-none wood-texture-header hover:opacity-95 text-amber-100 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center">
-              <i class="fa-solid fa-plus mr-2 text-amber-300"></i> Novo Orçamento
+            <button type="button" id="dash-btn-orcamento" class="flex-1 lg:flex-none wood-texture-header hover:opacity-95 text-amber-100 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center gap-2">
+              <svg class="ui-icon text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <span>Novo Orçamento</span>
             </button>
           </div>
         </div>
@@ -145,7 +196,7 @@
           <div class="executive-card p-5 rounded-lg">
             <div class="flex justify-between items-start">
               <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Orçamentos Emitidos</span>
-              <i class="fa-solid fa-folder-open text-wood-700 text-sm"></i>
+              <svg class="ui-icon text-wood-700 text-base" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg>
             </div>
             <p id="dash-obras-ativas" class="text-2xl font-bold text-slate-900 mt-2">0</p>
             <p class="text-[11px] text-slate-500 mt-1">Propostas registradas</p>
@@ -154,7 +205,7 @@
           <div class="executive-card p-5 rounded-lg" style="border-top-color: #065f46;">
             <div class="flex justify-between items-start">
               <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Entradas no Caixa</span>
-              <i class="fa-solid fa-arrow-trend-up text-emerald-700 text-sm"></i>
+              <svg class="ui-icon text-emerald-700 text-base" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg>
             </div>
             <p id="dash-recebimentos" class="text-2xl font-bold text-emerald-800 mt-2">R$ 0,00</p>
             <p class="text-[11px] text-slate-500 mt-1">Receitas lançadas</p>
@@ -163,7 +214,7 @@
           <div class="executive-card p-5 rounded-lg" style="border-top-color: #9f1239;">
             <div class="flex justify-between items-start">
               <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Saídas &amp; Diárias</span>
-              <i class="fa-solid fa-helmet-safety text-rose-700 text-sm"></i>
+              <svg class="ui-icon text-rose-700 text-base" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15a8 8 0 0 1 16 0H4z"/><path d="M12 4v3M2 15h20"/></svg>
             </div>
             <p id="dash-pagamentos" class="text-2xl font-bold text-rose-800 mt-2">R$ 0,00</p>
             <p class="text-[11px] text-slate-500 mt-1">Custos e equipe</p>
@@ -172,7 +223,7 @@
           <div class="executive-card p-5 rounded-lg" style="border-top-color: #b45309;">
             <div class="flex justify-between items-start">
               <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Saldo Atual</span>
-              <i class="fa-solid fa-scale-balanced text-amber-700 text-sm"></i>
+              <svg class="ui-icon text-amber-700 text-base" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M5 8h14M7 8l-2 6h4l-2-6zm10 0l-2 6h4l-2-6z"/></svg>
             </div>
             <p id="dash-saldo" class="text-2xl font-bold text-amber-700 mt-2">R$ 0,00</p>
             <p class="text-[11px] text-slate-500 mt-1">Entradas menos saídas</p>
@@ -250,10 +301,10 @@
             <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">1. Selecione a Tabela de Referência:</span>
             <div class="inline-flex flex-wrap rounded-lg bg-slate-100 p-1 gap-1">
               <button type="button" id="btn-perfil-autonomo" class="px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition">
-                👷 Tabela Autônomo (Direto)
+                Tabela Autônomo (Direto)
               </button>
               <button type="button" id="btn-perfil-construtor" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
-                🏢 Tabela Construtor (Empresa / BDI)
+                Tabela Construtor (Empresa / BDI)
               </button>
             </div>
           </div>
@@ -262,10 +313,10 @@
             <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">2. Selecione o Escopo da Obra:</span>
             <div class="inline-flex flex-wrap rounded-lg bg-slate-100 p-1 gap-1">
               <button type="button" id="btn-escopo-obranova" class="px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-100 shadow transition">
-                🏗️ Obra Nova (Desde o Início)
+                Obra Nova (Desde o Início)
               </button>
               <button type="button" id="btn-escopo-reforma" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
-                🛠️ Reformas &amp; Encargos Específicos
+                Reformas &amp; Encargos Específicos
               </button>
             </div>
           </div>
@@ -306,7 +357,7 @@
         <div id="container-form-orcamento" class="executive-card p-6 rounded-lg hidden space-y-5 no-print">
           <div class="flex justify-between items-center border-b border-slate-200 pb-3">
             <h3 class="text-base font-bold font-serif-artisan text-wood-950">Composição Interna de Preços (Uso Exclusivo da Empresa)</h3>
-            <button type="button" id="btn-fechar-form-orc" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <button type="button" id="btn-fechar-form-orc" class="text-slate-400 hover:text-slate-600 font-bold text-sm px-2 py-1">✕</button>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
@@ -317,15 +368,15 @@
             <div>
               <label class="block font-bold text-slate-700 mb-1">Base de Preço Interna *</label>
               <select id="orc-perfil-base" class="w-full border-2 border-wood-700 bg-wood-50 font-bold text-wood-950 p-2 rounded-lg">
-                <option value="AUTONOMO">👷 Base Autônomo (Direto)</option>
-                <option value="CONSTRUTOR">🏢 Base Construtor (Empresa/BDI)</option>
+                <option value="AUTONOMO">Base Autônomo (Direto)</option>
+                <option value="CONSTRUTOR">Base Construtor (Empresa/BDI)</option>
               </select>
             </div>
             <div>
               <label class="block font-bold text-slate-700 mb-1">Tipo de Obra *</label>
               <select id="orc-modalidade" class="w-full border-2 border-emerald-700 bg-emerald-50 font-bold text-emerald-950 p-2 rounded-lg">
-                <option value="OBRA_NOVA">🏗️ Obra Nova</option>
-                <option value="REFORMA">🛠️ Reforma / Reestruturação</option>
+                <option value="OBRA_NOVA">Obra Nova</option>
+                <option value="REFORMA">Reforma / Reestruturação</option>
               </select>
             </div>
             <div>
@@ -358,7 +409,7 @@
               <input type="number" step="0.01" id="inp-val-orc" class="w-full border border-slate-300 rounded p-2 font-bold bg-white">
             </div>
             <div class="md:col-span-1">
-              <button type="button" id="btn-add-item-orc" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white py-2 rounded font-bold"><i class="fa-solid fa-plus"></i></button>
+              <button type="button" id="btn-add-item-orc" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white py-2 rounded font-bold">+</button>
             </div>
           </div>
 
@@ -414,7 +465,7 @@
         <div id="area-impressao-contrato" class="hidden executive-card watermark-bg p-8 rounded-lg space-y-6 print-shadow-none bg-white">
           <div class="no-print flex justify-between items-center bg-wood-100 p-3 rounded mb-4">
             <button type="button" id="btn-fechar-contrato" class="text-xs font-bold text-slate-700">← Voltar à Lista</button>
-            <button type="button" id="btn-imprimir-contrato" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded shadow"><i class="fa-solid fa-print mr-1.5"></i> Imprimir / Salvar Proposta PDF</button>
+            <button type="button" id="btn-imprimir-contrato" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded shadow">Imprimir / Salvar Proposta PDF</button>
           </div>
 
           <div class="border-b-2 border-wood-900 pb-5 flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -489,7 +540,7 @@
           </div>
           <div class="flex flex-wrap gap-2">
             <button type="button" id="btn-importar-contato" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2.5 rounded-lg text-xs font-bold shadow">
-              <i class="fa-solid fa-address-card mr-1.5"></i> Agenda do Celular
+              Agenda do Celular
             </button>
             <button type="button" id="btn-abrir-cliente" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">
               + Novo Cliente
@@ -540,4 +591,1294 @@
         </div>
 
         <div class="executive-card rounded-lg p-5 space-y-4">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-200 pb-3">
+            <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Histórico de Diárias Lançadas</h3>
+            <button type="button" id="btn-abrir-diaria" class="bg-emerald-800 hover:bg-emerald-900 text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow">
+              + Lançar Diária
+            </button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-600">
+              <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
+                <tr>
+                  <th class="p-2.5">Data</th>
+                  <th class="p-2.5">Colaborador</th>
+                  <th class="p-2.5">Obra / Referência</th>
+                  <th class="p-2.5 text-right">Valor</th>
+                  <th class="p-2.5 text-right">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="lista-diarias" class="divide-y"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. CAIXA / FINANCEIRO -->
+      <section id="tab-financeiro" class="tab-content hidden space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div>
+            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Controle de Caixa &amp; Financeiro</h2>
+            <p class="text-xs text-slate-500">Entradas de medições/contratos e saídas operacionais de obra.</p>
+          </div>
+          <button type="button" id="btn-abrir-lancamento" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">
+            + Novo Lançamento
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="executive-card p-4 rounded-lg" style="border-top-color: #065f46;">
+            <span class="text-[11px] font-bold text-slate-500 uppercase">Total Entradas</span>
+            <p id="fin-entradas" class="text-xl font-bold text-emerald-800 mt-1">R$ 0,00</p>
+          </div>
+          <div class="executive-card p-4 rounded-lg" style="border-top-color: #9f1239;">
+            <span class="text-[11px] font-bold text-slate-500 uppercase">Total Saídas</span>
+            <p id="fin-saidas" class="text-xl font-bold text-rose-800 mt-1">R$ 0,00</p>
+          </div>
+          <div class="executive-card p-4 rounded-lg" style="border-top-color: #b45309;">
+            <span class="text-[11px] font-bold text-slate-500 uppercase">Saldo Consolidado</span>
+            <p id="fin-saldo" class="text-xl font-bold text-wood-950 mt-1">R$ 0,00</p>
+          </div>
+        </div>
+
+        <div class="executive-card rounded-lg overflow-hidden">
+          <table class="w-full text-left text-sm text-slate-600">
+            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
+              <tr>
+                <th class="p-3">Data</th>
+                <th class="p-3">Tipo</th>
+                <th class="p-3">Descrição</th>
+                <th class="p-3 text-right">Valor</th>
+                <th class="p-3 text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="lista-lancamentos" class="divide-y"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 7. EMPRESA & CONFIGURAÇÕES -->
+      <section id="tab-config" class="tab-content hidden space-y-6">
+        <div>
+          <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Dados da Empresa &amp; Sincronização</h2>
+          <p class="text-xs text-slate-500">Informações exibidas nas propostas comerciais e backup/restauração de dados.</p>
+        </div>
+
+        <div class="executive-card p-6 rounded-lg space-y-4 text-xs">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Nome Fantasia / Razão Social</label>
+              <input type="text" id="cfg-empresa-nome" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">CNPJ / Registro</label>
+              <input type="text" id="cfg-empresa-cnpj" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Responsável Técnico</label>
+              <input type="text" id="cfg-empresa-resp" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Telefone / WhatsApp</label>
+              <input type="text" id="cfg-empresa-tel" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block font-bold text-slate-700 mb-1">Endereço / Região de Atuação</label>
+              <input type="text" id="cfg-empresa-end" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
+            </div>
+          </div>
+
+          <div class="flex flex-wrap justify-between items-center gap-3 pt-3 border-t border-slate-200">
+            <div class="flex flex-wrap gap-2">
+              <button type="button" id="btn-exportar-json" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg font-bold">
+                Exportar Backup JSON
+              </button>
+              <label class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-lg font-bold cursor-pointer border border-slate-300">
+                Importar JSON
+                <input type="file" id="inp-importar-json" accept="application/json" class="hidden">
+              </label>
+            </div>
+            <button type="button" id="btn-salvar-config" class="wood-texture-header text-amber-100 px-6 py-2.5 rounded-lg font-bold shadow">
+              Salvar Dados da Empresa
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-wood-950 text-amber-100/80 text-xs py-4 px-4 no-print border-t border-amber-500/20">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+        <span>CP Construções e Reformas — Cristiano dos Santos Paes • Itanhaém / SP</span>
+        <span class="text-[11px] text-amber-300/80">Sistema Operacional de Obras &amp; Orçamentos</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- MODAL GENÉRICO -->
+  <div id="modal-generico" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4 no-print">
+    <div class="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl border-t-4 border-wood-800 space-y-4">
+      <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+        <h3 id="modal-titulo" class="text-base font-bold font-serif-artisan text-wood-950">Cadastro</h3>
+        <button type="button" id="btn-fechar-modal" class="text-slate-400 hover:text-slate-700 font-bold text-sm px-2 py-1">✕</button>
+      </div>
+      <form id="modal-form" class="space-y-3 text-xs"></form>
+      <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+        <button type="button" id="btn-cancelar-modal" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 font-semibold text-xs">Cancelar</button>
+        <button type="button" id="btn-confirmar-modal" class="wood-texture-header text-amber-100 px-5 py-2 rounded-lg font-bold text-xs shadow">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const FIREBASE_CONFIG = {
+      apiKey: "",
+      authDomain: "cp-construcoes-481db.firebaseapp.com",
+      projectId: "cp-construcoes-481db",
+      storageBucket: "cp-construcoes-481db.appspot.com",
+      messagingSenderId: "",
+      appId: ""
+    };
+
+    const STORAGE_KEY = 'cp_construcoes_sistema_v1';
+
+    const TABELAS_SP = {
+      AUTONOMO: {
+        OBRA_NOVA: {
+          badge: 'BASE A: AUTÔNOMO DIRETO',
+          titulo: 'Tabela de Mão de Obra — Profissional Autônomo',
+          subtitulo: 'Valores Praticados por Profissionais Diretos | Estado de São Paulo',
+          lat1: '<strong>Perfil:</strong> Autônomo / Execução Direta',
+          lat2: '<strong>Meta Diária Base:</strong> R$ 300,00 (Dupla)',
+          indicadores: [
+            ['ESTIMATIVA MÉDIA / M²', 'R$ 520,00 - 580,00'],
+            ['PEDREIRO / OFICIAL (DIA)', 'R$ 200,00 - 250,00'],
+            ['AJUDANTE / SERVENTE (DIA)', 'R$ 100,00 - 130,00'],
+            ['ENQUADRAMENTO', 'Mão de Obra Direta']
+          ],
+          etapas: [
+            {
+              nome: '01. Fundação e Infraestrutura',
+              itens: [
+                { cod: 'AUT-01', servico: 'Escavação e brocas / sapatas de fundação', unid: 'm³', valor: 145 },
+                { cod: 'AUT-02', servico: 'Viga baldrame e cinta de amarração', unid: 'm', valor: 68 }
+              ]
+            },
+            {
+              nome: '02. Alvenaria e Estrutura',
+              itens: [
+                { cod: 'AUT-03', servico: 'Alvenaria de vedação bloco cerâmico / concreto', unid: 'm²', valor: 58 },
+                { cod: 'AUT-04', servico: 'Verga, contraverga e pilares moldados', unid: 'm', valor: 62 }
+              ]
+            },
+            {
+              nome: '03. Revestimentos, Piso e Acabamento',
+              itens: [
+                { cod: 'AUT-05', servico: 'Chapisco, emboço e reboco interno/externo', unid: 'm²', valor: 54 },
+                { cod: 'AUT-06', servico: 'Assentamento de piso cerâmico / porcelanato', unid: 'm²', valor: 65 }
+              ]
+            }
+          ]
+        },
+        REFORMA: {
+          badge: 'BASE A: REFORMA DIRETA',
+          titulo: 'Tabela de Reformas — Profissional Autônomo',
+          subtitulo: 'Serviços Pontuais, Reparos e Readequações | Estado de São Paulo',
+          lat1: '<strong>Perfil:</strong> Autônomo / Reforma Pontual',
+          lat2: '<strong>Referência:</strong> Escopo Direto em Obra',
+          indicadores: [
+            ['ESTIMATIVA MÉDIA / M²', 'R$ 340,00 - 460,00'],
+            ['PEDREIRO / OFICIAL (DIA)', 'R$ 220,00 - 260,00'],
+            ['AJUDANTE / SERVENTE (DIA)', 'R$ 110,00 - 140,00'],
+            ['ENQUADRAMENTO', 'Reforma e Manutenção']
+          ],
+          etapas: [
+            {
+              nome: '01. Demolição e Preparo',
+              itens: [
+                { cod: 'REF-01', servico: 'Demolição controlada de alvenaria / revestimento', unid: 'm²', valor: 42 },
+                { cod: 'REF-02', servico: 'Regularização de contrapiso / argamassa', unid: 'm²', valor: 48 }
+              ]
+            },
+            {
+              nome: '02. Acabamentos e Instalações',
+              itens: [
+                { cod: 'REF-03', servico: 'Troca de revestimento / piso sobre piso', unid: 'm²', valor: 72 },
+                { cod: 'REF-04', servico: 'Pintura látex / acrílica (preparação + 2 demãos)', unid: 'm²', valor: 36 }
+              ]
+            }
+          ]
+        }
+      },
+      CONSTRUTOR: {
+        OBRA_NOVA: {
+          badge: 'BASE B: CONSTRUTOR / EMPRESA',
+          titulo: 'Tabela Corporativa — Construtor / Empreiteira (BDI)',
+          subtitulo: 'Empreitada com Gestão Técnica, Encargos e BDI | Estado de São Paulo',
+          lat1: '<strong>Perfil:</strong> Empresa / Gestão de Obra',
+          lat2: '<strong>Regime:</strong> Empreitada Corporativa',
+          indicadores: [
+            ['ESTIMATIVA MÉDIA / M²', 'R$ 740,00 - 850,00'],
+            ['EQUIPE TÉCNICA (DIA)', 'R$ 360,00 - 450,00'],
+            ['COMPOSIÇÃO BDI', 'Incluído na Tabela'],
+            ['ENQUADRAMENTO', 'Empreitada Corporativa']
+          ],
+          etapas: [
+            {
+              nome: '01. Infraestrutura e Fundação Corporativa',
+              itens: [
+                { cod: 'EMP-01', servico: 'Fundação completa com acompanhamento de execução', unid: 'm²', valor: 210 },
+                { cod: 'EMP-02', servico: 'Cintas, vigas e estrutura de amarração', unid: 'm', valor: 98 }
+              ]
+            },
+            {
+              nome: '02. Vedação, Cobertura e Acabamento',
+              itens: [
+                { cod: 'EMP-03', servico: 'Alvenaria, reboco e preparo técnico', unid: 'm²', valor: 135 },
+                { cod: 'EMP-04', servico: 'Porcelanato, impermeabilização e acabamento fino', unid: 'm²', valor: 115 }
+              ]
+            }
+          ]
+        },
+        REFORMA: {
+          badge: 'BASE B: REFORMA CORPORATIVA',
+          titulo: 'Tabela de Reformas — Construtor / Empresa (BDI)',
+          subtitulo: 'Reformas Estruturais, Fachadas e Áreas Especiais | Estado de São Paulo',
+          lat1: '<strong>Perfil:</strong> Empresa / Reforma Técnica',
+          lat2: '<strong>Regime:</strong> Contrato com Medição',
+          indicadores: [
+            ['ESTIMATIVA MÉDIA / M²', 'R$ 520,00 - 690,00'],
+            ['EQUIPE TÉCNICA (DIA)', 'R$ 380,00 - 460,00'],
+            ['COMPOSIÇÃO BDI', 'Incluído na Tabela'],
+            ['ENQUADRAMENTO', 'Reforma Corporativa']
+          ],
+          etapas: [
+            {
+              nome: '01. Adequação e Estrutura',
+              itens: [
+                { cod: 'EMP-R1', servico: 'Demolição técnica, reforço e recomposição', unid: 'm²', valor: 95 },
+                { cod: 'EMP-R2', servico: 'Impermeabilização e regularização de base', unid: 'm²', valor: 88 }
+              ]
+            },
+            {
+              nome: '02. Acabamento e Entrega',
+              itens: [
+                { cod: 'EMP-R3', servico: 'Revestimentos especiais e acabamento final', unid: 'm²', valor: 118 },
+                { cod: 'EMP-R4', servico: 'Pintura técnica e entrega limpa de obra', unid: 'm²', valor: 58 }
+              ]
+            }
+          ]
+        }
+      }
+    };
+
+    const defaultState = () => ({
+      empresa: {
+        nome: 'CP CONSTRUÇÕES E REFORMAS',
+        cnpj: 'MEI • Itanhaém / SP',
+        responsavel: 'Cristiano dos Santos Paes',
+        telefone: '',
+        endereco: 'Itanhaém • Litoral Sul - SP'
+      },
+      clientes: [],
+      colaboradores: [],
+      diarias: [],
+      lancamentos: [],
+      orcamentos: []
+    });
+
+    let state = loadState();
+    let tabelaPerfil = 'AUTONOMO';
+    let tabelaEscopo = 'OBRA_NOVA';
+    let orcItensTemp = [];
+    let modalCallback = null;
+    let db = null;
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return defaultState();
+        const parsed = JSON.parse(raw);
+        return { ...defaultState(), ...parsed, empresa: { ...defaultState().empresa, ...(parsed.empresa || {}) } };
+      } catch (e) {
+        return defaultState();
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        console.warn('Falha ao salvar no localStorage:', e);
+      }
+      syncCloudState();
+    }
+
+    function formatBRL(val) {
+      const num = Number(val) || 0;
+      return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function formatDateBR(isoOrDate) {
+      if (!isoOrDate) return new Date().toLocaleDateString('pt-BR');
+      if (/^\d{4}-\d{2}-\d{2}$/.test(isoOrDate)) {
+        const [y, m, d] = isoOrDate.split('-');
+        return `${d}/${m}/${y}`;
+      }
+      const dt = new Date(isoOrDate);
+      return Number.isNaN(dt.getTime()) ? isoOrDate : dt.toLocaleDateString('pt-BR');
+    }
+
+    function setCloudStatus(connected, label) {
+      const dot = document.getElementById('cloud-dot');
+      const txt = document.getElementById('cloud-status-text');
+      if (!dot || !txt) return;
+      if (connected) {
+        dot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5';
+        txt.textContent = label || 'Nuvem Ativa';
+      } else {
+        dot.className = 'w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5';
+        txt.textContent = label || 'Modo Local';
+      }
+    }
+
+    async function initFirebase() {
+      if (!window.firebase || !FIREBASE_CONFIG.apiKey || !FIREBASE_CONFIG.projectId) {
+        setCloudStatus(false, 'Modo Local');
+        return;
+      }
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(FIREBASE_CONFIG);
+        }
+        db = firebase.firestore();
+        const docRef = db.collection('sistemas').doc('cp-construcoes-481db');
+        const snap = await docRef.get();
+        if (snap.exists) {
+          const remote = snap.data();
+          if (remote && remote.stateData) {
+            state = { ...defaultState(), ...remote.stateData, empresa: { ...defaultState().empresa, ...(remote.stateData.empresa || {}) } };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            renderAll();
+          }
+        } else {
+          await docRef.set({ stateData: state, updatedAt: new Date().toISOString() }, { merge: true });
+        }
+        setCloudStatus(true, 'Firestore Sincronizado');
+      } catch (err) {
+        console.warn('Firestore em fallback local:', err.message || err);
+        setCloudStatus(false, 'Modo Local');
+      }
+    }
+
+    async function syncCloudState() {
+      if (!db || !FIREBASE_CONFIG.projectId) return;
+      try {
+        await db.collection('sistemas').doc('cp-construcoes-481db').set({
+          stateData: state,
+          updatedAt: new Date().toISOString()
+        }, { merge: true });
+        setCloudStatus(true, 'Firestore Sincronizado');
+      } catch (err) {
+        setCloudStatus(false, 'Modo Local');
+      }
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach((sec) => {
+        sec.classList.toggle('hidden', sec.id !== `tab-${tabName}`);
+      });
+
+      document.querySelectorAll('.nav-btn').forEach((btn) => {
+        const active = btn.dataset.tab === tabName;
+        if (btn.closest('nav')) {
+          btn.className = active
+            ? 'nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 bg-wood-800 text-amber-200 border-b-2 border-amber-400'
+            : 'nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70';
+        } else {
+          btn.classList.toggle('text-amber-300', active);
+          btn.classList.toggle('font-bold', active);
+        }
+      });
+
+      if (tabName === 'orcamentos') {
+        populateOrcamentoSelects();
+      }
+    }
+
+    function renderCompanyHeader() {
+      const emp = state.empresa || {};
+      const nome = emp.nome || 'CP CONSTRUÇÕES E REFORMAS';
+      const cnpj = emp.cnpj || 'Itanhaém • SP';
+      const resp = emp.responsavel || 'Cristiano dos Santos Paes';
+      const tel = emp.telefone || '';
+      const end = emp.endereco || 'Itanhaém • Litoral Sul - SP';
+
+      const topName = document.getElementById('top-company-name');
+      const topCnpj = document.getElementById('top-company-cnpj');
+      if (topName) topName.textContent = nome;
+      if (topCnpj) topCnpj.textContent = `${cnpj} — ${resp}`;
+
+      const pNome = document.getElementById('print-header-empresa');
+      const pCnpj = document.getElementById('print-empresa-cnpj');
+      const pContato = document.getElementById('print-empresa-contato');
+      if (pNome) pNome.textContent = nome;
+      if (pCnpj) pCnpj.textContent = `Registro / CNPJ: ${cnpj}`;
+      if (pContato) pContato.textContent = `Responsável Técnico: ${resp}${tel ? ' • ' + tel : ''} • ${end}`;
+
+      const cfgNome = document.getElementById('cfg-empresa-nome');
+      const cfgCnpj = document.getElementById('cfg-empresa-cnpj');
+      const cfgResp = document.getElementById('cfg-empresa-resp');
+      const cfgTel = document.getElementById('cfg-empresa-tel');
+      const cfgEnd = document.getElementById('cfg-empresa-end');
+      if (cfgNome) cfgNome.value = nome;
+      if (cfgCnpj) cfgCnpj.value = cnpj;
+      if (cfgResp) cfgResp.value = resp;
+      if (cfgTel) cfgTel.value = tel;
+      if (cfgEnd) cfgEnd.value = end;
+    }
+
+    function computeFinancials() {
+      let entradas = 0;
+      let saidasLancamentos = 0;
+
+      (state.lancamentos || []).forEach((item) => {
+        const v = Number(item.valor) || 0;
+        if (item.tipo === 'ENTRADA') entradas += v;
+        else saidasLancamentos += v;
+      });
+
+      const totalDiarias = (state.diarias || []).reduce((acc, d) => acc + (Number(d.valor) || 0), 0);
+      const saidas = saidasLancamentos + totalDiarias;
+      const saldo = entradas - saidas;
+
+      return { entradas, saidas, saldo };
+    }
+
+    function renderDashboard() {
+      const { entradas, saidas, saldo } = computeFinancials();
+      const elObras = document.getElementById('dash-obras-ativas');
+      const elRec = document.getElementById('dash-recebimentos');
+      const elPag = document.getElementById('dash-pagamentos');
+      const elSaldo = document.getElementById('dash-saldo');
+      const elCli = document.getElementById('dash-total-clientes');
+      const tbody = document.getElementById('dash-lista-recentes');
+
+      if (elObras) elObras.textContent = String((state.orcamentos || []).length);
+      if (elRec) elRec.textContent = formatBRL(entradas);
+      if (elPag) elPag.textContent = formatBRL(saidas);
+      if (elSaldo) elSaldo.textContent = formatBRL(saldo);
+      if (elCli) elCli.textContent = String((state.clientes || []).length);
+
+      if (!tbody) return;
+      const recentes = [...(state.orcamentos || [])].slice(-5).reverse();
+      if (!recentes.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-400">Nenhuma proposta emitida até o momento.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = recentes.map((orc) => `
+        <tr class="hover:bg-slate-50">
+          <td class="p-2.5 font-bold text-wood-950">${escapeHtml(orc.codigo)}</td>
+          <td class="p-2.5">${escapeHtml(orc.clienteNome || 'Cliente')}</td>
+          <td class="p-2.5">${escapeHtml(orc.modalidadeLabel || orc.modalidade || '-')}</td>
+          <td class="p-2.5">${formatDateBR(orc.data)}</td>
+          <td class="p-2.5 text-right font-bold text-slate-800">${formatBRL(orc.totalFinal)}</td>
+          <td class="p-2.5 text-right">
+            <button type="button" onclick="abrirPropostaImpressao('${orc.id}')" class="text-xs font-semibold text-wood-800 hover:underline">Abrir</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderTabelasSP() {
+      const dados = TABELAS_SP[tabelaPerfil]?.[tabelaEscopo];
+      if (!dados) return;
+
+      const badge = document.getElementById('badge-perfil-tabela');
+      const titulo = document.getElementById('titulo-tabela-principal');
+      const subtitulo = document.getElementById('subtitulo-tabela-principal');
+      const lat1 = document.getElementById('info-lat-1');
+      const lat2 = document.getElementById('info-lat-2');
+
+      if (badge) badge.textContent = dados.badge;
+      if (titulo) titulo.textContent = dados.titulo;
+      if (subtitulo) subtitulo.textContent = dados.subtitulo;
+      if (lat1) lat1.innerHTML = dados.lat1;
+      if (lat2) lat2.innerHTML = dados.lat2;
+
+      dados.indicadores.forEach(([t, v], idx) => {
+        const elT = document.getElementById(`ind-${idx + 1}-titulo`);
+        const elV = document.getElementById(`ind-${idx + 1}-valor`);
+        if (elT) elT.textContent = t;
+        if (elV) elV.textContent = v;
+      });
+
+      const btnAut = document.getElementById('btn-perfil-autonomo');
+      const btnCon = document.getElementById('btn-perfil-construtor');
+      if (btnAut && btnCon) {
+        btnAut.className = tabelaPerfil === 'AUTONOMO'
+          ? 'px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition'
+          : 'px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition';
+        btnCon.className = tabelaPerfil === 'CONSTRUTOR'
+          ? 'px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition'
+          : 'px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition';
+      }
+
+      const btnNova = document.getElementById('btn-escopo-obranova');
+      const btnRef = document.getElementById('btn-escopo-reforma');
+      if (btnNova && btnRef) {
+        btnNova.className = tabelaEscopo === 'OBRA_NOVA'
+          ? 'px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-100 shadow transition'
+          : 'px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition';
+        btnRef.className = tabelaEscopo === 'REFORMA'
+          ? 'px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-100 shadow transition'
+          : 'px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition';
+      }
+
+      const container = document.getElementById('container-etapas-detalhadas');
+      if (!container) return;
+
+      container.innerHTML = dados.etapas.map((etapa) => `
+        <div class="executive-card rounded-lg overflow-hidden">
+          <div class="bg-wood-50 px-5 py-3 border-b border-wood-200 flex justify-between items-center">
+            <h3 class="text-sm font-bold font-serif-artisan text-wood-950">${escapeHtml(etapa.nome)}</h3>
+            <span class="text-[11px] font-semibold text-wood-800">${etapa.itens.length} itens</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-600">
+              <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
+                <tr>
+                  <th class="p-3">Cód.</th>
+                  <th class="p-3">Serviço</th>
+                  <th class="p-3 text-center">Unid.</th>
+                  <th class="p-3 text-right">Referência (R$)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                ${etapa.itens.map((it) => `
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-3 font-mono font-bold text-wood-900">${escapeHtml(it.cod)}</td>
+                    <td class="p-3 text-slate-800">${escapeHtml(it.servico)}</td>
+                    <td class="p-3 text-center">${escapeHtml(it.unid)}</td>
+                    <td class="p-3 text-right font-bold text-emerald-900">${formatBRL(it.valor)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function populateOrcamentoSelects() {
+      const selCli = document.getElementById('orc-cliente');
+      if (selCli) {
+        if (!state.clientes.length) {
+          selCli.innerHTML = '<option value="">Cadastre um cliente primeiro</option>';
+        } else {
+          selCli.innerHTML = state.clientes.map((c) => `<option value="${c.id}">${escapeHtml(c.nome)}</option>`).join('');
+        }
+      }
+
+      const perfil = document.getElementById('orc-perfil-base')?.value || 'AUTONOMO';
+      const escopo = document.getElementById('orc-modalidade')?.value || 'OBRA_NOVA';
+      const etapas = TABELAS_SP[perfil]?.[escopo]?.etapas || [];
+
+      const selEtapa = document.getElementById('sel-etapa-orc');
+      if (selEtapa) {
+        selEtapa.innerHTML = etapas.map((et, i) => `<option value="${i}">${escapeHtml(et.nome)}</option>`).join('');
+      }
+      populateServicosOrcamento();
+    }
+
+    function populateServicosOrcamento() {
+      const perfil = document.getElementById('orc-perfil-base')?.value || 'AUTONOMO';
+      const escopo = document.getElementById('orc-modalidade')?.value || 'OBRA_NOVA';
+      const etapaIdx = Number(document.getElementById('sel-etapa-orc')?.value || 0);
+      const etapa = TABELAS_SP[perfil]?.[escopo]?.etapas?.[etapaIdx];
+      const itens = etapa?.itens || [];
+
+      const selSrv = document.getElementById('sel-servico-orc');
+      if (selSrv) {
+        selSrv.innerHTML = itens.map((it, i) => `<option value="${i}">${escapeHtml(it.cod)} — ${escapeHtml(it.servico)}</option>`).join('');
+      }
+      syncServicoSelecionado();
+    }
+
+    function syncServicoSelecionado() {
+      const perfil = document.getElementById('orc-perfil-base')?.value || 'AUTONOMO';
+      const escopo = document.getElementById('orc-modalidade')?.value || 'OBRA_NOVA';
+      const etapaIdx = Number(document.getElementById('sel-etapa-orc')?.value || 0);
+      const srvIdx = Number(document.getElementById('sel-servico-orc')?.value || 0);
+      const item = TABELAS_SP[perfil]?.[escopo]?.etapas?.[etapaIdx]?.itens?.[srvIdx];
+
+      const lblUnid = document.getElementById('lbl-unid-orc');
+      const inpVal = document.getElementById('inp-val-orc');
+      if (item) {
+        if (lblUnid) lblUnid.textContent = item.unid;
+        if (inpVal) inpVal.value = Number(item.valor).toFixed(2);
+      }
+    }
+
+    function addItemOrcamento() {
+      const perfil = document.getElementById('orc-perfil-base')?.value || 'AUTONOMO';
+      const escopo = document.getElementById('orc-modalidade')?.value || 'OBRA_NOVA';
+      const etapaIdx = Number(document.getElementById('sel-etapa-orc')?.value || 0);
+      const srvIdx = Number(document.getElementById('sel-servico-orc')?.value || 0);
+      const etapa = TABELAS_SP[perfil]?.[escopo]?.etapas?.[etapaIdx];
+      const item = etapa?.itens?.[srvIdx];
+      if (!item) return;
+
+      const qtd = Math.max(0.01, Number(document.getElementById('inp-qtd-orc')?.value) || 1);
+      const unit = Math.max(0, Number(document.getElementById('inp-val-orc')?.value) || item.valor);
+
+      orcItensTemp.push({
+        uid: `item_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        etapa: etapa.nome,
+        cod: item.cod,
+        servico: item.servico,
+        unid: item.unid,
+        qtd,
+        unit,
+        subtotal: qtd * unit
+      });
+      renderItensOrcamentoTemp();
+    }
+
+    function removeItemOrcamento(uid) {
+      orcItensTemp = orcItensTemp.filter((x) => x.uid !== uid);
+      renderItensOrcamentoTemp();
+    }
+
+    function renderItensOrcamentoTemp() {
+      const tbody = document.getElementById('tbody-itens-orcamento');
+      const pct = Number(document.getElementById('orc-adicional-reforma')?.value || 0);
+      const base = orcItensTemp.reduce((acc, it) => acc + (Number(it.subtotal) || 0), 0);
+      const encargo = base * (pct / 100);
+      const total = base + encargo;
+
+      if (tbody) {
+        if (!orcItensTemp.length) {
+          tbody.innerHTML = '<tr><td colspan="7" class="p-3 text-center text-slate-400">Adicione serviços da tabela para compor a proposta.</td></tr>';
+        } else {
+          tbody.innerHTML = orcItensTemp.map((it) => `
+            <tr>
+              <td class="p-2 font-mono font-bold">${escapeHtml(it.cod)}</td>
+              <td class="p-2">${escapeHtml(it.servico)}</td>
+              <td class="p-2 text-center">${escapeHtml(it.unid)}</td>
+              <td class="p-2 text-right">${Number(it.qtd).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+              <td class="p-2 text-right">${formatBRL(it.unit)}</td>
+              <td class="p-2 text-right font-bold">${formatBRL(it.subtotal)}</td>
+              <td class="p-2 text-center">
+                <button type="button" onclick="removeItemOrcamento('${it.uid}')" class="text-rose-600 hover:text-rose-800 font-bold">✕</button>
+              </td>
+            </tr>
+          `).join('');
+        }
+      }
+
+      const rowEnc = document.getElementById('row-encargo-reforma');
+      const lblSub = document.getElementById('lbl-subtotal-base');
+      const lblEnc = document.getElementById('lbl-valor-encargo');
+      const lblTot = document.getElementById('lbl-total-final-orc');
+
+      if (lblSub) lblSub.textContent = formatBRL(base);
+      if (rowEnc) rowEnc.classList.toggle('hidden', encargo <= 0);
+      if (lblEnc) lblEnc.textContent = formatBRL(encargo);
+      if (lblTot) lblTot.textContent = formatBRL(total);
+    }
+
+    function salvarOrcamentoCompleto() {
+      const clienteId = document.getElementById('orc-cliente')?.value;
+      const cliente = (state.clientes || []).find((c) => c.id === clienteId);
+      if (!cliente) {
+        alert('Selecione ou cadastre um cliente antes de salvar o orçamento.');
+        return;
+      }
+      if (!orcItensTemp.length) {
+        alert('Adicione pelo menos um item de serviço ao orçamento.');
+        return;
+      }
+
+      const perfil = document.getElementById('orc-perfil-base')?.value || 'AUTONOMO';
+      const modalidade = document.getElementById('orc-modalidade')?.value || 'OBRA_NOVA';
+      const pct = Number(document.getElementById('orc-adicional-reforma')?.value || 0);
+      const base = orcItensTemp.reduce((acc, it) => acc + (Number(it.subtotal) || 0), 0);
+      const encargo = base * (pct / 100);
+      const totalFinal = base + encargo;
+
+      const seq = String((state.orcamentos || []).length + 1).padStart(3, '0');
+      const novoOrc = {
+        id: `orc_${Date.now()}`,
+        codigo: `CP-${new Date().getFullYear()}-${seq}`,
+        data: new Date().toISOString().slice(0, 10),
+        clienteId: cliente.id,
+        clienteNome: cliente.nome,
+        clienteTel: cliente.telefone || '-',
+        clienteEnd: cliente.endereco || '-',
+        perfilBase: perfil,
+        modalidade,
+        modalidadeLabel: modalidade === 'OBRA_NOVA' ? 'Obra Nova' : 'Reforma / Reestruturação',
+        percentualAdicional: pct,
+        itens: [...orcItensTemp],
+        subtotalBase: base,
+        valorEncargo: encargo,
+        totalFinal
+      };
+
+      state.orcamentos.push(novoOrc);
+      saveState();
+
+      orcItensTemp = [];
+      renderItensOrcamentoTemp();
+      document.getElementById('container-form-orcamento')?.classList.add('hidden');
+      renderOrcamentosSalvos();
+      renderDashboard();
+      abrirPropostaImpressao(novoOrc.id);
+    }
+
+    function renderOrcamentosSalvos() {
+      const tbody = document.getElementById('lista-orcamentos-salvos');
+      if (!tbody) return;
+
+      if (!state.orcamentos.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-400">Nenhum orçamento salvo.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = [...state.orcamentos].reverse().map((orc) => `
+        <tr class="hover:bg-slate-50">
+          <td class="p-3 font-bold text-wood-950">${escapeHtml(orc.codigo)}</td>
+          <td class="p-3">${escapeHtml(orc.clienteNome)}</td>
+          <td class="p-3">${escapeHtml(orc.modalidadeLabel)}</td>
+          <td class="p-3">${formatDateBR(orc.data)}</td>
+          <td class="p-3 text-right font-bold text-slate-800">${formatBRL(orc.totalFinal)}</td>
+          <td class="p-3 text-right space-x-2">
+            <button type="button" onclick="abrirPropostaImpressao('${orc.id}')" class="text-xs font-bold text-emerald-800 hover:underline">Proposta</button>
+            <button type="button" onclick="excluirOrcamento('${orc.id}')" class="text-xs font-bold text-rose-700 hover:underline">Excluir</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function abrirPropostaImpressao(orcId) {
+      const orc = (state.orcamentos || []).find((o) => o.id === orcId);
+      if (!orc) return;
+
+      switchTab('orcamentos');
+      const area = document.getElementById('area-impressao-contrato');
+      if (!area) return;
+
+      renderCompanyHeader();
+      document.getElementById('print-orc-id').textContent = orc.codigo;
+      document.getElementById('print-orc-data').textContent = formatDateBR(orc.data);
+      document.getElementById('print-cliente-nome').textContent = orc.clienteNome || '-';
+      document.getElementById('print-cliente-tel').textContent = orc.clienteTel || '-';
+      document.getElementById('print-cliente-end').textContent = orc.clienteEnd || '-';
+      document.getElementById('print-orc-modalidade').textContent = orc.modalidadeLabel || '-';
+      document.getElementById('print-valor-total').textContent = formatBRL(orc.totalFinal);
+      document.getElementById('print-ass-cliente-nome').textContent = (orc.clienteNome || 'CONTRATANTE').toUpperCase();
+
+      const grupos = {};
+      (orc.itens || []).forEach((it) => {
+        const chave = it.etapa || 'Serviços Executados';
+        if (!grupos[chave]) grupos[chave] = [];
+        grupos[chave].push(it);
+      });
+
+      const pct = Number(orc.percentualAdicional) || 0;
+      const fator = 1 + pct / 100;
+
+      const cont = document.getElementById('print-container-etapas-cliente');
+      if (cont) {
+        cont.innerHTML = Object.entries(grupos).map(([nomeEtapa, lista]) => {
+          const somaEtapa = lista.reduce((acc, item) => acc + ((Number(item.subtotal) || 0) * fator), 0);
+          return `
+            <div class="border border-slate-200 rounded-lg overflow-hidden">
+              <div class="bg-wood-50 px-4 py-2 border-b border-slate-200 flex justify-between items-center text-xs font-bold text-wood-950">
+                <span>${escapeHtml(nomeEtapa)}</span>
+                <span>${formatBRL(somaEtapa)}</span>
+              </div>
+              <table class="w-full text-left text-xs text-slate-700">
+                <thead class="bg-slate-50 text-[11px] uppercase text-slate-500">
+                  <tr>
+                    <th class="p-2">Descrição do Serviço</th>
+                    <th class="p-2 text-center">Unid.</th>
+                    <th class="p-2 text-right">Qtd.</th>
+                    <th class="p-2 text-right">Valor</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  ${lista.map((item) => `
+                    <tr>
+                      <td class="p-2">${escapeHtml(item.servico)}</td>
+                      <td class="p-2 text-center">${escapeHtml(item.unid)}</td>
+                      <td class="p-2 text-right">${Number(item.qtd).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                      <td class="p-2 text-right font-semibold">${formatBRL((Number(item.subtotal) || 0) * fator)}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+        }).join('');
+      }
+
+      area.classList.remove('hidden');
+      area.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function excluirOrcamento(orcId) {
+      if (!confirm('Deseja excluir esta proposta?')) return;
+      state.orcamentos = state.orcamentos.filter((o) => o.id !== orcId);
+      saveState();
+      renderOrcamentosSalvos();
+      renderDashboard();
+      const area = document.getElementById('area-impressao-contrato');
+      if (area && document.getElementById('print-orc-id')?.textContent === '') {
+        area.classList.add('hidden');
+      }
+    }
+
+    function renderClientes() {
+      const tbody = document.getElementById('lista-clientes');
+      if (!tbody) return;
+      if (!state.clientes.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400">Nenhum cliente cadastrado.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = state.clientes.map((c) => `
+        <tr class="hover:bg-slate-50">
+          <td class="p-3 font-semibold text-slate-900">${escapeHtml(c.nome)}</td>
+          <td class="p-3">${escapeHtml(c.telefone || '-')}</td>
+          <td class="p-3">${escapeHtml(c.endereco || '-')}</td>
+          <td class="p-3 text-right">
+            <button type="button" onclick="excluirCliente('${c.id}')" class="text-xs font-bold text-rose-700 hover:underline">Excluir</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function excluirCliente(id) {
+      if (!confirm('Excluir este cliente?')) return;
+      state.clientes = state.clientes.filter((c) => c.id !== id);
+      saveState();
+      renderClientes();
+      renderDashboard();
+    }
+
+    function renderEquipe() {
+      const tbodyCol = document.getElementById('lista-colaboradores');
+      const tbodyDia = document.getElementById('lista-diarias');
+
+      if (tbodyCol) {
+        if (!state.colaboradores.length) {
+          tbodyCol.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-400">Nenhum colaborador cadastrado.</td></tr>';
+        } else {
+          tbodyCol.innerHTML = state.colaboradores.map((col) => `
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 font-semibold text-slate-900">${escapeHtml(col.nome)}</td>
+              <td class="p-3">${escapeHtml(col.funcao || '-')}</td>
+              <td class="p-3 font-semibold text-emerald-800">${formatBRL(col.diariaBase)}</td>
+              <td class="p-3">${escapeHtml(col.telefone || '-')}</td>
+              <td class="p-3 text-right">
+                <button type="button" onclick="excluirColaborador('${col.id}')" class="text-xs font-bold text-rose-700 hover:underline">Excluir</button>
+              </td>
+            </tr>
+          `).join('');
+        }
+      }
+
+      if (tbodyDia) {
+        if (!state.diarias.length) {
+          tbodyDia.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-400">Nenhuma diária lançada.</td></tr>';
+        } else {
+          tbodyDia.innerHTML = [...state.diarias].reverse().map((d) => `
+            <tr class="hover:bg-slate-50">
+              <td class="p-2.5">${formatDateBR(d.data)}</td>
+              <td class="p-2.5 font-semibold text-slate-900">${escapeHtml(d.colaboradorNome)}</td>
+              <td class="p-2.5">${escapeHtml(d.obra || '-')}</td>
+              <td class="p-2.5 text-right font-bold text-rose-800">${formatBRL(d.valor)}</td>
+              <td class="p-2.5 text-right">
+                <button type="button" onclick="excluirDiaria('${d.id}')" class="text-xs font-bold text-rose-700 hover:underline">Excluir</button>
+              </td>
+            </tr>
+          `).join('');
+        }
+      }
+    }
+
+    function excluirColaborador(id) {
+      if (!confirm('Remover colaborador?')) return;
+      state.colaboradores = state.colaboradores.filter((c) => c.id !== id);
+      saveState();
+      renderEquipe();
+    }
+
+    function excluirDiaria(id) {
+      if (!confirm('Excluir este lançamento de diária?')) return;
+      state.diarias = state.diarias.filter((d) => d.id !== id);
+      saveState();
+      renderEquipe();
+      renderFinanceiro();
+      renderDashboard();
+    }
+
+    function renderFinanceiro() {
+      const { entradas, saidas, saldo } = computeFinancials();
+      const elEnt = document.getElementById('fin-entradas');
+      const elSai = document.getElementById('fin-saidas');
+      const elSal = document.getElementById('fin-saldo');
+      const tbody = document.getElementById('lista-lancamentos');
+
+      if (elEnt) elEnt.textContent = formatBRL(entradas);
+      if (elSai) elSai.textContent = formatBRL(saidas);
+      if (elSal) elSal.textContent = formatBRL(saldo);
+
+      if (!tbody) return;
+      const combinados = [
+        ...(state.lancamentos || []).map((l) => ({ ...l, origem: 'MANUAL' })),
+        ...(state.diarias || []).map((d) => ({
+          id: `dia_ref_${d.id}`,
+          data: d.data,
+          tipo: 'SAIDA',
+          descricao: `Diária — ${d.colaboradorNome}${d.obra ? ' (' + d.obra + ')' : ''}`,
+          valor: d.valor,
+          origem: 'DIARIA'
+        }))
+      ].sort((a, b) => String(b.data).localeCompare(String(a.data)));
+
+      if (!combinados.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-400">Nenhum lançamento registrado no caixa.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = combinados.map((item) => {
+        const isEntrada = item.tipo === 'ENTRADA';
+        return `
+          <tr class="hover:bg-slate-50">
+            <td class="p-3">${formatDateBR(item.data)}</td>
+            <td class="p-3">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold ${isEntrada ? 'bg-emerald-100 text-emerald-900' : 'bg-rose-100 text-rose-900'}">
+                ${isEntrada ? 'ENTRADA' : 'SAÍDA'}
+              </span>
+            </td>
+            <td class="p-3">${escapeHtml(item.descricao)}</td>
+            <td class="p-3 text-right font-bold ${isEntrada ? 'text-emerald-800' : 'text-rose-800'}">${formatBRL(item.valor)}</td>
+            <td class="p-3 text-right">
+              ${item.origem === 'MANUAL'
+                ? `<button type="button" onclick="excluirLancamento('${item.id}')" class="text-xs font-bold text-rose-700 hover:underline">Excluir</button>`
+                : '<span class="text-[11px] text-slate-400">Via Equipe</span>'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function excluirLancamento(id) {
+      if (!confirm('Excluir lançamento financeiro?')) return;
+      state.lancamentos = state.lancamentos.filter((l) => l.id !== id);
+      saveState();
+      renderFinanceiro();
+      renderDashboard();
+    }
+
+    function abrirModal(titulo, camposHtml, onConfirm) {
+      const modal = document.getElementById('modal-generico');
+      const elTit = document.getElementById('modal-titulo');
+      const elForm = document.getElementById('modal-form');
+      if (!modal || !elTit || !elForm) return;
+      elTit.textContent = titulo;
+      elForm.innerHTML = camposHtml;
+      modalCallback = onConfirm;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function fecharModal() {
+      const modal = document.getElementById('modal-generico');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      modalCallback = null;
+    }
+
+    function escapeHtml(text) {
+      return String(text ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function renderAll() {
+      renderCompanyHeader();
+      renderDashboard();
+      renderTabelasSP();
+      renderOrcamentosSalvos();
+      renderClientes();
+      renderEquipe();
+      renderFinanceiro();
+    }
+
+    function bindEvents() {
+      document.querySelectorAll('.nav-btn').forEach((btn) => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+      });
+
+      document.getElementById('brand-logo-btn')?.addEventListener('click', () => switchTab('dashboard'));
+      document.getElementById('dash-btn-tabelas')?.addEventListener('click', () => switchTab('tabelas'));
+      document.getElementById('dash-ver-todos')?.addEventListener('click', () => switchTab('orcamentos'));
+
+      document.getElementById('dash-btn-orcamento')?.addEventListener('click', () => {
+        switchTab('orcamentos');
+        populateOrcamentoSelects();
+        document.getElementById('container-form-orcamento')?.classList.remove('hidden');
+      });
+
+      document.getElementById('btn-perfil-autonomo')?.addEventListener('click', () => {
+        tabelaPerfil = 'AUTONOMO';
+        renderTabelasSP();
+      });
+      document.getElementById('btn-perfil-construtor')?.addEventListener('click', () => {
+        tabelaPerfil = 'CONSTRUTOR';
+        renderTabelasSP();
+      });
+      document.getElementById('btn-escopo-obranova')?.addEventListener('click', () => {
+        tabelaEscopo = 'OBRA_NOVA';
+        renderTabelasSP();
+      });
+      document.getElementById('btn-escopo-reforma')?.addEventListener('click', () => {
+        tabelaEscopo = 'REFORMA';
+        renderTabelasSP();
+      });
+
+      document.getElementById('btn-iniciar-orcamento')?.addEventListener('click', () => {
+        populateOrcamentoSelects();
+        renderItensOrcamentoTemp();
+        document.getElementById('container-form-orcamento')?.classList.remove('hidden');
+      });
+      document.getElementById('btn-fechar-form-orc')?.addEventListener('click', () => {
+        document.getElementById('container-form-orcamento')?.classList.add('hidden');
+      });
+      document.getElementById('btn-cancelar-form-orc')?.addEventListener('click', () => {
+        orcItensTemp = [];
+        renderItensOrcamentoTemp();
+        document.getElementById('container-form-orcamento')?.classList.add('hidden');
+      });
+
+      document.getElementById('orc-perfil-base')?.addEventListener('change', populateOrcamentoSelects);
+      document.getElementById('orc-modalidade')?.addEventListener('change', populateOrcamentoSelects);
+      document.getElementById('sel-etapa-orc')?.addEventListener('change', populateServicosOrcamento);
+      document.getElementById('sel-servico-orc')?.addEventListener('change', syncServicoSelecionado);
+      document.getElementById('orc-adicional-reforma')?.addEventListener('change', renderItensOrcamentoTemp);
+      document.getElementById('btn-add-item-orc')?.addEventListener('click', addItemOrcamento);
+      document.getElementById('btn-salvar-orc-completo')?.addEventListener('click', salvarOrcamentoCompleto);
+
+      document.getElementById('btn-fechar-contrato')?.addEventListener('click', () => {
+        document.getElementById('area-impressao-contrato')?.classList.add('hidden');
+      });
+      document.getElementById('btn-imprimir-contrato')?.addEventListener('click', () => window.print());
+
+      document.getElementById('btn-abrir-cliente')?.addEventListener('click', () => {
+        abrirModal('Novo Cliente', `
+          <div><label class="block font-bold mb-1">Nome Completo *</label><input type="text" id="m-cli-nome" class="w-full border rounded-lg p-2" required></div>
+          <div><label class="block font-bold mb-1">Telefone / WhatsApp</label><input type="text" id="m-cli-tel" class="w-full border rounded-lg p-2"></div>
+          <div><label class="block font-bold mb-1">Endereço / Local da Obra</label><input type="text" id="m-cli-end" class="w-full border rounded-lg p-2"></div>
+        `, () => {
+          const nome = document.getElementById('m-cli-nome')?.value.trim();
+          if (!nome) return alert('Informe o nome do cliente.');
+          state.clientes.push({
+            id: `cli_${Date.now()}`,
+            nome,
+            telefone: document.getElementById('m-cli-tel')?.value.trim() || '',
+            endereco: document.getElementById('m-cli-end')?.value.trim() || ''
+          });
+          saveState();
+          renderClientes();
+          renderDashboard();
+          fecharModal();
+        });
+      });
+
+      document.getElementById('btn-importar-contato')?.addEventListener('click', async () => {
+        if (navigator.contacts && typeof navigator.contacts.select === 'function') {
+          try {
+            const contatos = await navigator.contacts.select(['name', 'tel'], { multiple: false });
+            if (contatos && contatos.length) {
+              const c = contatos[0];
+              const nome = Array.isArray(c.name) ? c.name[0] : (c.name || '');
+              const tel = Array.isArray(c.tel) ? c.tel[0] : (c.tel || '');
+              if (nome) {
+                state.clientes.push({ id: `cli_${Date.now()}`, nome, telefone: tel, endereco: '' });
+                saveState();
+                renderClientes();
+                renderDashboard();
+                return;
+              }
+            }
+          } catch (e) {
+            // fallback para cadastro manual
+          }
+        }
+        document.getElementById('btn-abrir-cliente')?.click();
+      });
+
+      document.getElementById('btn-abrir-colaborador')?.addEventListener('click', () => {
+        abrirModal('Novo Colaborador', `
+          <div><label class="block font-bold mb-1">Nome *</label><input type="text" id="m-col-nome" class="w-full border rounded-lg p-2" required></div>
+          <div><label class="block font-bold mb-1">Função</label><input type="text" id="m-col-func" placeholder="Ex: Pedreiro, Ajudante, Eletricista" class="w-full border rounded-lg p-2"></div>
+          <div><label class="block font-bold mb-1">Diária Base (R$)</label><input type="number" step="0.01" id="m-col-dia" value="200.00" class="w-full border rounded-lg p-2"></div>
+          <div><label class="block font-bold mb-1">Telefone</label><input type="text" id="m-col-tel" class="w-full border rounded-lg p-2"></div>
+        `, () => {
+          const nome = document.getElementById('m-col-nome')?.value.trim();
+          if (!nome) return alert('Informe o nome do colaborador.');
+          state.colaboradores.push({
+            id: `col_${Date.now()}`,
+            nome,
+            funcao: document.getElementById('m-col-func')?.value.trim() || 'Profissional',
+            diariaBase: Number(document.getElementById('m-col-dia')?.value) || 0,
+            telefone: document.getElementById('m-col-tel')?.value.trim() || ''
+          });
+          saveState();
+          renderEquipe();
+          fecharModal();
+        });
+      });
+
+      document.getElementById('btn-abrir-diaria')?.addEventListener('click', () => {
+        if (!state.colaboradores.length) {
+          alert('Cadastre um colaborador primeiro.');
+          return;
+        }
+        const opts = state.colaboradores.map((c) => `<option value="${c.id}" data-val="${c.diariaBase || 0}">${escapeHtml(c.nome)} (${escapeHtml(c.funcao || '')})</option>`).join('');
+        const hoje = new Date().toISOString().slice(0, 10);
+        const primeiraDiaria = Number(state.colaboradores[0].diariaBase || 0).toFixed(2);
+
+        abrirModal('Lançar Diária', `
+          <div><label class="block font-bold mb-1">Colaborador *</label><select id="m-dia-col" class="w-full border rounded-lg p-2 bg-white">${opts}</select></div>
+          <div><label class="block font-bold mb-1">Data *</label><input type="date" id="m-dia-data" value="${hoje}" class="w-full border rounded-lg p-2"></div>
+          <div><label class="block font-bold mb-1">Obra / Serviço</label><input type="text" id="m-dia-obra" placeholder="Ex: Obra Itanhaém" class="w-full border rounded-lg p-2"></div>
+          <div><label class="block font-bold mb-1">Valor da Diária (R$) *</label><input type="number" step="0.01" id="m-dia-val" value="${primeiraDiaria}" class="w-full border rounded-lg p-2"></div>
+        `, () => {
+          const colId = document.getElementById('m-dia-col')?.value;
+          const col = state.colaboradores.find((c) => c.id === colId);
+          const valor = Number(document.getElementById('m-dia-val')?.value) || 0;
+          if (!col || valor <= 0) return alert('Informe um valor válido para a diária.');
+          state.diarias.push({
+            id: `dia_${Date.now()}`,
+            colaboradorId: col.id,
+            colaboradorNome: col.nome,
+            data: document.getElementById('m-dia-data')?.value || hoje,
+            obra: document.getElementById('m-dia-obra')?.value.trim() || '',
+            valor
+          });
+          saveState();
+          renderEquipe();
+          renderFinanceiro();
+          renderDashboard();
+          fecharModal();
+        });
+
+        document.getElementById('m-dia-col')?.addEventListener('change', (ev) => {
+          const opt = ev.target.selectedOptions?.[0];
+          const val = Number(opt?.dataset?.val || 0);
+          const inp = document.getElementById('m-dia-val');
+          if (inp && val > 0) inp.value = val.toFixed(2);
+        });
+      });
+
+      document.getElementById('btn-abrir-lancamento')?.addEventListener('click', () => {
+        const hoje = new Date().toISOString().slice(0, 10);
+        abrirModal('Novo Lançamento no Caixa', `
+          <div>
+            <label class="block font-bold mb-1">Tipo *</label>
+            <select id="m-fin-tipo" class="w-full border rounded-lg p-2 bg-white">
+              <option value="ENTRADA">Entrada (Recebimento / Medição)</option>
+              <option value="SAIDA">Saída (Material / Despesa Operacional)</option>
+            </select>
+          </div>
+          <div><label class="block font-bold mb-1">Data *</label><input type="date" id="m-fin-data" value="${hoje}" class="w-full border rounded-lg p-2"></div>
+          <div><label class="block font-bold mb-1">Descrição *</label><input type="text" id="m-fin-desc" placeholder="Ex: 1ª parcela reforma" class="w-full border rounded-lg p-2"></div>
+          <div><label class="block font-bold mb-1">Valor (R$) *</label><input type="number" step="0.01" id="m-fin-val" class="w-full border rounded-lg p-2"></div>
+        `, () => {
+          const desc = document.getElementById('m-fin-desc')?.value.trim();
+          const valor = Number(document.getElementById('m-fin-val')?.value) || 0;
+          if (!desc || valor <= 0) return alert('Preencha descrição e valor válido.');
+          state.lancamentos.push({
+            id: `fin_${Date.now()}`,
+            tipo: document.getElementById('m-fin-tipo')?.value || 'ENTRADA',
+            data: document.getElementById('m-fin-data')?.value || hoje,
+            descricao: desc,
+            valor
+          });
+          saveState();
+          renderFinanceiro();
+          renderDashboard();
+          fecharModal();
+        });
+      });
+
+      document.getElementById('btn-salvar-config')?.addEventListener('click', () => {
+        state.empresa = {
+          nome: document.getElementById('cfg-empresa-nome')?.value.trim() || 'CP CONSTRUÇÕES E REFORMAS',
+          cnpj: document.getElementById('cfg-empresa-cnpj')?.value.trim() || '',
+          responsavel: document.getElementById('cfg-empresa-resp')?.value.trim() || 'Cristiano dos Santos Paes',
+          telefone: document.getElementById('cfg-empresa-tel')?.value.trim() || '',
+          endereco: document.getElementById('cfg-empresa-end')?.value.trim() || ''
+        };
+        saveState();
+        renderCompanyHeader();
+        alert('Dados da empresa salvos.');
+      });
+
+      document.getElementById('btn-exportar-json')?.addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `cp-construcoes-backup-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      document.getElementById('inp-importar-json')?.addEventListener('change', (ev) => {
+        const file = ev.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const imported = JSON.parse(String(reader.result || '{}'));
+            state = { ...defaultState(), ...imported, empresa: { ...defaultState().empresa, ...(imported.empresa || {}) } };
+            saveState();
+            renderAll();
+            alert('Backup importado com sucesso.');
+          } catch (e) {
+            alert('Arquivo JSON inválido.');
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      document.getElementById('btn-fechar-modal')?.addEventListener('click', fecharModal);
+      document.getElementById('btn-cancelar-modal')?.addEventListener('click', fecharModal);
+      document.getElementById('btn-confirmar-modal')?.addEventListener('click', () => {
+        if (typeof modalCallback === 'function') modalCallback();
+      });
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      bindEvents();
+      renderAll();
+      initFirebase();
+    });
+  </script>
+</body>
+</html>
