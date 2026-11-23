@@ -95,7 +95,7 @@
                   <span id="cloud-dot" class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>
                   <span id="cloud-status-text">Modo Local</span>
                 </span>
-                <span id="top-company-cnpj" class="hidden lg:inline text-[10px] text-amber-200/80 tracking-wider uppercase">Itanhaém • SP — Cristiano dos Santos Paes</span>
+                <span id="top-company-cnpj" class="hidden lg:inline text-[10px] text-amber-200/80 tracking-wider uppercase">51.473.332/0001-24 — CRISTIANO DOS SANTOS PAES</span>
               </div>
             </div>
           </div>
@@ -762,21 +762,38 @@
               nome: '01. Fundação e Infraestrutura',
               itens: [
                 { cod: 'AUT-01', servico: 'Escavação e brocas / sapatas de fundação', unid: 'm³', valor: 145 },
-                { cod: 'AUT-02', servico: 'Viga baldrame e cinta de amarração', unid: 'm', valor: 68 }
+                { cod: 'AUT-02', servico: 'Viga baldrame e cinta de amarração', unid: 'm', valor: 68 },
+                { cod: 'AUT-03', servico: 'Aterro apiloado e regularização de solo', unid: 'm³', valor: 52 }
               ]
             },
             {
               nome: '02. Alvenaria e Estrutura',
               itens: [
-                { cod: 'AUT-03', servico: 'Alvenaria de vedação bloco cerâmico / concreto', unid: 'm²', valor: 58 },
-                { cod: 'AUT-04', servico: 'Verga, contraverga e pilares moldados', unid: 'm', valor: 62 }
+                { cod: 'AUT-04', servico: 'Alvenaria de vedação bloco cerâmico / concreto', unid: 'm²', valor: 58 },
+                { cod: 'AUT-05', servico: 'Verga, contraverga e pilares moldados', unid: 'm', valor: 62 },
+                { cod: 'AUT-06', servico: 'Laje pré-moldada / escoramento e concretagem', unid: 'm²', valor: 85 }
               ]
             },
             {
-              nome: '03. Revestimentos, Piso e Acabamento',
+              nome: '03. Cobertura e Telhado',
               itens: [
-                { cod: 'AUT-05', servico: 'Chapisco, emboço e reboco interno/externo', unid: 'm²', valor: 54 },
-                { cod: 'AUT-06', servico: 'Assentamento de piso cerâmico / porcelanato', unid: 'm²', valor: 65 }
+                { cod: 'AUT-07', servico: 'Madeiramento e colocação de telha cerâmica / fibrocimento', unid: 'm²', valor: 64 },
+                { cod: 'AUT-08', servico: 'Instalação de calhas, rufos e condutores', unid: 'm', valor: 45 }
+              ]
+            },
+            {
+              nome: '04. Instalações Elétricas e Hidráulicas',
+              itens: [
+                { cod: 'AUT-09', servico: 'Eletrodutos, caixas, fiação e pontos elétricos', unid: 'pt', valor: 78 },
+                { cod: 'AUT-10', servico: 'Tubulação de água fria, esgoto e caixas de passagem', unid: 'pt', valor: 85 }
+              ]
+            },
+            {
+              nome: '05. Revestimentos, Piso e Acabamento',
+              itens: [
+                { cod: 'AUT-11', servico: 'Chapisco, emboço e reboco interno/externo', unid: 'm²', valor: 54 },
+                { cod: 'AUT-12', servico: 'Assentamento de piso cerâmico / porcelanato', unid: 'm²', valor: 65 },
+                { cod: 'AUT-13', servico: 'Pintura acrílica / látex e limpeza final de entrega', unid: 'm²', valor: 38 }
               ]
             }
           ]
@@ -798,14 +815,24 @@
               nome: '01. Demolição e Preparo',
               itens: [
                 { cod: 'REF-01', servico: 'Demolição controlada de alvenaria / revestimento', unid: 'm²', valor: 42 },
-                { cod: 'REF-02', servico: 'Regularização de contrapiso / argamassa', unid: 'm²', valor: 48 }
+                { cod: 'REF-02', servico: 'Regularização de contrapiso / argamassa', unid: 'm²', valor: 48 },
+                { cod: 'REF-03', servico: 'Ensacamento e remoção de entulho até caçamba', unid: 'm³', valor: 45 }
               ]
             },
             {
-              nome: '02. Acabamentos e Instalações',
+              nome: '02. Adequação Estrutural e Instalações',
               itens: [
-                { cod: 'REF-03', servico: 'Troca de revestimento / piso sobre piso', unid: 'm²', valor: 72 },
-                { cod: 'REF-04', servico: 'Pintura látex / acrílica (preparação + 2 demãos)', unid: 'm²', valor: 36 }
+                { cod: 'REF-04', servico: 'Abertura de vão, verga e recomposição de parede', unid: 'm²', valor: 76 },
+                { cod: 'REF-05', servico: 'Manutenção de pontos hidráulicos e troca de registros', unid: 'pt', valor: 90 },
+                { cod: 'REF-06', servico: 'Troca de tomadas, disjuntores e circuitos pontuais', unid: 'pt', valor: 75 }
+              ]
+            },
+            {
+              nome: '03. Acabamentos e Pintura',
+              itens: [
+                { cod: 'REF-07', servico: 'Troca de revestimento / piso sobre piso', unid: 'm²', valor: 72 },
+                { cod: 'REF-08', servico: 'Impermeabilização de áreas molhadas / lajes', unid: 'm²', valor: 56 },
+                { cod: 'REF-09', servico: 'Pintura látex / acrílica (preparação + 2 demãos)', unid: 'm²', valor: 36 }
               ]
             }
           ]
@@ -829,14 +856,24 @@
               nome: '01. Infraestrutura e Fundação Corporativa',
               itens: [
                 { cod: 'EMP-01', servico: 'Fundação completa com acompanhamento de execução', unid: 'm²', valor: 210 },
-                { cod: 'EMP-02', servico: 'Cintas, vigas e estrutura de amarração', unid: 'm', valor: 98 }
+                { cod: 'EMP-02', servico: 'Cintas, vigas e estrutura de amarração', unid: 'm', valor: 98 },
+                { cod: 'EMP-03', servico: 'Compactação de solo e lastro de brita/concreto', unid: 'm²', valor: 74 }
               ]
             },
             {
               nome: '02. Vedação, Cobertura e Acabamento',
               itens: [
-                { cod: 'EMP-03', servico: 'Alvenaria, reboco e preparo técnico', unid: 'm²', valor: 135 },
-                { cod: 'EMP-04', servico: 'Porcelanato, impermeabilização e acabamento fino', unid: 'm²', valor: 115 }
+                { cod: 'EMP-04', servico: 'Alvenaria, reboco e preparo técnico', unid: 'm²', valor: 135 },
+                { cod: 'EMP-05', servico: 'Porcelanato, impermeabilização e acabamento fino', unid: 'm²', valor: 115 },
+                { cod: 'EMP-06', servico: 'Cobertura completa com estrutura e calhas', unid: 'm²', valor: 112 }
+              ]
+            },
+            {
+              nome: '03. Instalações Prediais e Entrega',
+              itens: [
+                { cod: 'EMP-07', servico: 'Instalações elétricas completas com quadro e aterramento', unid: 'pt', valor: 128 },
+                { cod: 'EMP-08', servico: 'Instalações hidrossanitárias, esgoto e testes de pressão', unid: 'pt', valor: 132 },
+                { cod: 'EMP-09', servico: 'Pintura técnica completa e entrega limpa de obra', unid: 'm²', valor: 62 }
               ]
             }
           ]
@@ -858,14 +895,16 @@
               nome: '01. Adequação e Estrutura',
               itens: [
                 { cod: 'EMP-R1', servico: 'Demolição técnica, reforço e recomposição', unid: 'm²', valor: 95 },
-                { cod: 'EMP-R2', servico: 'Impermeabilização e regularização de base', unid: 'm²', valor: 88 }
+                { cod: 'EMP-R2', servico: 'Impermeabilização e regularização de base', unid: 'm²', valor: 88 },
+                { cod: 'EMP-R3', servico: 'Proteção de áreas, isolamento e gestão de resíduos', unid: 'm²', valor: 54 }
               ]
             },
             {
               nome: '02. Acabamento e Entrega',
               itens: [
-                { cod: 'EMP-R3', servico: 'Revestimentos especiais e acabamento final', unid: 'm²', valor: 118 },
-                { cod: 'EMP-R4', servico: 'Pintura técnica e entrega limpa de obra', unid: 'm²', valor: 58 }
+                { cod: 'EMP-R4', servico: 'Revestimentos especiais e acabamento final', unid: 'm²', valor: 118 },
+                { cod: 'EMP-R5', servico: 'Pintura técnica e entrega limpa de obra', unid: 'm²', valor: 58 },
+                { cod: 'EMP-R6', servico: 'Adequação elétrica/hidráulica com emissão de medição', unid: 'pt', valor: 120 }
               ]
             }
           ]
@@ -876,7 +915,7 @@
     const defaultState = () => ({
       empresa: {
         nome: 'CP CONSTRUÇÕES E REFORMAS',
-        cnpj: 'MEI • Itanhaém / SP',
+        cnpj: '51.473.332/0001-24',
         responsavel: 'Cristiano dos Santos Paes',
         telefone: '',
         endereco: 'Itanhaém • Litoral Sul - SP'
@@ -1010,7 +1049,7 @@
     function renderCompanyHeader() {
       const emp = state.empresa || {};
       const nome = emp.nome || 'CP CONSTRUÇÕES E REFORMAS';
-      const cnpj = emp.cnpj || 'Itanhaém • SP';
+      const cnpj = emp.cnpj || '51.473.332/0001-24';
       const resp = emp.responsavel || 'Cristiano dos Santos Paes';
       const tel = emp.telefone || '';
       const end = emp.endereco || 'Itanhaém • Litoral Sul - SP';
