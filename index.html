@@ -773,7 +773,7 @@
       measurementId: "G-926XRZWEM2"
     };
 
-    const STORAGE_KEY = 'cp_construcoes_sistema_v2';
+   const STORAGE_KEY = 'cp_construcoes_sistema_v2';
 
     const ETAPAS_PROGRESSO_BASE = [
       { etapa: 'Serviços Preliminares & Canteiro', progresso: 100, custoAtual: 2450, status: 'Concluído' },
@@ -787,119 +787,404 @@
     function buildCatalogoCompleto() {
       const etapasObraNovaAutonomo = [
         {
-          nome: '01. Serviços Preliminares e Canteiro',
+          nome: '01. Preparação',
           itens: [
-            { cod: 'AUT-01.1', servico: 'Limpeza de terreno, gabarito e locação da obra', unid: 'm²', valor: 22 },
-            { cod: 'AUT-01.2', servico: 'Montagem de tapume, ligação provisória e abrigo de ferramentas', unid: 'm', valor: 38 }
+            { cod: 'AUT-01.1', servico: 'Limpeza do terreno', unid: 'm²', valor: 11.5 },
+            { cod: 'AUT-01.2', servico: 'Capinação e retirada de vegetação', unid: 'm²', valor: 9 },
+            { cod: 'AUT-01.3', servico: 'Locação da obra', unid: 'm²', valor: 11.5 },
+            { cod: 'AUT-01.4', servico: 'Gabarito da construção', unid: 'm²', valor: 16 },
+            { cod: 'AUT-01.5', servico: 'Escavação manual', unid: 'm³', valor: 110 }
           ]
         },
         {
-          nome: '02. Fundação e Infraestrutura',
+          nome: '02. Fundação',
           itens: [
-            { cod: 'AUT-02.1', servico: 'Escavação manual e execução de brocas / sapatas', unid: 'm³', valor: 145 },
-            { cod: 'AUT-02.2', servico: 'Viga baldrame armada e concretada (incluindo caixaria)', unid: 'm', valor: 68 },
-            { cod: 'AUT-02.3', servico: 'Aterro apiloado e regularização de base', unid: 'm³', valor: 52 }
+            { cod: 'AUT-02.1', servico: 'Abertura de valas', unid: 'm³', valor: 105 },
+            { cod: 'AUT-02.2', servico: 'Montagem de formas', unid: 'm²', valor: 70 },
+            { cod: 'AUT-02.3', servico: 'Armação de ferragens', unid: 'kg', valor: 3.5 },
+            { cod: 'AUT-02.4', servico: 'Concretagem de sapatas', unid: 'm³', valor: 230 },
+            { cod: 'AUT-02.5', servico: 'Baldrame', unid: 'm', valor: 105 },
+            { cod: 'AUT-02.6', servico: 'Impermeabilização de baldrame', unid: 'm²', valor: 35 }
           ]
         },
         {
-          nome: '03. Estrutura e Concreto',
+          nome: '03. Estrutura',
           itens: [
-            { cod: 'AUT-03.1', servico: 'Pilares, vergas e contravergas moldadas in loco', unid: 'm', valor: 62 },
-            { cod: 'AUT-03.2', servico: 'Escoramento, montagem de laje pré-moldada e capa de concreto', unid: 'm²', valor: 88 }
+            { cod: 'AUT-03.1', servico: 'Montagem de pilares', unid: 'm³', valor: 575 },
+            { cod: 'AUT-03.2', servico: 'Montagem de vigas', unid: 'm³', valor: 575 },
+            { cod: 'AUT-03.3', servico: 'Montagem de laje', unid: 'm²', valor: 60 },
+            { cod: 'AUT-03.4', servico: 'Concretagem de laje', unid: 'm²', valor: 40 },
+            { cod: 'AUT-03.5', servico: 'Escoramento', unid: 'm²', valor: 27.5 }
           ]
         },
         {
-          nome: '04. Alvenaria de Vedação',
+          nome: '04. Alvenaria',
           itens: [
-            { cod: 'AUT-04.1', servico: 'Alvenaria de bloco cerâmico 14 cm assentado com argamassa', unid: 'm²', valor: 58 },
-            { cod: 'AUT-04.2', servico: 'Alvenaria de bloco de concreto / muro de divisa', unid: 'm²', valor: 64 }
+            { cod: 'AUT-04.1', servico: 'Assentamento de tijolos', unid: 'm²', valor: 70 },
+            { cod: 'AUT-04.2', servico: 'Alvenaria de blocos de concreto', unid: 'm²', valor: 72.5 },
+            { cod: 'AUT-04.3', servico: 'Vergas e contravergas', unid: 'm', valor: 40 },
+            { cod: 'AUT-04.4', servico: 'Encunhamento', unid: 'm', valor: 27.5 }
           ]
         },
         {
-          nome: '05. Cobertura e Telhado',
+          nome: '05. Cobertura',
           itens: [
-            { cod: 'AUT-05.1', servico: 'Estrutura de madeira (caibros, ripas, terças) e colocação de telhas', unid: 'm²', valor: 66 },
-            { cod: 'AUT-05.2', servico: 'Instalação de calhas, rufos e pingadeiras', unid: 'm', valor: 45 }
+            { cod: 'AUT-05.1', servico: 'Estrutura de madeira', unid: 'm²', valor: 72.5 },
+            { cod: 'AUT-05.2', servico: 'Estrutura metálica', unid: 'm²', valor: 62.5 },
+            { cod: 'AUT-05.3', servico: 'Colocação de telhas', unid: 'm²', valor: 47.5 },
+            { cod: 'AUT-05.4', servico: 'Instalação de cumeeira', unid: 'm', valor: 32.5 },
+            { cod: 'AUT-05.5', servico: 'Instalação de calhas', unid: 'm', valor: 42.5 }
           ]
         },
         {
-          nome: '06. Instalações Elétricas',
+          nome: '06. Reboco e revestimento',
           itens: [
-            { cod: 'AUT-06.1', servico: 'Embutimento de eletrodutos, caixas 4x2/4x4 e passagem de cabos', unid: 'pt', valor: 78 },
-            { cod: 'AUT-06.2', servico: 'Montagem de quadro de distribuição e instalação de pontos/disjuntores', unid: 'pt', valor: 92 }
+            { cod: 'AUT-06.1', servico: 'Chapisco', unid: 'm²', valor: 11 },
+            { cod: 'AUT-06.2', servico: 'Emboço', unid: 'm²', valor: 32.5 },
+            { cod: 'AUT-06.3', servico: 'Reboco', unid: 'm²', valor: 32.5 },
+            { cod: 'AUT-06.4', servico: 'Contrapiso', unid: 'm²', valor: 32.5 },
+            { cod: 'AUT-06.5', servico: 'Regularização de piso', unid: 'm²', valor: 20 }
           ]
         },
         {
-          nome: '07. Instalações Hidráulicas e Esgoto',
+          nome: '07. Pisos e revestimentos',
           itens: [
-            { cod: 'AUT-07.1', servico: 'Tubulação de água fria (PVC soldável) e pontos de consumo', unid: 'pt', valor: 85 },
-            { cod: 'AUT-07.2', servico: 'Rede de esgoto sanitário, caixas de gordura e inspeção', unid: 'pt', valor: 88 }
+            { cod: 'AUT-07.1', servico: 'Assentamento de piso cerâmico', unid: 'm²', valor: 52.5 },
+            { cod: 'AUT-07.2', servico: 'Assentamento de porcelanato', unid: 'm²', valor: 87.5 },
+            { cod: 'AUT-07.3', servico: 'Revestimento de paredes', unid: 'm²', valor: 60 },
+            { cod: 'AUT-07.4', servico: 'Rodapé cerâmico', unid: 'm', valor: 17 },
+            { cod: 'AUT-07.5', servico: 'Rejuntamento', unid: 'm²', valor: 11.5 }
           ]
         },
         {
-          nome: '08. Contrapiso e Impermeabilização',
+          nome: '08. Instalações elétricas',
           itens: [
-            { cod: 'AUT-08.1', servico: 'Contrapiso sarrafeado e desempenado', unid: 'm²', valor: 44 },
-            { cod: 'AUT-08.2', servico: 'Impermeabilização de baldrame, áreas molhadas e lajes', unid: 'm²', valor: 54 }
+            { cod: 'AUT-08.1', servico: 'Instalação de ponto elétrico', unid: 'un', valor: 140 },
+            { cod: 'AUT-08.2', servico: 'Instalação de tomadas', unid: 'un', valor: 35 },
+            { cod: 'AUT-08.3', servico: 'Instalação de interruptores', unid: 'un', valor: 35 },
+            { cod: 'AUT-08.4', servico: 'Montagem de quadro elétrico', unid: 'un', valor: 500 },
+            { cod: 'AUT-08.5', servico: 'Instalação de luminárias', unid: 'un', valor: 60 }
           ]
         },
         {
-          nome: '09. Revestimentos, Piso e Porcelanato',
+          nome: '09. Instalações hidráulicas',
           itens: [
-            { cod: 'AUT-09.1', servico: 'Chapisco, emboço e reboco interno/externo', unid: 'm²', valor: 54 },
-            { cod: 'AUT-09.2', servico: 'Assentamento de piso cerâmico / porcelanato e rodapé', unid: 'm²', valor: 68 }
+            { cod: 'AUT-09.1', servico: 'Ponto de água', unid: 'un', valor: 160 },
+            { cod: 'AUT-09.2', servico: 'Ponto de esgoto', unid: 'un', valor: 160 },
+            { cod: 'AUT-09.3', servico: 'Instalação de vaso sanitário', unid: 'un', valor: 200 },
+            { cod: 'AUT-09.4', servico: 'Instalação de lavatório', unid: 'un', valor: 160 },
+            { cod: 'AUT-09.5', servico: 'Instalação de torneira', unid: 'un', valor: 70 },
+            { cod: 'AUT-09.6', servico: 'Instalação de chuveiro', unid: 'un', valor: 80 }
           ]
         },
         {
-          nome: '10. Esquadrias, Pintura e Entrega',
+          nome: '10. Forros',
           itens: [
-            { cod: 'AUT-10.1', servico: 'Assentamento e arremate de portas, batentes e janelas', unid: 'un', valor: 135 },
-            { cod: 'AUT-10.2', servico: 'Pintura acrílica / látex (selador + 2 demãos) e limpeza final', unid: 'm²', valor: 38 }
+            { cod: 'AUT-10.1', servico: 'Forro de PVC', unid: 'm²', valor: 32.5 },
+            { cod: 'AUT-10.2', servico: 'Forro de drywall', unid: 'm²', valor: 60 },
+            { cod: 'AUT-10.3', servico: 'Forro de gesso', unid: 'm²', valor: 52.5 }
+          ]
+        },
+        {
+          nome: '11. Esquadrias',
+          itens: [
+            { cod: 'AUT-11.1', servico: 'Instalação de porta', unid: 'un', valor: 200 },
+            { cod: 'AUT-11.2', servico: 'Instalação de janela', unid: 'un', valor: 170 },
+            { cod: 'AUT-11.3', servico: 'Instalação de fechaduras', unid: 'un', valor: 70 }
+          ]
+        },
+        {
+          nome: '12. Pintura',
+          itens: [
+            { cod: 'AUT-12.1', servico: 'Selador', unid: 'm²', valor: 7 },
+            { cod: 'AUT-12.2', servico: 'Massa corrida', unid: 'm²', valor: 23 },
+            { cod: 'AUT-12.3', servico: 'Lixamento', unid: 'm²', valor: 7 },
+            { cod: 'AUT-12.4', servico: 'Pintura interna', unid: 'm²', valor: 20 },
+            { cod: 'AUT-12.5', servico: 'Pintura externa', unid: 'm²', valor: 24 },
+            { cod: 'AUT-12.6', servico: 'Pintura de portas', unid: 'un', valor: 140 }
+          ]
+        },
+        {
+          nome: '13. Finalização',
+          itens: [
+            { cod: 'AUT-13.1', servico: 'Limpeza pós-obra', unid: 'm²', valor: 17 },
+            { cod: 'AUT-13.2', servico: 'Acabamentos gerais', unid: 'dia', valor: 325 }
           ]
         }
       ];
 
       const etapasReformaAutonomo = [
         {
-          nome: '01. Demolição e Remoção de Entulho',
+          nome: '01. Demolição',
           itens: [
-            { cod: 'REF-01.1', servico: 'Demolição de alvenaria / parede existente', unid: 'm²', valor: 42 },
-            { cod: 'REF-01.2', servico: 'Remoção de piso / revestimento antigo e ensacamento de entulho', unid: 'm²', valor: 39 }
+            { cod: 'REF-01.1', servico: 'Demolição de parede', unid: 'm²', valor: 47.5 },
+            { cod: 'REF-01.2', servico: 'Retirada de piso cerâmico', unid: 'm²', valor: 27.5 },
+            { cod: 'REF-01.3', servico: 'Retirada de porcelanato', unid: 'm²', valor: 40 },
+            { cod: 'REF-01.4', servico: 'Retirada de revestimento de parede', unid: 'm²', valor: 32.5 },
+            { cod: 'REF-01.5', servico: 'Demolição de contrapiso', unid: 'm²', valor: 35 },
+            { cod: 'REF-01.6', servico: 'Retirada de portas', unid: 'un', valor: 70 },
+            { cod: 'REF-01.7', servico: 'Retirada de janelas', unid: 'un', valor: 90 }
           ]
         },
         {
-          nome: '02. Adequação Estrutural e Base',
+          nome: '02. Alvenaria',
           itens: [
-            { cod: 'REF-02.1', servico: 'Abertura de vão, colocação de verga e recomposição', unid: 'm²', valor: 76 },
-            { cod: 'REF-02.2', servico: 'Regularização de contrapiso e correção de infiltrações', unid: 'm²', valor: 52 }
+            { cod: 'REF-02.1', servico: 'Construção de parede', unid: 'm²', valor: 80 },
+            { cod: 'REF-02.2', servico: 'Fechamento de vãos', unid: 'm²', valor: 75 },
+            { cod: 'REF-02.3', servico: 'Abertura de vãos', unid: 'un', valor: 265 },
+            { cod: 'REF-02.4', servico: 'Construção de divisórias', unid: 'm²', valor: 72.5 }
           ]
         },
         {
-          nome: '03. Instalações Elétricas e Hidráulicas em Reforma',
+          nome: '03. Reboco',
           itens: [
-            { cod: 'REF-03.1', servico: 'Substituição de fiação, tomadas, interruptores e disjuntores', unid: 'pt', valor: 75 },
-            { cod: 'REF-03.2', servico: 'Reparo hidráulico, troca de registros e adequação de esgoto', unid: 'pt', valor: 90 }
+            { cod: 'REF-03.1', servico: 'Recuperação de reboco', unid: 'm²', valor: 35 },
+            { cod: 'REF-03.2', servico: 'Chapisco', unid: 'm²', valor: 13 },
+            { cod: 'REF-03.3', servico: 'Emboço', unid: 'm²', valor: 37.5 },
+            { cod: 'REF-03.4', servico: 'Reboco', unid: 'm²', valor: 37.5 }
           ]
         },
         {
-          nome: '04. Revestimentos, Pintura e Acabamento',
+          nome: '04. Pisos',
           itens: [
-            { cod: 'REF-04.1', servico: 'Assentamento de porcelanato / piso sobre piso e rejunte', unid: 'm²', valor: 72 },
-            { cod: 'REF-04.2', servico: 'Preparação de massa, pintura interna/externa e limpeza de entrega', unid: 'm²', valor: 38 }
+            { cod: 'REF-04.1', servico: 'Retirada e preparação de piso', unid: 'm²', valor: 35 },
+            { cod: 'REF-04.2', servico: 'Assentamento de cerâmica', unid: 'm²', valor: 57.5 },
+            { cod: 'REF-04.3', servico: 'Assentamento de porcelanato', unid: 'm²', valor: 95 },
+            { cod: 'REF-04.4', servico: 'Troca de rodapé', unid: 'm', valor: 20 },
+            { cod: 'REF-04.5', servico: 'Nivelamento de piso', unid: 'm²', valor: 35 }
+          ]
+        },
+        {
+          nome: '05. Banheiros',
+          itens: [
+            { cod: 'REF-05.1', servico: 'Reforma completa de banheiro (serviço global)', unid: 'm²', valor: 675 },
+            { cod: 'REF-05.2', servico: 'Impermeabilização', unid: 'm²', valor: 50 },
+            { cod: 'REF-05.3', servico: 'Instalação de nicho', unid: 'un', valor: 265 },
+            { cod: 'REF-05.4', servico: 'Instalação de box', unid: 'un', valor: 200 },
+            { cod: 'REF-05.5', servico: 'Instalação de louças', unid: 'un', valor: 185 }
+          ]
+        },
+        {
+          nome: '06. Cozinhas',
+          itens: [
+            { cod: 'REF-06.1', servico: 'Assentamento de revestimentos', unid: 'm²', valor: 60 },
+            { cod: 'REF-06.2', servico: 'Instalação de bancada', unid: 'un', valor: 265 },
+            { cod: 'REF-06.3', servico: 'Instalação de cuba', unid: 'un', valor: 140 },
+            { cod: 'REF-06.4', servico: 'Adequação hidráulica', unid: 'pt', valor: 200 }
+          ]
+        },
+        {
+          nome: '07. Elétrica',
+          itens: [
+            { cod: 'REF-07.1', servico: 'Troca de ponto elétrico', unid: 'un', valor: 140 },
+            { cod: 'REF-07.2', servico: 'Substituição de fiação', unid: 'pt', valor: 115 },
+            { cod: 'REF-07.3', servico: 'Instalação de tomadas', unid: 'un', valor: 40 },
+            { cod: 'REF-07.4', servico: 'Troca de quadro elétrico', unid: 'un', valor: 500 }
+          ]
+        },
+        {
+          nome: '08. Hidráulica',
+          itens: [
+            { cod: 'REF-08.1', servico: 'Troca de ponto hidráulico', unid: 'un', valor: 175 },
+            { cod: 'REF-08.2', servico: 'Substituição de tubulação', unid: 'm', valor: 52.5 },
+            { cod: 'REF-08.3', servico: 'Deslocamento de ponto', unid: 'un', valor: 240 },
+            { cod: 'REF-08.4', servico: 'Troca de registros', unid: 'un', valor: 140 }
+          ]
+        },
+        {
+          nome: '09. Forros',
+          itens: [
+            { cod: 'REF-09.1', servico: 'Retirada de forro antigo', unid: 'm²', valor: 20 },
+            { cod: 'REF-09.2', servico: 'Instalação de PVC', unid: 'm²', valor: 37.5 },
+            { cod: 'REF-09.3', servico: 'Instalação de drywall', unid: 'm²', valor: 65 },
+            { cod: 'REF-09.4', servico: 'Reparo de gesso', unid: 'm²', valor: 47.5 }
+          ]
+        },
+        {
+          nome: '10. Pintura',
+          itens: [
+            { cod: 'REF-10.1', servico: 'Preparação de paredes', unid: 'm²', valor: 11.5 },
+            { cod: 'REF-10.2', servico: 'Massa corrida', unid: 'm²', valor: 25 },
+            { cod: 'REF-10.3', servico: 'Pintura interna', unid: 'm²', valor: 23 },
+            { cod: 'REF-10.4', servico: 'Pintura externa', unid: 'm²', valor: 27.5 },
+            { cod: 'REF-10.5', servico: 'Pintura de portões', unid: 'm²', valor: 47.5 }
+          ]
+        },
+        {
+          nome: '11. Finalização',
+          itens: [
+            { cod: 'REF-11.1', servico: 'Limpeza pós-reforma', unid: 'm²', valor: 20 },
+            { cod: 'REF-11.2', servico: 'Acabamentos gerais', unid: 'dia', valor: 325 }
           ]
         }
       ];
 
-      const multConstrutor = 1.38;
-      const scaleEtapas = (lista, prefix) => lista.map((et, idx) => ({
-        nome: et.nome,
-        itens: et.itens.map((it, jdx) => ({
-          cod: `${prefix}-${String(idx + 1).padStart(2, '0')}.${jdx + 1}`,
-          servico: it.servico,
-          unid: it.unid,
-          valor: Math.round(it.valor * multConstrutor)
-        }))
-      }));
+      const etapasObraNovaConstrutora = [
+        {
+          nome: '01. Preparação',
+          itens: [
+            { cod: 'EMP-01.1', servico: 'Limpeza do terreno', unid: 'm²', valor: 17 },
+            { cod: 'EMP-01.2', servico: 'Locação da obra', unid: 'm²', valor: 17 }
+          ]
+        },
+        {
+          nome: '02. Fundação',
+          itens: [
+            { cod: 'EMP-02.1', servico: 'Escavação manual', unid: 'm³', valor: 150 },
+            { cod: 'EMP-02.2', servico: 'Montagem de formas', unid: 'm²', valor: 97.5 },
+            { cod: 'EMP-02.3', servico: 'Armação de ferragens', unid: 'kg', valor: 4.75 },
+            { cod: 'EMP-02.4', servico: 'Concretagem de sapatas', unid: 'm³', valor: 325 },
+            { cod: 'EMP-02.5', servico: 'Baldrame', unid: 'm', valor: 147.5 }
+          ]
+        },
+        {
+          nome: '03. Estrutura',
+          itens: [
+            { cod: 'EMP-03.1', servico: 'Montagem de pilares', unid: 'm³', valor: 775 },
+            { cod: 'EMP-03.2', servico: 'Montagem de vigas', unid: 'm³', valor: 775 },
+            { cod: 'EMP-03.3', servico: 'Montagem de laje', unid: 'm²', valor: 80 }
+          ]
+        },
+        {
+          nome: '04. Alvenaria',
+          itens: [
+            { cod: 'EMP-04.1', servico: 'Assentamento de tijolos', unid: 'm²', valor: 95 }
+          ]
+        },
+        {
+          nome: '05. Cobertura',
+          itens: [
+            { cod: 'EMP-05.1', servico: 'Estrutura de madeira', unid: 'm²', valor: 100 },
+            { cod: 'EMP-05.2', servico: 'Colocação de telhas', unid: 'm²', valor: 67.5 }
+          ]
+        },
+        {
+          nome: '06. Reboco',
+          itens: [
+            { cod: 'EMP-06.1', servico: 'Chapisco', unid: 'm²', valor: 15 },
+            { cod: 'EMP-06.2', servico: 'Emboço', unid: 'm²', valor: 44 },
+            { cod: 'EMP-06.3', servico: 'Reboco', unid: 'm²', valor: 44 }
+          ]
+        },
+        {
+          nome: '07. Pisos',
+          itens: [
+            { cod: 'EMP-07.1', servico: 'Assentamento cerâmico', unid: 'm²', valor: 72.5 },
+            { cod: 'EMP-07.2', servico: 'Assentamento porcelanato', unid: 'm²', valor: 117.5 }
+          ]
+        },
+        {
+          nome: '08. Instalações elétricas',
+          itens: [
+            { cod: 'EMP-08.1', servico: 'Instalação de ponto elétrico', unid: 'un', valor: 195 }
+          ]
+        },
+        {
+          nome: '09. Instalações hidráulicas',
+          itens: [
+            { cod: 'EMP-09.1', servico: 'Instalação de ponto hidráulico', unid: 'un', valor: 222.5 }
+          ]
+        },
+        {
+          nome: '10. Forros',
+          itens: [
+            { cod: 'EMP-10.1', servico: 'Instalação de drywall', unid: 'm²', valor: 82.5 }
+          ]
+        },
+        {
+          nome: '12. Pintura',
+          itens: [
+            { cod: 'EMP-12.1', servico: 'Massa corrida', unid: 'm²', valor: 32.5 },
+            { cod: 'EMP-12.2', servico: 'Pintura interna', unid: 'm²', valor: 27.5 },
+            { cod: 'EMP-12.3', servico: 'Pintura externa', unid: 'm²', valor: 33.5 }
+          ]
+        },
+        {
+          nome: '13. Finalização',
+          itens: [
+            { cod: 'EMP-13.1', servico: 'Limpeza pós-obra', unid: 'm²', valor: 23 }
+          ]
+        }
+      ];
+
+      const etapasReformaConstrutora = [
+        {
+          nome: '01. Demolição',
+          itens: [
+            { cod: 'EMPR-01.1', servico: 'Demolição de parede', unid: 'm²', valor: 65 },
+            { cod: 'EMPR-01.2', servico: 'Retirada de piso', unid: 'm²', valor: 39 },
+            { cod: 'EMPR-01.3', servico: 'Retirada de revestimento', unid: 'm²', valor: 45.5 }
+          ]
+        },
+        {
+          nome: '02. Alvenaria',
+          itens: [
+            { cod: 'EMPR-02.1', servico: 'Construção de parede', unid: 'm²', valor: 107.5 },
+            { cod: 'EMPR-02.2', servico: 'Fechamento de vãos', unid: 'm²', valor: 102.5 }
+          ]
+        },
+        {
+          nome: '03. Reboco',
+          itens: [
+            { cod: 'EMPR-03.1', servico: 'Recuperação de reboco', unid: 'm²', valor: 47.5 }
+          ]
+        },
+        {
+          nome: '04. Pisos',
+          itens: [
+            { cod: 'EMPR-04.1', servico: 'Assentamento cerâmico', unid: 'm²', valor: 77.5 },
+            { cod: 'EMPR-04.2', servico: 'Assentamento porcelanato', unid: 'm²', valor: 127.5 }
+          ]
+        },
+        {
+          nome: '05. Banheiros',
+          itens: [
+            { cod: 'EMPR-05.1', servico: 'Reforma completa (serviço global)', unid: 'm²', valor: 900 },
+            { cod: 'EMPR-05.2', servico: 'Impermeabilização', unid: 'm²', valor: 67.5 }
+          ]
+        },
+        {
+          nome: '06. Cozinhas',
+          itens: [
+            { cod: 'EMPR-06.1', servico: 'Assentamento de revestimento', unid: 'm²', valor: 82.5 }
+          ]
+        },
+        {
+          nome: '07. Elétrica',
+          itens: [
+            { cod: 'EMPR-07.1', servico: 'Troca de ponto elétrico', unid: 'un', valor: 195 }
+          ]
+        },
+        {
+          nome: '08. Hidráulica',
+          itens: [
+            { cod: 'EMPR-08.1', servico: 'Troca de ponto hidráulico', unid: 'un', valor: 240 },
+            { cod: 'EMPR-08.2', servico: 'Substituição de tubulação', unid: 'm', valor: 70 }
+          ]
+        },
+        {
+          nome: '09. Forros',
+          itens: [
+            { cod: 'EMPR-09.1', servico: 'Instalação de PVC', unid: 'm²', valor: 52.5 },
+            { cod: 'EMPR-09.2', servico: 'Instalação de drywall', unid: 'm²', valor: 90 }
+          ]
+        },
+        {
+          nome: '10. Pintura',
+          itens: [
+            { cod: 'EMPR-10.1', servico: 'Preparação de paredes', unid: 'm²', valor: 17 },
+            { cod: 'EMPR-10.2', servico: 'Massa corrida', unid: 'm²', valor: 34.5 },
+            { cod: 'EMPR-10.3', servico: 'Pintura interna', unid: 'm²', valor: 32 },
+            { cod: 'EMPR-10.4', servico: 'Pintura externa', unid: 'm²', valor: 38 }
+          ]
+        },
+        {
+          nome: '11. Finalização',
+          itens: [
+            { cod: 'EMPR-11.1', servico: 'Limpeza pós-reforma', unid: 'm²', valor: 27.5 }
+          ]
+        }
+      ];
 
       return {
         AUTONOMO: {
@@ -940,12 +1225,12 @@
             lat1: '<strong>Perfil:</strong> Empresa / Gestão de Obra',
             lat2: '<strong>Regime:</strong> Empreitada Corporativa',
             indicadores: [
-              ['ETAPAS DETALHADAS', `${etapasObraNovaAutonomo.length} Etapas`],
+              ['ETAPAS DETALHADAS', `${etapasObraNovaConstrutora.length} Etapas`],
               ['EQUIPE TÉCNICA (DIA)', 'R$ 360,00 - 450,00'],
               ['COMPOSIÇÃO BDI', 'Incluído por Etapa'],
               ['ENQUADRAMENTO', 'Empreitada Corporativa']
             ],
-            etapas: scaleEtapas(etapasObraNovaAutonomo, 'EMP')
+            etapas: etapasObraNovaConstrutora
           },
           REFORMA: {
             badge: 'BASE B: REFORMA CORPORATIVA',
@@ -954,19 +1239,18 @@
             lat1: '<strong>Perfil:</strong> Empresa / Reforma Técnica',
             lat2: '<strong>Regime:</strong> Contrato com Medição',
             indicadores: [
-              ['ETAPAS DETALHADAS', `${etapasReformaAutonomo.length} Etapas`],
+              ['ETAPAS DETALHADAS', `${etapasReformaConstrutora.length} Etapas`],
               ['EQUIPE TÉCNICA (DIA)', 'R$ 380,00 - 460,00'],
               ['COMPOSIÇÃO BDI', 'Incluído por Etapa'],
               ['ENQUADRAMENTO', 'Reforma Corporativa']
             ],
-            etapas: scaleEtapas(etapasReformaAutonomo, 'EMPR')
+            etapas: etapasReformaConstrutora
           }
         }
       };
     }
 
     const TABELAS_SP = buildCatalogoCompleto();
-
     const defaultState = () => ({
       empresa: {
         nome: 'CP CONSTRUÇÕES E REFORMAS',
