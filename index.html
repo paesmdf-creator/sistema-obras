@@ -29,7 +29,6 @@
         --borda-tabela: #9c6b3b;
     }
 
-    /* RESET CORRIGIDO */
     * {
         margin: 0;
         padding: 0;
@@ -38,7 +37,7 @@
 
     body {
         min-height: 100vh;
-        padding: 20px;
+        padding: 10px;
         color: var(--texto);
         font-family: Georgia, "Times New Roman", serif;
         background:
@@ -55,13 +54,12 @@
             );
     }
 
-    /* ESTRUTURA PRINCIPAL */
     .phone {
         width: min(100%, 430px);
         margin: auto;
-        padding: 10px;
-        border: 5px solid #211b17;
-        border-radius: 42px;
+        padding: 8px;
+        border: 4px solid #211b17;
+        border-radius: 34px;
         background: linear-gradient(
             135deg,
             #77716a,
@@ -70,14 +68,14 @@
             #0e0d0c
         );
         box-shadow:
-            0 18px 38px rgba(30, 14, 5, 0.45),
+            0 14px 30px rgba(30, 14, 5, 0.45),
             inset 0 0 0 2px #aaa39a;
     }
 
     .screen {
         overflow: hidden;
         border: 2px solid #1f1008;
-        border-radius: 30px;
+        border-radius: 26px;
         background:
             repeating-linear-gradient(
                 0deg,
@@ -92,27 +90,26 @@
             );
     }
 
-    /* CABEÇALHO */
     .status {
-        min-height: 34px;
-        padding: 8px 18px;
+        min-height: 30px;
+        padding: 6px 14px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
-        gap: 6px;
+        gap: 4px;
         color: #fff0d8;
-        font: 600 11px Arial, sans-serif;
+        font: 600 10px Arial, sans-serif;
         border-bottom: 1px solid rgba(215, 164, 94, 0.25);
     }
 
     .brand {
-        margin: 8px 10px 12px;
-        padding: 13px 12px;
+        margin: 6px 8px 10px;
+        padding: 10px 8px;
         text-align: center;
         color: var(--texto);
         border: 3px ridge var(--dourado);
-        border-radius: 12px 12px 24px 24px;
+        border-radius: 12px 12px 20px 20px;
         background:
             repeating-linear-gradient(
                 2deg,
@@ -126,20 +123,34 @@
                 #b87940
             );
         box-shadow:
-            0 5px 9px rgba(30, 14, 5, 0.48),
-            inset 0 1px 7px rgba(255, 235, 190, 0.55);
+            0 4px 8px rgba(30, 14, 5, 0.48),
+            inset 0 1px 6px rgba(255, 235, 190, 0.55);
+    }
+
+    .brand-mark {
+        width: 44px;
+        height: 44px;
+        margin: 0 auto 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px ridge var(--dourado);
+        border-radius: 10px;
+        background: linear-gradient(135deg, #4a2812, #2b1508);
+        color: #f6e2bd;
+        font-size: 20px;
     }
 
     .brand h1 {
-        font-size: clamp(22px, 6vw, 36px);
-        line-height: 1.08;
-        letter-spacing: 0.5px;
+        font-size: clamp(18px, 5.2vw, 34px);
+        line-height: 1.12;
+        letter-spacing: 0.4px;
         cursor: pointer;
     }
 
     .brand p {
-        margin-top: 5px;
-        font-size: 12px;
+        margin-top: 4px;
+        font-size: 11px;
         font-weight: bold;
     }
 
@@ -169,10 +180,9 @@
         background: linear-gradient(#f6e2bd, #cfa05e);
     }
 
-    /* BOAS-VINDAS */
     .welcome {
-        margin: 0 10px 12px;
-        padding: 13px;
+        margin: 0 8px 10px;
+        padding: 11px;
         border: 2px ridge #d6a66b;
         border-radius: 12px;
         background: linear-gradient(
@@ -186,27 +196,26 @@
     }
 
     .welcome h2 {
-        margin-bottom: 6px;
-        font-size: 17px;
+        margin-bottom: 5px;
+        font-size: 15px;
         font-style: italic;
     }
 
     .welcome p {
-        font-size: 13px;
-        line-height: 1.45;
+        font-size: 12px;
+        line-height: 1.4;
     }
 
-    /* INDICADORES */
     .metrics {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 9px;
-        padding: 0 10px;
+        gap: 8px;
+        padding: 0 8px;
     }
 
     .metric {
-        min-height: 126px;
-        padding: 11px 8px 9px;
+        min-height: 112px;
+        padding: 9px 7px;
         text-align: center;
         border: 3px ridge #d29a58;
         border-radius: 13px;
@@ -223,42 +232,44 @@
                 #a96832
             );
         box-shadow:
-            0 5px 8px rgba(30, 14, 5, 0.48),
+            0 4px 8px rgba(30, 14, 5, 0.48),
             inset 0 1px 6px rgba(255, 228, 177, 0.5);
     }
 
     .metric .symbol {
         display: block;
-        font-size: 23px;
+        font-size: 18px;
+        line-height: 1.1;
     }
 
     .metric h3 {
         margin: 3px 0;
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .metric strong {
         display: block;
-        font-size: 20px;
+        font-size: 16px;
         line-height: 1.2;
+        word-break: break-word;
     }
 
     .metric small {
         display: block;
         margin-top: 2px;
-        font-size: 11px;
+        font-size: 10px;
     }
 
     .metric a,
     .metric button {
         display: block;
         width: 100%;
-        margin-top: 7px;
+        margin-top: 6px;
         padding: 5px;
         color: var(--texto);
         text-decoration: none;
         font-family: inherit;
-        font-size: 11px;
+        font-size: 10px;
         font-weight: bold;
         cursor: pointer;
         border: 1px solid #5a3218;
@@ -269,15 +280,14 @@
         );
     }
 
-    /* PAINÉIS E TABELAS DE VALORES */
     .panels {
         display: grid;
-        gap: 9px;
-        padding: 12px 10px;
+        gap: 8px;
+        padding: 10px 8px;
     }
 
     .panel {
-        padding: 12px;
+        padding: 10px;
         border: 2px ridge #d9ad74;
         border-radius: 12px;
         background:
@@ -298,17 +308,17 @@
     }
 
     .panel h3 {
-        margin-bottom: 9px;
-        padding-bottom: 7px;
-        font-size: 16px;
+        margin-bottom: 8px;
+        padding-bottom: 6px;
+        font-size: 14px;
         border-bottom: 1px solid #b98b53;
     }
 
     table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 8px;
-        background: rgba(255, 250, 238, 0.78);
+        margin-top: 6px;
+        background: rgba(255, 250, 238, 0.8);
         border: 2px solid var(--borda-tabela);
         border-radius: 8px;
         overflow: hidden;
@@ -317,16 +327,16 @@
     thead th {
         background: linear-gradient(180deg, #75421f, #46240f);
         color: #fff0d6;
-        font-size: 11px;
+        font-size: 10px;
         font-weight: bold;
         text-align: left;
-        padding: 8px 8px;
+        padding: 6px 6px;
         border-bottom: 2px solid #2b1508;
     }
 
     tbody td {
-        padding: 7px 8px;
-        font-size: 11px;
+        padding: 6px 6px;
+        font-size: 10px;
         color: var(--texto);
         border-bottom: 1px solid rgba(156, 107, 59, 0.35);
         vertical-align: middle;
@@ -344,9 +354,9 @@
     .total-row td {
         background: linear-gradient(180deg, #e7c388, #cfa05e);
         font-weight: bold;
-        font-size: 12px;
+        font-size: 11px;
         color: var(--madeira-escura);
-        padding: 8px 8px;
+        padding: 7px 6px;
         border-top: 2px solid var(--borda-tabela);
     }
 
@@ -358,9 +368,8 @@
         font-variant-numeric: tabular-nums;
     }
 
-    /* FORMULÁRIOS E BOTÕES INTERNOS */
     .btn-madeira {
-        padding: 7px 12px;
+        padding: 6px 10px;
         border: 1px solid #3b2112;
         border-radius: 8px;
         font-family: inherit;
@@ -372,7 +381,7 @@
     }
 
     .btn-pergaminho {
-        padding: 7px 12px;
+        padding: 6px 10px;
         border: 1px solid #75421f;
         border-radius: 8px;
         font-family: inherit;
@@ -387,7 +396,7 @@
         border: none;
         background: none;
         font-family: inherit;
-        font-size: 11px;
+        font-size: 10px;
         font-weight: bold;
         color: var(--madeira-escura);
         text-decoration: underline;
@@ -397,27 +406,27 @@
     .form-grid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 10px;
-        margin-top: 8px;
+        gap: 8px;
+        margin-top: 6px;
     }
 
     .field label {
         display: block;
-        font-size: 11px;
+        font-size: 10px;
         font-weight: bold;
-        margin-bottom: 4px;
+        margin-bottom: 3px;
     }
 
     .field input,
     .field select {
         width: 100%;
-        padding: 7px 9px;
+        padding: 6px 8px;
         border: 1px solid var(--borda-tabela);
         border-radius: 6px;
         background: #fffdf7;
         color: var(--texto);
         font-family: inherit;
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .toolbar-row {
@@ -425,28 +434,28 @@
         flex-wrap: wrap;
         justify-content: space-between;
         align-items: center;
-        gap: 8px;
-        margin-bottom: 10px;
+        gap: 6px;
+        margin-bottom: 8px;
     }
 
     .seg-group {
         display: inline-flex;
         flex-wrap: wrap;
-        gap: 4px;
-        padding: 4px;
+        gap: 3px;
+        padding: 3px;
         border: 1px solid var(--borda-tabela);
         border-radius: 8px;
         background: rgba(255, 248, 230, 0.65);
     }
 
     .seg-btn {
-        padding: 6px 10px;
+        padding: 5px 8px;
         border: none;
         border-radius: 6px;
         background: transparent;
         color: var(--texto);
         font-family: inherit;
-        font-size: 11px;
+        font-size: 10px;
         font-weight: bold;
         cursor: pointer;
     }
@@ -457,14 +466,14 @@
     }
 
     .progress-track {
-        width: 80px;
-        height: 8px;
+        width: 56px;
+        height: 7px;
         border-radius: 99px;
         background: rgba(117, 66, 31, 0.2);
         overflow: hidden;
         display: inline-block;
         vertical-align: middle;
-        margin-right: 6px;
+        margin-right: 4px;
     }
 
     .progress-fill {
@@ -472,15 +481,14 @@
         background: linear-gradient(90deg, #75421f, #c58a4d);
     }
 
-    /* ATIVIDADES */
     .activity,
     .system-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 8px;
-        padding: 7px 0;
-        font-size: 12px;
+        padding: 6px 0;
+        font-size: 11px;
         border-bottom: 1px solid rgba(125, 81, 37, 0.18);
     }
 
@@ -489,16 +497,12 @@
         border: 0;
     }
 
-    .activity span:first-child {
-        flex: 1;
-    }
-
     .pill {
         white-space: nowrap;
-        padding: 3px 7px;
+        padding: 2px 6px;
         border: 1px solid #b68a54;
         border-radius: 14px;
-        font-size: 10px;
+        font-size: 9px;
         background: rgba(255, 248, 230, 0.65);
     }
 
@@ -507,14 +511,13 @@
         font-weight: bold;
     }
 
-    /* RODAPÉ */
     .motto {
-        margin: 0 10px 10px;
-        padding: 11px 8px;
+        margin: 0 8px 8px;
+        padding: 9px 8px;
         text-align: center;
         color: #f4d39b;
         font-style: italic;
-        font-size: 12px;
+        font-size: 11px;
         border: 2px ridge #c18a4d;
         border-radius: 9px;
         background: linear-gradient(
@@ -526,10 +529,10 @@
         text-shadow: 1px 2px 2px #160a03;
     }
 
-    /* MENU INFERIOR */
+    /* MENU INFERIOR COM 5 COLUNAS (INCLUINDO EQUIPE) */
     .bottom-nav {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         border-top: 3px ridge #c18a4d;
         background: linear-gradient(
             #75421f,
@@ -542,7 +545,7 @@
         color: #f5d7a5;
         text-align: center;
         text-decoration: none;
-        font-size: 10px;
+        font-size: 9px;
         border-right: 1px solid #9b6737;
         cursor: pointer;
     }
@@ -554,7 +557,7 @@
     .bottom-nav a b {
         display: block;
         margin-bottom: 2px;
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .bottom-nav a.active {
@@ -566,7 +569,6 @@
             inset 0 0 0 2px #e2b16e;
     }
 
-    /* MODAL */
     .modal-backdrop {
         position: fixed;
         inset: 0;
@@ -574,12 +576,12 @@
         z-index: 60;
         align-items: center;
         justify-content: center;
-        padding: 16px;
+        padding: 12px;
     }
 
     .modal-card {
-        width: min(100%, 440px);
-        padding: 16px;
+        width: min(100%, 420px);
+        padding: 14px;
         border: 3px ridge var(--dourado);
         border-radius: 14px;
         background: linear-gradient(120deg, #f6e5c5, #e8c994);
@@ -597,9 +599,7 @@
 
     .mt-2 { margin-top: 8px; }
     .mt-3 { margin-top: 12px; }
-    .mb-2 { margin-bottom: 8px; }
 
-    /* IMPRESSÃO DE DOCUMENTOS E RECIBOS */
     @media print {
         body {
             background: #fff;
@@ -635,14 +635,13 @@
         }
     }
 
-    /* RESPONSIVIDADE */
     @media (min-width: 700px) {
         body {
             padding: 28px;
         }
 
         .phone {
-            width: min(100%, 980px);
+            width: min(100%, 960px);
             border-radius: 30px;
         }
 
@@ -651,11 +650,17 @@
         }
 
         .brand {
-            padding: 18px 20px;
+            padding: 16px 20px;
+        }
+
+        .brand-mark {
+            width: 52px;
+            height: 52px;
+            font-size: 24px;
         }
 
         .brand h1 {
-            font-size: 38px;
+            font-size: 36px;
         }
 
         .top-tabs {
@@ -671,7 +676,11 @@
         }
 
         .metric {
-            min-height: 138px;
+            min-height: 132px;
+        }
+
+        .metric strong {
+            font-size: 20px;
         }
 
         .panels-two {
@@ -692,8 +701,14 @@
             gap: 10px;
         }
 
+        thead th,
+        tbody td {
+            font-size: 11px;
+            padding: 7px 9px;
+        }
+
         .bottom-nav a {
-            font-size: 12px;
+            font-size: 11px;
         }
     }
   </style>
@@ -702,19 +717,17 @@
   <div class="phone">
     <div class="screen">
 
-      <!-- STATUS / SINCRONIZAÇÃO -->
       <div class="status">
         <span id="top-company-cnpj">51.473.332/0001-24</span>
         <span id="cloud-status-text" class="online">● Modo Local</span>
       </div>
 
-      <!-- CABEÇALHO EM MADEIRA -->
       <header class="brand">
+        <div class="brand-mark">🪵</div>
         <h1 id="brand-logo-btn">CP CONSTRUÇÕES E REFORMAS</h1>
         <p id="top-company-sub">Cristiano dos Santos Paes, Sócio-Diretor • Itanhaém / SP</p>
       </header>
 
-      <!-- BARRA DE ABAS NO DESKTOP -->
       <nav class="top-tabs no-print">
         <button type="button" data-tab="dashboard" class="top-tab-btn active">Painel</button>
         <button type="button" data-tab="tabelas" class="top-tab-btn">Tabelas SP</button>
@@ -725,14 +738,14 @@
         <button type="button" data-tab="config" class="top-tab-btn">Empresa</button>
       </nav>
 
-      <!-- 1. PAINEL PRINCIPAL -->
+      <!-- 1. PAINEL -->
       <section id="tab-dashboard" class="tab-content">
         <div class="welcome">
           <h2>Gestão de Obras, Tabelas SP &amp; Propostas</h2>
-          <p>Controle de orçamentos, etapas de obra, equipe, diárias e caixa em identidade artesanal madeira &amp; pergaminho.</p>
+          <p>Controle de orçamentos, etapas de obra, equipe, diárias e caixa em estilo madeira &amp; pergaminho.</p>
           <div class="toolbar-row mt-2 no-print">
             <button type="button" id="dash-btn-orcamento" class="btn-madeira">+ Novo Orçamento</button>
-            <button type="button" id="dash-btn-tabelas" class="btn-pergaminho">Ver Tabelas de Preços SP</button>
+            <button type="button" id="dash-btn-tabelas" class="btn-pergaminho">Ver Tabelas SP</button>
           </div>
         </div>
 
@@ -754,7 +767,7 @@
           </div>
 
           <div class="metric">
-            <span class="symbol">🛠️</span>
+            <span class="symbol">👷</span>
             <h3>Saídas &amp; Diárias</h3>
             <strong id="dash-pagamentos">R$ 0,00</strong>
             <small>Custos e equipe</small>
@@ -822,14 +835,17 @@
               <strong id="dash-total-equipe">0</strong>
             </div>
             <div class="system-row">
-              <span>Referência regional</span>
-              <span class="online">Itanhaém / SP</span>
+              <span>Atalhos</span>
+              <div style="display:flex;gap:6px;">
+                <button type="button" data-go-tab="clientes" class="btn-link">Clientes</button>
+                <button type="button" data-go-tab="config" class="btn-link">Empresa</button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 2. TABELAS DE PREÇOS SP -->
+      <!-- 2. TABELAS SP -->
       <section id="tab-tabelas" class="tab-content hidden">
         <div class="welcome">
           <h2 id="titulo-tabela-principal">Construção do Zero | Profissional Autônomo</h2>
@@ -837,12 +853,12 @@
 
           <div class="toolbar-row mt-2 no-print">
             <div class="seg-group">
-              <button type="button" id="btn-perfil-autonomo" class="seg-btn active">Tabela Autônomo</button>
-              <button type="button" id="btn-perfil-construtor" class="seg-btn">Tabela Construtora</button>
+              <button type="button" id="btn-perfil-autonomo" class="seg-btn active">Autônomo</button>
+              <button type="button" id="btn-perfil-construtor" class="seg-btn">Construtora</button>
             </div>
             <div class="seg-group">
-              <button type="button" id="btn-escopo-obranova" class="seg-btn active">Construção do Zero</button>
-              <button type="button" id="btn-escopo-reforma" class="seg-btn">Reforma Residencial</button>
+              <button type="button" id="btn-escopo-obranova" class="seg-btn active">Construção</button>
+              <button type="button" id="btn-escopo-reforma" class="seg-btn">Reforma</button>
             </div>
           </div>
         </div>
@@ -854,12 +870,12 @@
             <small id="badge-perfil-tabela">TABELA 1 • AUTÔNOMO</small>
           </div>
           <div class="metric">
-            <h3 id="ind-2-titulo">PEDREIRO / OFICIAL (DIA)</h3>
+            <h3 id="ind-2-titulo">PEDREIRO / OFICIAL</h3>
             <strong id="ind-2-valor">R$ 200 - 250</strong>
             <small>Diária referência SP</small>
           </div>
           <div class="metric">
-            <h3 id="ind-3-titulo">AJUDANTE / SERVENTE (DIA)</h3>
+            <h3 id="ind-3-titulo">AJUDANTE / SERVENTE</h3>
             <strong id="ind-3-valor">R$ 100 - 130</strong>
             <small>Diária referência SP</small>
           </div>
@@ -873,18 +889,18 @@
         <div id="container-etapas-detalhadas" class="panels"></div>
       </section>
 
-      <!-- 3. ORÇAMENTOS & PROPOSTA EM PDF -->
+      <!-- 3. ORÇAMENTOS -->
       <section id="tab-orcamentos" class="tab-content hidden">
         <div class="panels">
           <div class="panel no-print">
             <div class="toolbar-row">
               <h3 style="margin:0;border:none;padding:0;">Orçamentos &amp; Propostas</h3>
-              <button type="button" id="btn-iniciar-orcamento" class="btn-madeira">+ Novo Orçamento</button>
+              <button type="button" id="btn-iniciar-orcamento" class="btn-madeira">+ Novo</button>
             </div>
 
             <div id="container-form-orcamento" class="hidden mt-3">
               <div class="toolbar-row">
-                <strong style="font-size:13px;">Composição por Etapa e Serviço</strong>
+                <strong style="font-size:12px;">Composição por Etapa e Serviço</strong>
                 <button type="button" id="btn-fechar-form-orc" class="btn-link">Fechar</button>
               </div>
 
@@ -941,7 +957,7 @@
                 </div>
               </div>
 
-              <p id="lbl-faixa-servico-orc" class="mt-2" style="font-size:11px;font-weight:bold;">Faixa: Mín. R$ 0,00 — Máx. R$ 0,00</p>
+              <p id="lbl-faixa-servico-orc" class="mt-2" style="font-size:10px;font-weight:bold;">Faixa: Mín. R$ 0,00 — Máx. R$ 0,00</p>
 
               <table>
                 <thead>
@@ -977,7 +993,7 @@
 
               <div class="toolbar-row mt-3">
                 <button type="button" id="btn-cancelar-form-orc" class="btn-pergaminho">Cancelar</button>
-                <button type="button" id="btn-salvar-orc-completo" class="btn-madeira">Salvar &amp; Gerar Proposta</button>
+                <button type="button" id="btn-salvar-orc-completo" class="btn-madeira">Salvar Proposta</button>
               </div>
             </div>
 
@@ -996,27 +1012,26 @@
             </table>
           </div>
 
-          <!-- PROPOSTA PARA IMPRESSÃO / PDF -->
           <div id="area-impressao-contrato" class="panel hidden" style="background:#fffdf7;">
             <div class="toolbar-row no-print">
-              <button type="button" id="btn-fechar-contrato" class="btn-pergaminho">← Fechar Proposta</button>
-              <button type="button" id="btn-imprimir-contrato" class="btn-madeira">Imprimir / Salvar PDF</button>
+              <button type="button" id="btn-fechar-contrato" class="btn-pergaminho">← Fechar</button>
+              <button type="button" id="btn-imprimir-contrato" class="btn-madeira">Imprimir / PDF</button>
             </div>
 
             <div class="toolbar-row" style="border-bottom:2px solid var(--madeira-escura);padding-bottom:8px;">
               <div>
                 <h3 id="print-header-empresa" style="border:none;margin:0;padding:0;">CP CONSTRUÇÕES E REFORMAS</h3>
-                <p id="print-empresa-cnpj" style="font-size:11px;">CNPJ: 51.473.332/0001-24</p>
-                <p id="print-empresa-contato" style="font-size:11px;">Responsável: Cristiano dos Santos Paes, Sócio-Diretor</p>
+                <p id="print-empresa-cnpj" style="font-size:10px;">CNPJ: 51.473.332/0001-24</p>
+                <p id="print-empresa-contato" style="font-size:10px;">Responsável: Cristiano dos Santos Paes, Sócio-Diretor</p>
               </div>
-              <div style="text-align:right;font-size:11px;">
+              <div style="text-align:right;font-size:10px;">
                 <strong>PROPOSTA COMERCIAL</strong><br>
                 <span>Nº <strong id="print-orc-id">---</strong></span><br>
                 <span>Data: <span id="print-orc-data">---</span></span>
               </div>
             </div>
 
-            <div class="form-grid form-grid-2 mt-2" style="font-size:12px;">
+            <div class="form-grid form-grid-2 mt-2" style="font-size:11px;">
               <div>
                 <strong>Cliente:</strong> <span id="print-cliente-nome">---</span><br>
                 <strong>Telefone:</strong> <span id="print-cliente-tel">---</span><br>
@@ -1029,14 +1044,14 @@
               </div>
             </div>
 
-            <div id="print-container-etapas-cliente" class="mt-3"></div>
+            <div id="print-container-etapas-cliente" class="mt-2"></div>
 
-            <div class="toolbar-row mt-3" style="border-top:2px solid var(--madeira-escura);padding-top:10px;">
-              <span style="font-size:11px;">Mão de obra sem materiais • Sujeito a conferência de medidas em obra.</span>
-              <strong id="print-valor-total" style="font-size:18px;">R$ 0,00</strong>
+            <div class="toolbar-row mt-3" style="border-top:2px solid var(--madeira-escura);padding-top:8px;">
+              <span style="font-size:10px;">Mão de obra sem materiais • Sujeito a conferência em obra.</span>
+              <strong id="print-valor-total" style="font-size:16px;">R$ 0,00</strong>
             </div>
 
-            <div class="form-grid form-grid-2 mt-3" style="text-align:center;font-size:11px;padding-top:16px;">
+            <div class="form-grid form-grid-2 mt-3" style="text-align:center;font-size:10px;padding-top:14px;">
               <div>
                 <div style="border-top:1px solid #3b2112;padding-top:4px;"><strong>CP CONSTRUÇÕES E REFORMAS</strong></div>
               </div>
@@ -1056,7 +1071,7 @@
               <h3 style="margin:0;border:none;padding:0;">Carteira de Clientes</h3>
               <div style="display:flex;gap:6px;flex-wrap:wrap;">
                 <button type="button" id="btn-importar-contato" class="btn-pergaminho">Agenda</button>
-                <button type="button" id="btn-abrir-cliente" class="btn-madeira">+ Novo Cliente</button>
+                <button type="button" id="btn-abrir-cliente" class="btn-madeira">+ Cliente</button>
               </div>
             </div>
             <table>
@@ -1079,8 +1094,8 @@
         <div class="panels">
           <div class="panel">
             <div class="toolbar-row">
-              <h3 style="margin:0;border:none;padding:0;">Equipe de Campo</h3>
-              <button type="button" id="btn-abrir-colaborador" class="btn-madeira">+ Novo Colaborador</button>
+              <h3 style="margin:0;border:none;padding:0;">Equipe &amp; Funcionários</h3>
+              <button type="button" id="btn-abrir-colaborador" class="btn-madeira">+ Funcionário</button>
             </div>
             <table>
               <thead>
@@ -1099,13 +1114,13 @@
           <div class="panel">
             <div class="toolbar-row">
               <h3 style="margin:0;border:none;padding:0;">Diárias Lançadas</h3>
-              <button type="button" id="btn-abrir-diaria" class="btn-pergaminho">+ Lançar Diária</button>
+              <button type="button" id="btn-abrir-diaria" class="btn-pergaminho">+ Diária</button>
             </div>
             <table>
               <thead>
                 <tr>
                   <th>Data</th>
-                  <th>Colaborador</th>
+                  <th>Funcionário</th>
                   <th>Obra</th>
                   <th class="num">Valor</th>
                   <th class="num">Ação</th>
@@ -1117,7 +1132,7 @@
         </div>
       </section>
 
-      <!-- 6. CAIXA / FINANCEIRO -->
+      <!-- 6. CAIXA -->
       <section id="tab-financeiro" class="tab-content hidden">
         <div class="metrics">
           <div class="metric">
@@ -1137,7 +1152,7 @@
           </div>
           <div class="metric">
             <h3>Lançamento</h3>
-            <button type="button" id="btn-abrir-lancamento">+ Novo Lançamento</button>
+            <button type="button" id="btn-abrir-lancamento">+ Lançar</button>
             <small>Entrada ou saída</small>
           </div>
         </div>
@@ -1161,7 +1176,7 @@
         </div>
       </section>
 
-      <!-- 7. EMPRESA & BACKUP -->
+      <!-- 7. EMPRESA -->
       <section id="tab-config" class="tab-content hidden">
         <div class="panels">
           <div class="panel">
@@ -1190,7 +1205,7 @@
             </div>
 
             <div class="toolbar-row mt-3">
-              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
                 <button type="button" id="btn-exportar-json" class="btn-pergaminho">Exportar JSON</button>
                 <label class="btn-pergaminho" style="cursor:pointer;">
                   Importar JSON
@@ -1203,27 +1218,25 @@
         </div>
       </section>
 
-      <!-- LEMA / RODAPÉ ARTESANAL -->
       <div class="motto">
         “Madeira, técnica e compromisso — CP Construções e Reformas.”
       </div>
 
-      <!-- MENU INFERIOR -->
       <nav class="bottom-nav no-print">
         <a data-tab="dashboard" class="active"><b>🏠</b>Painel</a>
         <a data-tab="tabelas"><b>📊</b>Tabelas</a>
         <a data-tab="orcamentos"><b>📄</b>Orçamentos</a>
+        <a data-tab="equipe"><b>👷</b>Equipe</a>
         <a data-tab="financeiro"><b>💰</b>Caixa</a>
       </nav>
 
     </div>
   </div>
 
-  <!-- MODAL GENÉRICO -->
   <div id="modal-generico" class="modal-backdrop hidden no-print">
     <div class="modal-card">
-      <div class="toolbar-row" style="border-bottom:1px solid var(--borda-tabela);padding-bottom:8px;">
-        <h3 id="modal-titulo" style="margin:0;border:none;padding:0;font-size:15px;">Cadastro</h3>
+      <div class="toolbar-row" style="border-bottom:1px solid var(--borda-tabela);padding-bottom:6px;">
+        <h3 id="modal-titulo" style="margin:0;border:none;padding:0;font-size:14px;">Cadastro</h3>
         <button type="button" id="btn-fechar-modal" class="btn-link">✕</button>
       </div>
       <form id="modal-form" class="form-grid mt-2"></form>
@@ -1871,30 +1884,19 @@
       const tel = emp.telefone || '';
       const end = emp.endereco || 'Itanhaém / SP';
 
-      const logo = document.getElementById('brand-logo-btn');
-      const sub = document.getElementById('top-company-sub');
-      const topCnpj = document.getElementById('top-company-cnpj');
-      if (logo) logo.textContent = nome;
-      if (sub) sub.textContent = `${resp} • ${end}`;
-      if (topCnpj) topCnpj.textContent = `${cnpj} — ${nome}`;
+      document.getElementById('brand-logo-btn').textContent = nome;
+      document.getElementById('top-company-sub').textContent = `${resp} • ${end}`;
+      document.getElementById('top-company-cnpj').textContent = `${cnpj} — ${nome}`;
 
-      const pNome = document.getElementById('print-header-empresa');
-      const pCnpj = document.getElementById('print-empresa-cnpj');
-      const pContato = document.getElementById('print-empresa-contato');
-      if (pNome) pNome.textContent = nome;
-      if (pCnpj) pCnpj.textContent = `CNPJ: ${cnpj}`;
-      if (pContato) pContato.textContent = `Responsável: ${resp}${tel ? ' • ' + tel : ''} • ${end}`;
+      document.getElementById('print-header-empresa').textContent = nome;
+      document.getElementById('print-empresa-cnpj').textContent = `CNPJ: ${cnpj}`;
+      document.getElementById('print-empresa-contato').textContent = `Responsável: ${resp}${tel ? ' • ' + tel : ''} • ${end}`;
 
-      const cfgNome = document.getElementById('cfg-empresa-nome');
-      const cfgCnpj = document.getElementById('cfg-empresa-cnpj');
-      const cfgResp = document.getElementById('cfg-empresa-resp');
-      const cfgTel = document.getElementById('cfg-empresa-tel');
-      const cfgEnd = document.getElementById('cfg-empresa-end');
-      if (cfgNome) cfgNome.value = nome;
-      if (cfgCnpj) cfgCnpj.value = cnpj;
-      if (cfgResp) cfgResp.value = resp;
-      if (cfgTel) cfgTel.value = tel;
-      if (cfgEnd) cfgEnd.value = end;
+      document.getElementById('cfg-empresa-nome').value = nome;
+      document.getElementById('cfg-empresa-cnpj').value = cnpj;
+      document.getElementById('cfg-empresa-resp').value = resp;
+      document.getElementById('cfg-empresa-tel').value = tel;
+      document.getElementById('cfg-empresa-end').value = end;
     }
 
     function computeFinancials() {
@@ -2109,7 +2111,6 @@
               <td>
                 <small style="display:block;font-weight:bold;">${escapeHtml(it.etapa)}</small>
                 ${escapeHtml(it.servico)}
-                <small style="display:block;">Faixa: ${formatBRL(it.minimo)} a ${formatBRL(it.maximo)}</small>
               </td>
               <td>${escapeHtml(it.unid)}</td>
               <td class="num">${Number(it.qtd).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
@@ -2299,7 +2300,7 @@
 
       if (tbodyCol) {
         tbodyCol.innerHTML = !state.colaboradores.length
-          ? '<tr><td colspan="5" style="text-align:center;">Nenhum colaborador cadastrado.</td></tr>'
+          ? '<tr><td colspan="5" style="text-align:center;">Nenhum funcionário cadastrado.</td></tr>'
           : state.colaboradores.map((col) => `
               <tr>
                 <td><strong>${escapeHtml(col.nome)}</strong></td>
@@ -2327,7 +2328,7 @@
     }
 
     function excluirColaborador(id) {
-      if (!confirm('Remover colaborador?')) return;
+      if (!confirm('Remover funcionário?')) return;
       state.colaboradores = state.colaboradores.filter((c) => c.id !== id);
       saveState();
       renderEquipe();
@@ -2524,14 +2525,14 @@
       });
 
       document.getElementById('btn-abrir-colaborador')?.addEventListener('click', () => {
-        abrirModal('Novo Colaborador', `
+        abrirModal('Novo Funcionário', `
           <div class="field"><label>Nome *</label><input type="text" id="m-col-nome" required></div>
           <div class="field"><label>Função</label><input type="text" id="m-col-func" placeholder="Ex: Pedreiro, Ajudante"></div>
           <div class="field"><label>Diária Base (R$)</label><input type="number" step="0.01" id="m-col-dia" value="200.00"></div>
           <div class="field"><label>Telefone</label><input type="text" id="m-col-tel"></div>
         `, () => {
           const nome = document.getElementById('m-col-nome')?.value.trim();
-          if (!nome) return alert('Informe o nome do colaborador.');
+          if (!nome) return alert('Informe o nome do funcionário.');
           state.colaboradores.push({
             id: `col_${Date.now()}`,
             nome,
@@ -2548,7 +2549,7 @@
 
       document.getElementById('btn-abrir-diaria')?.addEventListener('click', () => {
         if (!state.colaboradores.length) {
-          alert('Cadastre um colaborador primeiro.');
+          alert('Cadastre um funcionário primeiro.');
           return;
         }
         const opts = state.colaboradores.map((c) => `<option value="${c.id}" data-val="${c.diariaBase || 0}">${escapeHtml(c.nome)}</option>`).join('');
@@ -2556,7 +2557,7 @@
         const primeira = Number(state.colaboradores[0].diariaBase || 0).toFixed(2);
 
         abrirModal('Lançar Diária', `
-          <div class="field"><label>Colaborador *</label><select id="m-dia-col">${opts}</select></div>
+          <div class="field"><label>Funcionário *</label><select id="m-dia-col">${opts}</select></div>
           <div class="field"><label>Data *</label><input type="date" id="m-dia-data" value="${hoje}"></div>
           <div class="field"><label>Obra / Serviço</label><input type="text" id="m-dia-obra" placeholder="Ex: Obra Itanhaém"></div>
           <div class="field"><label>Valor (R$) *</label><input type="number" step="0.01" id="m-dia-val" value="${primeira}"></div>
