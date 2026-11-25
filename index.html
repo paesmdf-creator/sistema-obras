@@ -5,793 +5,1231 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CP Construções e Reformas — Gestão Corporativa & Obras</title>
 
-<link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#341e16">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#3b2112">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap">
-
-  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            wood: {
-              50: '#fdfbf7', 100: '#f7f2e8', 200: '#eee3d0', 300: '#dfcaaa',
-              400: '#cca97d', 500: '#be8c54', 600: '#af7444', 700: '#925a38',
-              800: '#774832', 900: '#613c2c', 950: '#341e16',
-            }
-          }
-        }
-      }
-    };
-  </script>
- <style>
-    .font-serif-artisan { font-family: 'Cinzel', serif; }
+  <style>
+    /* =================================
+       IDENTIDADE ARTESANAL - MADEIRA & PERGAMINHO
+       Estilo visual + Tabela de Valores
+    ================================= */
 
-    .executive-card {
-      background: linear-gradient(120deg, #f8e8c8, #e8c994);
-      border: 1px solid #b98b53;
-      border-top: 3px solid #774832;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    :root {
+        --madeira-escura: #3b2112;
+        --madeira: #75421f;
+        --madeira-media: #9b602f;
+        --madeira-clara: #c58a4d;
+        --pergaminho: #f1d5a6;
+        --pergaminho-claro: #f8e8c8;
+        --texto: #321b0c;
+        --dourado: #d7a45e;
+        --borda-tabela: #9c6b3b;
     }
 
-    .wood-texture-header {
-      background: linear-gradient(135deg, #2b1810 0%, #4a2c18 55%, #613c2c 100%);
-      border-bottom: 3px solid #b47b44;
+    /* RESET CORRIGIDO */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
 
-    .watermark-bg { position: relative; }
-    .watermark-bg::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23774832' stroke-width='2' opacity='0.04'%3E%3Cpath d='M22 78 V36 L52 16 L80 35 V55 H54 V36'/%3E%3Cpath d='M52 52 H32 V78 H54'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 280px;
-      pointer-events: none;
+    body {
+        min-height: 100vh;
+        padding: 20px;
+        color: var(--texto);
+        font-family: Georgia, "Times New Roman", serif;
+        background:
+            repeating-linear-gradient(
+                7deg,
+                rgba(255, 255, 255, 0.08) 0 2px,
+                transparent 2px 8px
+            ),
+            linear-gradient(
+                135deg,
+                #c58b50,
+                #e2b77b,
+                #b77a3e
+            );
     }
 
-    .ui-icon {
-      width: 1em;
-      height: 1em;
-      display: inline-block;
-      flex-shrink: 0;
-      vertical-align: -0.125em;
+    /* ESTRUTURA PRINCIPAL */
+    .phone {
+        width: min(100%, 430px);
+        margin: auto;
+        padding: 10px;
+        border: 5px solid #211b17;
+        border-radius: 42px;
+        background: linear-gradient(
+            135deg,
+            #77716a,
+            #171513,
+            #514a42,
+            #0e0d0c
+        );
+        box-shadow:
+            0 18px 38px rgba(30, 14, 5, 0.45),
+            inset 0 0 0 2px #aaa39a;
     }
 
-    /* TABELA DE VALORES */
+    .screen {
+        overflow: hidden;
+        border: 2px solid #1f1008;
+        border-radius: 30px;
+        background:
+            repeating-linear-gradient(
+                0deg,
+                rgba(84, 44, 16, 0.10) 0 1px,
+                transparent 1px 7px
+            ),
+            linear-gradient(
+                115deg,
+                #8b5128,
+                #603419,
+                #8a5128
+            );
+    }
+
+    /* CABEÇALHO */
+    .status {
+        min-height: 34px;
+        padding: 8px 18px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        color: #fff0d8;
+        font: 600 11px Arial, sans-serif;
+        border-bottom: 1px solid rgba(215, 164, 94, 0.25);
+    }
+
+    .brand {
+        margin: 8px 10px 12px;
+        padding: 13px 12px;
+        text-align: center;
+        color: var(--texto);
+        border: 3px ridge var(--dourado);
+        border-radius: 12px 12px 24px 24px;
+        background:
+            repeating-linear-gradient(
+                2deg,
+                rgba(79, 40, 13, 0.12) 0 2px,
+                transparent 2px 8px
+            ),
+            linear-gradient(
+                110deg,
+                #b7793e,
+                #e0b477,
+                #b87940
+            );
+        box-shadow:
+            0 5px 9px rgba(30, 14, 5, 0.48),
+            inset 0 1px 7px rgba(255, 235, 190, 0.55);
+    }
+
+    .brand h1 {
+        font-size: clamp(22px, 6vw, 36px);
+        line-height: 1.08;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+    }
+
+    .brand p {
+        margin-top: 5px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .top-tabs {
+        display: none;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        margin: 0 10px 12px;
+    }
+
+    .top-tab-btn {
+        padding: 6px 11px;
+        border: 1px solid #5a3218;
+        border-radius: 14px;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: bold;
+        color: var(--pergaminho-claro);
+        background: linear-gradient(#75421f, #3b2112);
+        cursor: pointer;
+    }
+
+    .top-tab-btn.active {
+        color: var(--texto);
+        border-color: var(--dourado);
+        background: linear-gradient(#f6e2bd, #cfa05e);
+    }
+
+    /* BOAS-VINDAS */
+    .welcome {
+        margin: 0 10px 12px;
+        padding: 13px;
+        border: 2px ridge #d6a66b;
+        border-radius: 12px;
+        background: linear-gradient(
+            120deg,
+            #f6e2bd,
+            #e7c18a
+        );
+        box-shadow:
+            inset 0 1px 7px rgba(255, 255, 255, 0.7),
+            0 4px 8px rgba(30, 14, 5, 0.48);
+    }
+
+    .welcome h2 {
+        margin-bottom: 6px;
+        font-size: 17px;
+        font-style: italic;
+    }
+
+    .welcome p {
+        font-size: 13px;
+        line-height: 1.45;
+    }
+
+    /* INDICADORES */
+    .metrics {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+        padding: 0 10px;
+    }
+
+    .metric {
+        min-height: 126px;
+        padding: 11px 8px 9px;
+        text-align: center;
+        border: 3px ridge #d29a58;
+        border-radius: 13px;
+        background:
+            repeating-linear-gradient(
+                3deg,
+                rgba(65, 31, 9, 0.12) 0 1px,
+                transparent 1px 7px
+            ),
+            linear-gradient(
+                135deg,
+                #b8793d,
+                #dca765,
+                #a96832
+            );
+        box-shadow:
+            0 5px 8px rgba(30, 14, 5, 0.48),
+            inset 0 1px 6px rgba(255, 228, 177, 0.5);
+    }
+
+    .metric .symbol {
+        display: block;
+        font-size: 23px;
+    }
+
+    .metric h3 {
+        margin: 3px 0;
+        font-size: 13px;
+    }
+
+    .metric strong {
+        display: block;
+        font-size: 20px;
+        line-height: 1.2;
+    }
+
+    .metric small {
+        display: block;
+        margin-top: 2px;
+        font-size: 11px;
+    }
+
+    .metric a,
+    .metric button {
+        display: block;
+        width: 100%;
+        margin-top: 7px;
+        padding: 5px;
+        color: var(--texto);
+        text-decoration: none;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: bold;
+        cursor: pointer;
+        border: 1px solid #5a3218;
+        border-radius: 18px;
+        background: linear-gradient(
+            #e9bd7d,
+            #b9783c
+        );
+    }
+
+    /* PAINÉIS E TABELAS DE VALORES */
+    .panels {
+        display: grid;
+        gap: 9px;
+        padding: 12px 10px;
+    }
+
+    .panel {
+        padding: 12px;
+        border: 2px ridge #d9ad74;
+        border-radius: 12px;
+        background:
+            repeating-linear-gradient(
+                0deg,
+                rgba(105, 62, 24, 0.06) 0 1px,
+                transparent 1px 6px
+            ),
+            linear-gradient(
+                120deg,
+                #f6e5c5,
+                #e8c994
+            );
+        box-shadow:
+            0 4px 8px rgba(30, 14, 5, 0.48),
+            inset 0 1px 5px #fff1d5;
+        overflow-x: auto;
+    }
+
+    .panel h3 {
+        margin-bottom: 9px;
+        padding-bottom: 7px;
+        font-size: 16px;
+        border-bottom: 1px solid #b98b53;
+    }
+
     table {
-      width: 100%;
-      border-collapse: collapse;
-      background: rgba(255, 250, 238, 0.85);
-      border: 1px solid #b98b53;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 8px;
+        background: rgba(255, 250, 238, 0.78);
+        border: 2px solid var(--borda-tabela);
+        border-radius: 8px;
+        overflow: hidden;
     }
 
     thead th {
-      background: linear-gradient(180deg, #4a2c18, #2b1810);
-      color: #f8e8c8;
-      padding: 8px 10px;
-      text-align: left;
-      border-bottom: 2px solid #774832;
+        background: linear-gradient(180deg, #75421f, #46240f);
+        color: #fff0d6;
+        font-size: 11px;
+        font-weight: bold;
+        text-align: left;
+        padding: 8px 8px;
+        border-bottom: 2px solid #2b1508;
     }
 
     tbody td {
-      padding: 8px 10px;
-      color: #321b0c;
-      border-bottom: 1px solid rgba(119, 72, 50, 0.25);
+        padding: 7px 8px;
+        font-size: 11px;
+        color: var(--texto);
+        border-bottom: 1px solid rgba(156, 107, 59, 0.35);
+        vertical-align: middle;
     }
 
     tbody tr:nth-child(even) {
-      background: rgba(232, 201, 148, 0.25);
+        background: rgba(226, 192, 134, 0.28);
+    }
+
+    tbody tr:hover {
+        background: rgba(215, 164, 94, 0.35);
     }
 
     tfoot td,
     .total-row td {
-      background: linear-gradient(180deg, #e8c994, #cfa05e);
-      color: #2b1810;
-      font-weight: bold;
-      padding: 9px 10px;
-      border-top: 2px solid #774832;
+        background: linear-gradient(180deg, #e7c388, #cfa05e);
+        font-weight: bold;
+        font-size: 12px;
+        color: var(--madeira-escura);
+        padding: 8px 8px;
+        border-top: 2px solid var(--borda-tabela);
     }
 
+    .valor-moeda,
+    td.num,
+    th.num {
+        text-align: right;
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* FORMULÁRIOS E BOTÕES INTERNOS */
+    .btn-madeira {
+        padding: 7px 12px;
+        border: 1px solid #3b2112;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: bold;
+        color: #fff0d6;
+        background: linear-gradient(#8b5128, #46240f);
+        cursor: pointer;
+    }
+
+    .btn-pergaminho {
+        padding: 7px 12px;
+        border: 1px solid #75421f;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: bold;
+        color: var(--texto);
+        background: linear-gradient(#f6e2bd, #d7a45e);
+        cursor: pointer;
+    }
+
+    .btn-link {
+        border: none;
+        background: none;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: bold;
+        color: var(--madeira-escura);
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 8px;
+    }
+
+    .field label {
+        display: block;
+        font-size: 11px;
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+
+    .field input,
+    .field select {
+        width: 100%;
+        padding: 7px 9px;
+        border: 1px solid var(--borda-tabela);
+        border-radius: 6px;
+        background: #fffdf7;
+        color: var(--texto);
+        font-family: inherit;
+        font-size: 12px;
+    }
+
+    .toolbar-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .seg-group {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 4px;
+        border: 1px solid var(--borda-tabela);
+        border-radius: 8px;
+        background: rgba(255, 248, 230, 0.65);
+    }
+
+    .seg-btn {
+        padding: 6px 10px;
+        border: none;
+        border-radius: 6px;
+        background: transparent;
+        color: var(--texto);
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .seg-btn.active {
+        color: #fff0d6;
+        background: linear-gradient(#75421f, #3b2112);
+    }
+
+    .progress-track {
+        width: 80px;
+        height: 8px;
+        border-radius: 99px;
+        background: rgba(117, 66, 31, 0.2);
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 6px;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #75421f, #c58a4d);
+    }
+
+    /* ATIVIDADES */
+    .activity,
+    .system-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 7px 0;
+        font-size: 12px;
+        border-bottom: 1px solid rgba(125, 81, 37, 0.18);
+    }
+
+    .activity:last-child,
+    .system-row:last-child {
+        border: 0;
+    }
+
+    .activity span:first-child {
+        flex: 1;
+    }
+
+    .pill {
+        white-space: nowrap;
+        padding: 3px 7px;
+        border: 1px solid #b68a54;
+        border-radius: 14px;
+        font-size: 10px;
+        background: rgba(255, 248, 230, 0.65);
+    }
+
+    .online {
+        color: #315c28;
+        font-weight: bold;
+    }
+
+    /* RODAPÉ */
+    .motto {
+        margin: 0 10px 10px;
+        padding: 11px 8px;
+        text-align: center;
+        color: #f4d39b;
+        font-style: italic;
+        font-size: 12px;
+        border: 2px ridge #c18a4d;
+        border-radius: 9px;
+        background: linear-gradient(
+            90deg,
+            #3a1d0c,
+            #75421f,
+            #3a1d0c
+        );
+        text-shadow: 1px 2px 2px #160a03;
+    }
+
+    /* MENU INFERIOR */
+    .bottom-nav {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 3px ridge #c18a4d;
+        background: linear-gradient(
+            #75421f,
+            #351a0b
+        );
+    }
+
+    .bottom-nav a {
+        padding: 8px 2px 9px;
+        color: #f5d7a5;
+        text-align: center;
+        text-decoration: none;
+        font-size: 10px;
+        border-right: 1px solid #9b6737;
+        cursor: pointer;
+    }
+
+    .bottom-nav a:last-child {
+        border-right: none;
+    }
+
+    .bottom-nav a b {
+        display: block;
+        margin-bottom: 2px;
+        font-size: 15px;
+    }
+
+    .bottom-nav a.active {
+        background: linear-gradient(
+            #b8793d,
+            #613416
+        );
+        box-shadow:
+            inset 0 0 0 2px #e2b16e;
+    }
+
+    /* MODAL */
+    .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(22, 10, 3, 0.65);
+        z-index: 60;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+    }
+
+    .modal-card {
+        width: min(100%, 440px);
+        padding: 16px;
+        border: 3px ridge var(--dourado);
+        border-radius: 14px;
+        background: linear-gradient(120deg, #f6e5c5, #e8c994);
+        color: var(--texto);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+    }
+
+    .hidden {
+        display: none !important;
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .mt-2 { margin-top: 8px; }
+    .mt-3 { margin-top: 12px; }
+    .mb-2 { margin-bottom: 8px; }
+
+    /* IMPRESSÃO DE DOCUMENTOS E RECIBOS */
     @media print {
-      .no-print { display: none !important; }
-      body { background-color: #ffffff !important; color: #000000 !important; }
-      .print-shadow-none { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
-      .watermark-bg::before { opacity: 0.06 !important; }
+        body {
+            background: #fff;
+            padding: 0;
+        }
+
+        .phone {
+            width: 100%;
+            border: 2px solid var(--borda-tabela);
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+            background: #fff;
+        }
+
+        .screen {
+            border: none;
+            border-radius: 0;
+            background: #fff;
+        }
+
+        .status,
+        .top-tabs,
+        .bottom-nav,
+        .no-print {
+            display: none !important;
+        }
+
+        .panel,
+        .welcome,
+        table {
+            box-shadow: none;
+        }
+    }
+
+    /* RESPONSIVIDADE */
+    @media (min-width: 700px) {
+        body {
+            padding: 28px;
+        }
+
+        .phone {
+            width: min(100%, 980px);
+            border-radius: 30px;
+        }
+
+        .screen {
+            border-radius: 20px;
+        }
+
+        .brand {
+            padding: 18px 20px;
+        }
+
+        .brand h1 {
+            font-size: 38px;
+        }
+
+        .top-tabs {
+            display: flex;
+        }
+
+        .welcome {
+            padding: 16px 20px;
+        }
+
+        .metrics {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .metric {
+            min-height: 138px;
+        }
+
+        .panels-two {
+            display: grid;
+            grid-template-columns: 1.25fr 0.75fr;
+            gap: 10px;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .form-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .bottom-nav a {
+            font-size: 12px;
+        }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased">
+<body>
+  <div class="phone">
+    <div class="screen">
 
-  <div class="flex flex-col min-h-screen">
-    <!-- CABEÇALHO CORPORATIVO -->
-    <header class="wood-texture-header text-white shadow-lg no-print sticky top-0 z-40">
-      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-        <div class="flex flex-wrap items-center justify-between gap-2 py-2.5 min-h-[5rem]">
-          <div id="brand-logo-btn" class="flex items-center space-x-2.5 cursor-pointer min-w-0">
-            <div class="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-lg bg-wood-950/60 border border-amber-400/60 flex items-center justify-center shadow-inner p-1.5">
-              <svg viewBox="0 0 100 100" class="w-8 h-8 text-amber-300 fill-none stroke-current" stroke-width="4.5">
-                <path d="M22 78 V36 L52 16 L80 35 V55 H54 V36" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M52 52 H32 V78 H54" stroke-linecap="round" stroke-linejoin="round"/>
-                <line x1="22" y1="26" x2="52" y2="6" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="min-w-0">
-              <h1 id="top-company-name" class="font-serif-artisan text-sm sm:text-base lg:text-lg font-bold tracking-wide text-amber-100 truncate">CP CONSTRUÇÕES E REFORMAS</h1>
-              <div class="flex flex-wrap items-center gap-1.5 mt-0.5">
-                <span id="cloud-status-badge" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-950/80 text-amber-300 border border-amber-500/30">
-                  <span id="cloud-dot" class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>
-                  <span id="cloud-status-text">Modo Local</span>
-                </span>
-                <span id="top-company-cnpj" class="hidden lg:inline text-[10px] text-amber-200/80 tracking-wider uppercase">51.473.332/0001-24 — CRISTIANO DOS SANTOS PAES</span>
-              </div>
-            </div>
-          </div>
-
-          <nav class="hidden md:flex flex-wrap items-center gap-1">
-            <button type="button" data-tab="dashboard" id="nav-dashboard" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 bg-wood-800 text-amber-200 border-b-2 border-amber-400">
-              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>
-              <span>Painel</span>
-            </button>
-            <button type="button" data-tab="tabelas" id="nav-tabelas" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
-              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
-              <span>Tabelas SP</span>
-            </button>
-            <button type="button" data-tab="orcamentos" id="nav-orcamentos" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
-              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
-              <span>Orçamentos</span>
-            </button>
-            <button type="button" data-tab="clientes" id="nav-clientes" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
-              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span>Clientes</span>
-            </button>
-            <button type="button" data-tab="equipe" id="nav-equipe" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
-              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15a8 8 0 0 1 16 0H4z"/><path d="M12 4v3M2 15h20"/></svg>
-              <span>Equipe</span>
-            </button>
-            <button type="button" data-tab="financeiro" id="nav-financeiro" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
-              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M7 9h.01M17 15h.01"/></svg>
-              <span>Caixa</span>
-            </button>
-            <button type="button" data-tab="config" id="nav-config" class="nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70">
-              <svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-              <span>Empresa</span>
-            </button>
-          </nav>
-        </div>
+      <!-- STATUS / SINCRONIZAÇÃO -->
+      <div class="status">
+        <span id="top-company-cnpj">51.473.332/0001-24</span>
+        <span id="cloud-status-text" class="online">● Modo Local</span>
       </div>
 
-      <!-- NAVEGAÇÃO MOBILE -->
-      <div class="md:hidden border-t border-wood-700/80 px-1 py-1.5 flex justify-around no-print text-[10px] text-amber-100 bg-wood-950/30">
-        <button type="button" data-tab="dashboard" class="nav-btn p-1 flex flex-col items-center gap-0.5">
-          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>
-          <span>Painel</span>
-        </button>
-        <button type="button" data-tab="tabelas" class="nav-btn p-1 flex flex-col items-center gap-0.5">
-          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
-          <span>Tabelas</span>
-        </button>
-        <button type="button" data-tab="orcamentos" class="nav-btn p-1 flex flex-col items-center gap-0.5">
-          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
-          <span>Propostas</span>
-        </button>
-        <button type="button" data-tab="clientes" class="nav-btn p-1 flex flex-col items-center gap-0.5">
-          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-          <span>Clientes</span>
-        </button>
-        <button type="button" data-tab="equipe" class="nav-btn p-1 flex flex-col items-center gap-0.5">
-          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15a8 8 0 0 1 16 0H4z"/><path d="M12 4v3M2 15h20"/></svg>
-          <span>Equipe</span>
-        </button>
-        <button type="button" data-tab="financeiro" class="nav-btn p-1 flex flex-col items-center gap-0.5">
-          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>
-          <span>Caixa</span>
-        </button>
-        <button type="button" data-tab="config" class="nav-btn p-1 flex flex-col items-center gap-0.5">
-          <svg class="ui-icon text-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09"/></svg>
-          <span>Empresa</span>
-        </button>
-      </div>
-    </header>
+      <!-- CABEÇALHO EM MADEIRA -->
+      <header class="brand">
+        <h1 id="brand-logo-btn">CP CONSTRUÇÕES E REFORMAS</h1>
+        <p id="top-company-sub">Cristiano dos Santos Paes, Sócio-Diretor • Itanhaém / SP</p>
+      </header>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <!-- BARRA DE ABAS NO DESKTOP -->
+      <nav class="top-tabs no-print">
+        <button type="button" data-tab="dashboard" class="top-tab-btn active">Painel</button>
+        <button type="button" data-tab="tabelas" class="top-tab-btn">Tabelas SP</button>
+        <button type="button" data-tab="orcamentos" class="top-tab-btn">Orçamentos</button>
+        <button type="button" data-tab="clientes" class="top-tab-btn">Clientes</button>
+        <button type="button" data-tab="equipe" class="top-tab-btn">Equipe</button>
+        <button type="button" data-tab="financeiro" class="top-tab-btn">Caixa</button>
+        <button type="button" data-tab="config" class="top-tab-btn">Empresa</button>
+      </nav>
 
-      <!-- 1. DASHBOARD EXECUTIVO -->
-      <section id="tab-dashboard" class="tab-content space-y-6">
-        <div class="executive-card rounded-lg p-6 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-gradient-to-r from-white via-wood-50/40 to-white">
-          <div class="space-y-1">
-            <div class="flex items-center space-x-2">
-              <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-wood-900 text-amber-200 rounded">Gestão Executiva</span>
-              <span class="text-xs text-slate-500 font-medium">Litoral Sul • Itanhaém / SP</span>
-            </div>
-            <h2 class="text-xl sm:text-2xl font-bold font-serif-artisan text-wood-950">Painel de Controle de Obras &amp; Reformas</h2>
-            <p class="text-slate-600 text-xs sm:text-sm">Cristiano dos Santos Paes, Sócio-Diretor — Orçamentos, etapas SINAPI/SindusCon, equipe, caixa e nuvem.</p>
-          </div>
-          <div class="flex flex-wrap gap-2 w-full lg:w-auto">
-            <button type="button" id="dash-btn-tabelas" class="flex-1 lg:flex-none bg-emerald-900 hover:bg-emerald-950 text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center gap-2">
-              <svg class="ui-icon text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
-              <span>Tabelas de Preços SP</span>
-            </button>
-            <button type="button" id="dash-btn-orcamento" class="flex-1 lg:flex-none wood-texture-header hover:opacity-95 text-amber-100 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition flex items-center justify-center gap-2">
-              <svg class="ui-icon text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-              <span>Novo Orçamento</span>
-            </button>
+      <!-- 1. PAINEL PRINCIPAL -->
+      <section id="tab-dashboard" class="tab-content">
+        <div class="welcome">
+          <h2>Gestão de Obras, Tabelas SP &amp; Propostas</h2>
+          <p>Controle de orçamentos, etapas de obra, equipe, diárias e caixa em identidade artesanal madeira &amp; pergaminho.</p>
+          <div class="toolbar-row mt-2 no-print">
+            <button type="button" id="dash-btn-orcamento" class="btn-madeira">+ Novo Orçamento</button>
+            <button type="button" id="dash-btn-tabelas" class="btn-pergaminho">Ver Tabelas de Preços SP</button>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="executive-card p-5 rounded-lg">
-            <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Orçamentos Emitidos</span>
-              <svg class="ui-icon text-wood-700 text-base" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg>
-            </div>
-            <p id="dash-obras-ativas" class="text-2xl font-bold text-slate-900 mt-2">0</p>
-            <p class="text-[11px] text-slate-500 mt-1">Propostas registradas</p>
+        <div class="metrics">
+          <div class="metric">
+            <span class="symbol">📐</span>
+            <h3>Orçamentos</h3>
+            <strong id="dash-obras-ativas">0</strong>
+            <small>Propostas emitidas</small>
+            <button type="button" data-go-tab="orcamentos">Abrir Orçamentos</button>
           </div>
 
-          <div class="executive-card p-5 rounded-lg" style="border-top-color: #065f46;">
-            <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Entradas no Caixa</span>
-              <svg class="ui-icon text-emerald-700 text-base" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg>
-            </div>
-            <p id="dash-recebimentos" class="text-2xl font-bold text-emerald-800 mt-2">R$ 0,00</p>
-            <p class="text-[11px] text-slate-500 mt-1">Receitas lançadas</p>
+          <div class="metric">
+            <span class="symbol">📈</span>
+            <h3>Entradas</h3>
+            <strong id="dash-recebimentos">R$ 0,00</strong>
+            <small>Receitas no caixa</small>
+            <button type="button" data-go-tab="financeiro">Ver Caixa</button>
           </div>
 
-          <div class="executive-card p-5 rounded-lg" style="border-top-color: #9f1239;">
-            <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Saídas &amp; Diárias</span>
-              <svg class="ui-icon text-rose-700 text-base" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15a8 8 0 0 1 16 0H4z"/><path d="M12 4v3M2 15h20"/></svg>
-            </div>
-            <p id="dash-pagamentos" class="text-2xl font-bold text-rose-800 mt-2">R$ 0,00</p>
-            <p class="text-[11px] text-slate-500 mt-1">Custos e equipe</p>
+          <div class="metric">
+            <span class="symbol">🛠️</span>
+            <h3>Saídas &amp; Diárias</h3>
+            <strong id="dash-pagamentos">R$ 0,00</strong>
+            <small>Custos e equipe</small>
+            <button type="button" data-go-tab="equipe">Ver Equipe</button>
           </div>
 
-          <div class="executive-card p-5 rounded-lg" style="border-top-color: #b45309;">
-            <div class="flex justify-between items-start">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Saldo Atual</span>
-              <svg class="ui-icon text-amber-700 text-base" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M5 8h14M7 8l-2 6h4l-2-6zm10 0l-2 6h4l-2-6z"/></svg>
-            </div>
-            <p id="dash-saldo" class="text-2xl font-bold text-amber-700 mt-2">R$ 0,00</p>
-            <p class="text-[11px] text-slate-500 mt-1">Entradas menos saídas</p>
+          <div class="metric">
+            <span class="symbol">⚖️</span>
+            <h3>Saldo Atual</h3>
+            <strong id="dash-saldo">R$ 0,00</strong>
+            <small>Entradas menos saídas</small>
+            <button type="button" data-go-tab="financeiro">Extrato</button>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 executive-card rounded-lg p-5 space-y-6">
-            <div>
-              <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
-                <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Progresso de Etapas (SINAPI / SindusCon)</h3>
-                <span class="text-[11px] font-semibold text-slate-500">Acompanhamento de Obra</span>
-              </div>
-              <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs text-slate-600">
-                  <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
-                    <tr>
-                      <th class="p-2.5">Etapa</th>
-                      <th class="p-2.5">Progresso (%)</th>
-                      <th class="p-2.5 text-right">Custo Atual</th>
-                      <th class="p-2.5 text-right">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody id="dash-etapas-progresso" class="divide-y divide-slate-100"></tbody>
-                </table>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
-                <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Propostas &amp; Orçamentos Recentes</h3>
-                <button type="button" id="dash-ver-todos" class="text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded">Ver todos</button>
-              </div>
-              <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs text-slate-600">
-                  <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
-                    <tr>
-                      <th class="p-2.5">Código</th>
-                      <th class="p-2.5">Cliente</th>
-                      <th class="p-2.5">Modalidade</th>
-                      <th class="p-2.5">Data</th>
-                      <th class="p-2.5 text-right">Total</th>
-                      <th class="p-2.5 text-right">Ação</th>
-                    </tr>
-                  </thead>
-                  <tbody id="dash-lista-recentes" class="divide-y divide-slate-100"></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div class="executive-card rounded-lg p-5 space-y-4">
-            <div class="border-b border-slate-200 pb-3">
-              <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Parâmetros de Referência SP</h3>
-            </div>
-            <div class="space-y-3 text-xs">
-              <div class="p-3 rounded bg-wood-50 border border-wood-200">
-                <span class="font-bold text-wood-900 block">Base A — Profissional Autônomo</span>
-                <span class="text-slate-600">Custos detalhados por etapa e serviço • Mão de obra direta</span>
-              </div>
-              <div class="p-3 rounded bg-emerald-50 border border-emerald-200">
-                <span class="font-bold text-emerald-950 block">Base B — Construtor / Empresa</span>
-                <span class="text-slate-600">Custos detalhados por etapa e serviço • Encargos &amp; BDI</span>
-              </div>
-              <div class="p-3 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
-                <div>
-                  <span class="font-bold text-slate-800 block">Clientes Cadastrados</span>
-                  <span class="text-slate-500">Carteira ativa sincronizada</span>
-                </div>
-                <span id="dash-total-clientes" class="text-lg font-bold text-wood-900">0</span>
-              </div>
-              <div class="p-3 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
-                <div>
-                  <span class="font-bold text-slate-800 block">Equipe Ativa</span>
-                  <span class="text-slate-500">Profissionais cadastrados</span>
-                </div>
-                <span id="dash-total-equipe" class="text-lg font-bold text-wood-900">0</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 2. TABELAS DETALHADAS POR ETAPA: AUTÔNOMO VS. CONSTRUTOR / EMPRESA -->
-      <section id="tab-tabelas" class="tab-content hidden space-y-6">
-        <div id="banner-tabela-ativa" class="bg-emerald-950 text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <div class="flex items-center space-x-2 mb-1">
-              <span id="badge-perfil-tabela" class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-700 text-emerald-100">BASE A: AUTÔNOMO DIRETO</span>
-              <span class="text-xs text-emerald-300">Custos Específicos por Etapa da Obra</span>
-            </div>
-            <h2 id="titulo-tabela-principal" class="text-xl sm:text-2xl font-bold tracking-tight">Tabela de Mão de Obra — Profissional Autônomo</h2>
-            <p id="subtitulo-tabela-principal" class="text-emerald-200 text-xs mt-1">Composição por Etapa e Serviço | Estado de São Paulo</p>
-          </div>
-          <div class="text-left md:text-right text-xs text-emerald-100 space-y-1 bg-black/25 p-3.5 rounded-lg border border-white/10">
-            <p id="info-lat-1"><strong>Perfil:</strong> Autônomo / Execução Direta</p>
-            <p><strong>Região:</strong> São Paulo (Litoral / Itanhaém)</p>
-            <p id="info-lat-2"><strong>Detalhamento:</strong> Etapa por Etapa</p>
-          </div>
-        </div>
-
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
-          <div class="flex flex-col space-y-1">
-            <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">1. Selecione a Tabela de Referência:</span>
-            <div class="inline-flex flex-wrap rounded-lg bg-slate-100 p-1 gap-1">
-              <button type="button" id="btn-perfil-autonomo" class="px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition">
-                Tabela Autônomo (Direto)
-              </button>
-              <button type="button" id="btn-perfil-construtor" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
-                Tabela Construtor (Empresa / BDI)
-              </button>
-            </div>
-          </div>
-
-          <div class="flex flex-col space-y-1">
-            <span class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">2. Selecione o Escopo da Obra:</span>
-            <div class="inline-flex flex-wrap rounded-lg bg-slate-100 p-1 gap-1">
-              <button type="button" id="btn-escopo-obranova" class="px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-100 shadow transition">
-                Obra Nova (Desde o Início)
-              </button>
-              <button type="button" id="btn-escopo-reforma" class="px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition">
-                Reformas &amp; Encargos Específicos
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-            <span id="ind-1-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ETAPAS CADASTRADAS</span>
-            <p id="ind-1-valor" class="text-lg font-bold text-slate-900 mt-1">10 Etapas</p>
-          </div>
-          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-            <span id="ind-2-titulo" class="text-[11px] font-bold text-slate-500 uppercase">PEDREIRO / OFICIAL (DIA)</span>
-            <p id="ind-2-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 200,00 - 250,00</p>
-          </div>
-          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-            <span id="ind-3-titulo" class="text-[11px] font-bold text-slate-500 uppercase">AJUDANTE / SERVENTE (DIA)</span>
-            <p id="ind-3-valor" class="text-lg font-bold text-slate-900 mt-1">R$ 100,00 - 130,00</p>
-          </div>
-          <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-            <span id="ind-4-titulo" class="text-[11px] font-bold text-slate-500 uppercase">ENQUADRAMENTO</span>
-            <p id="ind-4-valor" class="text-lg font-bold text-slate-900 mt-1">Mão de Obra Direta</p>
-          </div>
-        </div>
-
-        <div id="container-etapas-detalhadas" class="space-y-6"></div>
-      </section>
-
-      <!-- 3. MONTADOR DE ORÇAMENTOS & PROPOSTA LIMPA EM PDF -->
-      <section id="tab-orcamentos" class="tab-content hidden space-y-6">
-        <div class="flex justify-between items-center no-print">
-          <div>
-            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Orçamentos &amp; Propostas Comerciais</h2>
-            <p class="text-xs text-slate-500">Composição por etapa e serviço da tabela selecionada. O PDF do cliente exibe escopo e valores finais.</p>
-          </div>
-          <button type="button" id="btn-iniciar-orcamento" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">+ Novo Orçamento</button>
-        </div>
-
-        <div id="container-form-orcamento" class="executive-card p-6 rounded-lg hidden space-y-5 no-print">
-          <div class="flex justify-between items-center border-b border-slate-200 pb-3">
-            <h3 class="text-base font-bold font-serif-artisan text-wood-950">Composição Interna de Preços (Uso Exclusivo da Empresa)</h3>
-            <button type="button" id="btn-fechar-form-orc" class="text-slate-400 hover:text-slate-600 font-bold text-sm px-2 py-1">✕</button>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Cliente *</label>
-              <select id="orc-cliente" class="w-full border border-slate-300 p-2 rounded-lg bg-white"></select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Base de Preço Interna *</label>
-              <select id="orc-perfil-base" class="w-full border-2 border-wood-700 bg-wood-50 font-bold text-wood-950 p-2 rounded-lg">
-                <option value="AUTONOMO">Base Autônomo (Direto)</option>
-                <option value="CONSTRUTOR">Base Construtor (Empresa/BDI)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Tipo de Obra *</label>
-              <select id="orc-modalidade" class="w-full border-2 border-emerald-700 bg-emerald-50 font-bold text-emerald-950 p-2 rounded-lg">
-                <option value="OBRA_NOVA">Obra Nova</option>
-                <option value="REFORMA">Reforma / Reestruturação</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Ajuste / Encargo Adicional (%)</label>
-              <select id="orc-adicional-reforma" class="w-full border border-slate-300 p-2 rounded-lg bg-white">
-                <option value="0">0% (Valor exato da tabela)</option>
-                <option value="10">+10% (Logística / Acesso)</option>
-                <option value="15">+15% (Imóvel habitado / Proteção)</option>
-                <option value="20">+20% (Demolição pesada / BDI extra)</option>
-                <option value="25">+25% (Urgência / Alta complexidade)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 grid grid-cols-1 md:grid-cols-12 gap-3 items-end text-xs">
-            <div class="md:col-span-3">
-              <label class="block font-semibold text-slate-700 mb-1">Etapa da Obra</label>
-              <select id="sel-etapa-orc" class="w-full border border-slate-300 rounded p-2 bg-white"></select>
-            </div>
-            <div class="md:col-span-4">
-              <label class="block font-semibold text-slate-700 mb-1">Serviço da Tabela Selecionada</label>
-              <select id="sel-servico-orc" class="w-full border border-slate-300 rounded p-2 bg-white"></select>
-            </div>
-            <div class="md:col-span-2">
-              <label class="block font-semibold text-slate-700 mb-1">Qtd. (<span id="lbl-unid-orc">m²</span>)</label>
-              <input type="number" step="0.01" id="inp-qtd-orc" value="1" class="w-full border border-slate-300 rounded p-2 bg-white">
-            </div>
-            <div class="md:col-span-2">
-              <label class="block font-semibold text-slate-700 mb-1">Unitário (R$)</label>
-              <input type="number" step="0.01" id="inp-val-orc" class="w-full border border-slate-300 rounded p-2 font-bold bg-white">
-            </div>
-            <div class="md:col-span-1">
-              <button type="button" id="btn-add-item-orc" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white py-2 rounded font-bold">+</button>
-            </div>
-          </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs border border-slate-200">
-              <thead class="bg-wood-100 text-wood-950 uppercase font-bold">
+        <div class="panels panels-two">
+          <div class="panel">
+            <h3>Progresso de Etapas da Obra</h3>
+            <table>
+              <thead>
                 <tr>
-                  <th class="p-2">Etapa / Cód.</th>
-                  <th class="p-2">Serviço</th>
-                  <th class="p-2 text-center">Unid.</th>
-                  <th class="p-2 text-right">Qtd.</th>
-                  <th class="p-2 text-right">Unit. (R$)</th>
-                  <th class="p-2 text-right">Subtotal</th>
-                  <th class="p-2 text-center">Remover</th>
+                  <th>Etapa</th>
+                  <th>Progresso</th>
+                  <th class="num">Custo</th>
+                  <th>Status</th>
                 </tr>
               </thead>
-              <tbody id="tbody-itens-orcamento" class="divide-y"></tbody>
-              <tfoot class="bg-amber-50/70 font-bold text-wood-950 border-t-2 border-wood-300">
+              <tbody id="dash-etapas-progresso"></tbody>
+            </table>
+
+            <div class="toolbar-row mt-3">
+              <h3 style="margin:0;border:none;padding:0;">Propostas Recentes</h3>
+              <button type="button" id="dash-ver-todos" class="btn-link">Ver todas</button>
+            </div>
+            <table>
+              <thead>
                 <tr>
-                  <td colspan="5" class="p-2.5 text-right">Subtotal Base dos Serviços:</td>
-                  <td id="lbl-subtotal-base" class="p-2.5 text-right">R$ 0,00</td>
-                  <td></td>
+                  <th>Código</th>
+                  <th>Cliente</th>
+                  <th>Modalidade</th>
+                  <th class="num">Total</th>
+                  <th class="num">Ação</th>
                 </tr>
-                <tr id="row-encargo-reforma" class="hidden text-emerald-900">
-                  <td colspan="5" class="p-2.5 text-right">Ajuste / Encargo Adicional:</td>
-                  <td id="lbl-valor-encargo" class="p-2.5 text-right">R$ 0,00</td>
-                  <td></td>
-                </tr>
-                <tr class="text-sm">
-                  <td colspan="5" class="p-3 text-right uppercase font-serif-artisan">Valor Total da Proposta ao Cliente:</td>
-                  <td id="lbl-total-final-orc" class="p-3 text-right text-base">R$ 0,00</td>
-                  <td></td>
-                </tr>
-              </tfoot>
+              </thead>
+              <tbody id="dash-lista-recentes"></tbody>
             </table>
           </div>
 
-          <div class="flex justify-end space-x-2 pt-2">
-            <button type="button" id="btn-cancelar-form-orc" class="px-4 py-2 border rounded text-xs text-slate-600">Cancelar</button>
-            <button type="button" id="btn-salvar-orc-completo" class="wood-texture-header text-amber-100 px-6 py-2.5 rounded text-xs font-bold shadow">Salvar &amp; Gerar Proposta Limpa</button>
+          <div class="panel">
+            <h3>Resumo Operacional</h3>
+            <div class="system-row">
+              <span>Base Autônomo (Direto)</span>
+              <span class="pill">Mão de obra s/ mat.</span>
+            </div>
+            <div class="system-row">
+              <span>Base Construtora (Empresa)</span>
+              <span class="pill">Mão de obra s/ mat.</span>
+            </div>
+            <div class="system-row">
+              <span>Clientes cadastrados</span>
+              <strong id="dash-total-clientes">0</strong>
+            </div>
+            <div class="system-row">
+              <span>Equipe cadastrada</span>
+              <strong id="dash-total-equipe">0</strong>
+            </div>
+            <div class="system-row">
+              <span>Referência regional</span>
+              <span class="online">Itanhaém / SP</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. TABELAS DE PREÇOS SP -->
+      <section id="tab-tabelas" class="tab-content hidden">
+        <div class="welcome">
+          <h2 id="titulo-tabela-principal">Construção do Zero | Profissional Autônomo</h2>
+          <p id="subtitulo-tabela-principal">Mão de obra sem materiais • Referência SP (Nov/2026)</p>
+
+          <div class="toolbar-row mt-2 no-print">
+            <div class="seg-group">
+              <button type="button" id="btn-perfil-autonomo" class="seg-btn active">Tabela Autônomo</button>
+              <button type="button" id="btn-perfil-construtor" class="seg-btn">Tabela Construtora</button>
+            </div>
+            <div class="seg-group">
+              <button type="button" id="btn-escopo-obranova" class="seg-btn active">Construção do Zero</button>
+              <button type="button" id="btn-escopo-reforma" class="seg-btn">Reforma Residencial</button>
+            </div>
           </div>
         </div>
 
-        <div class="executive-card rounded-lg overflow-hidden no-print">
-          <table class="w-full text-left text-sm text-slate-600">
-            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
-              <tr><th class="p-3">Código</th><th class="p-3">Cliente</th><th class="p-3">Modalidade</th><th class="p-3">Data</th><th class="p-3 text-right">Total</th><th class="p-3 text-right">Ações</th></tr>
-            </thead>
-            <tbody id="lista-orcamentos-salvos" class="divide-y"></tbody>
-          </table>
+        <div class="metrics">
+          <div class="metric">
+            <h3 id="ind-1-titulo">ETAPAS DETALHADAS</h3>
+            <strong id="ind-1-valor">13 Etapas</strong>
+            <small id="badge-perfil-tabela">TABELA 1 • AUTÔNOMO</small>
+          </div>
+          <div class="metric">
+            <h3 id="ind-2-titulo">PEDREIRO / OFICIAL (DIA)</h3>
+            <strong id="ind-2-valor">R$ 200 - 250</strong>
+            <small>Diária referência SP</small>
+          </div>
+          <div class="metric">
+            <h3 id="ind-3-titulo">AJUDANTE / SERVENTE (DIA)</h3>
+            <strong id="ind-3-valor">R$ 100 - 130</strong>
+            <small>Diária referência SP</small>
+          </div>
+          <div class="metric">
+            <h3 id="ind-4-titulo">ENQUADRAMENTO</h3>
+            <strong id="ind-4-valor">Mão de Obra</strong>
+            <small>Sem fornecimento de material</small>
+          </div>
         </div>
 
-        <div id="area-impressao-contrato" class="hidden executive-card watermark-bg p-8 rounded-lg space-y-6 print-shadow-none bg-white">
-          <div class="no-print flex justify-between items-center bg-wood-100 p-3 rounded mb-4">
-            <button type="button" id="btn-fechar-contrato" class="text-xs font-bold text-slate-700">← Voltar à Lista</button>
-            <button type="button" id="btn-imprimir-contrato" class="wood-texture-header text-amber-100 text-xs font-bold px-4 py-2 rounded shadow">Imprimir / Salvar Proposta PDF</button>
+        <div id="container-etapas-detalhadas" class="panels"></div>
+      </section>
+
+      <!-- 3. ORÇAMENTOS & PROPOSTA EM PDF -->
+      <section id="tab-orcamentos" class="tab-content hidden">
+        <div class="panels">
+          <div class="panel no-print">
+            <div class="toolbar-row">
+              <h3 style="margin:0;border:none;padding:0;">Orçamentos &amp; Propostas</h3>
+              <button type="button" id="btn-iniciar-orcamento" class="btn-madeira">+ Novo Orçamento</button>
+            </div>
+
+            <div id="container-form-orcamento" class="hidden mt-3">
+              <div class="toolbar-row">
+                <strong style="font-size:13px;">Composição por Etapa e Serviço</strong>
+                <button type="button" id="btn-fechar-form-orc" class="btn-link">Fechar</button>
+              </div>
+
+              <div class="form-grid form-grid-4">
+                <div class="field">
+                  <label>Cliente *</label>
+                  <select id="orc-cliente"></select>
+                </div>
+                <div class="field">
+                  <label>Base de Preço</label>
+                  <select id="orc-perfil-base">
+                    <option value="AUTONOMO">Autônomo (Direto)</option>
+                    <option value="CONSTRUTOR">Construtora (Empresa)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Modalidade</label>
+                  <select id="orc-modalidade">
+                    <option value="OBRA_NOVA">Construção do Zero</option>
+                    <option value="REFORMA">Reforma Residencial</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Ajuste Adicional (%)</label>
+                  <select id="orc-adicional-reforma">
+                    <option value="0">0% (Média da tabela)</option>
+                    <option value="10">+10% (Acesso / Logística)</option>
+                    <option value="15">+15% (Imóvel habitado)</option>
+                    <option value="20">+20% (Demolição / BDI)</option>
+                    <option value="25">+25% (Alta complexidade)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-grid form-grid-4 mt-2">
+                <div class="field">
+                  <label>Etapa</label>
+                  <select id="sel-etapa-orc"></select>
+                </div>
+                <div class="field">
+                  <label>Serviço</label>
+                  <select id="sel-servico-orc"></select>
+                </div>
+                <div class="field">
+                  <label>Qtd. (<span id="lbl-unid-orc">m²</span>)</label>
+                  <input type="number" step="0.01" id="inp-qtd-orc" value="1">
+                </div>
+                <div class="field">
+                  <label>Unitário (R$)</label>
+                  <div style="display:flex;gap:6px;">
+                    <input type="number" step="0.01" id="inp-val-orc">
+                    <button type="button" id="btn-add-item-orc" class="btn-madeira">+</button>
+                  </div>
+                </div>
+              </div>
+
+              <p id="lbl-faixa-servico-orc" class="mt-2" style="font-size:11px;font-weight:bold;">Faixa: Mín. R$ 0,00 — Máx. R$ 0,00</p>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Cód.</th>
+                    <th>Serviço</th>
+                    <th>Unid.</th>
+                    <th class="num">Qtd.</th>
+                    <th class="num">Unit.</th>
+                    <th class="num">Subtotal</th>
+                    <th class="num">Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-itens-orcamento"></tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="5" class="num">Subtotal Base:</td>
+                    <td id="lbl-subtotal-base" class="num">R$ 0,00</td>
+                    <td></td>
+                  </tr>
+                  <tr id="row-encargo-reforma" class="hidden">
+                    <td colspan="5" class="num">Ajuste Adicional:</td>
+                    <td id="lbl-valor-encargo" class="num">R$ 0,00</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="5" class="num">Total da Proposta:</td>
+                    <td id="lbl-total-final-orc" class="num">R$ 0,00</td>
+                    <td></td>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <div class="toolbar-row mt-3">
+                <button type="button" id="btn-cancelar-form-orc" class="btn-pergaminho">Cancelar</button>
+                <button type="button" id="btn-salvar-orc-completo" class="btn-madeira">Salvar &amp; Gerar Proposta</button>
+              </div>
+            </div>
+
+            <table class="mt-3">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Cliente</th>
+                  <th>Modalidade</th>
+                  <th>Data</th>
+                  <th class="num">Total</th>
+                  <th class="num">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="lista-orcamentos-salvos"></tbody>
+            </table>
           </div>
 
-          <div class="border-b-2 border-wood-900 pb-5 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center space-x-4">
-              <div class="w-14 h-14 rounded-lg bg-wood-950 flex items-center justify-center p-2 border border-amber-500">
-                <svg viewBox="0 0 100 100" class="w-10 h-10 text-amber-300 fill-none stroke-current" stroke-width="4.5">
-                  <path d="M22 78 V36 L52 16 L80 35 V55 H54 V36" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M52 52 H32 V78 H54" stroke-linecap="round" stroke-linejoin="round"/>
-                  <line x1="22" y1="26" x2="52" y2="6" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
-                </svg>
+          <!-- PROPOSTA PARA IMPRESSÃO / PDF -->
+          <div id="area-impressao-contrato" class="panel hidden" style="background:#fffdf7;">
+            <div class="toolbar-row no-print">
+              <button type="button" id="btn-fechar-contrato" class="btn-pergaminho">← Fechar Proposta</button>
+              <button type="button" id="btn-imprimir-contrato" class="btn-madeira">Imprimir / Salvar PDF</button>
+            </div>
+
+            <div class="toolbar-row" style="border-bottom:2px solid var(--madeira-escura);padding-bottom:8px;">
+              <div>
+                <h3 id="print-header-empresa" style="border:none;margin:0;padding:0;">CP CONSTRUÇÕES E REFORMAS</h3>
+                <p id="print-empresa-cnpj" style="font-size:11px;">CNPJ: 51.473.332/0001-24</p>
+                <p id="print-empresa-contato" style="font-size:11px;">Responsável: Cristiano dos Santos Paes, Sócio-Diretor</p>
+              </div>
+              <div style="text-align:right;font-size:11px;">
+                <strong>PROPOSTA COMERCIAL</strong><br>
+                <span>Nº <strong id="print-orc-id">---</strong></span><br>
+                <span>Data: <span id="print-orc-data">---</span></span>
+              </div>
+            </div>
+
+            <div class="form-grid form-grid-2 mt-2" style="font-size:12px;">
+              <div>
+                <strong>Cliente:</strong> <span id="print-cliente-nome">---</span><br>
+                <strong>Telefone:</strong> <span id="print-cliente-tel">---</span><br>
+                <strong>Obra:</strong> <span id="print-cliente-end">---</span>
+              </div>
+              <div style="text-align:right;">
+                <strong>Modalidade:</strong> <span id="print-orc-modalidade">---</span><br>
+                <strong>Validade:</strong> 15 dias corridos<br>
+                <strong>Região:</strong> Itanhaém / SP
+              </div>
+            </div>
+
+            <div id="print-container-etapas-cliente" class="mt-3"></div>
+
+            <div class="toolbar-row mt-3" style="border-top:2px solid var(--madeira-escura);padding-top:10px;">
+              <span style="font-size:11px;">Mão de obra sem materiais • Sujeito a conferência de medidas em obra.</span>
+              <strong id="print-valor-total" style="font-size:18px;">R$ 0,00</strong>
+            </div>
+
+            <div class="form-grid form-grid-2 mt-3" style="text-align:center;font-size:11px;padding-top:16px;">
+              <div>
+                <div style="border-top:1px solid #3b2112;padding-top:4px;"><strong>CP CONSTRUÇÕES E REFORMAS</strong></div>
               </div>
               <div>
-                <h3 id="print-header-empresa" class="font-serif-artisan text-xl sm:text-2xl font-bold tracking-wider text-wood-950">CP CONSTRUÇÕES E REFORMAS</h3>
-                <p id="print-empresa-cnpj" class="text-xs font-semibold uppercase text-slate-600">CNPJ: 51.473.332/0001-24</p>
-                <p id="print-empresa-contato" class="text-xs text-slate-500">Responsável Técnico: Cristiano dos Santos Paes, Sócio-Diretor</p>
+                <div style="border-top:1px solid #3b2112;padding-top:4px;"><strong id="print-ass-cliente-nome">CONTRATANTE</strong></div>
               </div>
-            </div>
-            <div class="text-center sm:text-right">
-              <span class="px-3 py-1 bg-wood-900 text-amber-200 text-xs font-bold uppercase tracking-widest rounded">Proposta Comercial</span>
-              <p class="text-xs font-bold text-slate-700 mt-1.5">Nº <span id="print-orc-id">---</span></p>
-              <p class="text-xs text-slate-500">Emissão: <span id="print-orc-data">---</span></p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 text-xs border border-wood-300 p-4 rounded bg-wood-50/40 gap-4">
-            <div class="space-y-1">
-              <p class="text-[10px] font-bold uppercase text-wood-800">Dados do Contratante</p>
-              <p><strong>CLIENTE:</strong> <span id="print-cliente-nome">---</span></p>
-              <p><strong>TELEFONE:</strong> <span id="print-cliente-tel">---</span></p>
-              <p><strong>LOCAL DA OBRA:</strong> <span id="print-cliente-end">---</span></p>
-            </div>
-            <div class="sm:text-right space-y-1">
-              <p class="text-[10px] font-bold uppercase text-wood-800">Especificação do Projeto</p>
-              <p><strong>MODALIDADE:</strong> <span id="print-orc-modalidade" class="font-bold">---</span></p>
-              <p><strong>VALIDADE DA PROPOSTA:</strong> 15 dias corridos</p>
-              <p><strong>REGIÃO:</strong> Itanhaém / Litoral Sul - SP</p>
-            </div>
-          </div>
-
-          <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-wood-950">Escopo Técnico e Custos por Etapa</h4>
-            <div id="print-container-etapas-cliente" class="space-y-3"></div>
-          </div>
-
-          <div class="border-t-2 border-wood-900 pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <p class="text-xs text-slate-500 max-w-md">Proposta sujeita a medições em obra, acesso de materiais e condições de execução acordadas entre as partes.</p>
-            <div class="text-right">
-              <span class="text-xs uppercase font-bold text-slate-500 block">Valor Global da Proposta</span>
-              <span id="print-valor-total" class="text-2xl font-bold font-serif-artisan text-wood-950">R$ 0,00</span>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-10 text-center text-xs">
-            <div>
-              <div class="border-t border-slate-400 pt-2 font-bold text-slate-700">CP CONSTRUÇÕES E REFORMAS</div>
-              <div class="text-[11px] text-slate-500">Cristiano dos Santos Paes, Sócio-Diretor</div>
-            </div>
-            <div>
-              <div class="border-t border-slate-400 pt-2 font-bold text-slate-700" id="print-ass-cliente-nome">CONTRATANTE</div>
-              <div class="text-[11px] text-slate-500">Assinatura / Confirmação Digital</div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- 4. CLIENTES -->
-      <section id="tab-clientes" class="tab-content hidden space-y-6">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Carteira de Clientes</h2>
-            <p class="text-xs text-slate-500">Cadastro de contratantes e endereços de obra.</p>
+      <section id="tab-clientes" class="tab-content hidden">
+        <div class="panels">
+          <div class="panel">
+            <div class="toolbar-row">
+              <h3 style="margin:0;border:none;padding:0;">Carteira de Clientes</h3>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button type="button" id="btn-importar-contato" class="btn-pergaminho">Agenda</button>
+                <button type="button" id="btn-abrir-cliente" class="btn-madeira">+ Novo Cliente</button>
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Telefone</th>
+                  <th>Endereço / Obra</th>
+                  <th class="num">Ação</th>
+                </tr>
+              </thead>
+              <tbody id="lista-clientes"></tbody>
+            </table>
           </div>
-          <div class="flex flex-wrap gap-2">
-            <button type="button" id="btn-importar-contato" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2.5 rounded-lg text-xs font-bold shadow">
-              Agenda do Celular
-            </button>
-            <button type="button" id="btn-abrir-cliente" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">
-              + Novo Cliente
-            </button>
-          </div>
-        </div>
-
-        <div class="executive-card rounded-lg overflow-hidden">
-          <table class="w-full text-left text-sm text-slate-600">
-            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
-              <tr>
-                <th class="p-3">Cliente</th>
-                <th class="p-3">Telefone</th>
-                <th class="p-3">Endereço / Obra</th>
-                <th class="p-3 text-right">Ações</th>
-              </tr>
-            </thead>
-            <tbody id="lista-clientes" class="divide-y"></tbody>
-          </table>
         </div>
       </section>
 
       <!-- 5. EQUIPE & DIÁRIAS -->
-      <section id="tab-equipe" class="tab-content hidden space-y-6">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Equipe de Campo &amp; Diárias</h2>
-            <p class="text-xs text-slate-500">Controle de profissionais, lançamento de diárias e resumo de pagamentos.</p>
-          </div>
-          <button type="button" id="btn-abrir-colaborador" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">
-            + Novo Colaborador
-          </button>
-        </div>
-
-        <div class="executive-card rounded-lg overflow-hidden">
-          <table class="w-full text-left text-sm text-slate-600">
-            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
-              <tr>
-                <th class="p-3">Colaborador</th>
-                <th class="p-3">Função</th>
-                <th class="p-3">Diária Base</th>
-                <th class="p-3">Telefone</th>
-                <th class="p-3 text-right">Ações</th>
-              </tr>
-            </thead>
-            <tbody id="lista-colaboradores" class="divide-y"></tbody>
-          </table>
-        </div>
-
-        <div class="executive-card rounded-lg p-5 space-y-4">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-200 pb-3">
-            <h3 class="text-sm font-bold font-serif-artisan text-wood-950 uppercase tracking-wide">Histórico de Diárias Lançadas</h3>
-            <button type="button" id="btn-abrir-diaria" class="bg-emerald-800 hover:bg-emerald-900 text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow">
-              + Lançar Diária
-            </button>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-slate-600">
-              <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
+      <section id="tab-equipe" class="tab-content hidden">
+        <div class="panels">
+          <div class="panel">
+            <div class="toolbar-row">
+              <h3 style="margin:0;border:none;padding:0;">Equipe de Campo</h3>
+              <button type="button" id="btn-abrir-colaborador" class="btn-madeira">+ Novo Colaborador</button>
+            </div>
+            <table>
+              <thead>
                 <tr>
-                  <th class="p-2.5">Data</th>
-                  <th class="p-2.5">Colaborador</th>
-                  <th class="p-2.5">Obra / Referência</th>
-                  <th class="p-2.5 text-right">Valor</th>
-                  <th class="p-2.5 text-right">Ações</th>
+                  <th>Nome</th>
+                  <th>Função</th>
+                  <th class="num">Diária</th>
+                  <th>Telefone</th>
+                  <th class="num">Ação</th>
                 </tr>
               </thead>
-              <tbody id="lista-diarias" class="divide-y"></tbody>
+              <tbody id="lista-colaboradores"></tbody>
+            </table>
+          </div>
+
+          <div class="panel">
+            <div class="toolbar-row">
+              <h3 style="margin:0;border:none;padding:0;">Diárias Lançadas</h3>
+              <button type="button" id="btn-abrir-diaria" class="btn-pergaminho">+ Lançar Diária</button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Colaborador</th>
+                  <th>Obra</th>
+                  <th class="num">Valor</th>
+                  <th class="num">Ação</th>
+                </tr>
+              </thead>
+              <tbody id="lista-diarias"></tbody>
             </table>
           </div>
         </div>
       </section>
 
       <!-- 6. CAIXA / FINANCEIRO -->
-      <section id="tab-financeiro" class="tab-content hidden space-y-6">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Controle de Caixa &amp; Financeiro</h2>
-            <p class="text-xs text-slate-500">Entradas de medições/contratos e saídas operacionais e de diárias.</p>
+      <section id="tab-financeiro" class="tab-content hidden">
+        <div class="metrics">
+          <div class="metric">
+            <h3>Entradas</h3>
+            <strong id="fin-entradas">R$ 0,00</strong>
+            <small>Recebimentos</small>
           </div>
-          <button type="button" id="btn-abrir-lancamento" class="wood-texture-header text-amber-100 px-4 py-2.5 rounded-lg text-xs font-bold shadow">
-            + Novo Lançamento
-          </button>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="executive-card p-4 rounded-lg" style="border-top-color: #065f46;">
-            <span class="text-[11px] font-bold text-slate-500 uppercase">Total Entradas</span>
-            <p id="fin-entradas" class="text-xl font-bold text-emerald-800 mt-1">R$ 0,00</p>
+          <div class="metric">
+            <h3>Saídas</h3>
+            <strong id="fin-saidas">R$ 0,00</strong>
+            <small>Despesas + diárias</small>
           </div>
-          <div class="executive-card p-4 rounded-lg" style="border-top-color: #9f1239;">
-            <span class="text-[11px] font-bold text-slate-500 uppercase">Total Saídas</span>
-            <p id="fin-saidas" class="text-xl font-bold text-rose-800 mt-1">R$ 0,00</p>
+          <div class="metric">
+            <h3>Saldo</h3>
+            <strong id="fin-saldo">R$ 0,00</strong>
+            <small>Consolidado</small>
           </div>
-          <div class="executive-card p-4 rounded-lg" style="border-top-color: #b45309;">
-            <span class="text-[11px] font-bold text-slate-500 uppercase">Saldo Consolidado</span>
-            <p id="fin-saldo" class="text-xl font-bold text-wood-950 mt-1">R$ 0,00</p>
+          <div class="metric">
+            <h3>Lançamento</h3>
+            <button type="button" id="btn-abrir-lancamento">+ Novo Lançamento</button>
+            <small>Entrada ou saída</small>
           </div>
         </div>
 
-        <div class="executive-card rounded-lg overflow-hidden">
-          <table class="w-full text-left text-sm text-slate-600">
-            <thead class="bg-wood-100 text-wood-950 uppercase text-xs font-bold">
-              <tr>
-                <th class="p-3">Data</th>
-                <th class="p-3">Tipo</th>
-                <th class="p-3">Descrição</th>
-                <th class="p-3 text-right">Valor</th>
-                <th class="p-3 text-right">Ações</th>
-              </tr>
-            </thead>
-            <tbody id="lista-lancamentos" class="divide-y"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- 7. EMPRESA & CONFIGURAÇÕES -->
-      <section id="tab-config" class="tab-content hidden space-y-6">
-        <div>
-          <h2 class="text-xl font-bold font-serif-artisan text-wood-950">Dados da Empresa &amp; Sincronização</h2>
-          <p class="text-xs text-slate-500">Informações exibidas nas propostas comerciais e backup/restauração de dados.</p>
-        </div>
-
-        <div class="executive-card p-6 rounded-lg space-y-4 text-xs">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Nome Fantasia / Razão Social</label>
-              <input type="text" id="cfg-empresa-nome" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">CNPJ / Registro</label>
-              <input type="text" id="cfg-empresa-cnpj" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Responsável Técnico / Sócio-Diretor</label>
-              <input type="text" id="cfg-empresa-resp" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Telefone / WhatsApp</label>
-              <input type="text" id="cfg-empresa-tel" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
-            </div>
-            <div class="md:col-span-2">
-              <label class="block font-bold text-slate-700 mb-1">Endereço / Região de Atuação</label>
-              <input type="text" id="cfg-empresa-end" class="w-full border border-slate-300 rounded-lg p-2.5 bg-white">
-            </div>
-          </div>
-
-          <div class="flex flex-wrap justify-between items-center gap-3 pt-3 border-t border-slate-200">
-            <div class="flex flex-wrap gap-2">
-              <button type="button" id="btn-exportar-json" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg font-bold">
-                Exportar Backup JSON
-              </button>
-              <label class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-lg font-bold cursor-pointer border border-slate-300">
-                Importar JSON
-                <input type="file" id="inp-importar-json" accept="application/json" class="hidden">
-              </label>
-            </div>
-            <button type="button" id="btn-salvar-config" class="wood-texture-header text-amber-100 px-6 py-2.5 rounded-lg font-bold shadow">
-              Salvar Dados da Empresa
-            </button>
+        <div class="panels">
+          <div class="panel">
+            <h3>Movimentação de Caixa</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Tipo</th>
+                  <th>Descrição</th>
+                  <th class="num">Valor</th>
+                  <th class="num">Ação</th>
+                </tr>
+              </thead>
+              <tbody id="lista-lancamentos"></tbody>
+            </table>
           </div>
         </div>
       </section>
 
-    </main>
+      <!-- 7. EMPRESA & BACKUP -->
+      <section id="tab-config" class="tab-content hidden">
+        <div class="panels">
+          <div class="panel">
+            <h3>Dados da Empresa &amp; Backup</h3>
+            <div class="form-grid form-grid-2">
+              <div class="field">
+                <label>Nome Fantasia / Razão Social</label>
+                <input type="text" id="cfg-empresa-nome">
+              </div>
+              <div class="field">
+                <label>CNPJ</label>
+                <input type="text" id="cfg-empresa-cnpj">
+              </div>
+              <div class="field">
+                <label>Responsável Técnico</label>
+                <input type="text" id="cfg-empresa-resp">
+              </div>
+              <div class="field">
+                <label>Telefone / WhatsApp</label>
+                <input type="text" id="cfg-empresa-tel">
+              </div>
+              <div class="field" style="grid-column:1 / -1;">
+                <label>Endereço / Região</label>
+                <input type="text" id="cfg-empresa-end">
+              </div>
+            </div>
 
-    <!-- RODAPÉ -->
-    <footer class="bg-wood-950 text-amber-100/80 text-xs py-4 px-4 no-print border-t border-amber-500/20">
-      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-        <span>CP Construções e Reformas — Cristiano dos Santos Paes, Sócio-Diretor • Itanhaém / SP</span>
-        <span class="text-[11px] text-amber-300/80">Sistema Operacional de Obras &amp; Orçamentos</span>
+            <div class="toolbar-row mt-3">
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button type="button" id="btn-exportar-json" class="btn-pergaminho">Exportar JSON</button>
+                <label class="btn-pergaminho" style="cursor:pointer;">
+                  Importar JSON
+                  <input type="file" id="inp-importar-json" accept="application/json" class="hidden">
+                </label>
+              </div>
+              <button type="button" id="btn-salvar-config" class="btn-madeira">Salvar Empresa</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LEMA / RODAPÉ ARTESANAL -->
+      <div class="motto">
+        “Madeira, técnica e compromisso — CP Construções e Reformas.”
       </div>
-    </footer>
+
+      <!-- MENU INFERIOR -->
+      <nav class="bottom-nav no-print">
+        <a data-tab="dashboard" class="active"><b>🏠</b>Painel</a>
+        <a data-tab="tabelas"><b>📊</b>Tabelas</a>
+        <a data-tab="orcamentos"><b>📄</b>Orçamentos</a>
+        <a data-tab="financeiro"><b>💰</b>Caixa</a>
+      </nav>
+
+    </div>
   </div>
 
   <!-- MODAL GENÉRICO -->
-  <div id="modal-generico" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4 no-print">
-    <div class="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl border-t-4 border-wood-800 space-y-4">
-      <div class="flex justify-between items-center border-b border-slate-200 pb-3">
-        <h3 id="modal-titulo" class="text-base font-bold font-serif-artisan text-wood-950">Cadastro</h3>
-        <button type="button" id="btn-fechar-modal" class="text-slate-400 hover:text-slate-700 font-bold text-sm px-2 py-1">✕</button>
+  <div id="modal-generico" class="modal-backdrop hidden no-print">
+    <div class="modal-card">
+      <div class="toolbar-row" style="border-bottom:1px solid var(--borda-tabela);padding-bottom:8px;">
+        <h3 id="modal-titulo" style="margin:0;border:none;padding:0;font-size:15px;">Cadastro</h3>
+        <button type="button" id="btn-fechar-modal" class="btn-link">✕</button>
       </div>
-      <form id="modal-form" class="space-y-3 text-xs"></form>
-      <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
-        <button type="button" id="btn-cancelar-modal" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 font-semibold text-xs">Cancelar</button>
-        <button type="button" id="btn-confirmar-modal" class="wood-texture-header text-amber-100 px-5 py-2 rounded-lg font-bold text-xs shadow">Salvar</button>
+      <form id="modal-form" class="form-grid mt-2"></form>
+      <div class="toolbar-row mt-3" style="justify-content:flex-end;">
+        <button type="button" id="btn-cancelar-modal" class="btn-pergaminho">Cancelar</button>
+        <button type="button" id="btn-confirmar-modal" class="btn-madeira">Salvar</button>
       </div>
     </div>
   </div>
@@ -807,7 +1245,7 @@
       measurementId: "G-926XRZWEM2"
     };
 
-  const STORAGE_KEY = 'cp_construcoes_sistema_v2';
+    const STORAGE_KEY = 'cp_construcoes_sistema_v2';
 
     const ETAPAS_PROGRESSO_BASE = [
       { etapa: 'Serviços Preliminares & Canteiro', progresso: 100, custoAtual: 2450, status: 'Concluído' },
@@ -823,126 +1261,126 @@
         {
           nome: '01. Preparação',
           itens: [
-            { cod: 'AUT-01.1', servico: 'Limpeza do terreno', unid: 'm²', valor: 11.5 },
-            { cod: 'AUT-01.2', servico: 'Capinação e retirada de vegetação', unid: 'm²', valor: 9 },
-            { cod: 'AUT-01.3', servico: 'Locação da obra', unid: 'm²', valor: 11.5 },
-            { cod: 'AUT-01.4', servico: 'Gabarito da construção', unid: 'm²', valor: 16 },
-            { cod: 'AUT-01.5', servico: 'Escavação manual', unid: 'm³', valor: 110 }
+            { cod: 'AUT-01.1', servico: 'Limpeza do terreno', unid: 'm²', minimo: 8, maximo: 15, valor: 11.5 },
+            { cod: 'AUT-01.2', servico: 'Capinação e retirada de vegetação', unid: 'm²', minimo: 6, maximo: 12, valor: 9 },
+            { cod: 'AUT-01.3', servico: 'Locação da obra', unid: 'm²', minimo: 8, maximo: 15, valor: 11.5 },
+            { cod: 'AUT-01.4', servico: 'Gabarito da construção', unid: 'm²', minimo: 12, maximo: 20, valor: 16 },
+            { cod: 'AUT-01.5', servico: 'Escavação manual', unid: 'm³', minimo: 80, maximo: 140, valor: 110 }
           ]
         },
         {
           nome: '02. Fundação',
           itens: [
-            { cod: 'AUT-02.1', servico: 'Abertura de valas', unid: 'm³', valor: 105 },
-            { cod: 'AUT-02.2', servico: 'Montagem de formas', unid: 'm²', valor: 70 },
-            { cod: 'AUT-02.3', servico: 'Armação de ferragens', unid: 'kg', valor: 3.5 },
-            { cod: 'AUT-02.4', servico: 'Concretagem de sapatas', unid: 'm³', valor: 230 },
-            { cod: 'AUT-02.5', servico: 'Baldrame', unid: 'm', valor: 105 },
-            { cod: 'AUT-02.6', servico: 'Impermeabilização de baldrame', unid: 'm²', valor: 35 }
+            { cod: 'AUT-02.1', servico: 'Abertura de valas', unid: 'm³', minimo: 80, maximo: 130, valor: 105 },
+            { cod: 'AUT-02.2', servico: 'Montagem de formas', unid: 'm²', minimo: 55, maximo: 85, valor: 70 },
+            { cod: 'AUT-02.3', servico: 'Armação de ferragens', unid: 'kg', minimo: 2.5, maximo: 4.5, valor: 3.5 },
+            { cod: 'AUT-02.4', servico: 'Concretagem de sapatas', unid: 'm³', minimo: 180, maximo: 280, valor: 230 },
+            { cod: 'AUT-02.5', servico: 'Baldrame', unid: 'm', minimo: 80, maximo: 130, valor: 105 },
+            { cod: 'AUT-02.6', servico: 'Impermeabilização de baldrame', unid: 'm²', minimo: 25, maximo: 45, valor: 35 }
           ]
         },
         {
           nome: '03. Estrutura',
           itens: [
-            { cod: 'AUT-03.1', servico: 'Montagem de pilares', unid: 'm³', valor: 575 },
-            { cod: 'AUT-03.2', servico: 'Montagem de vigas', unid: 'm³', valor: 575 },
-            { cod: 'AUT-03.3', servico: 'Montagem de laje', unid: 'm²', valor: 60 },
-            { cod: 'AUT-03.4', servico: 'Concretagem de laje', unid: 'm²', valor: 40 },
-            { cod: 'AUT-03.5', servico: 'Escoramento', unid: 'm²', valor: 27.5 }
+            { cod: 'AUT-03.1', servico: 'Montagem de pilares', unid: 'm³', minimo: 450, maximo: 700, valor: 575 },
+            { cod: 'AUT-03.2', servico: 'Montagem de vigas', unid: 'm³', minimo: 450, maximo: 700, valor: 575 },
+            { cod: 'AUT-03.3', servico: 'Montagem de laje', unid: 'm²', minimo: 45, maximo: 75, valor: 60 },
+            { cod: 'AUT-03.4', servico: 'Concretagem de laje', unid: 'm²', minimo: 30, maximo: 50, valor: 40 },
+            { cod: 'AUT-03.5', servico: 'Escoramento', unid: 'm²', minimo: 20, maximo: 35, valor: 27.5 }
           ]
         },
         {
           nome: '04. Alvenaria',
           itens: [
-            { cod: 'AUT-04.1', servico: 'Assentamento de tijolos', unid: 'm²', valor: 70 },
-            { cod: 'AUT-04.2', servico: 'Alvenaria de blocos de concreto', unid: 'm²', valor: 72.5 },
-            { cod: 'AUT-04.3', servico: 'Vergas e contravergas', unid: 'm', valor: 40 },
-            { cod: 'AUT-04.4', servico: 'Encunhamento', unid: 'm', valor: 27.5 }
+            { cod: 'AUT-04.1', servico: 'Assentamento de tijolos', unid: 'm²', minimo: 55, maximo: 85, valor: 70 },
+            { cod: 'AUT-04.2', servico: 'Alvenaria de blocos de concreto', unid: 'm²', minimo: 55, maximo: 90, valor: 72.5 },
+            { cod: 'AUT-04.3', servico: 'Vergas e contravergas', unid: 'm', minimo: 30, maximo: 50, valor: 40 },
+            { cod: 'AUT-04.4', servico: 'Encunhamento', unid: 'm', minimo: 20, maximo: 35, valor: 27.5 }
           ]
         },
         {
           nome: '05. Cobertura',
           itens: [
-            { cod: 'AUT-05.1', servico: 'Estrutura de madeira', unid: 'm²', valor: 72.5 },
-            { cod: 'AUT-05.2', servico: 'Estrutura metálica', unid: 'm²', valor: 62.5 },
-            { cod: 'AUT-05.3', servico: 'Colocação de telhas', unid: 'm²', valor: 47.5 },
-            { cod: 'AUT-05.4', servico: 'Instalação de cumeeira', unid: 'm', valor: 32.5 },
-            { cod: 'AUT-05.5', servico: 'Instalação de calhas', unid: 'm', valor: 42.5 }
+            { cod: 'AUT-05.1', servico: 'Estrutura de madeira', unid: 'm²', minimo: 55, maximo: 90, valor: 72.5 },
+            { cod: 'AUT-05.2', servico: 'Estrutura metálica', unid: 'm²', minimo: 45, maximo: 80, valor: 62.5 },
+            { cod: 'AUT-05.3', servico: 'Colocação de telhas', unid: 'm²', minimo: 35, maximo: 60, valor: 47.5 },
+            { cod: 'AUT-05.4', servico: 'Instalação de cumeeira', unid: 'm', minimo: 25, maximo: 40, valor: 32.5 },
+            { cod: 'AUT-05.5', servico: 'Instalação de calhas', unid: 'm', minimo: 30, maximo: 55, valor: 42.5 }
           ]
         },
         {
           nome: '06. Reboco e revestimento',
           itens: [
-            { cod: 'AUT-06.1', servico: 'Chapisco', unid: 'm²', valor: 11 },
-            { cod: 'AUT-06.2', servico: 'Emboço', unid: 'm²', valor: 32.5 },
-            { cod: 'AUT-06.3', servico: 'Reboco', unid: 'm²', valor: 32.5 },
-            { cod: 'AUT-06.4', servico: 'Contrapiso', unid: 'm²', valor: 32.5 },
-            { cod: 'AUT-06.5', servico: 'Regularização de piso', unid: 'm²', valor: 20 }
+            { cod: 'AUT-06.1', servico: 'Chapisco', unid: 'm²', minimo: 8, maximo: 14, valor: 11 },
+            { cod: 'AUT-06.2', servico: 'Emboço', unid: 'm²', minimo: 25, maximo: 40, valor: 32.5 },
+            { cod: 'AUT-06.3', servico: 'Reboco', unid: 'm²', minimo: 25, maximo: 40, valor: 32.5 },
+            { cod: 'AUT-06.4', servico: 'Contrapiso', unid: 'm²', minimo: 25, maximo: 40, valor: 32.5 },
+            { cod: 'AUT-06.5', servico: 'Regularização de piso', unid: 'm²', minimo: 15, maximo: 25, valor: 20 }
           ]
         },
         {
           nome: '07. Pisos e revestimentos',
           itens: [
-            { cod: 'AUT-07.1', servico: 'Assentamento de piso cerâmico', unid: 'm²', valor: 52.5 },
-            { cod: 'AUT-07.2', servico: 'Assentamento de porcelanato', unid: 'm²', valor: 87.5 },
-            { cod: 'AUT-07.3', servico: 'Revestimento de paredes', unid: 'm²', valor: 60 },
-            { cod: 'AUT-07.4', servico: 'Rodapé cerâmico', unid: 'm', valor: 17 },
-            { cod: 'AUT-07.5', servico: 'Rejuntamento', unid: 'm²', valor: 11.5 }
+            { cod: 'AUT-07.1', servico: 'Assentamento de piso cerâmico', unid: 'm²', minimo: 40, maximo: 65, valor: 52.5 },
+            { cod: 'AUT-07.2', servico: 'Assentamento de porcelanato', unid: 'm²', minimo: 65, maximo: 110, valor: 87.5 },
+            { cod: 'AUT-07.3', servico: 'Revestimento de paredes', unid: 'm²', minimo: 45, maximo: 75, valor: 60 },
+            { cod: 'AUT-07.4', servico: 'Rodapé cerâmico', unid: 'm', minimo: 12, maximo: 22, valor: 17 },
+            { cod: 'AUT-07.5', servico: 'Rejuntamento', unid: 'm²', minimo: 8, maximo: 15, valor: 11.5 }
           ]
         },
         {
           nome: '08. Instalações elétricas',
           itens: [
-            { cod: 'AUT-08.1', servico: 'Instalação de ponto elétrico', unid: 'un', valor: 140 },
-            { cod: 'AUT-08.2', servico: 'Instalação de tomadas', unid: 'un', valor: 35 },
-            { cod: 'AUT-08.3', servico: 'Instalação de interruptores', unid: 'un', valor: 35 },
-            { cod: 'AUT-08.4', servico: 'Montagem de quadro elétrico', unid: 'un', valor: 500 },
-            { cod: 'AUT-08.5', servico: 'Instalação de luminárias', unid: 'un', valor: 60 }
+            { cod: 'AUT-08.1', servico: 'Instalação de ponto elétrico', unid: 'un', minimo: 100, maximo: 180, valor: 140 },
+            { cod: 'AUT-08.2', servico: 'Instalação de tomadas', unid: 'un', minimo: 25, maximo: 45, valor: 35 },
+            { cod: 'AUT-08.3', servico: 'Instalação de interruptores', unid: 'un', minimo: 25, maximo: 45, valor: 35 },
+            { cod: 'AUT-08.4', servico: 'Montagem de quadro elétrico', unid: 'un', minimo: 350, maximo: 650, valor: 500 },
+            { cod: 'AUT-08.5', servico: 'Instalação de luminárias', unid: 'un', minimo: 40, maximo: 80, valor: 60 }
           ]
         },
         {
           nome: '09. Instalações hidráulicas',
           itens: [
-            { cod: 'AUT-09.1', servico: 'Ponto de água', unid: 'un', valor: 160 },
-            { cod: 'AUT-09.2', servico: 'Ponto de esgoto', unid: 'un', valor: 160 },
-            { cod: 'AUT-09.3', servico: 'Instalação de vaso sanitário', unid: 'un', valor: 200 },
-            { cod: 'AUT-09.4', servico: 'Instalação de lavatório', unid: 'un', valor: 160 },
-            { cod: 'AUT-09.5', servico: 'Instalação de torneira', unid: 'un', valor: 70 },
-            { cod: 'AUT-09.6', servico: 'Instalação de chuveiro', unid: 'un', valor: 80 }
+            { cod: 'AUT-09.1', servico: 'Ponto de água', unid: 'un', minimo: 120, maximo: 200, valor: 160 },
+            { cod: 'AUT-09.2', servico: 'Ponto de esgoto', unid: 'un', minimo: 120, maximo: 200, valor: 160 },
+            { cod: 'AUT-09.3', servico: 'Instalação de vaso sanitário', unid: 'un', minimo: 150, maximo: 250, valor: 200 },
+            { cod: 'AUT-09.4', servico: 'Instalação de lavatório', unid: 'un', minimo: 120, maximo: 200, valor: 160 },
+            { cod: 'AUT-09.5', servico: 'Instalação de torneira', unid: 'un', minimo: 50, maximo: 90, valor: 70 },
+            { cod: 'AUT-09.6', servico: 'Instalação de chuveiro', unid: 'un', minimo: 60, maximo: 100, valor: 80 }
           ]
         },
         {
           nome: '10. Forros',
           itens: [
-            { cod: 'AUT-10.1', servico: 'Forro de PVC', unid: 'm²', valor: 32.5 },
-            { cod: 'AUT-10.2', servico: 'Forro de drywall', unid: 'm²', valor: 60 },
-            { cod: 'AUT-10.3', servico: 'Forro de gesso', unid: 'm²', valor: 52.5 }
+            { cod: 'AUT-10.1', servico: 'Forro de PVC', unid: 'm²', minimo: 25, maximo: 40, valor: 32.5 },
+            { cod: 'AUT-10.2', servico: 'Forro de drywall', unid: 'm²', minimo: 45, maximo: 75, valor: 60 },
+            { cod: 'AUT-10.3', servico: 'Forro de gesso', unid: 'm²', minimo: 40, maximo: 65, valor: 52.5 }
           ]
         },
         {
           nome: '11. Esquadrias',
           itens: [
-            { cod: 'AUT-11.1', servico: 'Instalação de porta', unid: 'un', valor: 200 },
-            { cod: 'AUT-11.2', servico: 'Instalação de janela', unid: 'un', valor: 170 },
-            { cod: 'AUT-11.3', servico: 'Instalação de fechaduras', unid: 'un', valor: 70 }
+            { cod: 'AUT-11.1', servico: 'Instalação de porta', unid: 'un', minimo: 150, maximo: 250, valor: 200 },
+            { cod: 'AUT-11.2', servico: 'Instalação de janela', unid: 'un', minimo: 120, maximo: 220, valor: 170 },
+            { cod: 'AUT-11.3', servico: 'Instalação de fechaduras', unid: 'un', minimo: 50, maximo: 90, valor: 70 }
           ]
         },
         {
           nome: '12. Pintura',
           itens: [
-            { cod: 'AUT-12.1', servico: 'Selador', unid: 'm²', valor: 7 },
-            { cod: 'AUT-12.2', servico: 'Massa corrida', unid: 'm²', valor: 23 },
-            { cod: 'AUT-12.3', servico: 'Lixamento', unid: 'm²', valor: 7 },
-            { cod: 'AUT-12.4', servico: 'Pintura interna', unid: 'm²', valor: 20 },
-            { cod: 'AUT-12.5', servico: 'Pintura externa', unid: 'm²', valor: 24 },
-            { cod: 'AUT-12.6', servico: 'Pintura de portas', unid: 'un', valor: 140 }
+            { cod: 'AUT-12.1', servico: 'Selador', unid: 'm²', minimo: 5, maximo: 9, valor: 7 },
+            { cod: 'AUT-12.2', servico: 'Massa corrida', unid: 'm²', minimo: 18, maximo: 28, valor: 23 },
+            { cod: 'AUT-12.3', servico: 'Lixamento', unid: 'm²', minimo: 5, maximo: 9, valor: 7 },
+            { cod: 'AUT-12.4', servico: 'Pintura interna', unid: 'm²', minimo: 15, maximo: 25, valor: 20 },
+            { cod: 'AUT-12.5', servico: 'Pintura externa', unid: 'm²', minimo: 18, maximo: 30, valor: 24 },
+            { cod: 'AUT-12.6', servico: 'Pintura de portas', unid: 'un', minimo: 100, maximo: 180, valor: 140 }
           ]
         },
         {
           nome: '13. Finalização',
           itens: [
-            { cod: 'AUT-13.1', servico: 'Limpeza pós-obra', unid: 'm²', valor: 17 },
-            { cod: 'AUT-13.2', servico: 'Acabamentos gerais', unid: 'dia', valor: 325 }
+            { cod: 'AUT-13.1', servico: 'Limpeza pós-obra', unid: 'm²', minimo: 12, maximo: 22, valor: 17 },
+            { cod: 'AUT-13.2', servico: 'Acabamentos gerais', unid: 'dia', minimo: 250, maximo: 400, valor: 325 }
           ]
         }
       ];
@@ -951,104 +1389,104 @@
         {
           nome: '01. Demolição',
           itens: [
-            { cod: 'REF-01.1', servico: 'Demolição de parede', unid: 'm²', valor: 47.5 },
-            { cod: 'REF-01.2', servico: 'Retirada de piso cerâmico', unid: 'm²', valor: 27.5 },
-            { cod: 'REF-01.3', servico: 'Retirada de porcelanato', unid: 'm²', valor: 40 },
-            { cod: 'REF-01.4', servico: 'Retirada de revestimento de parede', unid: 'm²', valor: 32.5 },
-            { cod: 'REF-01.5', servico: 'Demolição de contrapiso', unid: 'm²', valor: 35 },
-            { cod: 'REF-01.6', servico: 'Retirada de portas', unid: 'un', valor: 70 },
-            { cod: 'REF-01.7', servico: 'Retirada de janelas', unid: 'un', valor: 90 }
+            { cod: 'REF-01.1', servico: 'Demolição de parede', unid: 'm²', minimo: 35, maximo: 60, valor: 47.5 },
+            { cod: 'REF-01.2', servico: 'Retirada de piso cerâmico', unid: 'm²', minimo: 20, maximo: 35, valor: 27.5 },
+            { cod: 'REF-01.3', servico: 'Retirada de porcelanato', unid: 'm²', minimo: 30, maximo: 50, valor: 40 },
+            { cod: 'REF-01.4', servico: 'Retirada de revestimento de parede', unid: 'm²', minimo: 25, maximo: 40, valor: 32.5 },
+            { cod: 'REF-01.5', servico: 'Demolição de contrapiso', unid: 'm²', minimo: 25, maximo: 45, valor: 35 },
+            { cod: 'REF-01.6', servico: 'Retirada de portas', unid: 'un', minimo: 50, maximo: 90, valor: 70 },
+            { cod: 'REF-01.7', servico: 'Retirada de janelas', unid: 'un', minimo: 60, maximo: 120, valor: 90 }
           ]
         },
         {
           nome: '02. Alvenaria',
           itens: [
-            { cod: 'REF-02.1', servico: 'Construção de parede', unid: 'm²', valor: 80 },
-            { cod: 'REF-02.2', servico: 'Fechamento de vãos', unid: 'm²', valor: 75 },
-            { cod: 'REF-02.3', servico: 'Abertura de vãos', unid: 'un', valor: 265 },
-            { cod: 'REF-02.4', servico: 'Construção de divisórias', unid: 'm²', valor: 72.5 }
+            { cod: 'REF-02.1', servico: 'Construção de parede', unid: 'm²', minimo: 65, maximo: 95, valor: 80 },
+            { cod: 'REF-02.2', servico: 'Fechamento de vãos', unid: 'm²', minimo: 60, maximo: 90, valor: 75 },
+            { cod: 'REF-02.3', servico: 'Abertura de vãos', unid: 'un', minimo: 180, maximo: 350, valor: 265 },
+            { cod: 'REF-02.4', servico: 'Construção de divisórias', unid: 'm²', minimo: 55, maximo: 90, valor: 72.5 }
           ]
         },
         {
           nome: '03. Reboco',
           itens: [
-            { cod: 'REF-03.1', servico: 'Recuperação de reboco', unid: 'm²', valor: 35 },
-            { cod: 'REF-03.2', servico: 'Chapisco', unid: 'm²', valor: 13 },
-            { cod: 'REF-03.3', servico: 'Emboço', unid: 'm²', valor: 37.5 },
-            { cod: 'REF-03.4', servico: 'Reboco', unid: 'm²', valor: 37.5 }
+            { cod: 'REF-03.1', servico: 'Recuperação de reboco', unid: 'm²', minimo: 25, maximo: 45, valor: 35 },
+            { cod: 'REF-03.2', servico: 'Chapisco', unid: 'm²', minimo: 10, maximo: 16, valor: 13 },
+            { cod: 'REF-03.3', servico: 'Emboço', unid: 'm²', minimo: 30, maximo: 45, valor: 37.5 },
+            { cod: 'REF-03.4', servico: 'Reboco', unid: 'm²', minimo: 30, maximo: 45, valor: 37.5 }
           ]
         },
         {
           nome: '04. Pisos',
           itens: [
-            { cod: 'REF-04.1', servico: 'Retirada e preparação de piso', unid: 'm²', valor: 35 },
-            { cod: 'REF-04.2', servico: 'Assentamento de cerâmica', unid: 'm²', valor: 57.5 },
-            { cod: 'REF-04.3', servico: 'Assentamento de porcelanato', unid: 'm²', valor: 95 },
-            { cod: 'REF-04.4', servico: 'Troca de rodapé', unid: 'm', valor: 20 },
-            { cod: 'REF-04.5', servico: 'Nivelamento de piso', unid: 'm²', valor: 35 }
+            { cod: 'REF-04.1', servico: 'Retirada e preparação de piso', unid: 'm²', minimo: 25, maximo: 45, valor: 35 },
+            { cod: 'REF-04.2', servico: 'Assentamento de cerâmica', unid: 'm²', minimo: 45, maximo: 70, valor: 57.5 },
+            { cod: 'REF-04.3', servico: 'Assentamento de porcelanato', unid: 'm²', minimo: 70, maximo: 120, valor: 95 },
+            { cod: 'REF-04.4', servico: 'Troca de rodapé', unid: 'm', minimo: 15, maximo: 25, valor: 20 },
+            { cod: 'REF-04.5', servico: 'Nivelamento de piso', unid: 'm²', minimo: 25, maximo: 45, valor: 35 }
           ]
         },
         {
           nome: '05. Banheiros',
           itens: [
-            { cod: 'REF-05.1', servico: 'Reforma completa de banheiro (serviço global)', unid: 'm²', valor: 675 },
-            { cod: 'REF-05.2', servico: 'Impermeabilização', unid: 'm²', valor: 50 },
-            { cod: 'REF-05.3', servico: 'Instalação de nicho', unid: 'un', valor: 265 },
-            { cod: 'REF-05.4', servico: 'Instalação de box', unid: 'un', valor: 200 },
-            { cod: 'REF-05.5', servico: 'Instalação de louças', unid: 'un', valor: 185 }
+            { cod: 'REF-05.1', servico: 'Reforma completa de banheiro (serviço global)', unid: 'm²', minimo: 500, maximo: 850, valor: 675 },
+            { cod: 'REF-05.2', servico: 'Impermeabilização', unid: 'm²', minimo: 35, maximo: 65, valor: 50 },
+            { cod: 'REF-05.3', servico: 'Instalação de nicho', unid: 'un', minimo: 180, maximo: 350, valor: 265 },
+            { cod: 'REF-05.4', servico: 'Instalação de box', unid: 'un', minimo: 150, maximo: 250, valor: 200 },
+            { cod: 'REF-05.5', servico: 'Instalação de louças', unid: 'un', minimo: 120, maximo: 250, valor: 185 }
           ]
         },
         {
           nome: '06. Cozinhas',
           itens: [
-            { cod: 'REF-06.1', servico: 'Assentamento de revestimentos', unid: 'm²', valor: 60 },
-            { cod: 'REF-06.2', servico: 'Instalação de bancada', unid: 'un', valor: 265 },
-            { cod: 'REF-06.3', servico: 'Instalação de cuba', unid: 'un', valor: 140 },
-            { cod: 'REF-06.4', servico: 'Adequação hidráulica', unid: 'pt', valor: 200 }
+            { cod: 'REF-06.1', servico: 'Assentamento de revestimentos', unid: 'm²', minimo: 45, maximo: 75, valor: 60 },
+            { cod: 'REF-06.2', servico: 'Instalação de bancada', unid: 'un', minimo: 180, maximo: 350, valor: 265 },
+            { cod: 'REF-06.3', servico: 'Instalação de cuba', unid: 'un', minimo: 100, maximo: 180, valor: 140 },
+            { cod: 'REF-06.4', servico: 'Adequação hidráulica', unid: 'pt', minimo: 150, maximo: 250, valor: 200 }
           ]
         },
         {
           nome: '07. Elétrica',
           itens: [
-            { cod: 'REF-07.1', servico: 'Troca de ponto elétrico', unid: 'un', valor: 140 },
-            { cod: 'REF-07.2', servico: 'Substituição de fiação', unid: 'pt', valor: 115 },
-            { cod: 'REF-07.3', servico: 'Instalação de tomadas', unid: 'un', valor: 40 },
-            { cod: 'REF-07.4', servico: 'Troca de quadro elétrico', unid: 'un', valor: 500 }
+            { cod: 'REF-07.1', servico: 'Troca de ponto elétrico', unid: 'un', minimo: 100, maximo: 180, valor: 140 },
+            { cod: 'REF-07.2', servico: 'Substituição de fiação', unid: 'pt', minimo: 80, maximo: 150, valor: 115 },
+            { cod: 'REF-07.3', servico: 'Instalação de tomadas', unid: 'un', minimo: 30, maximo: 50, valor: 40 },
+            { cod: 'REF-07.4', servico: 'Troca de quadro elétrico', unid: 'un', minimo: 350, maximo: 650, valor: 500 }
           ]
         },
         {
           nome: '08. Hidráulica',
           itens: [
-            { cod: 'REF-08.1', servico: 'Troca de ponto hidráulico', unid: 'un', valor: 175 },
-            { cod: 'REF-08.2', servico: 'Substituição de tubulação', unid: 'm', valor: 52.5 },
-            { cod: 'REF-08.3', servico: 'Deslocamento de ponto', unid: 'un', valor: 240 },
-            { cod: 'REF-08.4', servico: 'Troca de registros', unid: 'un', valor: 140 }
+            { cod: 'REF-08.1', servico: 'Troca de ponto hidráulico', unid: 'un', minimo: 130, maximo: 220, valor: 175 },
+            { cod: 'REF-08.2', servico: 'Substituição de tubulação', unid: 'm', minimo: 35, maximo: 70, valor: 52.5 },
+            { cod: 'REF-08.3', servico: 'Deslocamento de ponto', unid: 'un', minimo: 180, maximo: 300, valor: 240 },
+            { cod: 'REF-08.4', servico: 'Troca de registros', unid: 'un', minimo: 100, maximo: 180, valor: 140 }
           ]
         },
         {
           nome: '09. Forros',
           itens: [
-            { cod: 'REF-09.1', servico: 'Retirada de forro antigo', unid: 'm²', valor: 20 },
-            { cod: 'REF-09.2', servico: 'Instalação de PVC', unid: 'm²', valor: 37.5 },
-            { cod: 'REF-09.3', servico: 'Instalação de drywall', unid: 'm²', valor: 65 },
-            { cod: 'REF-09.4', servico: 'Reparo de gesso', unid: 'm²', valor: 47.5 }
+            { cod: 'REF-09.1', servico: 'Retirada de forro antigo', unid: 'm²', minimo: 15, maximo: 25, valor: 20 },
+            { cod: 'REF-09.2', servico: 'Instalação de PVC', unid: 'm²', minimo: 30, maximo: 45, valor: 37.5 },
+            { cod: 'REF-09.3', servico: 'Instalação de drywall', unid: 'm²', minimo: 50, maximo: 80, valor: 65 },
+            { cod: 'REF-09.4', servico: 'Reparo de gesso', unid: 'm²', minimo: 35, maximo: 60, valor: 47.5 }
           ]
         },
         {
           nome: '10. Pintura',
           itens: [
-            { cod: 'REF-10.1', servico: 'Preparação de paredes', unid: 'm²', valor: 11.5 },
-            { cod: 'REF-10.2', servico: 'Massa corrida', unid: 'm²', valor: 25 },
-            { cod: 'REF-10.3', servico: 'Pintura interna', unid: 'm²', valor: 23 },
-            { cod: 'REF-10.4', servico: 'Pintura externa', unid: 'm²', valor: 27.5 },
-            { cod: 'REF-10.5', servico: 'Pintura de portões', unid: 'm²', valor: 47.5 }
+            { cod: 'REF-10.1', servico: 'Preparação de paredes', unid: 'm²', minimo: 8, maximo: 15, valor: 11.5 },
+            { cod: 'REF-10.2', servico: 'Massa corrida', unid: 'm²', minimo: 20, maximo: 30, valor: 25 },
+            { cod: 'REF-10.3', servico: 'Pintura interna', unid: 'm²', minimo: 18, maximo: 28, valor: 23 },
+            { cod: 'REF-10.4', servico: 'Pintura externa', unid: 'm²', minimo: 20, maximo: 35, valor: 27.5 },
+            { cod: 'REF-10.5', servico: 'Pintura de portões', unid: 'm²', minimo: 35, maximo: 60, valor: 47.5 }
           ]
         },
         {
           nome: '11. Finalização',
           itens: [
-            { cod: 'REF-11.1', servico: 'Limpeza pós-reforma', unid: 'm²', valor: 20 },
-            { cod: 'REF-11.2', servico: 'Acabamentos gerais', unid: 'dia', valor: 325 }
+            { cod: 'REF-11.1', servico: 'Limpeza pós-reforma', unid: 'm²', minimo: 15, maximo: 25, valor: 20 },
+            { cod: 'REF-11.2', servico: 'Acabamentos gerais', unid: 'dia', minimo: 250, maximo: 400, valor: 325 }
           ]
         }
       ];
@@ -1057,86 +1495,86 @@
         {
           nome: '01. Preparação',
           itens: [
-            { cod: 'EMP-01.1', servico: 'Limpeza do terreno', unid: 'm²', valor: 17 },
-            { cod: 'EMP-01.2', servico: 'Locação da obra', unid: 'm²', valor: 17 }
+            { cod: 'EMP-01.1', servico: 'Limpeza do terreno', unid: 'm²', minimo: 12, maximo: 22, valor: 17 },
+            { cod: 'EMP-01.2', servico: 'Locação da obra', unid: 'm²', minimo: 12, maximo: 22, valor: 17 }
           ]
         },
         {
           nome: '02. Fundação',
           itens: [
-            { cod: 'EMP-02.1', servico: 'Escavação manual', unid: 'm³', valor: 150 },
-            { cod: 'EMP-02.2', servico: 'Montagem de formas', unid: 'm²', valor: 97.5 },
-            { cod: 'EMP-02.3', servico: 'Armação de ferragens', unid: 'kg', valor: 4.75 },
-            { cod: 'EMP-02.4', servico: 'Concretagem de sapatas', unid: 'm³', valor: 325 },
-            { cod: 'EMP-02.5', servico: 'Baldrame', unid: 'm', valor: 147.5 }
+            { cod: 'EMP-02.1', servico: 'Escavação manual', unid: 'm³', minimo: 110, maximo: 190, valor: 150 },
+            { cod: 'EMP-02.2', servico: 'Montagem de formas', unid: 'm²', minimo: 75, maximo: 120, valor: 97.5 },
+            { cod: 'EMP-02.3', servico: 'Armação de ferragens', unid: 'kg', minimo: 3.5, maximo: 6, valor: 4.75 },
+            { cod: 'EMP-02.4', servico: 'Concretagem de sapatas', unid: 'm³', minimo: 250, maximo: 400, valor: 325 },
+            { cod: 'EMP-02.5', servico: 'Baldrame', unid: 'm', minimo: 110, maximo: 185, valor: 147.5 }
           ]
         },
         {
           nome: '03. Estrutura',
           itens: [
-            { cod: 'EMP-03.1', servico: 'Montagem de pilares', unid: 'm³', valor: 775 },
-            { cod: 'EMP-03.2', servico: 'Montagem de vigas', unid: 'm³', valor: 775 },
-            { cod: 'EMP-03.3', servico: 'Montagem de laje', unid: 'm²', valor: 80 }
+            { cod: 'EMP-03.1', servico: 'Montagem de pilares', unid: 'm³', minimo: 600, maximo: 950, valor: 775 },
+            { cod: 'EMP-03.2', servico: 'Montagem de vigas', unid: 'm³', minimo: 600, maximo: 950, valor: 775 },
+            { cod: 'EMP-03.3', servico: 'Montagem de laje', unid: 'm²', minimo: 60, maximo: 100, valor: 80 }
           ]
         },
         {
           nome: '04. Alvenaria',
           itens: [
-            { cod: 'EMP-04.1', servico: 'Assentamento de tijolos', unid: 'm²', valor: 95 }
+            { cod: 'EMP-04.1', servico: 'Assentamento de tijolos', unid: 'm²', minimo: 75, maximo: 115, valor: 95 }
           ]
         },
         {
           nome: '05. Cobertura',
           itens: [
-            { cod: 'EMP-05.1', servico: 'Estrutura de madeira', unid: 'm²', valor: 100 },
-            { cod: 'EMP-05.2', servico: 'Colocação de telhas', unid: 'm²', valor: 67.5 }
+            { cod: 'EMP-05.1', servico: 'Estrutura de madeira', unid: 'm²', minimo: 75, maximo: 125, valor: 100 },
+            { cod: 'EMP-05.2', servico: 'Colocação de telhas', unid: 'm²', minimo: 50, maximo: 85, valor: 67.5 }
           ]
         },
         {
           nome: '06. Reboco',
           itens: [
-            { cod: 'EMP-06.1', servico: 'Chapisco', unid: 'm²', valor: 15 },
-            { cod: 'EMP-06.2', servico: 'Emboço', unid: 'm²', valor: 44 },
-            { cod: 'EMP-06.3', servico: 'Reboco', unid: 'm²', valor: 44 }
+            { cod: 'EMP-06.1', servico: 'Chapisco', unid: 'm²', minimo: 11, maximo: 19, valor: 15 },
+            { cod: 'EMP-06.2', servico: 'Emboço', unid: 'm²', minimo: 33, maximo: 55, valor: 44 },
+            { cod: 'EMP-06.3', servico: 'Reboco', unid: 'm²', minimo: 33, maximo: 55, valor: 44 }
           ]
         },
         {
           nome: '07. Pisos',
           itens: [
-            { cod: 'EMP-07.1', servico: 'Assentamento cerâmico', unid: 'm²', valor: 72.5 },
-            { cod: 'EMP-07.2', servico: 'Assentamento porcelanato', unid: 'm²', valor: 117.5 }
+            { cod: 'EMP-07.1', servico: 'Assentamento cerâmico', unid: 'm²', minimo: 55, maximo: 90, valor: 72.5 },
+            { cod: 'EMP-07.2', servico: 'Assentamento porcelanato', unid: 'm²', minimo: 85, maximo: 150, valor: 117.5 }
           ]
         },
         {
           nome: '08. Instalações elétricas',
           itens: [
-            { cod: 'EMP-08.1', servico: 'Instalação de ponto elétrico', unid: 'un', valor: 195 }
+            { cod: 'EMP-08.1', servico: 'Instalação de ponto elétrico', unid: 'un', minimo: 140, maximo: 250, valor: 195 }
           ]
         },
         {
           nome: '09. Instalações hidráulicas',
           itens: [
-            { cod: 'EMP-09.1', servico: 'Instalação de ponto hidráulico', unid: 'un', valor: 222.5 }
+            { cod: 'EMP-09.1', servico: 'Instalação de ponto hidráulico', unid: 'un', minimo: 165, maximo: 280, valor: 222.5 }
           ]
         },
         {
           nome: '10. Forros',
           itens: [
-            { cod: 'EMP-10.1', servico: 'Instalação de drywall', unid: 'm²', valor: 82.5 }
+            { cod: 'EMP-10.1', servico: 'Instalação de drywall', unid: 'm²', minimo: 60, maximo: 105, valor: 82.5 }
           ]
         },
         {
           nome: '12. Pintura',
           itens: [
-            { cod: 'EMP-12.1', servico: 'Massa corrida', unid: 'm²', valor: 32.5 },
-            { cod: 'EMP-12.2', servico: 'Pintura interna', unid: 'm²', valor: 27.5 },
-            { cod: 'EMP-12.3', servico: 'Pintura externa', unid: 'm²', valor: 33.5 }
+            { cod: 'EMP-12.1', servico: 'Massa corrida', unid: 'm²', minimo: 25, maximo: 40, valor: 32.5 },
+            { cod: 'EMP-12.2', servico: 'Pintura interna', unid: 'm²', minimo: 20, maximo: 35, valor: 27.5 },
+            { cod: 'EMP-12.3', servico: 'Pintura externa', unid: 'm²', minimo: 25, maximo: 42, valor: 33.5 }
           ]
         },
         {
           nome: '13. Finalização',
           itens: [
-            { cod: 'EMP-13.1', servico: 'Limpeza pós-obra', unid: 'm²', valor: 23 }
+            { cod: 'EMP-13.1', servico: 'Limpeza pós-obra', unid: 'm²', minimo: 16, maximo: 30, valor: 23 }
           ]
         }
       ];
@@ -1145,77 +1583,77 @@
         {
           nome: '01. Demolição',
           itens: [
-            { cod: 'EMPR-01.1', servico: 'Demolição de parede', unid: 'm²', valor: 65 },
-            { cod: 'EMPR-01.2', servico: 'Retirada de piso', unid: 'm²', valor: 39 },
-            { cod: 'EMPR-01.3', servico: 'Retirada de revestimento', unid: 'm²', valor: 45.5 }
+            { cod: 'EMPR-01.1', servico: 'Demolição de parede', unid: 'm²', minimo: 45, maximo: 85, valor: 65 },
+            { cod: 'EMPR-01.2', servico: 'Retirada de piso', unid: 'm²', minimo: 28, maximo: 50, valor: 39 },
+            { cod: 'EMPR-01.3', servico: 'Retirada de revestimento', unid: 'm²', minimo: 33, maximo: 58, valor: 45.5 }
           ]
         },
         {
           nome: '02. Alvenaria',
           itens: [
-            { cod: 'EMPR-02.1', servico: 'Construção de parede', unid: 'm²', valor: 107.5 },
-            { cod: 'EMPR-02.2', servico: 'Fechamento de vãos', unid: 'm²', valor: 102.5 }
+            { cod: 'EMPR-02.1', servico: 'Construção de parede', unid: 'm²', minimo: 85, maximo: 130, valor: 107.5 },
+            { cod: 'EMPR-02.2', servico: 'Fechamento de vãos', unid: 'm²', minimo: 80, maximo: 125, valor: 102.5 }
           ]
         },
         {
           nome: '03. Reboco',
           itens: [
-            { cod: 'EMPR-03.1', servico: 'Recuperação de reboco', unid: 'm²', valor: 47.5 }
+            { cod: 'EMPR-03.1', servico: 'Recuperação de reboco', unid: 'm²', minimo: 35, maximo: 60, valor: 47.5 }
           ]
         },
         {
           nome: '04. Pisos',
           itens: [
-            { cod: 'EMPR-04.1', servico: 'Assentamento cerâmico', unid: 'm²', valor: 77.5 },
-            { cod: 'EMPR-04.2', servico: 'Assentamento porcelanato', unid: 'm²', valor: 127.5 }
+            { cod: 'EMPR-04.1', servico: 'Assentamento cerâmico', unid: 'm²', minimo: 60, maximo: 95, valor: 77.5 },
+            { cod: 'EMPR-04.2', servico: 'Assentamento porcelanato', unid: 'm²', minimo: 90, maximo: 165, valor: 127.5 }
           ]
         },
         {
           nome: '05. Banheiros',
           itens: [
-            { cod: 'EMPR-05.1', servico: 'Reforma completa (serviço global)', unid: 'm²', valor: 900 },
-            { cod: 'EMPR-05.2', servico: 'Impermeabilização', unid: 'm²', valor: 67.5 }
+            { cod: 'EMPR-05.1', servico: 'Reforma completa (serviço global)', unid: 'm²', minimo: 650, maximo: 1150, valor: 900 },
+            { cod: 'EMPR-05.2', servico: 'Impermeabilização', unid: 'm²', minimo: 45, maximo: 90, valor: 67.5 }
           ]
         },
         {
           nome: '06. Cozinhas',
           itens: [
-            { cod: 'EMPR-06.1', servico: 'Assentamento de revestimento', unid: 'm²', valor: 82.5 }
+            { cod: 'EMPR-06.1', servico: 'Assentamento de revestimento', unid: 'm²', minimo: 60, maximo: 105, valor: 82.5 }
           ]
         },
         {
           nome: '07. Elétrica',
           itens: [
-            { cod: 'EMPR-07.1', servico: 'Troca de ponto elétrico', unid: 'un', valor: 195 }
+            { cod: 'EMPR-07.1', servico: 'Troca de ponto elétrico', unid: 'un', minimo: 140, maximo: 250, valor: 195 }
           ]
         },
         {
           nome: '08. Hidráulica',
           itens: [
-            { cod: 'EMPR-08.1', servico: 'Troca de ponto hidráulico', unid: 'un', valor: 240 },
-            { cod: 'EMPR-08.2', servico: 'Substituição de tubulação', unid: 'm', valor: 70 }
+            { cod: 'EMPR-08.1', servico: 'Troca de ponto hidráulico', unid: 'un', minimo: 180, maximo: 300, valor: 240 },
+            { cod: 'EMPR-08.2', servico: 'Substituição de tubulação', unid: 'm', minimo: 45, maximo: 95, valor: 70 }
           ]
         },
         {
           nome: '09. Forros',
           itens: [
-            { cod: 'EMPR-09.1', servico: 'Instalação de PVC', unid: 'm²', valor: 52.5 },
-            { cod: 'EMPR-09.2', servico: 'Instalação de drywall', unid: 'm²', valor: 90 }
+            { cod: 'EMPR-09.1', servico: 'Instalação de PVC', unid: 'm²', minimo: 40, maximo: 65, valor: 52.5 },
+            { cod: 'EMPR-09.2', servico: 'Instalação de drywall', unid: 'm²', minimo: 65, maximo: 115, valor: 90 }
           ]
         },
         {
           nome: '10. Pintura',
           itens: [
-            { cod: 'EMPR-10.1', servico: 'Preparação de paredes', unid: 'm²', valor: 17 },
-            { cod: 'EMPR-10.2', servico: 'Massa corrida', unid: 'm²', valor: 34.5 },
-            { cod: 'EMPR-10.3', servico: 'Pintura interna', unid: 'm²', valor: 32 },
-            { cod: 'EMPR-10.4', servico: 'Pintura externa', unid: 'm²', valor: 38 }
+            { cod: 'EMPR-10.1', servico: 'Preparação de paredes', unid: 'm²', minimo: 12, maximo: 22, valor: 17 },
+            { cod: 'EMPR-10.2', servico: 'Massa corrida', unid: 'm²', minimo: 27, maximo: 42, valor: 34.5 },
+            { cod: 'EMPR-10.3', servico: 'Pintura interna', unid: 'm²', minimo: 24, maximo: 40, valor: 32 },
+            { cod: 'EMPR-10.4', servico: 'Pintura externa', unid: 'm²', minimo: 28, maximo: 48, valor: 38 }
           ]
         },
         {
           nome: '11. Finalização',
           itens: [
-            { cod: 'EMPR-11.1', servico: 'Limpeza pós-reforma', unid: 'm²', valor: 27.5 }
+            { cod: 'EMPR-11.1', servico: 'Limpeza pós-reforma', unid: 'm²', minimo: 20, maximo: 35, valor: 27.5 }
           ]
         }
       ];
@@ -1223,60 +1661,52 @@
       return {
         AUTONOMO: {
           OBRA_NOVA: {
-            badge: 'BASE A: AUTÔNOMO DIRETO',
-            titulo: 'Tabela de Mão de Obra — Profissional Autônomo',
-            subtitulo: 'Custos Específicos por Etapa e Serviço | Estado de São Paulo',
-            lat1: '<strong>Perfil:</strong> Autônomo / Execução Direta',
-            lat2: '<strong>Detalhamento:</strong> Etapa por Etapa',
+            badge: 'TABELA 1 • AUTÔNOMO',
+            titulo: 'Construção do Zero | Profissional Autônomo',
+            subtitulo: 'Mão de obra sem materiais • Referência SP (Nov/2026)',
             indicadores: [
               ['ETAPAS DETALHADAS', `${etapasObraNovaAutonomo.length} Etapas`],
-              ['PEDREIRO / OFICIAL (DIA)', 'R$ 200,00 - 250,00'],
-              ['AJUDANTE / SERVENTE (DIA)', 'R$ 100,00 - 130,00'],
-              ['ENQUADRAMENTO', 'Mão de Obra Direta']
+              ['PEDREIRO / OFICIAL', 'R$ 200 - 250'],
+              ['AJUDANTE / SERVENTE', 'R$ 100 - 130'],
+              ['ENQUADRAMENTO', 'Mão de Obra']
             ],
             etapas: etapasObraNovaAutonomo
           },
           REFORMA: {
-            badge: 'BASE A: REFORMA DIRETA',
-            titulo: 'Tabela de Reformas — Profissional Autônomo',
-            subtitulo: 'Custos Específicos por Etapa de Reforma | Estado de São Paulo',
-            lat1: '<strong>Perfil:</strong> Autônomo / Reforma Pontual',
-            lat2: '<strong>Detalhamento:</strong> Etapa por Etapa',
+            badge: 'TABELA 2 • AUTÔNOMO',
+            titulo: 'Reforma Residencial | Profissional Autônomo',
+            subtitulo: 'Mão de obra sem materiais • Referência SP (Nov/2026)',
             indicadores: [
               ['ETAPAS DETALHADAS', `${etapasReformaAutonomo.length} Etapas`],
-              ['PEDREIRO / OFICIAL (DIA)', 'R$ 220,00 - 260,00'],
-              ['AJUDANTE / SERVENTE (DIA)', 'R$ 110,00 - 140,00'],
-              ['ENQUADRAMENTO', 'Reforma e Manutenção']
+              ['PEDREIRO / OFICIAL', 'R$ 220 - 260'],
+              ['AJUDANTE / SERVENTE', 'R$ 110 - 140'],
+              ['ENQUADRAMENTO', 'Reforma']
             ],
             etapas: etapasReformaAutonomo
           }
         },
         CONSTRUTOR: {
           OBRA_NOVA: {
-            badge: 'BASE B: CONSTRUTOR / EMPRESA',
-            titulo: 'Tabela Corporativa — Construtor / Empreiteira (BDI)',
-            subtitulo: 'Custos por Etapa com Gestão Técnica, Encargos e BDI | São Paulo',
-            lat1: '<strong>Perfil:</strong> Empresa / Gestão de Obra',
-            lat2: '<strong>Regime:</strong> Empreitada Corporativa',
+            badge: 'TABELA 3 • CONSTRUTORA',
+            titulo: 'Construção do Zero | Construtora',
+            subtitulo: 'Mão de obra sem materiais • Referência SP (Nov/2026)',
             indicadores: [
               ['ETAPAS DETALHADAS', `${etapasObraNovaConstrutora.length} Etapas`],
-              ['EQUIPE TÉCNICA (DIA)', 'R$ 360,00 - 450,00'],
-              ['COMPOSIÇÃO BDI', 'Incluído por Etapa'],
-              ['ENQUADRAMENTO', 'Empreitada Corporativa']
+              ['EQUIPE TÉCNICA (DIA)', 'R$ 360 - 450'],
+              ['COMPOSIÇÃO', 'Construtora'],
+              ['ENQUADRAMENTO', 'Construção']
             ],
             etapas: etapasObraNovaConstrutora
           },
           REFORMA: {
-            badge: 'BASE B: REFORMA CORPORATIVA',
-            titulo: 'Tabela de Reformas — Construtor / Empresa (BDI)',
-            subtitulo: 'Custos por Etapa de Reforma Técnica e Medição | São Paulo',
-            lat1: '<strong>Perfil:</strong> Empresa / Reforma Técnica',
-            lat2: '<strong>Regime:</strong> Contrato com Medição',
+            badge: 'TABELA 4 • CONSTRUTORA',
+            titulo: 'Reforma Residencial | Construtora',
+            subtitulo: 'Mão de obra sem materiais • Referência SP (Nov/2026)',
             indicadores: [
               ['ETAPAS DETALHADAS', `${etapasReformaConstrutora.length} Etapas`],
-              ['EQUIPE TÉCNICA (DIA)', 'R$ 380,00 - 460,00'],
-              ['COMPOSIÇÃO BDI', 'Incluído por Etapa'],
-              ['ENQUADRAMENTO', 'Reforma Corporativa']
+              ['EQUIPE TÉCNICA (DIA)', 'R$ 380 - 460'],
+              ['COMPOSIÇÃO', 'Construtora'],
+              ['ENQUADRAMENTO', 'Reforma']
             ],
             etapas: etapasReformaConstrutora
           }
@@ -1286,482 +1716,6 @@
 
     const TABELAS_SP = buildCatalogoCompleto();
 
-    const ETAPAS_PROGRESSO_BASE = [
-      { etapa: 'Serviços Preliminares & Canteiro', progresso: 100, custoAtual: 2450, status: 'Concluído' },
-      { etapa: 'Fundação & Baldrame', progresso: 100, custoAtual: 8900, status: 'Concluído' },
-      { etapa: 'Estrutura & Concreto', progresso: 75, custoAtual: 11200, status: 'Em Andamento' },
-      { etapa: 'Alvenaria de Vedação', progresso: 62, custoAtual: 7800, status: 'Em Andamento' },
-      { etapa: 'Instalações Elétricas & Hidráulicas', progresso: 40, custoAtual: 5400, status: 'Em Andamento' },
-      { etapa: 'Revestimentos, Piso & Acabamento', progresso: 0, custoAtual: 0, status: 'Pendente' }
-    ];
-
-    function buildCatalogoCompleto() {
-      const etapasObraNovaAutonomo = [
-        {
-          nome: '01. Preparação',
-          itens: [
-            { cod: 'AUT-01.1', servico: 'Limpeza do terreno', unid: 'm²', valor: 11.5 },
-            { cod: 'AUT-01.2', servico: 'Capinação e retirada de vegetação', unid: 'm²', valor: 9 },
-            { cod: 'AUT-01.3', servico: 'Locação da obra', unid: 'm²', valor: 11.5 },
-            { cod: 'AUT-01.4', servico: 'Gabarito da construção', unid: 'm²', valor: 16 },
-            { cod: 'AUT-01.5', servico: 'Escavação manual', unid: 'm³', valor: 110 }
-          ]
-        },
-        {
-          nome: '02. Fundação',
-          itens: [
-            { cod: 'AUT-02.1', servico: 'Abertura de valas', unid: 'm³', valor: 105 },
-            { cod: 'AUT-02.2', servico: 'Montagem de formas', unid: 'm²', valor: 70 },
-            { cod: 'AUT-02.3', servico: 'Armação de ferragens', unid: 'kg', valor: 3.5 },
-            { cod: 'AUT-02.4', servico: 'Concretagem de sapatas', unid: 'm³', valor: 230 },
-            { cod: 'AUT-02.5', servico: 'Baldrame', unid: 'm', valor: 105 },
-            { cod: 'AUT-02.6', servico: 'Impermeabilização de baldrame', unid: 'm²', valor: 35 }
-          ]
-        },
-        {
-          nome: '03. Estrutura',
-          itens: [
-            { cod: 'AUT-03.1', servico: 'Montagem de pilares', unid: 'm³', valor: 575 },
-            { cod: 'AUT-03.2', servico: 'Montagem de vigas', unid: 'm³', valor: 575 },
-            { cod: 'AUT-03.3', servico: 'Montagem de laje', unid: 'm²', valor: 60 },
-            { cod: 'AUT-03.4', servico: 'Concretagem de laje', unid: 'm²', valor: 40 },
-            { cod: 'AUT-03.5', servico: 'Escoramento', unid: 'm²', valor: 27.5 }
-          ]
-        },
-        {
-          nome: '04. Alvenaria',
-          itens: [
-            { cod: 'AUT-04.1', servico: 'Assentamento de tijolos', unid: 'm²', valor: 70 },
-            { cod: 'AUT-04.2', servico: 'Alvenaria de blocos de concreto', unid: 'm²', valor: 72.5 },
-            { cod: 'AUT-04.3', servico: 'Vergas e contravergas', unid: 'm', valor: 40 },
-            { cod: 'AUT-04.4', servico: 'Encunhamento', unid: 'm', valor: 27.5 }
-          ]
-        },
-        {
-          nome: '05. Cobertura',
-          itens: [
-            { cod: 'AUT-05.1', servico: 'Estrutura de madeira', unid: 'm²', valor: 72.5 },
-            { cod: 'AUT-05.2', servico: 'Estrutura metálica', unid: 'm²', valor: 62.5 },
-            { cod: 'AUT-05.3', servico: 'Colocação de telhas', unid: 'm²', valor: 47.5 },
-            { cod: 'AUT-05.4', servico: 'Instalação de cumeeira', unid: 'm', valor: 32.5 },
-            { cod: 'AUT-05.5', servico: 'Instalação de calhas', unid: 'm', valor: 42.5 }
-          ]
-        },
-        {
-          nome: '06. Reboco e revestimento',
-          itens: [
-            { cod: 'AUT-06.1', servico: 'Chapisco', unid: 'm²', valor: 11 },
-            { cod: 'AUT-06.2', servico: 'Emboço', unid: 'm²', valor: 32.5 },
-            { cod: 'AUT-06.3', servico: 'Reboco', unid: 'm²', valor: 32.5 },
-            { cod: 'AUT-06.4', servico: 'Contrapiso', unid: 'm²', valor: 32.5 },
-            { cod: 'AUT-06.5', servico: 'Regularização de piso', unid: 'm²', valor: 20 }
-          ]
-        },
-        {
-          nome: '07. Pisos e revestimentos',
-          itens: [
-            { cod: 'AUT-07.1', servico: 'Assentamento de piso cerâmico', unid: 'm²', valor: 52.5 },
-            { cod: 'AUT-07.2', servico: 'Assentamento de porcelanato', unid: 'm²', valor: 87.5 },
-            { cod: 'AUT-07.3', servico: 'Revestimento de paredes', unid: 'm²', valor: 60 },
-            { cod: 'AUT-07.4', servico: 'Rodapé cerâmico', unid: 'm', valor: 17 },
-            { cod: 'AUT-07.5', servico: 'Rejuntamento', unid: 'm²', valor: 11.5 }
-          ]
-        },
-        {
-          nome: '08. Instalações elétricas',
-          itens: [
-            { cod: 'AUT-08.1', servico: 'Instalação de ponto elétrico', unid: 'un', valor: 140 },
-            { cod: 'AUT-08.2', servico: 'Instalação de tomadas', unid: 'un', valor: 35 },
-            { cod: 'AUT-08.3', servico: 'Instalação de interruptores', unid: 'un', valor: 35 },
-            { cod: 'AUT-08.4', servico: 'Montagem de quadro elétrico', unid: 'un', valor: 500 },
-            { cod: 'AUT-08.5', servico: 'Instalação de luminárias', unid: 'un', valor: 60 }
-          ]
-        },
-        {
-          nome: '09. Instalações hidráulicas',
-          itens: [
-            { cod: 'AUT-09.1', servico: 'Ponto de água', unid: 'un', valor: 160 },
-            { cod: 'AUT-09.2', servico: 'Ponto de esgoto', unid: 'un', valor: 160 },
-            { cod: 'AUT-09.3', servico: 'Instalação de vaso sanitário', unid: 'un', valor: 200 },
-            { cod: 'AUT-09.4', servico: 'Instalação de lavatório', unid: 'un', valor: 160 },
-            { cod: 'AUT-09.5', servico: 'Instalação de torneira', unid: 'un', valor: 70 },
-            { cod: 'AUT-09.6', servico: 'Instalação de chuveiro', unid: 'un', valor: 80 }
-          ]
-        },
-        {
-          nome: '10. Forros',
-          itens: [
-            { cod: 'AUT-10.1', servico: 'Forro de PVC', unid: 'm²', valor: 32.5 },
-            { cod: 'AUT-10.2', servico: 'Forro de drywall', unid: 'm²', valor: 60 },
-            { cod: 'AUT-10.3', servico: 'Forro de gesso', unid: 'm²', valor: 52.5 }
-          ]
-        },
-        {
-          nome: '11. Esquadrias',
-          itens: [
-            { cod: 'AUT-11.1', servico: 'Instalação de porta', unid: 'un', valor: 200 },
-            { cod: 'AUT-11.2', servico: 'Instalação de janela', unid: 'un', valor: 170 },
-            { cod: 'AUT-11.3', servico: 'Instalação de fechaduras', unid: 'un', valor: 70 }
-          ]
-        },
-        {
-          nome: '12. Pintura',
-          itens: [
-            { cod: 'AUT-12.1', servico: 'Selador', unid: 'm²', valor: 7 },
-            { cod: 'AUT-12.2', servico: 'Massa corrida', unid: 'm²', valor: 23 },
-            { cod: 'AUT-12.3', servico: 'Lixamento', unid: 'm²', valor: 7 },
-            { cod: 'AUT-12.4', servico: 'Pintura interna', unid: 'm²', valor: 20 },
-            { cod: 'AUT-12.5', servico: 'Pintura externa', unid: 'm²', valor: 24 },
-            { cod: 'AUT-12.6', servico: 'Pintura de portas', unid: 'un', valor: 140 }
-          ]
-        },
-        {
-          nome: '13. Finalização',
-          itens: [
-            { cod: 'AUT-13.1', servico: 'Limpeza pós-obra', unid: 'm²', valor: 17 },
-            { cod: 'AUT-13.2', servico: 'Acabamentos gerais', unid: 'dia', valor: 325 }
-          ]
-        }
-      ];
-
-      const etapasReformaAutonomo = [
-        {
-          nome: '01. Demolição',
-          itens: [
-            { cod: 'REF-01.1', servico: 'Demolição de parede', unid: 'm²', valor: 47.5 },
-            { cod: 'REF-01.2', servico: 'Retirada de piso cerâmico', unid: 'm²', valor: 27.5 },
-            { cod: 'REF-01.3', servico: 'Retirada de porcelanato', unid: 'm²', valor: 40 },
-            { cod: 'REF-01.4', servico: 'Retirada de revestimento de parede', unid: 'm²', valor: 32.5 },
-            { cod: 'REF-01.5', servico: 'Demolição de contrapiso', unid: 'm²', valor: 35 },
-            { cod: 'REF-01.6', servico: 'Retirada de portas', unid: 'un', valor: 70 },
-            { cod: 'REF-01.7', servico: 'Retirada de janelas', unid: 'un', valor: 90 }
-          ]
-        },
-        {
-          nome: '02. Alvenaria',
-          itens: [
-            { cod: 'REF-02.1', servico: 'Construção de parede', unid: 'm²', valor: 80 },
-            { cod: 'REF-02.2', servico: 'Fechamento de vãos', unid: 'm²', valor: 75 },
-            { cod: 'REF-02.3', servico: 'Abertura de vãos', unid: 'un', valor: 265 },
-            { cod: 'REF-02.4', servico: 'Construção de divisórias', unid: 'm²', valor: 72.5 }
-          ]
-        },
-        {
-          nome: '03. Reboco',
-          itens: [
-            { cod: 'REF-03.1', servico: 'Recuperação de reboco', unid: 'm²', valor: 35 },
-            { cod: 'REF-03.2', servico: 'Chapisco', unid: 'm²', valor: 13 },
-            { cod: 'REF-03.3', servico: 'Emboço', unid: 'm²', valor: 37.5 },
-            { cod: 'REF-03.4', servico: 'Reboco', unid: 'm²', valor: 37.5 }
-          ]
-        },
-        {
-          nome: '04. Pisos',
-          itens: [
-            { cod: 'REF-04.1', servico: 'Retirada e preparação de piso', unid: 'm²', valor: 35 },
-            { cod: 'REF-04.2', servico: 'Assentamento de cerâmica', unid: 'm²', valor: 57.5 },
-            { cod: 'REF-04.3', servico: 'Assentamento de porcelanato', unid: 'm²', valor: 95 },
-            { cod: 'REF-04.4', servico: 'Troca de rodapé', unid: 'm', valor: 20 },
-            { cod: 'REF-04.5', servico: 'Nivelamento de piso', unid: 'm²', valor: 35 }
-          ]
-        },
-        {
-          nome: '05. Banheiros',
-          itens: [
-            { cod: 'REF-05.1', servico: 'Reforma completa de banheiro (serviço global)', unid: 'm²', valor: 675 },
-            { cod: 'REF-05.2', servico: 'Impermeabilização', unid: 'm²', valor: 50 },
-            { cod: 'REF-05.3', servico: 'Instalação de nicho', unid: 'un', valor: 265 },
-            { cod: 'REF-05.4', servico: 'Instalação de box', unid: 'un', valor: 200 },
-            { cod: 'REF-05.5', servico: 'Instalação de louças', unid: 'un', valor: 185 }
-          ]
-        },
-        {
-          nome: '06. Cozinhas',
-          itens: [
-            { cod: 'REF-06.1', servico: 'Assentamento de revestimentos', unid: 'm²', valor: 60 },
-            { cod: 'REF-06.2', servico: 'Instalação de bancada', unid: 'un', valor: 265 },
-            { cod: 'REF-06.3', servico: 'Instalação de cuba', unid: 'un', valor: 140 },
-            { cod: 'REF-06.4', servico: 'Adequação hidráulica', unid: 'pt', valor: 200 }
-          ]
-        },
-        {
-          nome: '07. Elétrica',
-          itens: [
-            { cod: 'REF-07.1', servico: 'Troca de ponto elétrico', unid: 'un', valor: 140 },
-            { cod: 'REF-07.2', servico: 'Substituição de fiação', unid: 'pt', valor: 115 },
-            { cod: 'REF-07.3', servico: 'Instalação de tomadas', unid: 'un', valor: 40 },
-            { cod: 'REF-07.4', servico: 'Troca de quadro elétrico', unid: 'un', valor: 500 }
-          ]
-        },
-        {
-          nome: '08. Hidráulica',
-          itens: [
-            { cod: 'REF-08.1', servico: 'Troca de ponto hidráulico', unid: 'un', valor: 175 },
-            { cod: 'REF-08.2', servico: 'Substituição de tubulação', unid: 'm', valor: 52.5 },
-            { cod: 'REF-08.3', servico: 'Deslocamento de ponto', unid: 'un', valor: 240 },
-            { cod: 'REF-08.4', servico: 'Troca de registros', unid: 'un', valor: 140 }
-          ]
-        },
-        {
-          nome: '09. Forros',
-          itens: [
-            { cod: 'REF-09.1', servico: 'Retirada de forro antigo', unid: 'm²', valor: 20 },
-            { cod: 'REF-09.2', servico: 'Instalação de PVC', unid: 'm²', valor: 37.5 },
-            { cod: 'REF-09.3', servico: 'Instalação de drywall', unid: 'm²', valor: 65 },
-            { cod: 'REF-09.4', servico: 'Reparo de gesso', unid: 'm²', valor: 47.5 }
-          ]
-        },
-        {
-          nome: '10. Pintura',
-          itens: [
-            { cod: 'REF-10.1', servico: 'Preparação de paredes', unid: 'm²', valor: 11.5 },
-            { cod: 'REF-10.2', servico: 'Massa corrida', unid: 'm²', valor: 25 },
-            { cod: 'REF-10.3', servico: 'Pintura interna', unid: 'm²', valor: 23 },
-            { cod: 'REF-10.4', servico: 'Pintura externa', unid: 'm²', valor: 27.5 },
-            { cod: 'REF-10.5', servico: 'Pintura de portões', unid: 'm²', valor: 47.5 }
-          ]
-        },
-        {
-          nome: '11. Finalização',
-          itens: [
-            { cod: 'REF-11.1', servico: 'Limpeza pós-reforma', unid: 'm²', valor: 20 },
-            { cod: 'REF-11.2', servico: 'Acabamentos gerais', unid: 'dia', valor: 325 }
-          ]
-        }
-      ];
-
-      const etapasObraNovaConstrutora = [
-        {
-          nome: '01. Preparação',
-          itens: [
-            { cod: 'EMP-01.1', servico: 'Limpeza do terreno', unid: 'm²', valor: 17 },
-            { cod: 'EMP-01.2', servico: 'Locação da obra', unid: 'm²', valor: 17 }
-          ]
-        },
-        {
-          nome: '02. Fundação',
-          itens: [
-            { cod: 'EMP-02.1', servico: 'Escavação manual', unid: 'm³', valor: 150 },
-            { cod: 'EMP-02.2', servico: 'Montagem de formas', unid: 'm²', valor: 97.5 },
-            { cod: 'EMP-02.3', servico: 'Armação de ferragens', unid: 'kg', valor: 4.75 },
-            { cod: 'EMP-02.4', servico: 'Concretagem de sapatas', unid: 'm³', valor: 325 },
-            { cod: 'EMP-02.5', servico: 'Baldrame', unid: 'm', valor: 147.5 }
-          ]
-        },
-        {
-          nome: '03. Estrutura',
-          itens: [
-            { cod: 'EMP-03.1', servico: 'Montagem de pilares', unid: 'm³', valor: 775 },
-            { cod: 'EMP-03.2', servico: 'Montagem de vigas', unid: 'm³', valor: 775 },
-            { cod: 'EMP-03.3', servico: 'Montagem de laje', unid: 'm²', valor: 80 }
-          ]
-        },
-        {
-          nome: '04. Alvenaria',
-          itens: [
-            { cod: 'EMP-04.1', servico: 'Assentamento de tijolos', unid: 'm²', valor: 95 }
-          ]
-        },
-        {
-          nome: '05. Cobertura',
-          itens: [
-            { cod: 'EMP-05.1', servico: 'Estrutura de madeira', unid: 'm²', valor: 100 },
-            { cod: 'EMP-05.2', servico: 'Colocação de telhas', unid: 'm²', valor: 67.5 }
-          ]
-        },
-        {
-          nome: '06. Reboco',
-          itens: [
-            { cod: 'EMP-06.1', servico: 'Chapisco', unid: 'm²', valor: 15 },
-            { cod: 'EMP-06.2', servico: 'Emboço', unid: 'm²', valor: 44 },
-            { cod: 'EMP-06.3', servico: 'Reboco', unid: 'm²', valor: 44 }
-          ]
-        },
-        {
-          nome: '07. Pisos',
-          itens: [
-            { cod: 'EMP-07.1', servico: 'Assentamento cerâmico', unid: 'm²', valor: 72.5 },
-            { cod: 'EMP-07.2', servico: 'Assentamento porcelanato', unid: 'm²', valor: 117.5 }
-          ]
-        },
-        {
-          nome: '08. Instalações elétricas',
-          itens: [
-            { cod: 'EMP-08.1', servico: 'Instalação de ponto elétrico', unid: 'un', valor: 195 }
-          ]
-        },
-        {
-          nome: '09. Instalações hidráulicas',
-          itens: [
-            { cod: 'EMP-09.1', servico: 'Instalação de ponto hidráulico', unid: 'un', valor: 222.5 }
-          ]
-        },
-        {
-          nome: '10. Forros',
-          itens: [
-            { cod: 'EMP-10.1', servico: 'Instalação de drywall', unid: 'm²', valor: 82.5 }
-          ]
-        },
-        {
-          nome: '12. Pintura',
-          itens: [
-            { cod: 'EMP-12.1', servico: 'Massa corrida', unid: 'm²', valor: 32.5 },
-            { cod: 'EMP-12.2', servico: 'Pintura interna', unid: 'm²', valor: 27.5 },
-            { cod: 'EMP-12.3', servico: 'Pintura externa', unid: 'm²', valor: 33.5 }
-          ]
-        },
-        {
-          nome: '13. Finalização',
-          itens: [
-            { cod: 'EMP-13.1', servico: 'Limpeza pós-obra', unid: 'm²', valor: 23 }
-          ]
-        }
-      ];
-
-      const etapasReformaConstrutora = [
-        {
-          nome: '01. Demolição',
-          itens: [
-            { cod: 'EMPR-01.1', servico: 'Demolição de parede', unid: 'm²', valor: 65 },
-            { cod: 'EMPR-01.2', servico: 'Retirada de piso', unid: 'm²', valor: 39 },
-            { cod: 'EMPR-01.3', servico: 'Retirada de revestimento', unid: 'm²', valor: 45.5 }
-          ]
-        },
-        {
-          nome: '02. Alvenaria',
-          itens: [
-            { cod: 'EMPR-02.1', servico: 'Construção de parede', unid: 'm²', valor: 107.5 },
-            { cod: 'EMPR-02.2', servico: 'Fechamento de vãos', unid: 'm²', valor: 102.5 }
-          ]
-        },
-        {
-          nome: '03. Reboco',
-          itens: [
-            { cod: 'EMPR-03.1', servico: 'Recuperação de reboco', unid: 'm²', valor: 47.5 }
-          ]
-        },
-        {
-          nome: '04. Pisos',
-          itens: [
-            { cod: 'EMPR-04.1', servico: 'Assentamento cerâmico', unid: 'm²', valor: 77.5 },
-            { cod: 'EMPR-04.2', servico: 'Assentamento porcelanato', unid: 'm²', valor: 127.5 }
-          ]
-        },
-        {
-          nome: '05. Banheiros',
-          itens: [
-            { cod: 'EMPR-05.1', servico: 'Reforma completa (serviço global)', unid: 'm²', valor: 900 },
-            { cod: 'EMPR-05.2', servico: 'Impermeabilização', unid: 'm²', valor: 67.5 }
-          ]
-        },
-        {
-          nome: '06. Cozinhas',
-          itens: [
-            { cod: 'EMPR-06.1', servico: 'Assentamento de revestimento', unid: 'm²', valor: 82.5 }
-          ]
-        },
-        {
-          nome: '07. Elétrica',
-          itens: [
-            { cod: 'EMPR-07.1', servico: 'Troca de ponto elétrico', unid: 'un', valor: 195 }
-          ]
-        },
-        {
-          nome: '08. Hidráulica',
-          itens: [
-            { cod: 'EMPR-08.1', servico: 'Troca de ponto hidráulico', unid: 'un', valor: 240 },
-            { cod: 'EMPR-08.2', servico: 'Substituição de tubulação', unid: 'm', valor: 70 }
-          ]
-        },
-        {
-          nome: '09. Forros',
-          itens: [
-            { cod: 'EMPR-09.1', servico: 'Instalação de PVC', unid: 'm²', valor: 52.5 },
-            { cod: 'EMPR-09.2', servico: 'Instalação de drywall', unid: 'm²', valor: 90 }
-          ]
-        },
-        {
-          nome: '10. Pintura',
-          itens: [
-            { cod: 'EMPR-10.1', servico: 'Preparação de paredes', unid: 'm²', valor: 17 },
-            { cod: 'EMPR-10.2', servico: 'Massa corrida', unid: 'm²', valor: 34.5 },
-            { cod: 'EMPR-10.3', servico: 'Pintura interna', unid: 'm²', valor: 32 },
-            { cod: 'EMPR-10.4', servico: 'Pintura externa', unid: 'm²', valor: 38 }
-          ]
-        },
-        {
-          nome: '11. Finalização',
-          itens: [
-            { cod: 'EMPR-11.1', servico: 'Limpeza pós-reforma', unid: 'm²', valor: 27.5 }
-          ]
-        }
-      ];
-
-      return {
-        AUTONOMO: {
-          OBRA_NOVA: {
-            badge: 'BASE A: AUTÔNOMO DIRETO',
-            titulo: 'Tabela de Mão de Obra — Profissional Autônomo',
-            subtitulo: 'Custos Específicos por Etapa e Serviço | Estado de São Paulo',
-            lat1: '<strong>Perfil:</strong> Autônomo / Execução Direta',
-            lat2: '<strong>Detalhamento:</strong> Etapa por Etapa',
-            indicadores: [
-              ['ETAPAS DETALHADAS', `${etapasObraNovaAutonomo.length} Etapas`],
-              ['PEDREIRO / OFICIAL (DIA)', 'R$ 200,00 - 250,00'],
-              ['AJUDANTE / SERVENTE (DIA)', 'R$ 100,00 - 130,00'],
-              ['ENQUADRAMENTO', 'Mão de Obra Direta']
-            ],
-            etapas: etapasObraNovaAutonomo
-          },
-          REFORMA: {
-            badge: 'BASE A: REFORMA DIRETA',
-            titulo: 'Tabela de Reformas — Profissional Autônomo',
-            subtitulo: 'Custos Específicos por Etapa de Reforma | Estado de São Paulo',
-            lat1: '<strong>Perfil:</strong> Autônomo / Reforma Pontual',
-            lat2: '<strong>Detalhamento:</strong> Etapa por Etapa',
-            indicadores: [
-              ['ETAPAS DETALHADAS', `${etapasReformaAutonomo.length} Etapas`],
-              ['PEDREIRO / OFICIAL (DIA)', 'R$ 220,00 - 260,00'],
-              ['AJUDANTE / SERVENTE (DIA)', 'R$ 110,00 - 140,00'],
-              ['ENQUADRAMENTO', 'Reforma e Manutenção']
-            ],
-            etapas: etapasReformaAutonomo
-          }
-        },
-        CONSTRUTOR: {
-          OBRA_NOVA: {
-            badge: 'BASE B: CONSTRUTOR / EMPRESA',
-            titulo: 'Tabela Corporativa — Construtor / Empreiteira (BDI)',
-            subtitulo: 'Custos por Etapa com Gestão Técnica, Encargos e BDI | São Paulo',
-            lat1: '<strong>Perfil:</strong> Empresa / Gestão de Obra',
-            lat2: '<strong>Regime:</strong> Empreitada Corporativa',
-            indicadores: [
-              ['ETAPAS DETALHADAS', `${etapasObraNovaConstrutora.length} Etapas`],
-              ['EQUIPE TÉCNICA (DIA)', 'R$ 360,00 - 450,00'],
-              ['COMPOSIÇÃO BDI', 'Incluído por Etapa'],
-              ['ENQUADRAMENTO', 'Empreitada Corporativa']
-            ],
-            etapas: etapasObraNovaConstrutora
-          },
-          REFORMA: {
-            badge: 'BASE B: REFORMA CORPORATIVA',
-            titulo: 'Tabela de Reformas — Construtor / Empresa (BDI)',
-            subtitulo: 'Custos por Etapa de Reforma Técnica e Medição | São Paulo',
-            lat1: '<strong>Perfil:</strong> Empresa / Reforma Técnica',
-            lat2: '<strong>Regime:</strong> Contrato com Medição',
-            indicadores: [
-              ['ETAPAS DETALHADAS', `${etapasReformaConstrutora.length} Etapas`],
-              ['EQUIPE TÉCNICA (DIA)', 'R$ 380,00 - 460,00'],
-              ['COMPOSIÇÃO BDI', 'Incluído por Etapa'],
-              ['ENQUADRAMENTO', 'Reforma Corporativa']
-            ],
-            etapas: etapasReformaConstrutora
-          }
-        }
-      };
-    }
-
-    const TABELAS_SP = buildCatalogoCompleto();
     const defaultState = () => ({
       empresa: {
         nome: 'CP CONSTRUÇÕES E REFORMAS',
@@ -1813,8 +1767,7 @@
     }
 
     function formatBRL(val) {
-      const num = Number(val) || 0;
-      return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      return (Number(val) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
     function formatDateBR(isoOrDate) {
@@ -1827,20 +1780,27 @@
       return Number.isNaN(dt.getTime()) ? isoOrDate : dt.toLocaleDateString('pt-BR');
     }
 
+    function escapeHtml(text) {
+      return String(text ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function setCloudStatus(connected, label) {
-      const dot = document.getElementById('cloud-dot');
       const txt = document.getElementById('cloud-status-text');
-      if (!dot || !txt) return;
-      if (connected) {
-        dot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5';
-        txt.textContent = label || 'Nuvem Ativa';
-      } else {
-        dot.className = 'w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5';
-        txt.textContent = label || 'Modo Local';
-      }
+      if (!txt) return;
+      txt.textContent = connected ? `● ${label || 'Nuvem Ativa'}` : `● ${label || 'Modo Local'}`;
+      txt.className = connected ? 'online' : '';
     }
 
     async function initFirebase() {
+      if (window.location.protocol === 'file:') {
+        setCloudStatus(false, 'Modo Local');
+        return;
+      }
       if (!window.firebase || !FIREBASE_CONFIG.apiKey || !FIREBASE_CONFIG.projectId) {
         setCloudStatus(false, 'Modo Local');
         return;
@@ -1868,13 +1828,12 @@
         }
         setCloudStatus(true, 'Firestore Sincronizado');
       } catch (err) {
-        console.warn('Firestore em fallback local:', err.message || err);
         setCloudStatus(false, 'Modo Local');
       }
     }
 
     async function syncCloudState() {
-      if (!db || !FIREBASE_CONFIG.projectId) return;
+      if (!db || !FIREBASE_CONFIG.projectId || window.location.protocol === 'file:') return;
       try {
         await db.collection('sistemas').doc('cp-construcoes-481db').set({
           stateData: state,
@@ -1891,16 +1850,12 @@
         sec.classList.toggle('hidden', sec.id !== `tab-${tabName}`);
       });
 
-      document.querySelectorAll('.nav-btn').forEach((btn) => {
-        const active = btn.dataset.tab === tabName;
-        if (btn.closest('nav')) {
-          btn.className = active
-            ? 'nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 bg-wood-800 text-amber-200 border-b-2 border-amber-400'
-            : 'nav-btn px-2.5 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 text-amber-100 hover:bg-wood-800/70';
-        } else {
-          btn.classList.toggle('text-amber-300', active);
-          btn.classList.toggle('font-bold', active);
-        }
+      document.querySelectorAll('.top-tab-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.tab === tabName);
+      });
+
+      document.querySelectorAll('.bottom-nav a').forEach((a) => {
+        a.classList.toggle('active', a.dataset.tab === tabName);
       });
 
       if (tabName === 'orcamentos') {
@@ -1914,19 +1869,21 @@
       const cnpj = emp.cnpj || '51.473.332/0001-24';
       const resp = emp.responsavel || 'Cristiano dos Santos Paes, Sócio-Diretor';
       const tel = emp.telefone || '';
-      const end = emp.endereco || 'Itanhaém • Litoral Sul - SP';
+      const end = emp.endereco || 'Itanhaém / SP';
 
-      const topName = document.getElementById('top-company-name');
+      const logo = document.getElementById('brand-logo-btn');
+      const sub = document.getElementById('top-company-sub');
       const topCnpj = document.getElementById('top-company-cnpj');
-      if (topName) topName.textContent = nome;
-      if (topCnpj) topCnpj.textContent = `${cnpj} — ${resp}`;
+      if (logo) logo.textContent = nome;
+      if (sub) sub.textContent = `${resp} • ${end}`;
+      if (topCnpj) topCnpj.textContent = `${cnpj} — ${nome}`;
 
       const pNome = document.getElementById('print-header-empresa');
       const pCnpj = document.getElementById('print-empresa-cnpj');
       const pContato = document.getElementById('print-empresa-contato');
       if (pNome) pNome.textContent = nome;
       if (pCnpj) pCnpj.textContent = `CNPJ: ${cnpj}`;
-      if (pContato) pContato.textContent = `Responsável Técnico: ${resp}${tel ? ' • ' + tel : ''} • ${end}`;
+      if (pContato) pContato.textContent = `Responsável: ${resp}${tel ? ' • ' + tel : ''} • ${end}`;
 
       const cfgNome = document.getElementById('cfg-empresa-nome');
       const cfgCnpj = document.getElementById('cfg-empresa-cnpj');
@@ -1942,166 +1899,116 @@
 
     function computeFinancials() {
       let entradas = 0;
-      let saidasLancamentos = 0;
-
+      let saidasManuais = 0;
       (state.lancamentos || []).forEach((item) => {
         const v = Number(item.valor) || 0;
         if (item.tipo === 'ENTRADA') entradas += v;
-        else saidasLancamentos += v;
+        else saidasManuais += v;
       });
-
       const totalDiarias = (state.diarias || []).reduce((acc, d) => acc + (Number(d.valor) || 0), 0);
-      const saidas = saidasLancamentos + totalDiarias;
-      const saldo = entradas - saidas;
-
-      return { entradas, saidas, saldo };
+      const saidas = saidasManuais + totalDiarias;
+      return { entradas, saidas, saldo: entradas - saidas };
     }
 
     function renderDashboard() {
       const { entradas, saidas, saldo } = computeFinancials();
-      const elObras = document.getElementById('dash-obras-ativas');
-      const elRec = document.getElementById('dash-recebimentos');
-      const elPag = document.getElementById('dash-pagamentos');
-      const elSaldo = document.getElementById('dash-saldo');
-      const elCli = document.getElementById('dash-total-clientes');
-      const elEqp = document.getElementById('dash-total-equipe');
+      document.getElementById('dash-obras-ativas').textContent = String((state.orcamentos || []).length);
+      document.getElementById('dash-recebimentos').textContent = formatBRL(entradas);
+      document.getElementById('dash-pagamentos').textContent = formatBRL(saidas);
+      document.getElementById('dash-saldo').textContent = formatBRL(saldo);
+      document.getElementById('dash-total-clientes').textContent = String((state.clientes || []).length);
+      document.getElementById('dash-total-equipe').textContent = String((state.colaboradores || []).length);
+
       const tbodyEtapas = document.getElementById('dash-etapas-progresso');
-      const tbody = document.getElementById('dash-lista-recentes');
-
-      if (elObras) elObras.textContent = String((state.orcamentos || []).length);
-      if (elRec) elRec.textContent = formatBRL(entradas);
-      if (elPag) elPag.textContent = formatBRL(saidas);
-      if (elSaldo) elSaldo.textContent = formatBRL(saldo);
-      if (elCli) elCli.textContent = String((state.clientes || []).length);
-      if (elEqp) elEqp.textContent = String((state.colaboradores || []).length);
-
       if (tbodyEtapas) {
         tbodyEtapas.innerHTML = (state.etapasProgresso || []).map((row) => {
           const pct = Math.max(0, Math.min(100, Number(row.progresso) || 0));
-          const badgeClass = pct === 100
-            ? 'bg-emerald-100 text-emerald-900'
-            : pct > 0
-              ? 'bg-amber-100 text-amber-900'
-              : 'bg-slate-100 text-slate-600';
           return `
-            <tr class="hover:bg-slate-50">
-              <td class="p-2.5 font-semibold text-slate-800">${escapeHtml(row.etapa)}</td>
-              <td class="p-2.5 w-44">
-                <div class="flex items-center gap-2">
-                  <div class="flex-grow bg-slate-200 rounded-full h-2 overflow-hidden">
-                    <div class="bg-wood-800 h-2 rounded-full" style="width: ${pct}%"></div>
-                  </div>
-                  <span class="font-bold text-slate-700 w-9 text-right">${pct}%</span>
-                </div>
+            <tr>
+              <td><strong>${escapeHtml(row.etapa)}</strong></td>
+              <td>
+                <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+                <strong>${pct}%</strong>
               </td>
-              <td class="p-2.5 text-right font-bold text-slate-800">${formatBRL(row.custoAtual)}</td>
-              <td class="p-2.5 text-right">
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeClass}">${escapeHtml(row.status || (pct === 100 ? 'Concluído' : pct > 0 ? 'Em Andamento' : 'Pendente'))}</span>
-              </td>
+              <td class="num">${formatBRL(row.custoAtual)}</td>
+              <td><span class="pill">${escapeHtml(row.status || (pct === 100 ? 'Concluído' : pct > 0 ? 'Em Andamento' : 'Pendente'))}</span></td>
             </tr>
           `;
         }).join('');
       }
 
-      if (!tbody) return;
-      const recentes = [...(state.orcamentos || [])].slice(-5).reverse();
-      if (!recentes.length) {
-        tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-400">Nenhuma proposta emitida até o momento.</td></tr>';
-        return;
+      const tbody = document.getElementById('dash-lista-recentes');
+      if (tbody) {
+        const recentes = [...(state.orcamentos || [])].slice(-5).reverse();
+        if (!recentes.length) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Nenhuma proposta emitida até o momento.</td></tr>';
+        } else {
+          tbody.innerHTML = recentes.map((orc) => `
+            <tr>
+              <td><strong>${escapeHtml(orc.codigo)}</strong></td>
+              <td>${escapeHtml(orc.clienteNome)}</td>
+              <td>${escapeHtml(orc.modalidadeLabel)}</td>
+              <td class="num"><strong>${formatBRL(orc.totalFinal)}</strong></td>
+              <td class="num"><button type="button" onclick="abrirPropostaImpressao('${orc.id}')" class="btn-link">Abrir</button></td>
+            </tr>
+          `).join('');
+        }
       }
-
-      tbody.innerHTML = recentes.map((orc) => `
-        <tr class="hover:bg-slate-50">
-          <td class="p-2.5 font-bold text-wood-950">${escapeHtml(orc.codigo)}</td>
-          <td class="p-2.5">${escapeHtml(orc.clienteNome || 'Cliente')}</td>
-          <td class="p-2.5">${escapeHtml(orc.modalidadeLabel || orc.modalidade || '-')}</td>
-          <td class="p-2.5">${formatDateBR(orc.data)}</td>
-          <td class="p-2.5 text-right font-bold text-slate-800">${formatBRL(orc.totalFinal)}</td>
-          <td class="p-2.5 text-right">
-            <button type="button" onclick="abrirPropostaImpressao('${orc.id}')" class="text-xs font-semibold text-wood-800 hover:underline">Abrir</button>
-          </td>
-        </tr>
-      `).join('');
     }
 
     function renderTabelasSP() {
       const dados = TABELAS_SP[tabelaPerfil]?.[tabelaEscopo];
       if (!dados) return;
 
-      const badge = document.getElementById('badge-perfil-tabela');
-      const titulo = document.getElementById('titulo-tabela-principal');
-      const subtitulo = document.getElementById('subtitulo-tabela-principal');
-      const lat1 = document.getElementById('info-lat-1');
-      const lat2 = document.getElementById('info-lat-2');
-
-      if (badge) badge.textContent = dados.badge;
-      if (titulo) titulo.textContent = dados.titulo;
-      if (subtitulo) subtitulo.textContent = dados.subtitulo;
-      if (lat1) lat1.innerHTML = dados.lat1;
-      if (lat2) lat2.innerHTML = dados.lat2;
+      document.getElementById('badge-perfil-tabela').textContent = dados.badge;
+      document.getElementById('titulo-tabela-principal').textContent = dados.titulo;
+      document.getElementById('subtitulo-tabela-principal').textContent = dados.subtitulo;
 
       dados.indicadores.forEach(([t, v], idx) => {
-        const elT = document.getElementById(`ind-${idx + 1}-titulo`);
-        const elV = document.getElementById(`ind-${idx + 1}-valor`);
-        if (elT) elT.textContent = t;
-        if (elV) elV.textContent = v;
+        document.getElementById(`ind-${idx + 1}-titulo`).textContent = t;
+        document.getElementById(`ind-${idx + 1}-valor`).textContent = v;
       });
 
-      const btnAut = document.getElementById('btn-perfil-autonomo');
-      const btnCon = document.getElementById('btn-perfil-construtor');
-      if (btnAut && btnCon) {
-        btnAut.className = tabelaPerfil === 'AUTONOMO'
-          ? 'px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition'
-          : 'px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition';
-        btnCon.className = tabelaPerfil === 'CONSTRUTOR'
-          ? 'px-4 py-2 rounded-md text-xs font-bold bg-emerald-800 text-white shadow transition'
-          : 'px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition';
-      }
-
-      const btnNova = document.getElementById('btn-escopo-obranova');
-      const btnRef = document.getElementById('btn-escopo-reforma');
-      if (btnNova && btnRef) {
-        btnNova.className = tabelaEscopo === 'OBRA_NOVA'
-          ? 'px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-100 shadow transition'
-          : 'px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition';
-        btnRef.className = tabelaEscopo === 'REFORMA'
-          ? 'px-4 py-2 rounded-md text-xs font-bold bg-wood-900 text-amber-100 shadow transition'
-          : 'px-4 py-2 rounded-md text-xs font-bold text-slate-700 hover:text-slate-900 transition';
-      }
+      document.getElementById('btn-perfil-autonomo').classList.toggle('active', tabelaPerfil === 'AUTONOMO');
+      document.getElementById('btn-perfil-construtor').classList.toggle('active', tabelaPerfil === 'CONSTRUTOR');
+      document.getElementById('btn-escopo-obranova').classList.toggle('active', tabelaEscopo === 'OBRA_NOVA');
+      document.getElementById('btn-escopo-reforma').classList.toggle('active', tabelaEscopo === 'REFORMA');
 
       const container = document.getElementById('container-etapas-detalhadas');
       if (!container) return;
 
       container.innerHTML = dados.etapas.map((etapa) => {
-        const subtotalEtapa = etapa.itens.reduce((acc, item) => acc + (Number(item.valor) || 0), 0);
+        const somaMedia = etapa.itens.reduce((acc, it) => acc + (Number(it.valor) || 0), 0);
         return `
-          <div class="executive-card rounded-lg overflow-hidden">
-            <div class="bg-wood-50 px-5 py-3 border-b border-wood-200 flex flex-wrap justify-between items-center gap-2">
-              <h3 class="text-sm font-bold font-serif-artisan text-wood-950">${escapeHtml(etapa.nome)}</h3>
-              <span class="text-[11px] font-bold text-emerald-900">Soma unitária da etapa: ${formatBRL(subtotalEtapa)} (${etapa.itens.length} itens)</span>
+          <div class="panel">
+            <div class="toolbar-row">
+              <h3 style="margin:0;border:none;padding:0;">${escapeHtml(etapa.nome)}</h3>
+              <span class="pill">Soma média: ${formatBRL(somaMedia)}</span>
             </div>
-            <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs text-slate-600">
-                <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cód.</th>
+                  <th>Serviço</th>
+                  <th>Unid.</th>
+                  <th class="num">Mínimo</th>
+                  <th class="num">Máximo</th>
+                  <th class="num">Média</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${etapa.itens.map((it) => `
                   <tr>
-                    <th class="p-3">Cód.</th>
-                    <th class="p-3">Serviço da Etapa</th>
-                    <th class="p-3 text-center">Unid.</th>
-                    <th class="p-3 text-right">Custo Unitário (R$)</th>
+                    <td><strong>${escapeHtml(it.cod)}</strong></td>
+                    <td>${escapeHtml(it.servico)}</td>
+                    <td>${escapeHtml(it.unid)}</td>
+                    <td class="num">${formatBRL(it.minimo)}</td>
+                    <td class="num">${formatBRL(it.maximo)}</td>
+                    <td class="num"><strong>${formatBRL(it.valor)}</strong></td>
                   </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                  ${etapa.itens.map((it) => `
-                    <tr class="hover:bg-slate-50">
-                      <td class="p-3 font-mono font-bold text-wood-900">${escapeHtml(it.cod)}</td>
-                      <td class="p-3 text-slate-800">${escapeHtml(it.servico)}</td>
-                      <td class="p-3 text-center">${escapeHtml(it.unid)}</td>
-                      <td class="p-3 text-right font-bold text-emerald-900">${formatBRL(it.valor)}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
+                `).join('')}
+              </tbody>
+            </table>
           </div>
         `;
       }).join('');
@@ -2110,11 +2017,9 @@
     function populateOrcamentoSelects() {
       const selCli = document.getElementById('orc-cliente');
       if (selCli) {
-        if (!state.clientes.length) {
-          selCli.innerHTML = '<option value="">Cadastre um cliente primeiro</option>';
-        } else {
-          selCli.innerHTML = state.clientes.map((c) => `<option value="${c.id}">${escapeHtml(c.nome)}</option>`).join('');
-        }
+        selCli.innerHTML = !state.clientes.length
+          ? '<option value="">Cadastre um cliente primeiro</option>'
+          : state.clientes.map((c) => `<option value="${c.id}">${escapeHtml(c.nome)}</option>`).join('');
       }
 
       const perfil = document.getElementById('orc-perfil-base')?.value || 'AUTONOMO';
@@ -2132,8 +2037,7 @@
       const perfil = document.getElementById('orc-perfil-base')?.value || 'AUTONOMO';
       const escopo = document.getElementById('orc-modalidade')?.value || 'OBRA_NOVA';
       const etapaIdx = Number(document.getElementById('sel-etapa-orc')?.value || 0);
-      const etapa = TABELAS_SP[perfil]?.[escopo]?.etapas?.[etapaIdx];
-      const itens = etapa?.itens || [];
+      const itens = TABELAS_SP[perfil]?.[escopo]?.etapas?.[etapaIdx]?.itens || [];
 
       const selSrv = document.getElementById('sel-servico-orc');
       if (selSrv) {
@@ -2148,13 +2052,12 @@
       const etapaIdx = Number(document.getElementById('sel-etapa-orc')?.value || 0);
       const srvIdx = Number(document.getElementById('sel-servico-orc')?.value || 0);
       const item = TABELAS_SP[perfil]?.[escopo]?.etapas?.[etapaIdx]?.itens?.[srvIdx];
+      if (!item) return;
 
-      const lblUnid = document.getElementById('lbl-unid-orc');
-      const inpVal = document.getElementById('inp-val-orc');
-      if (item) {
-        if (lblUnid) lblUnid.textContent = item.unid;
-        if (inpVal) inpVal.value = Number(item.valor).toFixed(2);
-      }
+      document.getElementById('lbl-unid-orc').textContent = item.unid;
+      document.getElementById('inp-val-orc').value = Number(item.valor).toFixed(2);
+      document.getElementById('lbl-faixa-servico-orc').textContent =
+        `Faixa: Mín. ${formatBRL(item.minimo)} — Máx. ${formatBRL(item.maximo)} por ${item.unid} (Média: ${formatBRL(item.valor)})`;
     }
 
     function addItemOrcamento() {
@@ -2175,6 +2078,8 @@
         cod: item.cod,
         servico: item.servico,
         unid: item.unid,
+        minimo: item.minimo,
+        maximo: item.maximo,
         qtd,
         unit,
         subtotal: qtd * unit
@@ -2196,47 +2101,41 @@
 
       if (tbody) {
         if (!orcItensTemp.length) {
-          tbody.innerHTML = '<tr><td colspan="7" class="p-3 text-center text-slate-400">Adicione serviços por etapa para compor a proposta.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Nenhum serviço adicionado ainda.</td></tr>';
         } else {
           tbody.innerHTML = orcItensTemp.map((it) => `
             <tr>
-              <td class="p-2 font-mono font-bold">${escapeHtml(it.cod)}</td>
-              <td class="p-2">
-                <span class="block text-[10px] font-semibold text-wood-800">${escapeHtml(it.etapa)}</span>
-                <span>${escapeHtml(it.servico)}</span>
+              <td><strong>${escapeHtml(it.cod)}</strong></td>
+              <td>
+                <small style="display:block;font-weight:bold;">${escapeHtml(it.etapa)}</small>
+                ${escapeHtml(it.servico)}
+                <small style="display:block;">Faixa: ${formatBRL(it.minimo)} a ${formatBRL(it.maximo)}</small>
               </td>
-              <td class="p-2 text-center">${escapeHtml(it.unid)}</td>
-              <td class="p-2 text-right">${Number(it.qtd).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-              <td class="p-2 text-right">${formatBRL(it.unit)}</td>
-              <td class="p-2 text-right font-bold">${formatBRL(it.subtotal)}</td>
-              <td class="p-2 text-center">
-                <button type="button" onclick="removeItemOrcamento('${it.uid}')" class="text-rose-600 hover:text-rose-800 font-bold">✕</button>
-              </td>
+              <td>${escapeHtml(it.unid)}</td>
+              <td class="num">${Number(it.qtd).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+              <td class="num">${formatBRL(it.unit)}</td>
+              <td class="num"><strong>${formatBRL(it.subtotal)}</strong></td>
+              <td class="num"><button type="button" onclick="removeItemOrcamento('${it.uid}')" class="btn-link">✕</button></td>
             </tr>
           `).join('');
         }
       }
 
-      const rowEnc = document.getElementById('row-encargo-reforma');
-      const lblSub = document.getElementById('lbl-subtotal-base');
-      const lblEnc = document.getElementById('lbl-valor-encargo');
-      const lblTot = document.getElementById('lbl-total-final-orc');
-
-      if (lblSub) lblSub.textContent = formatBRL(base);
-      if (rowEnc) rowEnc.classList.toggle('hidden', encargo <= 0);
-      if (lblEnc) lblEnc.textContent = formatBRL(encargo);
-      if (lblTot) lblTot.textContent = formatBRL(total);
+      document.getElementById('lbl-subtotal-base').textContent = formatBRL(base);
+      document.getElementById('row-encargo-reforma').classList.toggle('hidden', encargo <= 0);
+      document.getElementById('lbl-valor-encargo').textContent = formatBRL(encargo);
+      document.getElementById('lbl-total-final-orc').textContent = formatBRL(total);
     }
 
     function salvarOrcamentoCompleto() {
       const clienteId = document.getElementById('orc-cliente')?.value;
       const cliente = (state.clientes || []).find((c) => c.id === clienteId);
       if (!cliente) {
-        alert('Selecione ou cadastre um cliente antes de salvar o orçamento.');
+        alert('Selecione ou cadastre um cliente antes de salvar.');
         return;
       }
       if (!orcItensTemp.length) {
-        alert('Adicione pelo menos um item de serviço ao orçamento.');
+        alert('Adicione pelo menos um item de serviço.');
         return;
       }
 
@@ -2258,7 +2157,7 @@
         clienteEnd: cliente.endereco || '-',
         perfilBase: perfil,
         modalidade,
-        modalidadeLabel: modalidade === 'OBRA_NOVA' ? 'Obra Nova' : 'Reforma / Reestruturação',
+        modalidadeLabel: modalidade === 'OBRA_NOVA' ? 'Construção do Zero' : 'Reforma Residencial',
         percentualAdicional: pct,
         itens: [...orcItensTemp],
         subtotalBase: base,
@@ -2271,7 +2170,7 @@
 
       orcItensTemp = [];
       renderItensOrcamentoTemp();
-      document.getElementById('container-form-orcamento')?.classList.add('hidden');
+      document.getElementById('container-form-orcamento').classList.add('hidden');
       renderOrcamentosSalvos();
       renderDashboard();
       abrirPropostaImpressao(novoOrc.id);
@@ -2280,22 +2179,20 @@
     function renderOrcamentosSalvos() {
       const tbody = document.getElementById('lista-orcamentos-salvos');
       if (!tbody) return;
-
       if (!state.orcamentos.length) {
-        tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-400">Nenhum orçamento salvo.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum orçamento salvo.</td></tr>';
         return;
       }
-
       tbody.innerHTML = [...state.orcamentos].reverse().map((orc) => `
-        <tr class="hover:bg-slate-50">
-          <td class="p-3 font-bold text-wood-950">${escapeHtml(orc.codigo)}</td>
-          <td class="p-3">${escapeHtml(orc.clienteNome)}</td>
-          <td class="p-3">${escapeHtml(orc.modalidadeLabel)}</td>
-          <td class="p-3">${formatDateBR(orc.data)}</td>
-          <td class="p-3 text-right font-bold text-slate-800">${formatBRL(orc.totalFinal)}</td>
-          <td class="p-3 text-right space-x-2">
-            <button type="button" onclick="abrirPropostaImpressao('${orc.id}')" class="text-xs font-bold text-emerald-800 hover:underline">Proposta</button>
-            <button type="button" onclick="excluirOrcamento('${orc.id}')" class="text-xs font-bold text-rose-700 hover:underline">Excluir</button>
+        <tr>
+          <td><strong>${escapeHtml(orc.codigo)}</strong></td>
+          <td>${escapeHtml(orc.clienteNome)}</td>
+          <td>${escapeHtml(orc.modalidadeLabel)}</td>
+          <td>${formatDateBR(orc.data)}</td>
+          <td class="num"><strong>${formatBRL(orc.totalFinal)}</strong></td>
+          <td class="num">
+            <button type="button" onclick="abrirPropostaImpressao('${orc.id}')" class="btn-link">Proposta</button>
+            <button type="button" onclick="excluirOrcamento('${orc.id}')" class="btn-link">Excluir</button>
           </td>
         </tr>
       `).join('');
@@ -2306,10 +2203,8 @@
       if (!orc) return;
 
       switchTab('orcamentos');
-      const area = document.getElementById('area-impressao-contrato');
-      if (!area) return;
-
       renderCompanyHeader();
+
       document.getElementById('print-orc-id').textContent = orc.codigo;
       document.getElementById('print-orc-data').textContent = formatDateBR(orc.data);
       document.getElementById('print-cliente-nome').textContent = orc.clienteNome || '-';
@@ -2326,44 +2221,41 @@
         grupos[chave].push(it);
       });
 
-      const pct = Number(orc.percentualAdicional) || 0;
-      const fator = 1 + pct / 100;
-
+      const fator = 1 + (Number(orc.percentualAdicional) || 0) / 100;
       const cont = document.getElementById('print-container-etapas-cliente');
-      if (cont) {
-        cont.innerHTML = Object.entries(grupos).map(([nomeEtapa, lista]) => {
-          const somaEtapa = lista.reduce((acc, item) => acc + ((Number(item.subtotal) || 0) * fator), 0);
-          return `
-            <div class="border border-slate-200 rounded-lg overflow-hidden">
-              <div class="bg-wood-50 px-4 py-2 border-b border-slate-200 flex justify-between items-center text-xs font-bold text-wood-950">
-                <span>${escapeHtml(nomeEtapa)}</span>
-                <span>${formatBRL(somaEtapa)}</span>
-              </div>
-              <table class="w-full text-left text-xs text-slate-700">
-                <thead class="bg-slate-50 text-[11px] uppercase text-slate-500">
-                  <tr>
-                    <th class="p-2">Descrição do Serviço</th>
-                    <th class="p-2 text-center">Unid.</th>
-                    <th class="p-2 text-right">Qtd.</th>
-                    <th class="p-2 text-right">Valor</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                  ${lista.map((item) => `
-                    <tr>
-                      <td class="p-2">${escapeHtml(item.servico)}</td>
-                      <td class="p-2 text-center">${escapeHtml(item.unid)}</td>
-                      <td class="p-2 text-right">${Number(item.qtd).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                      <td class="p-2 text-right font-semibold">${formatBRL((Number(item.subtotal) || 0) * fator)}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
+      cont.innerHTML = Object.entries(grupos).map(([nomeEtapa, lista]) => {
+        const somaEtapa = lista.reduce((acc, item) => acc + ((Number(item.subtotal) || 0) * fator), 0);
+        return `
+          <div class="mt-2">
+            <div class="toolbar-row">
+              <strong>${escapeHtml(nomeEtapa)}</strong>
+              <strong>${formatBRL(somaEtapa)}</strong>
             </div>
-          `;
-        }).join('');
-      }
+            <table>
+              <thead>
+                <tr>
+                  <th>Serviço</th>
+                  <th>Unid.</th>
+                  <th class="num">Qtd.</th>
+                  <th class="num">Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${lista.map((item) => `
+                  <tr>
+                    <td>${escapeHtml(item.servico)}</td>
+                    <td>${escapeHtml(item.unid)}</td>
+                    <td class="num">${Number(item.qtd).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td class="num">${formatBRL((Number(item.subtotal) || 0) * fator)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }).join('');
 
+      const area = document.getElementById('area-impressao-contrato');
       area.classList.remove('hidden');
       area.scrollIntoView({ behavior: 'smooth' });
     }
@@ -2380,17 +2272,15 @@
       const tbody = document.getElementById('lista-clientes');
       if (!tbody) return;
       if (!state.clientes.length) {
-        tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400">Nenhum cliente cadastrado.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Nenhum cliente cadastrado.</td></tr>';
         return;
       }
       tbody.innerHTML = state.clientes.map((c) => `
-        <tr class="hover:bg-slate-50">
-          <td class="p-3 font-semibold text-slate-900">${escapeHtml(c.nome)}</td>
-          <td class="p-3">${escapeHtml(c.telefone || '-')}</td>
-          <td class="p-3">${escapeHtml(c.endereco || '-')}</td>
-          <td class="p-3 text-right">
-            <button type="button" onclick="excluirCliente('${c.id}')" class="text-xs font-bold text-rose-700 hover:underline">Excluir</button>
-          </td>
+        <tr>
+          <td><strong>${escapeHtml(c.nome)}</strong></td>
+          <td>${escapeHtml(c.telefone || '-')}</td>
+          <td>${escapeHtml(c.endereco || '-')}</td>
+          <td class="num"><button type="button" onclick="excluirCliente('${c.id}')" class="btn-link">Excluir</button></td>
         </tr>
       `).join('');
     }
@@ -2408,39 +2298,31 @@
       const tbodyDia = document.getElementById('lista-diarias');
 
       if (tbodyCol) {
-        if (!state.colaboradores.length) {
-          tbodyCol.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-400">Nenhum colaborador cadastrado.</td></tr>';
-        } else {
-          tbodyCol.innerHTML = state.colaboradores.map((col) => `
-            <tr class="hover:bg-slate-50">
-              <td class="p-3 font-semibold text-slate-900">${escapeHtml(col.nome)}</td>
-              <td class="p-3">${escapeHtml(col.funcao || '-')}</td>
-              <td class="p-3 font-semibold text-emerald-800">${formatBRL(col.diariaBase)}</td>
-              <td class="p-3">${escapeHtml(col.telefone || '-')}</td>
-              <td class="p-3 text-right">
-                <button type="button" onclick="excluirColaborador('${col.id}')" class="text-xs font-bold text-rose-700 hover:underline">Excluir</button>
-              </td>
-            </tr>
-          `).join('');
-        }
+        tbodyCol.innerHTML = !state.colaboradores.length
+          ? '<tr><td colspan="5" style="text-align:center;">Nenhum colaborador cadastrado.</td></tr>'
+          : state.colaboradores.map((col) => `
+              <tr>
+                <td><strong>${escapeHtml(col.nome)}</strong></td>
+                <td>${escapeHtml(col.funcao || '-')}</td>
+                <td class="num">${formatBRL(col.diariaBase)}</td>
+                <td>${escapeHtml(col.telefone || '-')}</td>
+                <td class="num"><button type="button" onclick="excluirColaborador('${col.id}')" class="btn-link">Excluir</button></td>
+              </tr>
+            `).join('');
       }
 
       if (tbodyDia) {
-        if (!state.diarias.length) {
-          tbodyDia.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-400">Nenhuma diária lançada.</td></tr>';
-        } else {
-          tbodyDia.innerHTML = [...state.diarias].reverse().map((d) => `
-            <tr class="hover:bg-slate-50">
-              <td class="p-2.5">${formatDateBR(d.data)}</td>
-              <td class="p-2.5 font-semibold text-slate-900">${escapeHtml(d.colaboradorNome)}</td>
-              <td class="p-2.5">${escapeHtml(d.obra || '-')}</td>
-              <td class="p-2.5 text-right font-bold text-rose-800">${formatBRL(d.valor)}</td>
-              <td class="p-2.5 text-right">
-                <button type="button" onclick="excluirDiaria('${d.id}')" class="text-xs font-bold text-rose-700 hover:underline">Excluir</button>
-              </td>
-            </tr>
-          `).join('');
-        }
+        tbodyDia.innerHTML = !state.diarias.length
+          ? '<tr><td colspan="5" style="text-align:center;">Nenhuma diária lançada.</td></tr>'
+          : [...state.diarias].reverse().map((d) => `
+              <tr>
+                <td>${formatDateBR(d.data)}</td>
+                <td><strong>${escapeHtml(d.colaboradorNome)}</strong></td>
+                <td>${escapeHtml(d.obra || '-')}</td>
+                <td class="num">${formatBRL(d.valor)}</td>
+                <td class="num"><button type="button" onclick="excluirDiaria('${d.id}')" class="btn-link">Excluir</button></td>
+              </tr>
+            `).join('');
       }
     }
 
@@ -2463,16 +2345,13 @@
 
     function renderFinanceiro() {
       const { entradas, saidas, saldo } = computeFinancials();
-      const elEnt = document.getElementById('fin-entradas');
-      const elSai = document.getElementById('fin-saidas');
-      const elSal = document.getElementById('fin-saldo');
+      document.getElementById('fin-entradas').textContent = formatBRL(entradas);
+      document.getElementById('fin-saidas').textContent = formatBRL(saidas);
+      document.getElementById('fin-saldo').textContent = formatBRL(saldo);
+
       const tbody = document.getElementById('lista-lancamentos');
-
-      if (elEnt) elEnt.textContent = formatBRL(entradas);
-      if (elSai) elSai.textContent = formatBRL(saidas);
-      if (elSal) elSal.textContent = formatBRL(saldo);
-
       if (!tbody) return;
+
       const combinados = [
         ...(state.lancamentos || []).map((l) => ({ ...l, origem: 'MANUAL' })),
         ...(state.diarias || []).map((d) => ({
@@ -2486,30 +2365,23 @@
       ].sort((a, b) => String(b.data).localeCompare(String(a.data)));
 
       if (!combinados.length) {
-        tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-400">Nenhum lançamento registrado no caixa.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Nenhum lançamento no caixa.</td></tr>';
         return;
       }
 
-      tbody.innerHTML = combinados.map((item) => {
-        const isEntrada = item.tipo === 'ENTRADA';
-        return `
-          <tr class="hover:bg-slate-50">
-            <td class="p-3">${formatDateBR(item.data)}</td>
-            <td class="p-3">
-              <span class="px-2 py-0.5 rounded text-[11px] font-bold ${isEntrada ? 'bg-emerald-100 text-emerald-900' : 'bg-rose-100 text-rose-900'}">
-                ${isEntrada ? 'ENTRADA' : 'SAÍDA'}
-              </span>
-            </td>
-            <td class="p-3">${escapeHtml(item.descricao)}</td>
-            <td class="p-3 text-right font-bold ${isEntrada ? 'text-emerald-800' : 'text-rose-800'}">${formatBRL(item.valor)}</td>
-            <td class="p-3 text-right">
-              ${item.origem === 'MANUAL'
-                ? `<button type="button" onclick="excluirLancamento('${item.id}')" class="text-xs font-bold text-rose-700 hover:underline">Excluir</button>`
-                : '<span class="text-[11px] text-slate-400">Via Equipe</span>'}
-            </td>
-          </tr>
-        `;
-      }).join('');
+      tbody.innerHTML = combinados.map((item) => `
+        <tr>
+          <td>${formatDateBR(item.data)}</td>
+          <td><span class="pill">${item.tipo === 'ENTRADA' ? 'ENTRADA' : 'SAÍDA'}</span></td>
+          <td>${escapeHtml(item.descricao)}</td>
+          <td class="num"><strong>${formatBRL(item.valor)}</strong></td>
+          <td class="num">
+            ${item.origem === 'MANUAL'
+              ? `<button type="button" onclick="excluirLancamento('${item.id}')" class="btn-link">Excluir</button>`
+              : '<small>Via Equipe</small>'}
+          </td>
+        </tr>
+      `).join('');
     }
 
     function excluirLancamento(id) {
@@ -2521,32 +2393,19 @@
     }
 
     function abrirModal(titulo, camposHtml, onConfirm) {
-      const modal = document.getElementById('modal-generico');
-      const elTit = document.getElementById('modal-titulo');
-      const elForm = document.getElementById('modal-form');
-      if (!modal || !elTit || !elForm) return;
-      elTit.textContent = titulo;
-      elForm.innerHTML = camposHtml;
+      document.getElementById('modal-titulo').textContent = titulo;
+      document.getElementById('modal-form').innerHTML = camposHtml;
       modalCallback = onConfirm;
+      const modal = document.getElementById('modal-generico');
       modal.classList.remove('hidden');
       modal.classList.add('flex');
     }
 
     function fecharModal() {
       const modal = document.getElementById('modal-generico');
-      if (!modal) return;
       modal.classList.add('hidden');
       modal.classList.remove('flex');
       modalCallback = null;
-    }
-
-    function escapeHtml(text) {
-      return String(text ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
     }
 
     function renderAll() {
@@ -2560,8 +2419,12 @@
     }
 
     function bindEvents() {
-      document.querySelectorAll('.nav-btn').forEach((btn) => {
-        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+      document.querySelectorAll('.top-tab-btn, .bottom-nav a, [data-go-tab]').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          const tab = el.dataset.tab || el.dataset.goTab;
+          if (tab) switchTab(tab);
+        });
       });
 
       document.getElementById('brand-logo-btn')?.addEventListener('click', () => switchTab('dashboard'));
@@ -2571,7 +2434,7 @@
       document.getElementById('dash-btn-orcamento')?.addEventListener('click', () => {
         switchTab('orcamentos');
         populateOrcamentoSelects();
-        document.getElementById('container-form-orcamento')?.classList.remove('hidden');
+        document.getElementById('container-form-orcamento').classList.remove('hidden');
       });
 
       document.getElementById('btn-perfil-autonomo')?.addEventListener('click', () => {
@@ -2594,15 +2457,15 @@
       document.getElementById('btn-iniciar-orcamento')?.addEventListener('click', () => {
         populateOrcamentoSelects();
         renderItensOrcamentoTemp();
-        document.getElementById('container-form-orcamento')?.classList.remove('hidden');
+        document.getElementById('container-form-orcamento').classList.remove('hidden');
       });
       document.getElementById('btn-fechar-form-orc')?.addEventListener('click', () => {
-        document.getElementById('container-form-orcamento')?.classList.add('hidden');
+        document.getElementById('container-form-orcamento').classList.add('hidden');
       });
       document.getElementById('btn-cancelar-form-orc')?.addEventListener('click', () => {
         orcItensTemp = [];
         renderItensOrcamentoTemp();
-        document.getElementById('container-form-orcamento')?.classList.add('hidden');
+        document.getElementById('container-form-orcamento').classList.add('hidden');
       });
 
       document.getElementById('orc-perfil-base')?.addEventListener('change', populateOrcamentoSelects);
@@ -2614,15 +2477,15 @@
       document.getElementById('btn-salvar-orc-completo')?.addEventListener('click', salvarOrcamentoCompleto);
 
       document.getElementById('btn-fechar-contrato')?.addEventListener('click', () => {
-        document.getElementById('area-impressao-contrato')?.classList.add('hidden');
+        document.getElementById('area-impressao-contrato').classList.add('hidden');
       });
       document.getElementById('btn-imprimir-contrato')?.addEventListener('click', () => window.print());
 
       document.getElementById('btn-abrir-cliente')?.addEventListener('click', () => {
         abrirModal('Novo Cliente', `
-          <div><label class="block font-bold mb-1">Nome Completo *</label><input type="text" id="m-cli-nome" class="w-full border rounded-lg p-2" required></div>
-          <div><label class="block font-bold mb-1">Telefone / WhatsApp</label><input type="text" id="m-cli-tel" class="w-full border rounded-lg p-2"></div>
-          <div><label class="block font-bold mb-1">Endereço / Local da Obra</label><input type="text" id="m-cli-end" class="w-full border rounded-lg p-2"></div>
+          <div class="field"><label>Nome Completo *</label><input type="text" id="m-cli-nome" required></div>
+          <div class="field"><label>Telefone / WhatsApp</label><input type="text" id="m-cli-tel"></div>
+          <div class="field"><label>Endereço / Local da Obra</label><input type="text" id="m-cli-end"></div>
         `, () => {
           const nome = document.getElementById('m-cli-nome')?.value.trim();
           if (!nome) return alert('Informe o nome do cliente.');
@@ -2662,10 +2525,10 @@
 
       document.getElementById('btn-abrir-colaborador')?.addEventListener('click', () => {
         abrirModal('Novo Colaborador', `
-          <div><label class="block font-bold mb-1">Nome *</label><input type="text" id="m-col-nome" class="w-full border rounded-lg p-2" required></div>
-          <div><label class="block font-bold mb-1">Função</label><input type="text" id="m-col-func" placeholder="Ex: Pedreiro, Ajudante, Eletricista" class="w-full border rounded-lg p-2"></div>
-          <div><label class="block font-bold mb-1">Diária Base (R$)</label><input type="number" step="0.01" id="m-col-dia" value="200.00" class="w-full border rounded-lg p-2"></div>
-          <div><label class="block font-bold mb-1">Telefone</label><input type="text" id="m-col-tel" class="w-full border rounded-lg p-2"></div>
+          <div class="field"><label>Nome *</label><input type="text" id="m-col-nome" required></div>
+          <div class="field"><label>Função</label><input type="text" id="m-col-func" placeholder="Ex: Pedreiro, Ajudante"></div>
+          <div class="field"><label>Diária Base (R$)</label><input type="number" step="0.01" id="m-col-dia" value="200.00"></div>
+          <div class="field"><label>Telefone</label><input type="text" id="m-col-tel"></div>
         `, () => {
           const nome = document.getElementById('m-col-nome')?.value.trim();
           if (!nome) return alert('Informe o nome do colaborador.');
@@ -2688,20 +2551,20 @@
           alert('Cadastre um colaborador primeiro.');
           return;
         }
-        const opts = state.colaboradores.map((c) => `<option value="${c.id}" data-val="${c.diariaBase || 0}">${escapeHtml(c.nome)} (${escapeHtml(c.funcao || '')})</option>`).join('');
+        const opts = state.colaboradores.map((c) => `<option value="${c.id}" data-val="${c.diariaBase || 0}">${escapeHtml(c.nome)}</option>`).join('');
         const hoje = new Date().toISOString().slice(0, 10);
-        const primeiraDiaria = Number(state.colaboradores[0].diariaBase || 0).toFixed(2);
+        const primeira = Number(state.colaboradores[0].diariaBase || 0).toFixed(2);
 
         abrirModal('Lançar Diária', `
-          <div><label class="block font-bold mb-1">Colaborador *</label><select id="m-dia-col" class="w-full border rounded-lg p-2 bg-white">${opts}</select></div>
-          <div><label class="block font-bold mb-1">Data *</label><input type="date" id="m-dia-data" value="${hoje}" class="w-full border rounded-lg p-2"></div>
-          <div><label class="block font-bold mb-1">Obra / Serviço</label><input type="text" id="m-dia-obra" placeholder="Ex: Obra Itanhaém" class="w-full border rounded-lg p-2"></div>
-          <div><label class="block font-bold mb-1">Valor da Diária (R$) *</label><input type="number" step="0.01" id="m-dia-val" value="${primeiraDiaria}" class="w-full border rounded-lg p-2"></div>
+          <div class="field"><label>Colaborador *</label><select id="m-dia-col">${opts}</select></div>
+          <div class="field"><label>Data *</label><input type="date" id="m-dia-data" value="${hoje}"></div>
+          <div class="field"><label>Obra / Serviço</label><input type="text" id="m-dia-obra" placeholder="Ex: Obra Itanhaém"></div>
+          <div class="field"><label>Valor (R$) *</label><input type="number" step="0.01" id="m-dia-val" value="${primeira}"></div>
         `, () => {
           const colId = document.getElementById('m-dia-col')?.value;
           const col = state.colaboradores.find((c) => c.id === colId);
           const valor = Number(document.getElementById('m-dia-val')?.value) || 0;
-          if (!col || valor <= 0) return alert('Informe um valor válido para a diária.');
+          if (!col || valor <= 0) return alert('Informe um valor válido.');
           state.diarias.push({
             id: `dia_${Date.now()}`,
             colaboradorId: col.id,
@@ -2718,30 +2581,28 @@
         });
 
         document.getElementById('m-dia-col')?.addEventListener('change', (ev) => {
-          const opt = ev.target.selectedOptions?.[0];
-          const val = Number(opt?.dataset?.val || 0);
-          const inp = document.getElementById('m-dia-val');
-          if (inp && val > 0) inp.value = val.toFixed(2);
+          const val = Number(ev.target.selectedOptions?.[0]?.dataset?.val || 0);
+          if (val > 0) document.getElementById('m-dia-val').value = val.toFixed(2);
         });
       });
 
       document.getElementById('btn-abrir-lancamento')?.addEventListener('click', () => {
         const hoje = new Date().toISOString().slice(0, 10);
-        abrirModal('Novo Lançamento no Caixa', `
-          <div>
-            <label class="block font-bold mb-1">Tipo *</label>
-            <select id="m-fin-tipo" class="w-full border rounded-lg p-2 bg-white">
-              <option value="ENTRADA">Entrada (Recebimento / Medição)</option>
-              <option value="SAIDA">Saída (Material / Despesa Operacional)</option>
+        abrirModal('Novo Lançamento', `
+          <div class="field">
+            <label>Tipo *</label>
+            <select id="m-fin-tipo">
+              <option value="ENTRADA">Entrada</option>
+              <option value="SAIDA">Saída</option>
             </select>
           </div>
-          <div><label class="block font-bold mb-1">Data *</label><input type="date" id="m-fin-data" value="${hoje}" class="w-full border rounded-lg p-2"></div>
-          <div><label class="block font-bold mb-1">Descrição *</label><input type="text" id="m-fin-desc" placeholder="Ex: 1ª parcela reforma" class="w-full border rounded-lg p-2"></div>
-          <div><label class="block font-bold mb-1">Valor (R$) *</label><input type="number" step="0.01" id="m-fin-val" class="w-full border rounded-lg p-2"></div>
+          <div class="field"><label>Data *</label><input type="date" id="m-fin-data" value="${hoje}"></div>
+          <div class="field"><label>Descrição *</label><input type="text" id="m-fin-desc" placeholder="Ex: Recebimento de etapa"></div>
+          <div class="field"><label>Valor (R$) *</label><input type="number" step="0.01" id="m-fin-val"></div>
         `, () => {
           const desc = document.getElementById('m-fin-desc')?.value.trim();
           const valor = Number(document.getElementById('m-fin-val')?.value) || 0;
-          if (!desc || valor <= 0) return alert('Preencha descrição e valor válido.');
+          if (!desc || valor <= 0) return alert('Preencha descrição e valor.');
           state.lancamentos.push({
             id: `fin_${Date.now()}`,
             tipo: document.getElementById('m-fin-tipo')?.value || 'ENTRADA',
@@ -2807,7 +2668,7 @@
         if (typeof modalCallback === 'function') modalCallback();
       });
 
-      if ('serviceWorker' in navigator) {
+      if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       }
     }
