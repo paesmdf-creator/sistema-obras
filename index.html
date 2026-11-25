@@ -35,6 +35,12 @@
         box-sizing: border-box;
     }
 
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
     body {
         min-height: 100vh;
         padding: 10px;
@@ -55,11 +61,13 @@
     }
 
     .phone {
-        width: min(100%, 430px);
+        width: 100%;
+        max-width: 430px;
         margin: auto;
         padding: 8px;
         border: 4px solid #211b17;
         border-radius: 34px;
+        overflow-x: hidden;
         background: linear-gradient(
             135deg,
             #77716a,
@@ -73,6 +81,7 @@
     }
 
     .screen {
+        max-width: 100%;
         overflow: hidden;
         border: 2px solid #1f1008;
         border-radius: 26px;
@@ -92,7 +101,7 @@
 
     .status {
         min-height: 30px;
-        padding: 6px 14px;
+        padding: 6px 12px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -101,6 +110,12 @@
         color: #fff0d8;
         font: 600 10px Arial, sans-serif;
         border-bottom: 1px solid rgba(215, 164, 94, 0.25);
+        max-width: 100%;
+    }
+
+    .status span {
+        min-width: 0;
+        overflow-wrap: anywhere;
     }
 
     .brand {
@@ -125,6 +140,7 @@
         box-shadow:
             0 4px 8px rgba(30, 14, 5, 0.48),
             inset 0 1px 6px rgba(255, 235, 190, 0.55);
+        max-width: calc(100% - 16px);
     }
 
     .brand-hero {
@@ -132,12 +148,13 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
+        max-width: 100%;
         cursor: pointer;
     }
 
     .brand-emblem {
-        width: 58px;
-        height: 58px;
+        width: 64px;
+        height: 64px;
         flex: 0 0 auto;
         border-radius: 14px;
         border: 2px ridge #f3d299;
@@ -145,11 +162,13 @@
             0 3px 6px rgba(28, 12, 4, 0.55),
             inset 0 1px 3px rgba(255, 240, 200, 0.4);
         overflow: hidden;
+        background: #2b1407;
     }
 
-    .brand-emblem svg {
+    .brand-emblem img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
         display: block;
     }
 
@@ -165,11 +184,12 @@
     }
 
     .brand-sub-empresa {
-        margin-top: 4px;
+        margin-top: 5px;
         font-size: 11px;
         font-weight: bold;
-        letter-spacing: 0.6px;
+        letter-spacing: 0.5px;
         color: #3b200e;
+        overflow-wrap: anywhere;
     }
 
     .brand p.brand-resp {
@@ -177,6 +197,7 @@
         font-size: 10px;
         font-weight: bold;
         color: #3b200e;
+        overflow-wrap: anywhere;
     }
 
     .print-brand-box {
@@ -186,17 +207,19 @@
     }
 
     .print-emblem {
-        width: 48px;
-        height: 48px;
+        width: 54px;
+        height: 54px;
         flex: 0 0 auto;
         border-radius: 10px;
         border: 2px solid var(--madeira-escura);
         overflow: hidden;
+        background: #2b1407;
     }
 
-    .print-emblem svg {
+    .print-emblem img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
         display: block;
     }
 
@@ -239,17 +262,21 @@
         box-shadow:
             inset 0 1px 7px rgba(255, 255, 255, 0.7),
             0 4px 8px rgba(30, 14, 5, 0.48);
+        max-width: calc(100% - 16px);
+        overflow: hidden;
     }
 
     .welcome h2 {
         margin-bottom: 5px;
-        font-size: 15px;
+        font-size: 14px;
         font-style: italic;
+        overflow-wrap: anywhere;
     }
 
     .welcome p {
         font-size: 12px;
         line-height: 1.4;
+        overflow-wrap: anywhere;
     }
 
     .metrics {
@@ -257,9 +284,12 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
         padding: 0 8px;
+        max-width: 100%;
     }
 
     .metric {
+        min-width: 0;
+        max-width: 100%;
         min-height: 112px;
         padding: 9px 7px;
         text-align: center;
@@ -291,27 +321,30 @@
     .metric h3 {
         margin: 3px 0;
         font-size: 12px;
+        overflow-wrap: anywhere;
     }
 
     .metric strong {
         display: block;
-        font-size: 16px;
+        font-size: 15px;
         line-height: 1.2;
-        word-break: break-word;
+        overflow-wrap: anywhere;
     }
 
     .metric small {
         display: block;
         margin-top: 2px;
         font-size: 10px;
+        overflow-wrap: anywhere;
     }
 
     .metric a,
     .metric button {
         display: block;
         width: 100%;
+        max-width: 100%;
         margin-top: 6px;
-        padding: 5px;
+        padding: 5px 4px;
         color: var(--texto);
         text-decoration: none;
         font-family: inherit;
@@ -324,15 +357,22 @@
             #e9bd7d,
             #b9783c
         );
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .panels {
         display: grid;
+        grid-template-columns: minmax(0, 1fr);
         gap: 8px;
         padding: 10px 8px;
+        max-width: 100%;
     }
 
     .panel {
+        min-width: 0;
+        max-width: 100%;
         padding: 10px;
         border: 2px ridge #d9ad74;
         border-radius: 12px;
@@ -376,16 +416,17 @@
         font-size: 10px;
         font-weight: bold;
         text-align: left;
-        padding: 6px 6px;
+        padding: 6px 5px;
         border-bottom: 2px solid #2b1508;
     }
 
     tbody td {
-        padding: 6px 6px;
+        padding: 6px 5px;
         font-size: 10px;
         color: var(--texto);
         border-bottom: 1px solid rgba(156, 107, 59, 0.35);
         vertical-align: middle;
+        overflow-wrap: anywhere;
     }
 
     tbody tr:nth-child(even) {
@@ -402,7 +443,7 @@
         font-weight: bold;
         font-size: 11px;
         color: var(--madeira-escura);
-        padding: 7px 6px;
+        padding: 7px 5px;
         border-top: 2px solid var(--borda-tabela);
     }
 
@@ -415,7 +456,7 @@
     }
 
     .btn-madeira {
-        padding: 6px 10px;
+        padding: 6px 9px;
         border: 1px solid #3b2112;
         border-radius: 8px;
         font-family: inherit;
@@ -424,10 +465,11 @@
         color: #fff0d6;
         background: linear-gradient(#8b5128, #46240f);
         cursor: pointer;
+        max-width: 100%;
     }
 
     .btn-pergaminho {
-        padding: 6px 10px;
+        padding: 6px 9px;
         border: 1px solid #75421f;
         border-radius: 8px;
         font-family: inherit;
@@ -436,6 +478,7 @@
         color: var(--texto);
         background: linear-gradient(#f6e2bd, #d7a45e);
         cursor: pointer;
+        max-width: 100%;
     }
 
     .btn-link {
@@ -451,9 +494,13 @@
 
     .form-grid {
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 8px;
         margin-top: 6px;
+    }
+
+    .field {
+        min-width: 0;
     }
 
     .field label {
@@ -466,6 +513,7 @@
     .field input,
     .field select {
         width: 100%;
+        max-width: 100%;
         padding: 6px 8px;
         border: 1px solid var(--borda-tabela);
         border-radius: 6px;
@@ -482,6 +530,7 @@
         align-items: center;
         gap: 6px;
         margin-bottom: 8px;
+        max-width: 100%;
     }
 
     .seg-group {
@@ -492,6 +541,7 @@
         border: 1px solid var(--borda-tabela);
         border-radius: 8px;
         background: rgba(255, 248, 230, 0.65);
+        max-width: 100%;
     }
 
     .seg-btn {
@@ -512,14 +562,14 @@
     }
 
     .progress-track {
-        width: 56px;
+        width: 48px;
         height: 7px;
         border-radius: 99px;
         background: rgba(117, 66, 31, 0.2);
         overflow: hidden;
         display: inline-block;
         vertical-align: middle;
-        margin-right: 4px;
+        margin-right: 3px;
     }
 
     .progress-fill {
@@ -530,9 +580,10 @@
     .activity,
     .system-row {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
-        gap: 8px;
+        gap: 6px;
         padding: 6px 0;
         font-size: 11px;
         border-bottom: 1px solid rgba(125, 81, 37, 0.18);
@@ -553,7 +604,7 @@
     }
 
     .online {
-        color: #315c28;
+        color: #7ee078;
         font-weight: bold;
     }
 
@@ -577,15 +628,17 @@
 
     .bottom-nav {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(6, minmax(0, 1fr));
         border-top: 3px ridge #c18a4d;
         background: linear-gradient(
             #75421f,
             #351a0b
         );
+        max-width: 100%;
     }
 
     .bottom-nav a {
+        min-width: 0;
         padding: 8px 1px 9px;
         color: #f5d7a5;
         text-align: center;
@@ -594,6 +647,8 @@
         line-height: 1.15;
         border-right: 1px solid #9b6737;
         cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .bottom-nav a:last-child {
@@ -702,7 +757,7 @@
         }
 
         .phone {
-            width: min(100%, 960px);
+            max-width: 960px;
             border-radius: 30px;
         }
 
@@ -715,8 +770,8 @@
         }
 
         .brand-emblem {
-            width: 68px;
-            height: 68px;
+            width: 74px;
+            height: 74px;
         }
 
         .brand-cp {
@@ -729,6 +784,10 @@
 
         .welcome {
             padding: 16px 20px;
+        }
+
+        .welcome h2 {
+            font-size: 16px;
         }
 
         .metrics {
@@ -745,7 +804,7 @@
 
         .panels-two {
             display: grid;
-            grid-template-columns: 1.25fr 0.75fr;
+            grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
             gap: 10px;
         }
 
@@ -786,41 +845,7 @@
       <header class="brand">
         <div id="brand-logo-btn" class="brand-hero" title="Ir para o Painel">
           <div class="brand-emblem" aria-hidden="true">
-            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="woodBg" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#5a2f14"/>
-                  <stop offset="55%" stop-color="#3a1c0a"/>
-                  <stop offset="100%" stop-color="#241005"/>
-                </linearGradient>
-                <linearGradient id="goldTrim" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#f5d598"/>
-                  <stop offset="50%" stop-color="#c99349"/>
-                  <stop offset="100%" stop-color="#8b5b21"/>
-                </linearGradient>
-                <linearGradient id="steelBlade" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#fff8e7"/>
-                  <stop offset="60%" stop-color="#d8c39e"/>
-                  <stop offset="100%" stop-color="#8c6b3f"/>
-                </linearGradient>
-              </defs>
-              <rect x="3" y="3" width="114" height="114" rx="22" fill="url(#woodBg)" stroke="url(#goldTrim)" stroke-width="4"/>
-              <circle cx="60" cy="60" r="44" fill="none" stroke="url(#goldTrim)" stroke-width="2.2" opacity="0.85"/>
-              <!-- Silhueta de casa entalhada -->
-              <polygon points="60,22 25,52 34,52 34,84 86,84 86,52 95,52" fill="#4b250e" stroke="url(#goldTrim)" stroke-width="3" stroke-linejoin="round"/>
-              <rect x="52" y="45" width="16" height="14" rx="2" fill="#321707" stroke="url(#goldTrim)" stroke-width="1.8"/>
-              <line x1="60" y1="45" x2="60" y2="59" stroke="url(#goldTrim)" stroke-width="1.4"/>
-              <line x1="52" y1="52" x2="68" y2="52" stroke="url(#goldTrim)" stroke-width="1.4"/>
-              <!-- Nível horizontal -->
-              <rect x="22" y="64" width="76" height="11" rx="3" fill="#5b2e12" stroke="url(#goldTrim)" stroke-width="2.2"/>
-              <circle cx="60" cy="69.5" r="3.2" fill="#e7be6b" stroke="#2a1306" stroke-width="1"/>
-              <!-- Formão diagonal -->
-              <g transform="translate(60,62) rotate(-38)">
-                <rect x="-32" y="-4.5" width="28" height="9" rx="3" fill="#8d5327" stroke="url(#goldTrim)" stroke-width="1.8"/>
-                <rect x="-4" y="-3.2" width="10" height="6.4" fill="url(#goldTrim)"/>
-                <polygon points="6,-5.2 31,-3.4 31,3.4 6,5.2" fill="url(#steelBlade)" stroke="#381d0b" stroke-width="1.4"/>
-              </g>
-            </svg>
+            <img src="./1795647595556.jpg" alt="Emblema CP Construções e Reformas">
           </div>
           <span class="brand-cp">CP</span>
         </div>
@@ -1122,21 +1147,7 @@
             <div class="toolbar-row" style="border-bottom:2px solid var(--madeira-escura);padding-bottom:8px;">
               <div class="print-brand-box">
                 <div class="print-emblem" aria-hidden="true">
-                  <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="3" y="3" width="114" height="114" rx="22" fill="#3a1c0a" stroke="#b8843e" stroke-width="4"/>
-                    <circle cx="60" cy="60" r="44" fill="none" stroke="#d7a45e" stroke-width="2"/>
-                    <polygon points="60,22 25,52 34,52 34,84 86,84 86,52 95,52" fill="#4b250e" stroke="#e2b46e" stroke-width="3" stroke-linejoin="round"/>
-                    <rect x="52" y="45" width="16" height="14" rx="2" fill="#2b1407" stroke="#e2b46e" stroke-width="1.8"/>
-                    <line x1="60" y1="45" x2="60" y2="59" stroke="#e2b46e" stroke-width="1.4"/>
-                    <line x1="52" y1="52" x2="68" y2="52" stroke="#e2b46e" stroke-width="1.4"/>
-                    <rect x="22" y="64" width="76" height="11" rx="3" fill="#5b2e12" stroke="#e2b46e" stroke-width="2.2"/>
-                    <circle cx="60" cy="69.5" r="3.2" fill="#f1c977" stroke="#2a1306" stroke-width="1"/>
-                    <g transform="translate(60,62) rotate(-38)">
-                      <rect x="-32" y="-4.5" width="28" height="9" rx="3" fill="#8d5327" stroke="#e2b46e" stroke-width="1.8"/>
-                      <rect x="-4" y="-3.2" width="10" height="6.4" fill="#e2b46e"/>
-                      <polygon points="6,-5.2 31,-3.4 31,3.4 6,5.2" fill="#f4e5c8" stroke="#381d0b" stroke-width="1.4"/>
-                    </g>
-                  </svg>
+                  <img src="./1795647595556.jpg" alt="Emblema CP Construções e Reformas">
                 </div>
                 <div>
                   <div style="font-size:16px;font-weight:bold;letter-spacing:1px;">CP</div>
