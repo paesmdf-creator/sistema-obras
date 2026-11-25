@@ -31,15 +31,14 @@
       }
     };
   </script>
-  <style>
-   
+ <style>
     .font-serif-artisan { font-family: 'Cinzel', serif; }
 
     .executive-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
+      background: linear-gradient(120deg, #f8e8c8, #e8c994);
+      border: 1px solid #b98b53;
       border-top: 3px solid #774832;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
     }
 
     .wood-texture-header {
@@ -65,6 +64,41 @@
       display: inline-block;
       flex-shrink: 0;
       vertical-align: -0.125em;
+    }
+
+    /* TABELA DE VALORES */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 250, 238, 0.85);
+      border: 1px solid #b98b53;
+    }
+
+    thead th {
+      background: linear-gradient(180deg, #4a2c18, #2b1810);
+      color: #f8e8c8;
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 2px solid #774832;
+    }
+
+    tbody td {
+      padding: 8px 10px;
+      color: #321b0c;
+      border-bottom: 1px solid rgba(119, 72, 50, 0.25);
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(232, 201, 148, 0.25);
+    }
+
+    tfoot td,
+    .total-row td {
+      background: linear-gradient(180deg, #e8c994, #cfa05e);
+      color: #2b1810;
+      font-weight: bold;
+      padding: 9px 10px;
+      border-top: 2px solid #774832;
     }
 
     @media print {
