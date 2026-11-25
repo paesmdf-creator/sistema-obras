@@ -529,10 +529,10 @@
         text-shadow: 1px 2px 2px #160a03;
     }
 
-    /* MENU INFERIOR COM 5 COLUNAS (INCLUINDO EQUIPE) */
+    /* MENU INFERIOR COM 6 COLUNAS (INCLUINDO CLIENTES E EQUIPE) */
     .bottom-nav {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         border-top: 3px ridge #c18a4d;
         background: linear-gradient(
             #75421f,
@@ -541,11 +541,12 @@
     }
 
     .bottom-nav a {
-        padding: 8px 2px 9px;
+        padding: 8px 1px 9px;
         color: #f5d7a5;
         text-align: center;
         text-decoration: none;
-        font-size: 9px;
+        font-size: 8px;
+        line-height: 1.15;
         border-right: 1px solid #9b6737;
         cursor: pointer;
     }
@@ -557,7 +558,7 @@
     .bottom-nav a b {
         display: block;
         margin-bottom: 2px;
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .bottom-nav a.active {
@@ -709,6 +710,7 @@
 
         .bottom-nav a {
             font-size: 11px;
+            padding: 8px 4px 9px;
         }
     }
   </style>
@@ -742,9 +744,10 @@
       <section id="tab-dashboard" class="tab-content">
         <div class="welcome">
           <h2>Gestão de Obras, Tabelas SP &amp; Propostas</h2>
-          <p>Controle de orçamentos, etapas de obra, equipe, diárias e caixa em estilo madeira &amp; pergaminho.</p>
+          <p>Controle de orçamentos, clientes, etapas de obra, equipe, diárias e caixa em estilo madeira &amp; pergaminho.</p>
           <div class="toolbar-row mt-2 no-print">
             <button type="button" id="dash-btn-orcamento" class="btn-madeira">+ Novo Orçamento</button>
+            <button type="button" data-go-tab="clientes" class="btn-pergaminho">Clientes</button>
             <button type="button" id="dash-btn-tabelas" class="btn-pergaminho">Ver Tabelas SP</button>
           </div>
         </div>
@@ -779,7 +782,7 @@
             <h3>Saldo Atual</h3>
             <strong id="dash-saldo">R$ 0,00</strong>
             <small>Entradas menos saídas</small>
-            <button type="button" data-go-tab="financeiro">Extrato</button>
+            <button type="button" data-go-tab="clientes">Ver Clientes</button>
           </div>
         </div>
 
@@ -1226,6 +1229,7 @@
         <a data-tab="dashboard" class="active"><b>🏠</b>Painel</a>
         <a data-tab="tabelas"><b>📊</b>Tabelas</a>
         <a data-tab="orcamentos"><b>📄</b>Orçamentos</a>
+        <a data-tab="clientes"><b>👥</b>Clientes</a>
         <a data-tab="equipe"><b>👷</b>Equipe</a>
         <a data-tab="financeiro"><b>💰</b>Caixa</a>
       </nav>
