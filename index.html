@@ -200,6 +200,26 @@
         overflow-wrap: anywhere;
     }
 
+    .brand-actions {
+        margin-top: 7px;
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .btn-emblema-mini {
+        padding: 4px 9px;
+        border: 1px solid #5a3218;
+        border-radius: 12px;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: bold;
+        color: var(--texto);
+        background: linear-gradient(#f6e2bd, #cfa05e);
+        cursor: pointer;
+    }
+
     .print-brand-box {
         display: flex;
         align-items: center;
@@ -834,6 +854,8 @@
   </style>
 </head>
 <body>
+  <input type="file" id="inp-trocar-emblema" accept="image/*" class="hidden">
+
   <div class="phone">
     <div class="screen">
 
@@ -845,12 +867,15 @@
       <header class="brand">
         <div id="brand-logo-btn" class="brand-hero" title="Ir para o Painel">
           <div class="brand-emblem" aria-hidden="true">
-            <img src="./1795647595556.jpg" alt="Emblema CP Construções e Reformas">
+            <img id="img-emblema-topo" src="" alt="Emblema CP Construções e Reformas">
           </div>
           <span class="brand-cp">CP</span>
         </div>
         <div id="brand-empresa-nome" class="brand-sub-empresa">CP CONSTRUÇÕES E REFORMAS</div>
         <p id="top-company-sub" class="brand-resp">Cristiano dos Santos Paes, Sócio-Diretor • Itanhaém / SP</p>
+        <div class="brand-actions no-print">
+          <button type="button" id="btn-trocar-emblema-topo" class="btn-emblema-mini">Trocar Emblema</button>
+        </div>
       </header>
 
       <nav class="top-tabs no-print">
@@ -1147,7 +1172,7 @@
             <div class="toolbar-row" style="border-bottom:2px solid var(--madeira-escura);padding-bottom:8px;">
               <div class="print-brand-box">
                 <div class="print-emblem" aria-hidden="true">
-                  <img src="./1795647595556.jpg" alt="Emblema CP Construções e Reformas">
+                  <img id="img-emblema-print" src="" alt="Emblema CP Construções e Reformas">
                 </div>
                 <div>
                   <div style="font-size:16px;font-weight:bold;letter-spacing:1px;">CP</div>
@@ -1312,7 +1337,7 @@
       <section id="tab-config" class="tab-content hidden">
         <div class="panels">
           <div class="panel">
-            <h3>Dados da Empresa &amp; Backup</h3>
+            <h3>Dados da Empresa, Emblema &amp; Backup</h3>
             <div class="form-grid form-grid-2">
               <div class="field">
                 <label>Nome Fantasia / Razão Social</label>
@@ -1338,6 +1363,8 @@
 
             <div class="toolbar-row mt-3">
               <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button type="button" id="btn-trocar-emblema-cfg" class="btn-pergaminho">Trocar Emblema</button>
+                <button type="button" id="btn-restaurar-emblema" class="btn-pergaminho">Restaurar Padrão</button>
                 <button type="button" id="btn-exportar-json" class="btn-pergaminho">Exportar JSON</button>
                 <label class="btn-pergaminho" style="cursor:pointer;">
                   Importar JSON
@@ -1392,6 +1419,32 @@
     };
 
     const STORAGE_KEY = 'cp_construcoes_sistema_v2';
+
+    const EMBLEMA_PADRAO_SVG =
+      'data:image/svg+xml;utf8,' +
+      encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+          <defs>
+            <radialGradient id="bg" cx="50%" cy="40%" r="65%">
+              <stop offset="0%" stop-color="#6b3919"/>
+              <stop offset="100%" stop-color="#281205"/>
+            </radialGradient>
+            <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f7dca4"/>
+              <stop offset="55%" stop-color="#d59d52"/>
+              <stop offset="100%" stop-color="#8b551c"/>
+            </linearGradient>
+          </defs>
+          <rect width="120" height="120" rx="22" fill="url(#bg)"/>
+          <rect x="6" y="6" width="108" height="108" rx="17" fill="none" stroke="url(#gold)" stroke-width="3.5"/>
+          <circle cx="60" cy="60" r="39" fill="none" stroke="url(#gold)" stroke-width="2.5"/>
+          <path d="M35 55 L60 33 L85 55 V84 H35 Z" fill="rgba(247,220,164,0.08)" stroke="url(#gold)" stroke-width="3" stroke-linejoin="round"/>
+          <rect x="33" y="56" width="54" height="12" rx="3" fill="rgba(59,33,18,0.88)" stroke="url(#gold)" stroke-width="2.5"/>
+          <rect x="53" y="59" width="14" height="6" rx="2" fill="#f7dca4"/>
+          <path d="M40 38 L82 80" stroke="url(#gold)" stroke-width="6" stroke-linecap="round"/>
+          <path d="M80 38 L42 76" stroke="#f7dca4" stroke-width="4" stroke-linecap="round"/>
+        </svg>`
+      );
 
     const ETAPAS_PROGRESSO_BASE = [
       { etapa: 'Serviços Preliminares & Canteiro', progresso: 100, custoAtual: 2450, status: 'Concluído' },
@@ -1868,7 +1921,8 @@
         cnpj: '51.473.332/0001-24',
         responsavel: 'Cristiano dos Santos Paes, Sócio-Diretor',
         telefone: '',
-        endereco: 'Itanhaém • Litoral Sul - SP'
+        endereco: 'Itanhaém • Litoral Sul - SP',
+        emblemaDataUrl: ''
       },
       etapasProgresso: ETAPAS_PROGRESSO_BASE.map((x) => ({ ...x })),
       clientes: [],
@@ -2010,6 +2064,50 @@
       }
     }
 
+    function getEmblemaSrc() {
+      const custom = state.empresa?.emblemaDataUrl;
+      return custom && typeof custom === 'string' && custom.trim() ? custom : EMBLEMA_PADRAO_SVG;
+    }
+
+    function aplicarEmblemaNaTela() {
+      const src = getEmblemaSrc();
+      const imgTopo = document.getElementById('img-emblema-topo');
+      const imgPrint = document.getElementById('img-emblema-print');
+      if (imgTopo) imgTopo.src = src;
+      if (imgPrint) imgPrint.src = src;
+    }
+
+    function acionarSeletorEmblema() {
+      document.getElementById('inp-trocar-emblema')?.click();
+    }
+
+    function handleArquivoEmblema(ev) {
+      const file = ev.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = typeof reader.result === 'string' ? reader.result : '';
+        if (!dataUrl) return;
+        state.empresa = {
+          ...(state.empresa || {}),
+          emblemaDataUrl: dataUrl
+        };
+        aplicarEmblemaNaTela();
+        saveState();
+        ev.target.value = '';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function restaurarEmblemaPadrao() {
+      state.empresa = {
+        ...(state.empresa || {}),
+        emblemaDataUrl: ''
+      };
+      aplicarEmblemaNaTela();
+      saveState();
+    }
+
     function renderCompanyHeader() {
       const emp = state.empresa || {};
       const nome = emp.nome || 'CP CONSTRUÇÕES E REFORMAS';
@@ -2017,6 +2115,8 @@
       const resp = emp.responsavel || 'Cristiano dos Santos Paes, Sócio-Diretor';
       const tel = emp.telefone || '';
       const end = emp.endereco || 'Itanhaém • Litoral Sul - SP';
+
+      aplicarEmblemaNaTela();
 
       document.getElementById('brand-empresa-nome').textContent = nome;
       document.getElementById('top-company-sub').textContent = `${resp} • ${end}`;
@@ -2654,6 +2754,11 @@
       document.getElementById('dash-btn-tabelas')?.addEventListener('click', () => switchTab('tabelas'));
       document.getElementById('dash-ver-todos')?.addEventListener('click', () => switchTab('orcamentos'));
 
+      document.getElementById('btn-trocar-emblema-topo')?.addEventListener('click', acionarSeletorEmblema);
+      document.getElementById('btn-trocar-emblema-cfg')?.addEventListener('click', acionarSeletorEmblema);
+      document.getElementById('btn-restaurar-emblema')?.addEventListener('click', restaurarEmblemaPadrao);
+      document.getElementById('inp-trocar-emblema')?.addEventListener('change', handleArquivoEmblema);
+
       document.getElementById('dash-btn-orcamento')?.addEventListener('click', () => {
         switchTab('orcamentos');
         prepararNovoOrcamento();
@@ -2838,6 +2943,7 @@
 
       document.getElementById('btn-salvar-config')?.addEventListener('click', () => {
         state.empresa = {
+          ...(state.empresa || {}),
           nome: document.getElementById('cfg-empresa-nome')?.value.trim() || 'CP CONSTRUÇÕES E REFORMAS',
           cnpj: document.getElementById('cfg-empresa-cnpj')?.value.trim() || '51.473.332/0001-24',
           responsavel: document.getElementById('cfg-empresa-resp')?.value.trim() || 'Cristiano dos Santos Paes, Sócio-Diretor',
