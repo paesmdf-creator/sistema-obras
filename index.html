@@ -105,7 +105,7 @@
 
     .brand {
         margin: 6px 8px 10px;
-        padding: 10px 8px;
+        padding: 12px 10px;
         text-align: center;
         color: var(--texto);
         border: 3px ridge var(--dourado);
@@ -127,31 +127,77 @@
             inset 0 1px 6px rgba(255, 235, 190, 0.55);
     }
 
-    .brand-mark {
-        width: 44px;
-        height: 44px;
-        margin: 0 auto 6px;
-        display: flex;
+    .brand-hero {
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 2px ridge var(--dourado);
-        border-radius: 10px;
-        background: linear-gradient(135deg, #4a2812, #2b1508);
-        color: #f6e2bd;
-        font-size: 20px;
-    }
-
-    .brand h1 {
-        font-size: clamp(18px, 5.2vw, 34px);
-        line-height: 1.12;
-        letter-spacing: 0.4px;
+        gap: 10px;
         cursor: pointer;
     }
 
-    .brand p {
+    .brand-emblem {
+        width: 58px;
+        height: 58px;
+        flex: 0 0 auto;
+        border-radius: 14px;
+        border: 2px ridge #f3d299;
+        box-shadow:
+            0 3px 6px rgba(28, 12, 4, 0.55),
+            inset 0 1px 3px rgba(255, 240, 200, 0.4);
+        overflow: hidden;
+    }
+
+    .brand-emblem svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .brand-cp {
+        font-size: clamp(32px, 8.5vw, 46px);
+        line-height: 1;
+        font-weight: bold;
+        letter-spacing: 2px;
+        color: #2f1708;
+        text-shadow:
+            0 1px 0 rgba(255, 238, 202, 0.75),
+            1px 2px 2px rgba(35, 15, 4, 0.45);
+    }
+
+    .brand-sub-empresa {
         margin-top: 4px;
         font-size: 11px;
         font-weight: bold;
+        letter-spacing: 0.6px;
+        color: #3b200e;
+    }
+
+    .brand p.brand-resp {
+        margin-top: 3px;
+        font-size: 10px;
+        font-weight: bold;
+        color: #3b200e;
+    }
+
+    .print-brand-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .print-emblem {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 auto;
+        border-radius: 10px;
+        border: 2px solid var(--madeira-escura);
+        overflow: hidden;
+    }
+
+    .print-emblem svg {
+        width: 100%;
+        height: 100%;
+        display: block;
     }
 
     .top-tabs {
@@ -529,7 +575,6 @@
         text-shadow: 1px 2px 2px #160a03;
     }
 
-    /* MENU INFERIOR COM 6 COLUNAS (INCLUINDO CLIENTES E EQUIPE) */
     .bottom-nav {
         display: grid;
         grid-template-columns: repeat(6, 1fr);
@@ -603,36 +648,51 @@
 
     @media print {
         body {
-            background: #fff;
-            padding: 0;
+            background: #fff !important;
+            padding: 0 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
 
         .phone {
-            width: 100%;
-            border: 2px solid var(--borda-tabela);
-            border-radius: 0;
-            box-shadow: none;
-            padding: 0;
-            background: #fff;
+            width: 100% !important;
+            max-width: 100% !important;
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            background: #fff !important;
         }
 
         .screen {
-            border: none;
-            border-radius: 0;
-            background: #fff;
+            border: none !important;
+            border-radius: 0 !important;
+            background: #fff !important;
         }
 
         .status,
+        .brand,
         .top-tabs,
+        .motto,
         .bottom-nav,
         .no-print {
             display: none !important;
         }
 
+        #tab-orcamentos {
+            display: block !important;
+        }
+
+        #area-impressao-contrato {
+            display: block !important;
+            border: 2px solid var(--borda-tabela) !important;
+            box-shadow: none !important;
+            background: #fffdf7 !important;
+        }
+
         .panel,
-        .welcome,
         table {
-            box-shadow: none;
+            box-shadow: none !important;
         }
     }
 
@@ -654,14 +714,13 @@
             padding: 16px 20px;
         }
 
-        .brand-mark {
-            width: 52px;
-            height: 52px;
-            font-size: 24px;
+        .brand-emblem {
+            width: 68px;
+            height: 68px;
         }
 
-        .brand h1 {
-            font-size: 36px;
+        .brand-cp {
+            font-size: 48px;
         }
 
         .top-tabs {
@@ -725,9 +784,48 @@
       </div>
 
       <header class="brand">
-        <div class="brand-mark">🪵</div>
-        <h1 id="brand-logo-btn">CP CONSTRUÇÕES E REFORMAS</h1>
-        <p id="top-company-sub">Cristiano dos Santos Paes, Sócio-Diretor • Itanhaém / SP</p>
+        <div id="brand-logo-btn" class="brand-hero" title="Ir para o Painel">
+          <div class="brand-emblem" aria-hidden="true">
+            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="woodBg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#5a2f14"/>
+                  <stop offset="55%" stop-color="#3a1c0a"/>
+                  <stop offset="100%" stop-color="#241005"/>
+                </linearGradient>
+                <linearGradient id="goldTrim" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f5d598"/>
+                  <stop offset="50%" stop-color="#c99349"/>
+                  <stop offset="100%" stop-color="#8b5b21"/>
+                </linearGradient>
+                <linearGradient id="steelBlade" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fff8e7"/>
+                  <stop offset="60%" stop-color="#d8c39e"/>
+                  <stop offset="100%" stop-color="#8c6b3f"/>
+                </linearGradient>
+              </defs>
+              <rect x="3" y="3" width="114" height="114" rx="22" fill="url(#woodBg)" stroke="url(#goldTrim)" stroke-width="4"/>
+              <circle cx="60" cy="60" r="44" fill="none" stroke="url(#goldTrim)" stroke-width="2.2" opacity="0.85"/>
+              <!-- Silhueta de casa entalhada -->
+              <polygon points="60,22 25,52 34,52 34,84 86,84 86,52 95,52" fill="#4b250e" stroke="url(#goldTrim)" stroke-width="3" stroke-linejoin="round"/>
+              <rect x="52" y="45" width="16" height="14" rx="2" fill="#321707" stroke="url(#goldTrim)" stroke-width="1.8"/>
+              <line x1="60" y1="45" x2="60" y2="59" stroke="url(#goldTrim)" stroke-width="1.4"/>
+              <line x1="52" y1="52" x2="68" y2="52" stroke="url(#goldTrim)" stroke-width="1.4"/>
+              <!-- Nível horizontal -->
+              <rect x="22" y="64" width="76" height="11" rx="3" fill="#5b2e12" stroke="url(#goldTrim)" stroke-width="2.2"/>
+              <circle cx="60" cy="69.5" r="3.2" fill="#e7be6b" stroke="#2a1306" stroke-width="1"/>
+              <!-- Formão diagonal -->
+              <g transform="translate(60,62) rotate(-38)">
+                <rect x="-32" y="-4.5" width="28" height="9" rx="3" fill="#8d5327" stroke="url(#goldTrim)" stroke-width="1.8"/>
+                <rect x="-4" y="-3.2" width="10" height="6.4" fill="url(#goldTrim)"/>
+                <polygon points="6,-5.2 31,-3.4 31,3.4 6,5.2" fill="url(#steelBlade)" stroke="#381d0b" stroke-width="1.4"/>
+              </g>
+            </svg>
+          </div>
+          <span class="brand-cp">CP</span>
+        </div>
+        <div id="brand-empresa-nome" class="brand-sub-empresa">CP CONSTRUÇÕES E REFORMAS</div>
+        <p id="top-company-sub" class="brand-resp">Cristiano dos Santos Paes, Sócio-Diretor • Itanhaém / SP</p>
       </header>
 
       <nav class="top-tabs no-print">
@@ -903,7 +1001,7 @@
 
             <div id="container-form-orcamento" class="hidden mt-3">
               <div class="toolbar-row">
-                <strong style="font-size:12px;">Composição por Etapa e Serviço</strong>
+                <strong id="titulo-form-orc" style="font-size:12px;">Nova Proposta — Composição por Etapa e Serviço</strong>
                 <button type="button" id="btn-fechar-form-orc" class="btn-link">Fechar</button>
               </div>
 
@@ -1022,10 +1120,30 @@
             </div>
 
             <div class="toolbar-row" style="border-bottom:2px solid var(--madeira-escura);padding-bottom:8px;">
-              <div>
-                <h3 id="print-header-empresa" style="border:none;margin:0;padding:0;">CP CONSTRUÇÕES E REFORMAS</h3>
-                <p id="print-empresa-cnpj" style="font-size:10px;">CNPJ: 51.473.332/0001-24</p>
-                <p id="print-empresa-contato" style="font-size:10px;">Responsável: Cristiano dos Santos Paes, Sócio-Diretor</p>
+              <div class="print-brand-box">
+                <div class="print-emblem" aria-hidden="true">
+                  <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="114" height="114" rx="22" fill="#3a1c0a" stroke="#b8843e" stroke-width="4"/>
+                    <circle cx="60" cy="60" r="44" fill="none" stroke="#d7a45e" stroke-width="2"/>
+                    <polygon points="60,22 25,52 34,52 34,84 86,84 86,52 95,52" fill="#4b250e" stroke="#e2b46e" stroke-width="3" stroke-linejoin="round"/>
+                    <rect x="52" y="45" width="16" height="14" rx="2" fill="#2b1407" stroke="#e2b46e" stroke-width="1.8"/>
+                    <line x1="60" y1="45" x2="60" y2="59" stroke="#e2b46e" stroke-width="1.4"/>
+                    <line x1="52" y1="52" x2="68" y2="52" stroke="#e2b46e" stroke-width="1.4"/>
+                    <rect x="22" y="64" width="76" height="11" rx="3" fill="#5b2e12" stroke="#e2b46e" stroke-width="2.2"/>
+                    <circle cx="60" cy="69.5" r="3.2" fill="#f1c977" stroke="#2a1306" stroke-width="1"/>
+                    <g transform="translate(60,62) rotate(-38)">
+                      <rect x="-32" y="-4.5" width="28" height="9" rx="3" fill="#8d5327" stroke="#e2b46e" stroke-width="1.8"/>
+                      <rect x="-4" y="-3.2" width="10" height="6.4" fill="#e2b46e"/>
+                      <polygon points="6,-5.2 31,-3.4 31,3.4 6,5.2" fill="#f4e5c8" stroke="#381d0b" stroke-width="1.4"/>
+                    </g>
+                  </svg>
+                </div>
+                <div>
+                  <div style="font-size:16px;font-weight:bold;letter-spacing:1px;">CP</div>
+                  <h3 id="print-header-empresa" style="border:none;margin:0;padding:0;font-size:13px;">CP CONSTRUÇÕES E REFORMAS</h3>
+                  <p id="print-empresa-cnpj" style="font-size:10px;">CNPJ: 51.473.332/0001-24</p>
+                  <p id="print-empresa-contato" style="font-size:10px;">Responsável: Cristiano dos Santos Paes, Sócio-Diretor</p>
+                </div>
               </div>
               <div style="text-align:right;font-size:10px;">
                 <strong>PROPOSTA COMERCIAL</strong><br>
@@ -1056,7 +1174,7 @@
 
             <div class="form-grid form-grid-2 mt-3" style="text-align:center;font-size:10px;padding-top:14px;">
               <div>
-                <div style="border-top:1px solid #3b2112;padding-top:4px;"><strong>CP CONSTRUÇÕES E REFORMAS</strong></div>
+                <div style="border-top:1px solid #3b2112;padding-top:4px;"><strong>CP — CP CONSTRUÇÕES E REFORMAS</strong></div>
               </div>
               <div>
                 <div style="border-top:1px solid #3b2112;padding-top:4px;"><strong id="print-ass-cliente-nome">CONTRATANTE</strong></div>
@@ -1753,6 +1871,7 @@
     let tabelaPerfil = 'AUTONOMO';
     let tabelaEscopo = 'OBRA_NOVA';
     let orcItensTemp = [];
+    let editandoOrcId = null;
     let modalCallback = null;
     let db = null;
 
@@ -1886,9 +2005,9 @@
       const cnpj = emp.cnpj || '51.473.332/0001-24';
       const resp = emp.responsavel || 'Cristiano dos Santos Paes, Sócio-Diretor';
       const tel = emp.telefone || '';
-      const end = emp.endereco || 'Itanhaém / SP';
+      const end = emp.endereco || 'Itanhaém • Litoral Sul - SP';
 
-      document.getElementById('brand-logo-btn').textContent = nome;
+      document.getElementById('brand-empresa-nome').textContent = nome;
       document.getElementById('top-company-sub').textContent = `${resp} • ${end}`;
       document.getElementById('top-company-cnpj').textContent = `${cnpj} — ${nome}`;
 
@@ -2018,6 +2137,61 @@
           </div>
         `;
       }).join('');
+    }
+
+    function prepararNovoOrcamento() {
+      editandoOrcId = null;
+      orcItensTemp = [];
+      document.getElementById('titulo-form-orc').textContent = 'Nova Proposta — Composição por Etapa e Serviço';
+      document.getElementById('btn-salvar-orc-completo').textContent = 'Salvar Proposta';
+      document.getElementById('orc-adicional-reforma').value = '0';
+      populateOrcamentoSelects();
+      renderItensOrcamentoTemp();
+      document.getElementById('container-form-orcamento').classList.remove('hidden');
+    }
+
+    function editarOrcamento(orcId) {
+      const orc = (state.orcamentos || []).find((o) => o.id === orcId);
+      if (!orc) return;
+
+      switchTab('orcamentos');
+      editandoOrcId = orc.id;
+      document.getElementById('titulo-form-orc').textContent = `Editando Proposta ${orc.codigo} — Acrescente ou Ajuste Serviços`;
+      document.getElementById('btn-salvar-orc-completo').textContent = 'Atualizar Proposta';
+
+      populateOrcamentoSelects();
+
+      const selCli = document.getElementById('orc-cliente');
+      if (selCli && orc.clienteId) {
+        selCli.value = orc.clienteId;
+      }
+      if (orc.perfilBase) {
+        document.getElementById('orc-perfil-base').value = orc.perfilBase;
+      }
+      if (orc.modalidade) {
+        document.getElementById('orc-modalidade').value = orc.modalidade;
+      }
+      document.getElementById('orc-adicional-reforma').value = String(Number(orc.percentualAdicional) || 0);
+
+      populateOrcamentoSelects();
+
+      orcItensTemp = (orc.itens || []).map((it, idx) => ({
+        uid: it.uid || `edit_${idx}_${Date.now()}`,
+        etapa: it.etapa || 'Serviços',
+        cod: it.cod || '',
+        servico: it.servico || '',
+        unid: it.unid || 'm²',
+        minimo: Number(it.minimo) || 0,
+        maximo: Number(it.maximo) || 0,
+        qtd: Number(it.qtd) || 1,
+        unit: Number(it.unit) || 0,
+        subtotal: (Number(it.qtd) || 1) * (Number(it.unit) || 0)
+      }));
+
+      renderItensOrcamentoTemp();
+      const formBox = document.getElementById('container-form-orcamento');
+      formBox.classList.remove('hidden');
+      formBox.scrollIntoView({ behavior: 'smooth' });
     }
 
     function populateOrcamentoSelects() {
@@ -2151,34 +2325,61 @@
       const encargo = base * (pct / 100);
       const totalFinal = base + encargo;
 
-      const seq = String((state.orcamentos || []).length + 1).padStart(3, '0');
-      const novoOrc = {
-        id: `orc_${Date.now()}`,
-        codigo: `CP-${new Date().getFullYear()}-${seq}`,
-        data: new Date().toISOString().slice(0, 10),
-        clienteId: cliente.id,
-        clienteNome: cliente.nome,
-        clienteTel: cliente.telefone || '-',
-        clienteEnd: cliente.endereco || '-',
-        perfilBase: perfil,
-        modalidade,
-        modalidadeLabel: modalidade === 'OBRA_NOVA' ? 'Construção do Zero' : 'Reforma Residencial',
-        percentualAdicional: pct,
-        itens: [...orcItensTemp],
-        subtotalBase: base,
-        valorEncargo: encargo,
-        totalFinal
-      };
+      let targetId = editandoOrcId;
 
-      state.orcamentos.push(novoOrc);
+      if (editandoOrcId) {
+        const idx = (state.orcamentos || []).findIndex((o) => o.id === editandoOrcId);
+        if (idx !== -1) {
+          const anterior = state.orcamentos[idx];
+          state.orcamentos[idx] = {
+            ...anterior,
+            clienteId: cliente.id,
+            clienteNome: cliente.nome,
+            clienteTel: cliente.telefone || '-',
+            clienteEnd: cliente.endereco || '-',
+            perfilBase: perfil,
+            modalidade,
+            modalidadeLabel: modalidade === 'OBRA_NOVA' ? 'Construção do Zero' : 'Reforma Residencial',
+            percentualAdicional: pct,
+            itens: orcItensTemp.map((x) => ({ ...x })),
+            subtotalBase: base,
+            valorEncargo: encargo,
+            totalFinal,
+            atualizadoEm: new Date().toISOString()
+          };
+        }
+      } else {
+        const seq = String((state.orcamentos || []).length + 1).padStart(3, '0');
+        const novoOrc = {
+          id: `orc_${Date.now()}`,
+          codigo: `CP-${new Date().getFullYear()}-${seq}`,
+          data: new Date().toISOString().slice(0, 10),
+          clienteId: cliente.id,
+          clienteNome: cliente.nome,
+          clienteTel: cliente.telefone || '-',
+          clienteEnd: cliente.endereco || '-',
+          perfilBase: perfil,
+          modalidade,
+          modalidadeLabel: modalidade === 'OBRA_NOVA' ? 'Construção do Zero' : 'Reforma Residencial',
+          percentualAdicional: pct,
+          itens: orcItensTemp.map((x) => ({ ...x })),
+          subtotalBase: base,
+          valorEncargo: encargo,
+          totalFinal
+        };
+        state.orcamentos.push(novoOrc);
+        targetId = novoOrc.id;
+      }
+
       saveState();
 
+      editandoOrcId = null;
       orcItensTemp = [];
       renderItensOrcamentoTemp();
       document.getElementById('container-form-orcamento').classList.add('hidden');
       renderOrcamentosSalvos();
       renderDashboard();
-      abrirPropostaImpressao(novoOrc.id);
+      if (targetId) abrirPropostaImpressao(targetId);
     }
 
     function renderOrcamentosSalvos() {
@@ -2197,6 +2398,7 @@
           <td class="num"><strong>${formatBRL(orc.totalFinal)}</strong></td>
           <td class="num">
             <button type="button" onclick="abrirPropostaImpressao('${orc.id}')" class="btn-link">Proposta</button>
+            <button type="button" onclick="editarOrcamento('${orc.id}')" class="btn-link">Editar</button>
             <button type="button" onclick="excluirOrcamento('${orc.id}')" class="btn-link">Excluir</button>
           </td>
         </tr>
@@ -2267,6 +2469,11 @@
 
     function excluirOrcamento(orcId) {
       if (!confirm('Deseja excluir esta proposta?')) return;
+      if (editandoOrcId === orcId) {
+        editandoOrcId = null;
+        orcItensTemp = [];
+        document.getElementById('container-form-orcamento').classList.add('hidden');
+      }
       state.orcamentos = state.orcamentos.filter((o) => o.id !== orcId);
       saveState();
       renderOrcamentosSalvos();
@@ -2438,8 +2645,7 @@
 
       document.getElementById('dash-btn-orcamento')?.addEventListener('click', () => {
         switchTab('orcamentos');
-        populateOrcamentoSelects();
-        document.getElementById('container-form-orcamento').classList.remove('hidden');
+        prepararNovoOrcamento();
       });
 
       document.getElementById('btn-perfil-autonomo')?.addEventListener('click', () => {
@@ -2459,15 +2665,12 @@
         renderTabelasSP();
       });
 
-      document.getElementById('btn-iniciar-orcamento')?.addEventListener('click', () => {
-        populateOrcamentoSelects();
-        renderItensOrcamentoTemp();
-        document.getElementById('container-form-orcamento').classList.remove('hidden');
-      });
+      document.getElementById('btn-iniciar-orcamento')?.addEventListener('click', prepararNovoOrcamento);
       document.getElementById('btn-fechar-form-orc')?.addEventListener('click', () => {
         document.getElementById('container-form-orcamento').classList.add('hidden');
       });
       document.getElementById('btn-cancelar-form-orc')?.addEventListener('click', () => {
+        editandoOrcId = null;
         orcItensTemp = [];
         renderItensOrcamentoTemp();
         document.getElementById('container-form-orcamento').classList.add('hidden');
