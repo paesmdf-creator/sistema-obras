@@ -840,6 +840,12 @@
             gap: 10px;
         }
 
+        .form-grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+        }
+
         thead th,
         tbody td {
             font-size: 11px;
@@ -1055,7 +1061,7 @@
                 <button type="button" id="btn-fechar-form-orc" class="btn-link">Fechar</button>
               </div>
 
-              <div class="form-grid form-grid-4">
+              <div class="form-grid form-grid-5">
                 <div class="field">
                   <label>Cliente *</label>
                   <select id="orc-cliente"></select>
@@ -1083,6 +1089,10 @@
                     <option value="20">+20% (Demolição / BDI)</option>
                     <option value="25">+25% (Alta complexidade)</option>
                   </select>
+                </div>
+                <div class="field">
+                  <label>Desconto (%)</label>
+                  <input type="number" step="0.1" min="0" max="100" id="orc-desconto-pct" value="0" placeholder="0">
                 </div>
               </div>
 
@@ -1132,6 +1142,11 @@
                   <tr id="row-encargo-reforma" class="hidden">
                     <td colspan="5" class="num">Ajuste Adicional:</td>
                     <td id="lbl-valor-encargo" class="num">R$ 0,00</td>
+                    <td></td>
+                  </tr>
+                  <tr id="row-desconto-orc" class="hidden">
+                    <td colspan="5" class="num" id="lbl-titulo-desconto">Desconto:</td>
+                    <td id="lbl-valor-desconto" class="num">- R$ 0,00</td>
                     <td></td>
                   </tr>
                   <tr>
@@ -1202,6 +1217,11 @@
             </div>
 
             <div id="print-container-etapas-cliente" class="mt-2"></div>
+
+            <div id="print-resumo-desconto" class="hidden mt-2" style="text-align:right;font-size:11px;">
+              <span>Subtotal com ajustes: <strong id="print-subtotal-ajustado">R$ 0,00</strong></span><br>
+              <span>Desconto (<span id="print-desconto-pct">0</span>%): <strong id="print-valor-desconto">- R$ 0,00</strong></span>
+            </div>
 
             <div class="toolbar-row mt-3" style="border-top:2px solid var(--madeira-escura);padding-top:8px;">
               <span style="font-size:10px;">Mão de obra sem materiais • Sujeito a conferência em obra.</span>
@@ -1971,6 +1991,11 @@
       return (Number(val) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
+    function formatPct(val) {
+      const n = Number(val) || 0;
+      return Number.isInteger(n) ? String(n) : n.toLocaleString('pt-BR', { maximumFractionDigits: 2 });
+    }
+
     function formatDateBR(isoOrDate) {
       if (!isoOrDate) return new Date().toLocaleDateString('pt-BR');
       if (/^\d{4}-\d{2}-\d{2}$/.test(isoOrDate)) {
@@ -2250,12 +2275,24 @@
       }).join('');
     }
 
+    function calcularTotaisOrcamento(itens, pctAdicional, pctDesconto) {
+      const base = (itens || []).reduce((acc, it) => acc + (Number(it.subtotal) || 0), 0);
+      const pctAdd = Math.max(0, Number(pctAdicional) || 0);
+      const pctDesc = Math.max(0, Math.min(100, Number(pctDesconto) || 0));
+      const encargo = base * (pctAdd / 100);
+      const subtotalAjustado = base + encargo;
+      const valorDesconto = subtotalAjustado * (pctDesc / 100);
+      const totalFinal = Math.max(0, subtotalAjustado - valorDesconto);
+      return { base, encargo, subtotalAjustado, valorDesconto, totalFinal, pctAdd, pctDesc };
+    }
+
     function prepararNovoOrcamento() {
       editandoOrcId = null;
       orcItensTemp = [];
       document.getElementById('titulo-form-orc').textContent = 'Nova Proposta — Composição por Etapa e Serviço';
       document.getElementById('btn-salvar-orc-completo').textContent = 'Salvar Proposta';
       document.getElementById('orc-adicional-reforma').value = '0';
+      document.getElementById('orc-desconto-pct').value = '0';
       populateOrcamentoSelects();
       renderItensOrcamentoTemp();
       document.getElementById('container-form-orcamento').classList.remove('hidden');
@@ -2267,7 +2304,7 @@
 
       switchTab('orcamentos');
       editandoOrcId = orc.id;
-      document.getElementById('titulo-form-orc').textContent = `Editando Proposta ${orc.codigo} — Acrescente ou Ajuste Serviços`;
+      document.getElementById('titulo-form-orc').textContent = `Editando Proposta ${orc.codigo} — Acrescente, Ajuste ou Aplique Desconto`;
       document.getElementById('btn-salvar-orc-completo').textContent = 'Atualizar Proposta';
 
       populateOrcamentoSelects();
@@ -2283,6 +2320,7 @@
         document.getElementById('orc-modalidade').value = orc.modalidade;
       }
       document.getElementById('orc-adicional-reforma').value = String(Number(orc.percentualAdicional) || 0);
+      document.getElementById('orc-desconto-pct').value = String(Number(orc.percentualDesconto) || 0);
 
       populateOrcamentoSelects();
 
@@ -2386,9 +2424,9 @@
     function renderItensOrcamentoTemp() {
       const tbody = document.getElementById('tbody-itens-orcamento');
       const pct = Number(document.getElementById('orc-adicional-reforma')?.value || 0);
-      const base = orcItensTemp.reduce((acc, it) => acc + (Number(it.subtotal) || 0), 0);
-      const encargo = base * (pct / 100);
-      const total = base + encargo;
+      const pctDescInput = document.getElementById('orc-desconto-pct');
+      const pctDesc = Math.max(0, Math.min(100, Number(pctDescInput?.value) || 0));
+      const { base, encargo, valorDesconto, totalFinal } = calcularTotaisOrcamento(orcItensTemp, pct, pctDesc);
 
       if (tbody) {
         if (!orcItensTemp.length) {
@@ -2414,7 +2452,10 @@
       document.getElementById('lbl-subtotal-base').textContent = formatBRL(base);
       document.getElementById('row-encargo-reforma').classList.toggle('hidden', encargo <= 0);
       document.getElementById('lbl-valor-encargo').textContent = formatBRL(encargo);
-      document.getElementById('lbl-total-final-orc').textContent = formatBRL(total);
+      document.getElementById('row-desconto-orc').classList.toggle('hidden', pctDesc <= 0);
+      document.getElementById('lbl-titulo-desconto').textContent = `Desconto (${formatPct(pctDesc)}%):`;
+      document.getElementById('lbl-valor-desconto').textContent = `- ${formatBRL(valorDesconto)}`;
+      document.getElementById('lbl-total-final-orc').textContent = formatBRL(totalFinal);
     }
 
     function salvarOrcamentoCompleto() {
@@ -2432,9 +2473,8 @@
       const perfil = document.getElementById('orc-perfil-base')?.value || 'AUTONOMO';
       const modalidade = document.getElementById('orc-modalidade')?.value || 'OBRA_NOVA';
       const pct = Number(document.getElementById('orc-adicional-reforma')?.value || 0);
-      const base = orcItensTemp.reduce((acc, it) => acc + (Number(it.subtotal) || 0), 0);
-      const encargo = base * (pct / 100);
-      const totalFinal = base + encargo;
+      const pctDesc = Math.max(0, Math.min(100, Number(document.getElementById('orc-desconto-pct')?.value) || 0));
+      const { base, encargo, valorDesconto, totalFinal } = calcularTotaisOrcamento(orcItensTemp, pct, pctDesc);
 
       let targetId = editandoOrcId;
 
@@ -2452,9 +2492,11 @@
             modalidade,
             modalidadeLabel: modalidade === 'OBRA_NOVA' ? 'Construção do Zero' : 'Reforma Residencial',
             percentualAdicional: pct,
+            percentualDesconto: pctDesc,
             itens: orcItensTemp.map((x) => ({ ...x })),
             subtotalBase: base,
             valorEncargo: encargo,
+            valorDesconto,
             totalFinal,
             atualizadoEm: new Date().toISOString()
           };
@@ -2473,9 +2515,11 @@
           modalidade,
           modalidadeLabel: modalidade === 'OBRA_NOVA' ? 'Construção do Zero' : 'Reforma Residencial',
           percentualAdicional: pct,
+          percentualDesconto: pctDesc,
           itens: orcItensTemp.map((x) => ({ ...x })),
           subtotalBase: base,
           valorEncargo: encargo,
+          valorDesconto,
           totalFinal
         };
         state.orcamentos.push(novoOrc);
@@ -2500,20 +2544,24 @@
         tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum orçamento salvo.</td></tr>';
         return;
       }
-      tbody.innerHTML = [...state.orcamentos].reverse().map((orc) => `
-        <tr>
-          <td><strong>${escapeHtml(orc.codigo)}</strong></td>
-          <td>${escapeHtml(orc.clienteNome)}</td>
-          <td>${escapeHtml(orc.modalidadeLabel)}</td>
-          <td>${formatDateBR(orc.data)}</td>
-          <td class="num"><strong>${formatBRL(orc.totalFinal)}</strong></td>
-          <td class="num">
-            <button type="button" onclick="abrirPropostaImpressao('${orc.id}')" class="btn-link">Proposta</button>
-            <button type="button" onclick="editarOrcamento('${orc.id}')" class="btn-link">Editar</button>
-            <button type="button" onclick="excluirOrcamento('${orc.id}')" class="btn-link">Excluir</button>
-          </td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = [...state.orcamentos].reverse().map((orc) => {
+        const descPct = Number(orc.percentualDesconto) || 0;
+        const badgeDesc = descPct > 0 ? ` <span class="pill">-${formatPct(descPct)}%</span>` : '';
+        return `
+          <tr>
+            <td><strong>${escapeHtml(orc.codigo)}</strong></td>
+            <td>${escapeHtml(orc.clienteNome)}</td>
+            <td>${escapeHtml(orc.modalidadeLabel)}</td>
+            <td>${formatDateBR(orc.data)}</td>
+            <td class="num"><strong>${formatBRL(orc.totalFinal)}</strong>${badgeDesc}</td>
+            <td class="num">
+              <button type="button" onclick="abrirPropostaImpressao('${orc.id}')" class="btn-link">Proposta</button>
+              <button type="button" onclick="editarOrcamento('${orc.id}')" class="btn-link">Editar</button>
+              <button type="button" onclick="excluirOrcamento('${orc.id}')" class="btn-link">Excluir</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
     function abrirPropostaImpressao(orcId) {
@@ -2523,14 +2571,32 @@
       switchTab('orcamentos');
       renderCompanyHeader();
 
+      const { subtotalAjustado, valorDesconto, totalFinal, pctDesc } = calcularTotaisOrcamento(
+        orc.itens || [],
+        orc.percentualAdicional,
+        orc.percentualDesconto
+      );
+
       document.getElementById('print-orc-id').textContent = orc.codigo;
       document.getElementById('print-orc-data').textContent = formatDateBR(orc.data);
       document.getElementById('print-cliente-nome').textContent = orc.clienteNome || '-';
       document.getElementById('print-cliente-tel').textContent = orc.clienteTel || '-';
       document.getElementById('print-cliente-end').textContent = orc.clienteEnd || '-';
       document.getElementById('print-orc-modalidade').textContent = orc.modalidadeLabel || '-';
-      document.getElementById('print-valor-total').textContent = formatBRL(orc.totalFinal);
+      document.getElementById('print-valor-total').textContent = formatBRL(orc.totalFinal ?? totalFinal);
       document.getElementById('print-ass-cliente-nome').textContent = (orc.clienteNome || 'CONTRATANTE').toUpperCase();
+
+      const resumoDesc = document.getElementById('print-resumo-desconto');
+      if (resumoDesc) {
+        if (pctDesc > 0) {
+          resumoDesc.classList.remove('hidden');
+          document.getElementById('print-subtotal-ajustado').textContent = formatBRL(subtotalAjustado);
+          document.getElementById('print-desconto-pct').textContent = formatPct(pctDesc);
+          document.getElementById('print-valor-desconto').textContent = `- ${formatBRL(valorDesconto)}`;
+        } else {
+          resumoDesc.classList.add('hidden');
+        }
+      }
 
       const grupos = {};
       (orc.itens || []).forEach((it) => {
@@ -2797,6 +2863,8 @@
       document.getElementById('sel-etapa-orc')?.addEventListener('change', populateServicosOrcamento);
       document.getElementById('sel-servico-orc')?.addEventListener('change', syncServicoSelecionado);
       document.getElementById('orc-adicional-reforma')?.addEventListener('change', renderItensOrcamentoTemp);
+      document.getElementById('orc-desconto-pct')?.addEventListener('input', renderItensOrcamentoTemp);
+      document.getElementById('orc-desconto-pct')?.addEventListener('change', renderItensOrcamentoTemp);
       document.getElementById('btn-add-item-orc')?.addEventListener('click', addItemOrcamento);
       document.getElementById('btn-salvar-orc-completo')?.addEventListener('click', salvarOrcamentoCompleto);
 
